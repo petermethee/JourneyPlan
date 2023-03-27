@@ -1,0 +1,11 @@
+export const primaryColor = "#103e57";
+export const secondaryColor = "#bd9741";
+export const defaultWhite = "#fafafa";
+export const depenseColor = "#df4848";
+export const depenseSecondaryColor = "#862929";
+export const revenuColor = "#2ada50";
+export const revenuSecondaryColor = "#298648";
+export const beneficeColor = "#5ca3cd";
+export const beneficeSecondaryColor = "#23536e";
+export const lightSecondaryBlue = "#9cc0d173";
+export const darkSecondaryBlue = "#475c66";
