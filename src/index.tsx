@@ -15,6 +15,7 @@ import {
   darkSecondaryBlue,
 } from "./MuiStyle/MuiStyle";
 import { ThemeProvider, createTheme } from "@mui/material";
+import Home from "./Components/Home";
 
 function Index() {
   const theme = useMemo(() => {
@@ -70,7 +71,7 @@ function Index() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div>Coucou</div>
+      <Home />
     </ThemeProvider>
   );
 }

@@ -9,7 +9,8 @@
     "@mui/material": "^5.11.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
+    "react-scripts": "5.0.1",
+    "sqlite3": "^5.1.6"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -19,7 +20,7 @@
     "postinstall": "electron-builder install-app-deps",
     "electron:dev": "concurrently \"cross-env BROWSER=none npm run start\" \"wait-on http://127.0.0.1:3000 && npm run electron:start\"",
     "electron:build": "tsc -p electron && electron-builder",
-    "electron:start": "tsc -p electron && electron ."
+    "electron:start": "tsc -p electron && electronmon ."
   },
   "eslintConfig": {
     "extends": [
@@ -44,9 +45,11 @@
     "@types/react": "^18.0.29",
     "@types/react-dom": "^18.0.11",
     "concurrently": "^7.6.0",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "electron": "^23.2.0",
     "electron-builder": "^23.6.0",
+    "electronmon": "^2.0.2",
     "typescript": "^5.0.2"
   }
 }

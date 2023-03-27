@@ -1,3 +1,5 @@
+import ITrips from "../../Models/Trips";
+
 export interface IElectronAPI {
-  exemple: () => Promise<string>;
+  getAllTrips: () => Promise<ITrips[]>;
 }
