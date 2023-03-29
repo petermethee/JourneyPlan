@@ -7,20 +7,23 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.11.14",
+    "@reduxjs/toolkit": "^1.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "sqlite3": "^5.1.6"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env BROWSER=none react-app-rewired start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "postinstall": "electron-builder install-app-deps",
-    "electron:dev": "concurrently \"cross-env BROWSER=none npm run start\" \"wait-on http://127.0.0.1:3000 && npm run electron:start\"",
+    "electron:dev": "concurrently \"npm run start\" \"tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && wait-on build/electron/main.js && electronmon .\"",
     "electron:build": "tsc -p electron && electron-builder",
-    "electron:start": "tsc -p electron && electronmon ."
+    "electron:start": "tsc -p electron && electron ."
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +53,6 @@
     "electron": "^23.2.0",
     "electron-builder": "^23.6.0",
     "electronmon": "^2.0.2",
-    "typescript": "^5.0.2"
+    "react-app-rewired": "^2.2.1"
   }
 }

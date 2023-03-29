@@ -1,20 +1,22 @@
 import { ipcMain } from "electron";
-import db, { Trips } from "./DatabaseAPI";
+import { TripsTable } from "./DatabaseAPI";
+import { Database } from "sqlite3";
 
 export enum EIpcChanels {
   getAllTrips = "getAllTrips",
 }
 
-export const initIPCHandlers = () => {
-  ipcMain.handle(EIpcChanels.getAllTrips, () => {
-    db.all("SELECT * from " + Trips.title, [], (err, rows) => {
-      if (err) {
-        console.warn(err);
-        throw err;
-      }
-      rows.forEach((row) => {
-        console.log("icicicicci", row);
+export const initIPCHandlers = (db: Database) => {
+  ipcMain.handle(EIpcChanels.getAllTrips, async () => {
+    const trips = await new Promise((resolve, reject) => {
+      db.all("SELECT * from " + TripsTable.title, (err, rows) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(rows);
       });
     });
+
+    return trips;
   });
 };

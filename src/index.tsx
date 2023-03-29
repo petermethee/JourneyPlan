@@ -13,9 +13,11 @@ import {
   beneficeSecondaryColor,
   lightSecondaryBlue,
   darkSecondaryBlue,
-} from "./MuiStyle/MuiStyle";
+} from "./style/cssGlobalStyle";
 import { ThemeProvider, createTheme } from "@mui/material";
-import Home from "./Components/Home";
+import App from "./App";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 function Index() {
   const theme = useMemo(() => {
@@ -71,7 +73,9 @@ function Index() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Home />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </ThemeProvider>
   );
 }

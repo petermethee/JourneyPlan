@@ -2,9 +2,11 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import { initIPCHandlers } from "./ipc";
+import DatabaseAPI from "./DatabaseAPI";
 
 function createWindow() {
-  initIPCHandlers();
+  const dbClass = new DatabaseAPI();
+  initIPCHandlers(dbClass.getDataBase());
   const win = new BrowserWindow({
     webPreferences: {
       contextIsolation: true,
@@ -17,15 +19,13 @@ function createWindow() {
     icon: path.join(__dirname, "../favicon.ico"),
   });
   win.removeMenu();
-  // 'build/index.html'
+
   if (app.isPackaged) {
     win.loadURL(`file://${path.join(__dirname, "../index.html")}`);
   } else {
-    //win.loadURL(`file://${path.join(__dirname, "../index.html")}`);
     win.loadURL("http://localhost:3000");
   }
 
-  // Attach the DevTools
   if (!app.isPackaged) {
     win.webContents.openDevTools({ mode: "detach" });
   }
