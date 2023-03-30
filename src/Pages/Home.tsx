@@ -5,6 +5,7 @@ import { selectTrips } from "../features/Redux/JourneyPlanSlice";
 import TripsTile from "../Components/TripsTile";
 import { useNavigate } from "react-router-dom";
 import { routerPathes } from "../Helper/routerPathes";
+import AddTripTile from "../Components/AddTripTile";
 export default function Home() {
   const trips = useAppSelector(selectTrips);
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function Home() {
     <div className={styles.homeContainer}>
       <Grid
         container
-        alignItems="start"
+        alignItems="center"
         padding="20px 50px"
         rowGap={3}
         columnGap={6}
@@ -32,23 +33,18 @@ export default function Home() {
                 startDate={trip.start_date}
                 id={trip.id}
                 onClick={onClick}
+                onEdit={() => console.log("cool")}
               />
             </Grid>
           );
         })}
-        {trips.map((trip) => {
-          return (
-            <Grid item key={trip.id}>
-              <TripsTile
-                title={trip.name}
-                endDate={trip.end_date}
-                startDate={trip.start_date}
-                id={trip.id}
-                onClick={onClick}
-              />
-            </Grid>
-          );
-        })}
+        <Grid item>
+          <AddTripTile
+            onClick={() => {
+              navigate(routerPathes.addTrip);
+            }}
+          />
+        </Grid>
       </Grid>
     </div>
   );

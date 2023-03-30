@@ -3,14 +3,12 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import {
   primaryColor,
-  secondaryColor,
+  goldenColor,
   defaultWhite,
-  depenseColor,
-  depenseSecondaryColor,
-  revenuColor,
-  revenuSecondaryColor,
-  beneficeColor,
-  beneficeSecondaryColor,
+  primErrorColor,
+  secErrorColor,
+  primValidColor,
+  secValidColor,
   lightSecondaryBlue,
   darkSecondaryBlue,
 } from "./style/cssGlobalStyle";
@@ -22,26 +20,21 @@ import { store } from "./app/store";
 function Index() {
   const theme = useMemo(() => {
     document.documentElement.style.setProperty("--primaryColor", primaryColor);
-    document.documentElement.style.setProperty(
-      "--secondaryColor",
-      secondaryColor
-    );
+    document.documentElement.style.setProperty("--goldenColor", goldenColor);
     document.documentElement.style.setProperty("--defaultWhite", defaultWhite);
 
-    document.documentElement.style.setProperty("--depense", depenseColor);
     document.documentElement.style.setProperty(
-      "--depenseSecondary",
-      depenseSecondaryColor
+      "--primErrorColor",
+      primErrorColor
     );
-    document.documentElement.style.setProperty("--revenu", revenuColor);
     document.documentElement.style.setProperty(
-      "--revenuSecondary",
-      revenuSecondaryColor
+      "--secErrorColor",
+      secErrorColor
     );
-    document.documentElement.style.setProperty("--benefice", beneficeColor);
+    document.documentElement.style.setProperty("--revenu", primValidColor);
     document.documentElement.style.setProperty(
-      "--beneficeSecondary",
-      beneficeSecondaryColor
+      "--secValidColor",
+      secValidColor
     );
 
     document.documentElement.style.setProperty(
@@ -59,13 +52,13 @@ function Index() {
           main: primaryColor,
         },
         secondary: {
-          main: secondaryColor,
+          main: goldenColor,
         },
         success: {
-          main: revenuColor,
+          main: primValidColor,
         },
         error: {
-          main: depenseColor,
+          main: primErrorColor,
         },
       },
     });
