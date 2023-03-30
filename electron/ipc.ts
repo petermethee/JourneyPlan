@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
-import { TripsTable } from "./DatabaseAPI";
 import { Database } from "sqlite3";
+import { TripsTable } from "../src/Models/Trips";
 
 export enum EIpcChanels {
   getAllTrips = "getAllTrips",

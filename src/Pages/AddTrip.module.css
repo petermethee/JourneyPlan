@@ -1,0 +1,35 @@
+.container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.labelDropZone {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 2px;
+    border-radius: 1rem;
+    border-style: dashed;
+    border-color: #6b0b6b;
+    background-color: #ceddec;
+}
+
+.dragActive {
+    background-color: #b82323;
+}
+
+.uploadBt {
+    cursor: pointer;
+    padding: 0.25rem;
+    font-size: 1rem;
+    border: none;
+    font-family: 'Oswald', sans-serif;
+    background-color: transparent;
+}
+
+.uploadBt:hover {
+    text-decoration-line: underline;
+}
