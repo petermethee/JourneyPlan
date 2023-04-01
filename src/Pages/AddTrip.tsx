@@ -1,38 +1,38 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Grid, TextField } from "@mui/material";
 import styles from "./AddTrip.module.css";
-import Trip, { TripsTable } from "../Models/Trips";
 import { Calendar } from "primereact/calendar";
 import "../style/CalendarTheme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import { useNavigate } from "react-router-dom";
+import { routerPathes } from "../Helper/routerPathes";
+import { TripsTable } from "../Models/DataBaseModel";
+import { useAppDispatch } from "../app/hooks";
+import { insertTrip } from "../features/Redux/JourneyPlanSlice";
+import { TFormTrip, transformFormToTrip } from "../Models/ITrip";
 
-type TFormTrip = {
-  [TripsTable.name]: string;
-  [TripsTable.nbTravelers]: number;
-  [TripsTable.imagePath]: string;
-};
 export default function AddTrip() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState<TFormTrip>({
     name: "",
-    image_path: "",
+    image_path: null,
     nb_travelers: 0,
+    fileName: "",
   });
-
+  const [dateRange, setDateRange] = useState<Date[] | undefined>();
+  const [formValid, setFormValid] = useState(false);
   const [dragActive, setDragActive] = useState(false);
-  const [dateRange, setDateRange] = useState<
-    Date | Date[] | undefined | null | string
-  >();
-
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   // handle drag events
   const handleDrag = function (e: any) {
     e.preventDefault();
     e.stopPropagation();
-    console.log(e.type);
-
-    if (e.type === "dragenter" || e.type === "dragover") {
+    if (e.type === "dragenter") {
       setDragActive(true);
     } else if (e.type === "dragleave") {
       setDragActive(false);
@@ -40,27 +40,33 @@ export default function AddTrip() {
   };
 
   // triggers when file is dropped
-  const handleDrop = function (e: any) {
+  const handleDrop = function (e: React.DragEvent<HTMLDivElement>) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      //handleFile(e.dataTransfer.files);
-      console.log(e.dataTransfer.files);
+      const image = e.dataTransfer.files[0] as unknown as {
+        path: string;
+        name: string;
+      };
+      setFormValues((prevState) => {
+        return { ...prevState, image_path: image.path, fileName: image.name };
+      });
     }
   };
 
   // triggers when file is selected with click
-  const handleChange = function (e: any) {
+  const handleChange = function (e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      console.log(e.target.files);
+      const image = e.target.files[0] as unknown as {
+        path: string;
+        name: string;
+      };
+      setFormValues((prevState) => {
+        return { ...prevState, image_path: image.path, fileName: image.name };
+      });
     }
-  };
-
-  // triggers the input when the button is clicked
-  const onButtonClick = () => {
-    inputRef.current!.click();
   };
 
   const handleFormUpdate = (
@@ -70,6 +76,25 @@ export default function AddTrip() {
       return { ...prevState, [event.target.name]: event.target.value };
     });
   };
+
+  const createTrip = () => {
+    const newTrip = transformFormToTrip(formValues, dateRange as Date[]);
+    dispatch(insertTrip(newTrip));
+  };
+
+  useEffect(() => {
+    if (
+      formValues.name !== "" &&
+      formValues.image_path !== null &&
+      formValues.nb_travelers > 0 &&
+      dateRange &&
+      dateRange.every((date) => date !== null)
+    ) {
+      setFormValid(true);
+    } else {
+      setFormValid(false);
+    }
+  }, [formValues, dateRange]);
 
   return (
     <div className={styles.container}>
@@ -99,14 +124,14 @@ export default function AddTrip() {
             value={formValues.name}
           />
         </Grid>
-        <Grid item>
+        <Grid item display="flex" width="60%">
           <input
             accept="image/png, image/jpeg"
             ref={inputRef}
             type="file"
             id="input-file-upload"
             multiple={false}
-            onChange={handleFormUpdate}
+            onChange={handleChange}
             style={{ display: "none" }}
           />
           <label
@@ -116,16 +141,23 @@ export default function AddTrip() {
             }`}
           >
             <div
+              className={styles.dropHandler}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
               onDrop={handleDrop}
-            >
-              <p>Drag and drop your file here or</p>
-              <button className={styles.uploadBt} onClick={onButtonClick}>
-                Upload a file
-              </button>
-            </div>
+            />
+            {formValues.image_path ? (
+              <>
+                <CheckRoundedIcon sx={{ fontSize: "70px" }} />
+                {formValues.fileName}
+              </>
+            ) : (
+              <>
+                <CloudUploadRoundedIcon sx={{ fontSize: "70px" }} />
+                Charger une image
+              </>
+            )}
           </label>
         </Grid>
         <Grid
@@ -136,20 +168,25 @@ export default function AddTrip() {
           alignItems="center"
         >
           <Calendar
+            style={{ minWidth: "170px" }}
             dateFormat="dd/mm/yy"
             placeholder="Durée du voyage"
             inputClassName="input"
             value={dateRange}
             onChange={(newValue) => {
-              setDateRange(newValue.value);
+              setDateRange(newValue.value as Date[] | undefined);
             }}
             id="range"
             selectionMode="range"
             readOnlyInput
-            baseZIndex={1102}
           />
 
           <TextField
+            InputProps={{
+              inputProps: {
+                min: 0,
+              },
+            }}
             variant="standard"
             type="number"
             label="Nombre de voyageur"
@@ -161,12 +198,24 @@ export default function AddTrip() {
                 height: "100%",
               },
             }}
+            onChange={handleFormUpdate}
           />
         </Grid>
 
         <Grid item container marginTop="50px" justifyContent="space-between">
-          <Button variant="outlined">Annuler</Button>
-          <Button variant="contained">Créer le voyage</Button>
+          <Button
+            variant="outlined"
+            onClick={() => navigate(routerPathes.home)}
+          >
+            Annuler
+          </Button>
+          <Button
+            variant="contained"
+            disabled={!formValid}
+            onClick={createTrip}
+          >
+            Créer le voyage
+          </Button>
         </Grid>
       </Grid>
     </div>

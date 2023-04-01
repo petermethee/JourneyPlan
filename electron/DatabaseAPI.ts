@@ -1,5 +1,4 @@
 import sqlite3 = require("sqlite3");
-
 export default class DatabaseAPI {
   db: sqlite3.Database;
 

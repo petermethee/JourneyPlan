@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import {
@@ -31,7 +31,10 @@ function Index() {
       "--secErrorColor",
       secErrorColor
     );
-    document.documentElement.style.setProperty("--revenu", primValidColor);
+    document.documentElement.style.setProperty(
+      "--primValidColor",
+      primValidColor
+    );
     document.documentElement.style.setProperty(
       "--secValidColor",
       secValidColor

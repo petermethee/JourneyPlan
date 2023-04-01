@@ -1,17 +1,27 @@
 import { Grid } from "@mui/material";
 import styles from "./Home.module.css";
-import { useAppSelector } from "../app/hooks";
-import { selectTrips } from "../features/Redux/JourneyPlanSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { getAllTrips, selectTrips } from "../features/Redux/JourneyPlanSlice";
 import TripsTile from "../Components/TripsTile";
 import { useNavigate } from "react-router-dom";
 import { routerPathes } from "../Helper/routerPathes";
 import AddTripTile from "../Components/AddTripTile";
+import { useEffect } from "react";
+
 export default function Home() {
   const trips = useAppSelector(selectTrips);
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
   const onClick = (id: number) => {
     navigate(routerPathes.planning + "/" + id);
   };
+
+  useEffect(() => {
+    dispatch(getAllTrips());
+  }, [dispatch]);
+
   return (
     <div className={styles.homeContainer}>
       <Grid
