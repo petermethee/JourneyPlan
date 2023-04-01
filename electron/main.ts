@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
-import { initIPCHandlers } from "./ipc";
-import DatabaseAPI from "./DatabaseAPI";
+import IPC_API from "./IPC_API";
 
 function createWindow() {
-  const dbClass = new DatabaseAPI();
-  initIPCHandlers(dbClass.getDataBase());
   const win = new BrowserWindow({
     webPreferences: {
       contextIsolation: true,
@@ -29,6 +26,9 @@ function createWindow() {
   if (!app.isPackaged) {
     win.webContents.openDevTools({ mode: "detach" });
   }
+
+  const ipcAPI = new IPC_API();
+  ipcAPI.initIPCHandlers();
 }
 
 app.whenReady().then(() => {

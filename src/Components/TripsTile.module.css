@@ -6,9 +6,9 @@
     width: 21rem;
     cursor: pointer;
     transition: 300ms;
-    color: var(--goldenColor);
+    color: var(--defaultWhite);
     overflow: hidden;
-    text-shadow: 0px 0px 5px black;
+    text-shadow: 0px 0px 8px black;
 }
 
 .card:hover {

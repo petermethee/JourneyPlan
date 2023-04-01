@@ -57,7 +57,7 @@ export const journeyPlanSlice = createSlice({
       .addCase(insertTrip.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
-            "Erreur lors de la lecture des voyages: " + action.error.message!,
+            "Erreur lors de la création du voyage: " + action.error.message!,
           snackBarSeverity: "error",
         };
       });

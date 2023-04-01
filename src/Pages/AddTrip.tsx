@@ -7,14 +7,16 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { routerPathes } from "../Helper/routerPathes";
 import { TripsTable } from "../Models/DataBaseModel";
-import { useAppDispatch } from "../app/hooks";
-import { insertTrip } from "../features/Redux/JourneyPlanSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { insertTrip, selectTrips } from "../features/Redux/JourneyPlanSlice";
 import { TFormTrip, transformFormToTrip } from "../Models/ITrip";
 
 export default function AddTrip() {
+  const tripId = useParams().tripId;
+  const trips = useAppSelector(selectTrips);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState<TFormTrip>({
@@ -77,15 +79,16 @@ export default function AddTrip() {
     });
   };
 
-  const createTrip = () => {
+  const createTrip = async () => {
+    setFormValid(false);
     const newTrip = transformFormToTrip(formValues, dateRange as Date[]);
-    dispatch(insertTrip(newTrip));
+    await dispatch(insertTrip(newTrip));
+    navigate(routerPathes.home);
   };
 
   useEffect(() => {
     if (
       formValues.name !== "" &&
-      formValues.image_path !== null &&
       formValues.nb_travelers > 0 &&
       dateRange &&
       dateRange.every((date) => date !== null)
@@ -95,6 +98,19 @@ export default function AddTrip() {
       setFormValid(false);
     }
   }, [formValues, dateRange]);
+
+  useEffect(() => {
+    const trip = trips.find((tripItem) => tripItem.id.toString() === tripId);
+    if (trip) {
+      setFormValues({
+        name: trip.name,
+        nb_travelers: trip.nb_travelers,
+        image_path: null,
+        fileName: "Image déjà chargée",
+      });
+      setDateRange([new Date(trip.start_date), new Date(trip.end_date)]);
+    }
+  }, [trips, tripId]);
 
   return (
     <div className={styles.container}>
@@ -147,7 +163,7 @@ export default function AddTrip() {
               onDragOver={handleDrag}
               onDrop={handleDrop}
             />
-            {formValues.image_path ? (
+            {formValues.fileName ? (
               <>
                 <CheckRoundedIcon sx={{ fontSize: "70px" }} />
                 {formValues.fileName}
@@ -155,7 +171,7 @@ export default function AddTrip() {
             ) : (
               <>
                 <CloudUploadRoundedIcon sx={{ fontSize: "70px" }} />
-                Charger une image
+                choisir une image de fond
               </>
             )}
           </label>
@@ -214,7 +230,7 @@ export default function AddTrip() {
             disabled={!formValid}
             onClick={createTrip}
           >
-            Créer le voyage
+            {tripId ? "Modifier le voyage" : "Créer le voyage"}
           </Button>
         </Grid>
       </Grid>

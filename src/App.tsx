@@ -51,7 +51,10 @@ export default function App() {
             path={routerPathes.planning + "/:tripId"}
             element={<div>yeah</div>}
           />
-          <Route path={routerPathes.addTrip} element={<AddTrip />} />
+          <Route
+            path={routerPathes.addTrip + "/:tripId?"}
+            element={<AddTrip />}
+          />
         </Routes>
       </Router>
     </>

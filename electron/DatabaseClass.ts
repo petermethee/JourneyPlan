@@ -13,7 +13,7 @@ export default class DatabaseAPI {
         }
         console.log(
           "Connected to the SQlite database: ",
-          __dirname + "./journey_plan.db"
+          __dirname + "/journey_plan.db"
         );
       }
     );

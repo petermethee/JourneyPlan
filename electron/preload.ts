@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from "electron";
 import { IElectronAPI } from "../src/features/ipc/IElectronAPI";
-import { EIpcChanels } from "./ipc";
+import { EIpcChanels } from "./IPC_API";
 import ITrip from "../src/Models/ITrip";
 
 type SameAPI<T> = { [k in keyof T]: Function };

@@ -26,9 +26,10 @@ export default function Home() {
     <div className={styles.homeContainer}>
       <Grid
         container
+        justifyContent="space-evenly"
         alignItems="center"
         padding="20px 50px"
-        rowGap={3}
+        rowGap={6}
         columnGap={6}
       >
         <Grid item container justifyContent="center">
@@ -42,8 +43,8 @@ export default function Home() {
                 endDate={trip.end_date}
                 startDate={trip.start_date}
                 id={trip.id}
+                imagePath={trip.image_path}
                 onClick={onClick}
-                onEdit={() => console.log("cool")}
               />
             </Grid>
           );

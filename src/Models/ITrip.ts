@@ -24,7 +24,7 @@ export const transformFormToTrip = (
     image_path: form.image_path!,
     name: form.name,
     nb_travelers: form.nb_travelers,
-    start_date: dateRange[0].toString(),
-    end_date: dateRange[1].toString(),
+    start_date: dateRange[0].toDateString(),
+    end_date: dateRange[1].toDateString(),
   };
 };
