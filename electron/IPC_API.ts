@@ -11,6 +11,7 @@ import TransportsManager from "./Managers/TransportsManager";
 export enum EIpcChanels {
   getAllTrips = "getAllTrips",
   insertTrip = "insertTrip",
+  updateTrip = "updateTrip",
 }
 export default class IPC_API {
   dataBaseAPI: DatabaseAPI;
@@ -45,5 +46,10 @@ export default class IPC_API {
         await this.tripsManager.insertTrip(trip);
       }
     );
+
+    //INSERT TRIP
+    ipcMain.handle(EIpcChanels.updateTrip, async (_event, trip: ITrip) => {
+      await this.tripsManager.updateTrip(trip);
+    });
   };
 }

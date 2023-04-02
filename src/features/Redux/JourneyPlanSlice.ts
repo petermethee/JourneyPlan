@@ -1,6 +1,10 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ITrip from "../../Models/ITrip";
-import { getAllTripsAPI, insertTripAPI } from "../ipc/ipcFunctions";
+import {
+  getAllTripsAPI,
+  insertTripAPI,
+  updateTripAPI,
+} from "../ipc/ipcFunctions";
 import { RootState } from "../../app/store";
 import { AlertColor } from "@mui/material";
 
@@ -28,6 +32,13 @@ export const insertTrip = createAsyncThunk(
   }
 );
 
+export const updateTrip = createAsyncThunk(
+  "updateTrip",
+  async (trip: ITrip) => {
+    return await updateTripAPI(trip);
+  }
+);
+
 export const journeyPlanSlice = createSlice({
   name: "journeyPlan",
   initialState: initialState,
@@ -48,9 +59,9 @@ export const journeyPlanSlice = createSlice({
           snackBarSeverity: "error",
         };
       })
-      .addCase(insertTrip.fulfilled, (state, action) => {
+      .addCase(insertTrip.fulfilled, (state, _action) => {
         state.snackbarStatus = {
-          message: "Succès",
+          message: "Insert success",
           snackBarSeverity: "success",
         };
       })
@@ -58,6 +69,18 @@ export const journeyPlanSlice = createSlice({
         state.snackbarStatus = {
           message:
             "Erreur lors de la création du voyage: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(updateTrip.fulfilled, (state, _action) => {
+        state.snackbarStatus = {
+          message: "update success",
+          snackBarSeverity: "success",
+        };
+      })
+      .addCase(updateTrip.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message: "Erreur lors de la MAJ du voyage: " + action.error.message!,
           snackBarSeverity: "error",
         };
       });

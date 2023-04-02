@@ -13,7 +13,7 @@ type TTileProps = {
   id: number;
   startDate: string;
   endDate: string;
-  imagePath: string;
+  imagePath: string | null;
   onClick: (id: number) => void;
 };
 export default function TripsTile({
@@ -32,7 +32,11 @@ export default function TripsTile({
   }
   const navigate = useNavigate();
   return (
-    <div className={styles.card} onClick={() => onClick(id)}>
+    <div
+      className={styles.cardContainer}
+      onClick={() => onClick(id)}
+      draggable={true}
+    >
       <img src={background} alt={`url(${trip_bg})`} className={styles.cardBg} />
       <ButtonBase
         className={styles.rippleEffect}

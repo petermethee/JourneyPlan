@@ -32,8 +32,13 @@ export default function Home() {
         rowGap={6}
         columnGap={6}
       >
-        <Grid item container justifyContent="center">
-          Accueil
+        <Grid
+          item
+          container
+          justifyContent="center"
+          className={styles.homeTitle}
+        >
+          Journey Plan
         </Grid>
         {trips.map((trip) => {
           return (

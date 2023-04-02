@@ -3,3 +3,13 @@
     height: 100%;
     overflow: auto;
 }
+
+.homeTitle {
+    font-size: 5rem;
+    color: var(--goldenColor);
+    font-weight: bold;
+    text-shadow: 0 5px 10px black;
+    display: flex;
+    justify-content: center;
+    padding: 35px;
+}

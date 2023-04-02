@@ -21,3 +21,14 @@ export const insertTripAPI = (trip: ITrip) => {
     }
   });
 };
+
+export const updateTripAPI = (trip: ITrip) => {
+  return new Promise<void>(async (resolve, reject) => {
+    try {
+      await window.electronAPI.updateTrip(trip);
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

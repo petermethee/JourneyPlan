@@ -4,4 +4,5 @@ import ITrips from "../../Models/ITrip";
 export interface IElectronAPI {
   getAllTrips: () => Promise<ITrips[]>;
   insertTrip: (trip: ITrip) => Promise<void>;
+  updateTrip: (trip: ITrip) => Promise<void>;
 }

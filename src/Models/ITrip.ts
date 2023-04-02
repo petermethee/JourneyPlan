@@ -6,7 +6,7 @@ export default interface ITrip {
   [TripsTable.startDate]: string;
   [TripsTable.endDate]: string;
   [TripsTable.nbTravelers]: number;
-  [TripsTable.imagePath]: string;
+  [TripsTable.imagePath]: string | null;
 }
 export type TFormTrip = {
   [TripsTable.name]: string;
@@ -17,11 +17,12 @@ export type TFormTrip = {
 
 export const transformFormToTrip = (
   form: TFormTrip,
-  dateRange: Date[]
+  dateRange: Date[],
+  tripId?: string
 ): ITrip => {
   return {
-    id: 0,
-    image_path: form.image_path!,
+    id: tripId ? parseInt(tripId) : 0,
+    image_path: form.image_path,
     name: form.name,
     nb_travelers: form.nb_travelers,
     start_date: dateRange[0].toDateString(),

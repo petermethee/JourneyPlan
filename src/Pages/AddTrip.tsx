@@ -11,7 +11,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { routerPathes } from "../Helper/routerPathes";
 import { TripsTable } from "../Models/DataBaseModel";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { insertTrip, selectTrips } from "../features/Redux/JourneyPlanSlice";
+import {
+  insertTrip,
+  selectTrips,
+  updateTrip,
+} from "../features/Redux/JourneyPlanSlice";
 import { TFormTrip, transformFormToTrip } from "../Models/ITrip";
 
 export default function AddTrip() {
@@ -81,8 +85,16 @@ export default function AddTrip() {
 
   const createTrip = async () => {
     setFormValid(false);
-    const newTrip = transformFormToTrip(formValues, dateRange as Date[]);
-    await dispatch(insertTrip(newTrip));
+    const newTrip = transformFormToTrip(
+      formValues,
+      dateRange as Date[],
+      tripId
+    );
+    if (tripId) {
+      await dispatch(updateTrip(newTrip));
+    } else {
+      await dispatch(insertTrip(newTrip));
+    }
     navigate(routerPathes.home);
   };
 
@@ -105,7 +117,7 @@ export default function AddTrip() {
       setFormValues({
         name: trip.name,
         nb_travelers: trip.nb_travelers,
-        image_path: null,
+        image_path: trip.image_path,
         fileName: "Image déjà chargée",
       });
       setDateRange([new Date(trip.start_date), new Date(trip.end_date)]);
@@ -163,7 +175,7 @@ export default function AddTrip() {
               onDragOver={handleDrag}
               onDrop={handleDrop}
             />
-            {formValues.fileName ? (
+            {formValues.image_path ? (
               <>
                 <CheckRoundedIcon sx={{ fontSize: "70px" }} />
                 {formValues.fileName}
