@@ -10,8 +10,14 @@ import TripsTile from "../Components/TripsTile";
 import { useNavigate } from "react-router-dom";
 import { routerPathes } from "../Helper/routerPathes";
 import AddTripTile from "../Components/AddTripTile";
-import { useEffect } from "react";
-import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
+import { useEffect, useState } from "react";
+import {
+  DragDropContext,
+  DragStart,
+  DropResult,
+  Droppable,
+} from "react-beautiful-dnd";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 export default function Home() {
   const trips = useAppSelector(selectTrips);
@@ -23,13 +29,16 @@ export default function Home() {
     navigate(routerPathes.planning + "/" + id);
   };
 
-  const onDragStart = () => {};
-  const onDragEnd = (result: DropResult) => {
-    console.log(result);
+  const [tripDragged, setTripDragged] = useState<string | undefined>();
 
+  const onDragStart = (result: DragStart) => {
+    setTripDragged(result.draggableId);
+  };
+  const onDragEnd = (result: DropResult) => {
     if (result.destination?.droppableId === "deleteZone") {
       dispatch(deleteTrip(parseInt(result.draggableId)));
     }
+    setTripDragged(undefined);
   };
 
   useEffect(() => {
@@ -40,13 +49,27 @@ export default function Home() {
     <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <div className={styles.homeContainer}>
         <Droppable droppableId="deleteZone">
-          {(provided) => (
-            <div
-              className={styles.deleteZone}
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-            >
-              {provided.placeholder}
+          {(provided, snapshot) => (
+            <div className={styles.deleteZone}>
+              <div
+                className={`${styles.deleteUI} ${
+                  tripDragged && styles.showDelete
+                } ${snapshot.isDraggingOver && styles.isOver} `}
+              >
+                <DeleteRoundedIcon fontSize="large" />
+              </div>
+              <div
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+                style={{
+                  overflow: "hidden",
+                  height: "100%",
+                  width: "21rem",
+                  position: "absolute",
+                }}
+              >
+                {provided.placeholder}
+              </div>
             </div>
           )}
         </Droppable>
@@ -61,7 +84,11 @@ export default function Home() {
         >
           {trips.map((trip, index) => {
             return (
-              <Droppable key={trip.id} droppableId={trip.id.toString()}>
+              <Droppable
+                key={trip.id}
+                droppableId={trip.id.toString()}
+                isDropDisabled={trip.id.toString() !== tripDragged}
+              >
                 {(provided) => (
                   <Grid
                     item

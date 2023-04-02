@@ -9,11 +9,17 @@
     color: var(--defaultWhite);
     overflow: hidden;
     text-shadow: 0px 0px 8px black;
+    transition: 300ms;
 }
 
 /* .cardContainer:hover {
     transform: scale(1.2);
 } */
+.deleteItem {
+    opacity: 0.5;
+    color: var(--primErrorColor);
+    border: 2px dashed var(--primErrorColor);
+}
 
 .cardContainer:hover .editIcon {
     opacity: 1;
@@ -62,6 +68,7 @@
     padding: 2px;
     border-radius: 100%;
     background-color: rgba(88, 88, 88, 0.255);
+    z-index: 1;
 }
 
 .cardBg {

@@ -7,8 +7,14 @@ import { primaryColor } from "../style/cssGlobalStyle";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { routerPathes } from "../Helper/routerPathes";
-import { Draggable } from "react-beautiful-dnd";
+import {
+  Draggable,
+  DraggableStateSnapshot,
+  DraggingStyle,
+  NotDraggingStyle,
+} from "react-beautiful-dnd";
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
+import { CSSProperties } from "react";
 require("dayjs/locale/fr");
 type TTileProps = {
   title: string;
@@ -35,52 +41,83 @@ export default function TripsTile({
     background = trip_bg;
   }
   const navigate = useNavigate();
+
+  const getStyle = (
+    style: DraggingStyle | NotDraggingStyle | undefined,
+    snapshot: DraggableStateSnapshot
+  ): CSSProperties => {
+    if (!snapshot.isDropAnimating) {
+      return style as CSSProperties;
+    }
+
+    // patching the existing style
+    return {
+      ...style,
+      opacity: 0,
+    };
+  };
+
   return (
     <Draggable draggableId={id.toString()} index={index}>
-      {(provided) => (
-        <div
-          {...provided.draggableProps}
-          ref={provided.innerRef}
-          className={styles.cardContainer}
-          onClick={() => onClick(id)}
-        >
-          <img
-            src={background}
-            alt={`url(${trip_bg})`}
-            className={styles.cardBg}
-          />
+      {(provided, snapshot) => {
+        return (
+          <div
+            {...provided.draggableProps}
+            ref={provided.innerRef}
+            className={`${styles.cardContainer} ${
+              snapshot.draggingOver === "deleteZone" && styles.deleteItem
+            }`}
+            onClick={() => onClick(id)}
+            style={getStyle(provided.draggableProps.style, snapshot)}
+          >
+            <ButtonBase
+              className={styles.rippleEffect}
+              sx={{ position: "absolute", color: "white", zIndex: 1 }}
+            />
+            <img
+              src={background}
+              alt={`url(${trip_bg})`}
+              className={styles.cardBg}
+            />
 
-          <div className={styles.content}>
-            <div className={styles.title}>{title}</div>
-            <div className={styles.editIcon}>
-              <IconButton
-                sx={{ backgroundColor: "#ffffff82" }}
-                size="small"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  navigate(`${routerPathes.addTrip}/${id}`);
-                }}
+            <div className={styles.content}>
+              <div className={styles.title}>{title}</div>
+              <div className={styles.editIcon}>
+                <IconButton
+                  sx={{ backgroundColor: "#ffffff82" }}
+                  size="small"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    navigate(`${routerPathes.addTrip}/${id}`);
+                  }}
+                >
+                  <EditRoundedIcon
+                    sx={{ color: primaryColor }}
+                    fontSize="small"
+                  />
+                </IconButton>
+              </div>
+              <div
+                className={styles.dragIndicator}
+                {...provided.dragHandleProps}
               >
-                <EditRoundedIcon
-                  sx={{ color: primaryColor }}
-                  fontSize="small"
-                />
-              </IconButton>
-            </div>
-            <div className={styles.dragIndicator} {...provided.dragHandleProps}>
-              <DragIndicatorIcon />
-            </div>
-            <div>
-              {dayjs(startDate)
-                .locale("fr")
-                .format("DD MMM YYYY")
-                .toUpperCase()}{" "}
-              -{" "}
-              {dayjs(endDate).locale("fr").format("DD MMM YYYY").toUpperCase()}
+                <DragIndicatorIcon />
+              </div>
+              <div>
+                {dayjs(startDate)
+                  .locale("fr")
+                  .format("DD MMM YYYY")
+                  .toUpperCase()}{" "}
+                -{" "}
+                {dayjs(endDate)
+                  .locale("fr")
+                  .format("DD MMM YYYY")
+                  .toUpperCase()}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      }}
     </Draggable>
   );
 }
