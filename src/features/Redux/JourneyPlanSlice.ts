@@ -46,6 +46,9 @@ export const journeyPlanSlice = createSlice({
     setAllTrips: (state: JourneyPlanState, action: PayloadAction<ITrip[]>) => {
       state.trips = action.payload;
     },
+    deleteTrip: (state: JourneyPlanState, action: PayloadAction<number>) => {
+      state.trips = state.trips.filter((trip) => trip.id !== action.payload);
+    },
   },
   extraReducers(builder) {
     builder
@@ -86,6 +89,8 @@ export const journeyPlanSlice = createSlice({
       });
   },
 });
+
+export const { deleteTrip } = journeyPlanSlice.actions;
 
 export const selectTrips = (state: RootState) => state.journeyPlan.trips;
 export const selectSnackbarStatus = (state: RootState) =>

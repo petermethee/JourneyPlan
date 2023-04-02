@@ -1,13 +1,17 @@
 import { Grid } from "@mui/material";
 import styles from "./Home.module.css";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { getAllTrips, selectTrips } from "../features/Redux/JourneyPlanSlice";
+import {
+  deleteTrip,
+  getAllTrips,
+  selectTrips,
+} from "../features/Redux/JourneyPlanSlice";
 import TripsTile from "../Components/TripsTile";
 import { useNavigate } from "react-router-dom";
 import { routerPathes } from "../Helper/routerPathes";
 import AddTripTile from "../Components/AddTripTile";
 import { useEffect } from "react";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 
 export default function Home() {
   const trips = useAppSelector(selectTrips);
@@ -19,8 +23,13 @@ export default function Home() {
     navigate(routerPathes.planning + "/" + id);
   };
 
-  const onDragEnd = (e: any) => {
-    //TODO
+  const onDragStart = () => {};
+  const onDragEnd = (result: DropResult) => {
+    console.log(result);
+
+    if (result.destination?.droppableId === "deleteZone") {
+      dispatch(deleteTrip(parseInt(result.draggableId)));
+    }
   };
 
   useEffect(() => {
@@ -28,7 +37,7 @@ export default function Home() {
   }, [dispatch]);
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
       <div className={styles.homeContainer}>
         <Droppable droppableId="deleteZone">
           {(provided) => (
@@ -52,11 +61,10 @@ export default function Home() {
         >
           {trips.map((trip, index) => {
             return (
-              <Droppable droppableId={trip.id.toString()}>
+              <Droppable key={trip.id} droppableId={trip.id.toString()}>
                 {(provided) => (
                   <Grid
                     item
-                    key={trip.id}
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >

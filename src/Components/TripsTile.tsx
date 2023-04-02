@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { routerPathes } from "../Helper/routerPathes";
 import { Draggable } from "react-beautiful-dnd";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 require("dayjs/locale/fr");
 type TTileProps = {
   title: string;
@@ -38,7 +39,6 @@ export default function TripsTile({
     <Draggable draggableId={id.toString()} index={index}>
       {(provided) => (
         <div
-          {...provided.dragHandleProps}
           {...provided.draggableProps}
           ref={provided.innerRef}
           className={styles.cardContainer}
@@ -66,6 +66,9 @@ export default function TripsTile({
                   fontSize="small"
                 />
               </IconButton>
+            </div>
+            <div className={styles.dragIndicator} {...provided.dragHandleProps}>
+              <DragIndicatorIcon />
             </div>
             <div>
               {dayjs(startDate)
