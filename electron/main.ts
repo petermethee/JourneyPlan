@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
-import IPC_API from "./IPC_API";
+import IPC_API_Trip from "./IPC_API/IPC_API_Trip";
+import IPC_API_Activity from "./IPC_API/IPC_API_Activity";
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -27,8 +28,10 @@ function createWindow() {
     win.webContents.openDevTools({ mode: "detach" });
   }
 
-  const ipcAPI = new IPC_API();
-  ipcAPI.initIPCHandlers();
+  const ipcAPITrip = new IPC_API_Trip();
+  ipcAPITrip.initIPCHandlers();
+  const ipcAPIActivity = new IPC_API_Activity();
+  ipcAPIActivity.initIPCHandlers();
 }
 
 app.whenReady().then(() => {

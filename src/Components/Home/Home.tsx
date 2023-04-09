@@ -5,7 +5,7 @@ import {
   deleteTrip,
   getAllTrips,
   selectTrips,
-} from "../../features/Redux/JourneyPlanSlice";
+} from "../../features/Redux/tripSlice";
 import { useNavigate } from "react-router-dom";
 import { routerPathes } from "../../Helper/routerPathes";
 import { useEffect, useState } from "react";

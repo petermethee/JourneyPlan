@@ -1,12 +1,14 @@
-export default interface IActivities {
-  id: number;
-  id_trip: number;
-  name: string;
-  description: string;
-  duration: number;
-  price: number;
-  pleasure: number;
-  location: string;
-  attachment: string;
-  contraint: string;
+import { ActivitiesTable } from "./DataBaseModel";
+
+export default interface IActivity {
+  [ActivitiesTable.id]: number;
+  [ActivitiesTable.id_trip]: number;
+  [ActivitiesTable.name]: string;
+  [ActivitiesTable.description]: string;
+  [ActivitiesTable.duration]: number;
+  [ActivitiesTable.price]: number;
+  [ActivitiesTable.pleasure]: number;
+  [ActivitiesTable.location]: string;
+  [ActivitiesTable.attachment]: string;
+  [ActivitiesTable.contraint]: string;
 }

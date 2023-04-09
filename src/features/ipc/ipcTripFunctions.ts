@@ -32,3 +32,14 @@ export const updateTripAPI = (trip: ITrip) => {
     }
   });
 };
+
+export const deleteTripAPI = (tripId: number) => {
+  return new Promise<void>(async (resolve, reject) => {
+    try {
+      await window.electronAPI.deleteTrip(tripId);
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

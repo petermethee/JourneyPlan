@@ -1,14 +1,15 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import ITrip from "../../Models/ITrip";
 import {
+  deleteTripAPI,
   getAllTripsAPI,
   insertTripAPI,
   updateTripAPI,
-} from "../ipc/ipcFunctions";
+} from "../ipc/ipcTripFunctions";
 import { RootState } from "../../app/store";
 import { AlertColor } from "@mui/material";
 
-interface JourneyPlanState {
+interface TripState {
   trips: ITrip[];
   snackbarStatus: {
     snackBarSeverity?: AlertColor;
@@ -16,7 +17,7 @@ interface JourneyPlanState {
   };
 }
 
-const initialState: JourneyPlanState = {
+const initialState: TripState = {
   trips: [],
   snackbarStatus: { message: "" },
 };
@@ -39,33 +40,35 @@ export const updateTrip = createAsyncThunk(
   }
 );
 
-export const journeyPlanSlice = createSlice({
+export const deleteTrip = createAsyncThunk(
+  "deleteTrip",
+  async (tripId: number) => {
+    await deleteTripAPI(tripId);
+    return tripId;
+  }
+);
+
+export const tripSlice = createSlice({
   name: "journeyPlan",
   initialState: initialState,
   reducers: {
-    setAllTrips: (state: JourneyPlanState, action: PayloadAction<ITrip[]>) => {
+    setAllTrips: (state: TripState, action: PayloadAction<ITrip[]>) => {
       state.trips = action.payload;
     },
-    deleteTrip: (state: JourneyPlanState, action: PayloadAction<number>) => {
+    deleteTrip: (state: TripState, action: PayloadAction<number>) => {
       state.trips = state.trips.filter((trip) => trip.id !== action.payload);
     },
   },
   extraReducers(builder) {
     builder
       .addCase(getAllTrips.fulfilled, (state, action) => {
-        journeyPlanSlice.caseReducers.setAllTrips(state, action);
+        tripSlice.caseReducers.setAllTrips(state, action);
       })
       .addCase(getAllTrips.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
             "Erreur lors de la lecture des voyages: " + action.error.message!,
           snackBarSeverity: "error",
-        };
-      })
-      .addCase(insertTrip.fulfilled, (state, _action) => {
-        state.snackbarStatus = {
-          message: "Insert success",
-          snackBarSeverity: "success",
         };
       })
       .addCase(insertTrip.rejected, (state, action) => {
@@ -75,25 +78,29 @@ export const journeyPlanSlice = createSlice({
           snackBarSeverity: "error",
         };
       })
-      .addCase(updateTrip.fulfilled, (state, _action) => {
-        state.snackbarStatus = {
-          message: "update success",
-          snackBarSeverity: "success",
-        };
-      })
       .addCase(updateTrip.rejected, (state, action) => {
         state.snackbarStatus = {
           message: "Erreur lors de la MAJ du voyage: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(deleteTrip.fulfilled, (state, action) => {
+        tripSlice.caseReducers.deleteTrip(state, action);
+      })
+      .addCase(deleteTrip.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la supression du voyage: " + action.error.message!,
           snackBarSeverity: "error",
         };
       });
   },
 });
 
-export const { deleteTrip } = journeyPlanSlice.actions;
+// export const {} = tripSlice.actions;
 
-export const selectTrips = (state: RootState) => state.journeyPlan.trips;
+export const selectTrips = (state: RootState) => state.tripsReducer.trips;
 export const selectSnackbarStatus = (state: RootState) =>
-  state.journeyPlan.snackbarStatus;
+  state.tripsReducer.snackbarStatus;
 
-export default journeyPlanSlice.reducer;
+export default tripSlice.reducer;

@@ -82,10 +82,22 @@ export default class TripsManager {
 
     const sql = `UPDATE ${TablesName.trips} SET ${columns} WHERE ${TripsTable.id} = ${trip.id}`;
 
-    console.log("sql quest", sql);
-
     await new Promise<void>((resolve, reject) => {
       this.db.run(sql, values, (err) => {
+        if (err) {
+          reject(err);
+        }
+        resolve();
+      });
+    });
+  };
+
+  deleteTrip = async (tripId: number) => {
+    const sql = `DELETE FROM ${TablesName.trips} WHERE ${TripsTable.id} = ${tripId}`;
+    console.log("delet", sql);
+
+    await new Promise<void>((resolve, reject) => {
+      this.db.run(sql, (err) => {
         if (err) {
           reject(err);
         }

@@ -15,7 +15,7 @@ import {
   insertTrip,
   selectTrips,
   updateTrip,
-} from "../../features/Redux/JourneyPlanSlice";
+} from "../../features/Redux/tripSlice";
 import { TFormTrip, transformFormToTrip } from "../../Models/ITrip";
 
 export default function AddTrip() {

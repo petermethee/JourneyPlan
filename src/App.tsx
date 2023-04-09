@@ -3,7 +3,7 @@ import { routerPathes } from "./Helper/routerPathes";
 import Home from "./Components/Home/Home";
 import Alert from "./Components/Alert";
 import { useAppSelector } from "./app/hooks";
-import { selectSnackbarStatus } from "./features/Redux/JourneyPlanSlice";
+import { selectSnackbarStatus } from "./features/Redux/tripSlice";
 import { useEffect, useState } from "react";
 import { AlertColor } from "@mui/material";
 import Planning from "./Components/Planning/Planning";
