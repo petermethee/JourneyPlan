@@ -1,12 +1,13 @@
 import { Route, Routes, HashRouter as Router } from "react-router-dom";
 import { routerPathes } from "./Helper/routerPathes";
-import Home from "./Pages/Home";
-import AddTrip from "./Pages/AddTrip";
+import Home from "./Components/Home/Home";
 import Alert from "./Components/Alert";
 import { useAppSelector } from "./app/hooks";
 import { selectSnackbarStatus } from "./features/Redux/JourneyPlanSlice";
 import { useEffect, useState } from "react";
 import { AlertColor } from "@mui/material";
+import Planning from "./Components/Planning/Planning";
+import AddTrip from "./Components/Home/AddTrip";
 
 const initialSnackState: {
   open: boolean;
@@ -49,7 +50,7 @@ export default function App() {
           <Route path={routerPathes.home} element={<Home />} />
           <Route
             path={routerPathes.planning + "/:tripId"}
-            element={<div>yeah</div>}
+            element={<Planning />}
           />
           <Route
             path={routerPathes.addTrip + "/:tripId?"}

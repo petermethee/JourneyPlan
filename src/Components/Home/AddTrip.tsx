@@ -2,21 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Grid, TextField } from "@mui/material";
 import styles from "./AddTrip.module.css";
 import { Calendar } from "primereact/calendar";
-import "../style/CalendarTheme.css";
+import "../../style/CalendarTheme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { useNavigate, useParams } from "react-router-dom";
-import { routerPathes } from "../Helper/routerPathes";
-import { TripsTable } from "../Models/DataBaseModel";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { routerPathes } from "../../Helper/routerPathes";
+import { TripsTable } from "../../Models/DataBaseModel";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   insertTrip,
   selectTrips,
   updateTrip,
-} from "../features/Redux/JourneyPlanSlice";
-import { TFormTrip, transformFormToTrip } from "../Models/ITrip";
+} from "../../features/Redux/JourneyPlanSlice";
+import { TFormTrip, transformFormToTrip } from "../../Models/ITrip";
 
 export default function AddTrip() {
   const tripId = useParams().tripId;

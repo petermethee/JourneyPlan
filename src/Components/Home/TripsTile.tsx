@@ -2,11 +2,11 @@ import IconButton from "@mui/material/IconButton";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import styles from "./TripsTile.module.css";
 import { ButtonBase } from "@mui/material";
-import trip_bg from "../image/trip_bg.jpg";
-import { primaryColor } from "../style/cssGlobalStyle";
+import trip_bg from "../../image/trip_bg.jpg";
+import { primaryColor } from "../../style/cssGlobalStyle";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { routerPathes } from "../Helper/routerPathes";
+import { routerPathes } from "../../Helper/routerPathes";
 import {
   Draggable,
   DraggableStateSnapshot,
@@ -36,7 +36,7 @@ export default function TripsTile({
 }: TTileProps) {
   let background: string;
   try {
-    background = require(`../image/${imagePath}`);
+    background = require(`../../image/${imagePath}`);
   } catch (error) {
     background = trip_bg;
   }

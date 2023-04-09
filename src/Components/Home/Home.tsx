@@ -1,15 +1,13 @@
 import { Grid } from "@mui/material";
 import styles from "./Home.module.css";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   deleteTrip,
   getAllTrips,
   selectTrips,
-} from "../features/Redux/JourneyPlanSlice";
-import TripsTile from "../Components/TripsTile";
+} from "../../features/Redux/JourneyPlanSlice";
 import { useNavigate } from "react-router-dom";
-import { routerPathes } from "../Helper/routerPathes";
-import AddTripTile from "../Components/AddTripTile";
+import { routerPathes } from "../../Helper/routerPathes";
 import { useEffect, useState } from "react";
 import {
   DragDropContext,
@@ -18,6 +16,8 @@ import {
   Droppable,
 } from "react-beautiful-dnd";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import AddTripTile from "./AddTripTile";
+import TripsTile from "./TripsTile";
 
 export default function Home() {
   const trips = useAppSelector(selectTrips);
