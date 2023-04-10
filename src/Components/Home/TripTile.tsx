@@ -25,7 +25,7 @@ type TTileProps = {
   index: number;
   onClick: (id: number) => void;
 };
-export default function TripsTile({
+export default function TripTile({
   title,
   id,
   startDate,

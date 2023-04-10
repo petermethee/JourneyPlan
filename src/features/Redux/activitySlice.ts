@@ -8,6 +8,7 @@ import {
 } from "../ipc/ipcActivityFunctions";
 import { RootState } from "../../app/store";
 import { AlertColor } from "@mui/material";
+import { mockedActivities } from "../../MockData/MockedActivities";
 
 interface ActivityState {
   activities: IActivity[];
@@ -18,7 +19,7 @@ interface ActivityState {
 }
 
 const initialState: ActivityState = {
-  activities: [],
+  activities: mockedActivities,
   snackbarStatus: { message: "" },
 };
 
@@ -72,35 +73,8 @@ export const activitySlice = createSlice({
       .addCase(getAllActivities.fulfilled, (state, action) => {
         activitySlice.caseReducers.setAllActivities(state, action);
       })
-      .addCase(getAllActivities.rejected, (state, action) => {
-        state.snackbarStatus = {
-          message:
-            "Erreur lors de la lecture des voyages: " + action.error.message!,
-          snackBarSeverity: "error",
-        };
-      })
-      .addCase(insertActivity.rejected, (state, action) => {
-        state.snackbarStatus = {
-          message:
-            "Erreur lors de la création du voyage: " + action.error.message!,
-          snackBarSeverity: "error",
-        };
-      })
-      .addCase(updateActivity.rejected, (state, action) => {
-        state.snackbarStatus = {
-          message: "Erreur lors de la MAJ du voyage: " + action.error.message!,
-          snackBarSeverity: "error",
-        };
-      })
       .addCase(deleteActivity.fulfilled, (state, action) => {
         activitySlice.caseReducers.deleteActivity(state, action);
-      })
-      .addCase(deleteActivity.rejected, (state, action) => {
-        state.snackbarStatus = {
-          message:
-            "Erreur lors de la supression du voyage: " + action.error.message!,
-          snackBarSeverity: "error",
-        };
       });
   },
 });

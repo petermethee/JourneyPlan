@@ -1,13 +1,11 @@
-.hoursContainer {
-    width: 500px;
-    background-color: aqua;
+.calendarContainer {
+    background-color: yellowgreen;
     display: flex;
-    flex-direction: column;
-    row-gap: 10px;
+    flex: 1;
+    overflow: auto;
 }
 
-.hourContainer {
-    height: 100px;
-    width: 100%;
-    background-color: blueviolet;
+.dayContainer {
+    height: 100%;
+    border: 1px solid #000;
 }

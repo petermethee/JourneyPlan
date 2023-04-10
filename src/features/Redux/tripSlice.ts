@@ -8,6 +8,12 @@ import {
 } from "../ipc/ipcTripFunctions";
 import { RootState } from "../../app/store";
 import { AlertColor } from "@mui/material";
+import {
+  getAllActivities,
+  insertActivity,
+  updateActivity,
+  deleteActivity,
+} from "./activitySlice";
 
 interface TripState {
   trips: ITrip[];
@@ -60,10 +66,9 @@ export const tripSlice = createSlice({
     deleteTrip: (state: TripState, action: PayloadAction<number>) => {
       state.trips = state.trips.filter((trip) => trip.id !== action.payload);
     },
-    setCurrentTtrip: (state: TripState, action: PayloadAction<number>) => {
-      state.currentTrip = state.trips.find(
-        (trip) => trip.id === action.payload
-      );
+    setCurrentTrip: (state: TripState, action: PayloadAction<ITrip>) => {
+      console.log("setCurrentTrip", action.payload);
+      state.currentTrip = action.payload;
     },
   },
   extraReducers(builder) {
@@ -100,11 +105,43 @@ export const tripSlice = createSlice({
             "Erreur lors de la supression du voyage: " + action.error.message!,
           snackBarSeverity: "error",
         };
+      })
+
+      //Reducers from other slice
+      .addCase(getAllActivities.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la lecture des activités: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(insertActivity.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la création de l'activité: " +
+            action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(updateActivity.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la MAJ de l'activité: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(deleteActivity.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la supression de l'activité: " +
+            action.error.message!,
+          snackBarSeverity: "error",
+        };
       });
   },
 });
 
-export const { setCurrentTtrip } = tripSlice.actions;
+export const { setCurrentTrip } = tripSlice.actions;
 
 export const selectTrips = (state: RootState) => state.tripsReducer.trips;
 export const selectSnackbarStatus = (state: RootState) =>

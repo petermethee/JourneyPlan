@@ -5,7 +5,7 @@ import {
   deleteTrip,
   getAllTrips,
   selectTrips,
-  setCurrentTtrip,
+  setCurrentTrip,
 } from "../../features/Redux/tripSlice";
 import { useNavigate } from "react-router-dom";
 import { routerPathes } from "../../Helper/routerPathes";
@@ -18,7 +18,7 @@ import {
 } from "react-beautiful-dnd";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import AddTripTile from "./AddTripTile";
-import TripsTile from "./TripsTile";
+import TripTile from "./TripTile";
 
 export default function Home() {
   const trips = useAppSelector(selectTrips);
@@ -27,7 +27,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   const onClick = (id: number) => {
-    dispatch(setCurrentTtrip(id));
+    dispatch(setCurrentTrip(trips.find((trip) => trip.id === id)!));
     navigate(routerPathes.planning + "/" + id);
   };
 
@@ -97,7 +97,7 @@ export default function Home() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <TripsTile
+                    <TripTile
                       title={trip.name}
                       endDate={trip.end_date}
                       startDate={trip.start_date}

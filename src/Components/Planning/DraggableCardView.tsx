@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./DraggableCardView.module.css";
+import { getCollisionPosition } from "../../Helper/planningHelper";
 
 export default function DraggableCardView({
   children,
@@ -16,37 +17,46 @@ export default function DraggableCardView({
   index: number;
   onDragEnd: (id: number) => void;
 }) {
-  let dragging = false;
-  let initialMouseCoord = { x: 0, y: 0 };
+  let nsDragging = false;
+  let nsDeltaMousePosition = { x: 0, y: 0 };
+  const [initialCoord, setInitialCoord] = useState({ x: 0, y: 0 });
   const draggableRef = useRef<HTMLDivElement>(null);
   const [coord, setCoord] = useState({ x: 0, y: 0 });
 
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
-    dragging = true;
-    initialMouseCoord = { x: event.clientX, y: event.clientY };
+    event.preventDefault();
+    nsDragging = true;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    nsDeltaMousePosition = {
+      x: event.clientX - bounds.x,
+      y: event.clientY - bounds.y,
+    };
   };
 
   window.addEventListener("mousemove", (event) => {
-    if (dragging) {
-      console.log("tag", event);
-
+    if (nsDragging) {
+      const [x, y] = getCollisionPosition(
+        event.clientX,
+        event.clientY,
+        nsDeltaMousePosition
+      );
       setCoord({
-        x: event.clientX - initialMouseCoord.x,
-        y: event.clientY - initialMouseCoord.y,
+        x: x - initialCoord.x,
+        y: y - initialCoord.y,
       });
     }
   });
   window.addEventListener("mouseup", (event) => {
-    if (dragging) {
-      dragging = false;
+    if (nsDragging) {
+      nsDragging = false;
       onDragEnd(id);
     }
   });
 
   useEffect(() => {
-    setCoord({
-      x: draggableRef.current!.clientLeft,
-      y: draggableRef.current!.clientTop,
+    setInitialCoord({
+      x: draggableRef.current!.getBoundingClientRect().x,
+      y: draggableRef.current!.getBoundingClientRect().y,
     });
   }, []);
 

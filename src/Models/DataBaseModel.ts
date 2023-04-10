@@ -53,7 +53,7 @@ export enum AccomodationsTable {
   checkout = "checkout",
 }
 
-export enum PlanningsTable {
+export enum PlanningActivityTable {
   id = "id",
   activity = "activity",
   date = "date",

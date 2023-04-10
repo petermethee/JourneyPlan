@@ -1,30 +1,22 @@
-import React, { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./CalendarView.module.css";
-import { useAppSelector } from "../../app/hooks";
-import { selectCurrentTrip } from "../../features/Redux/tripSlice";
+import { TDayCol } from "./Planning";
+import { initPlanningDimensions } from "../../Helper/planningHelper";
 
-export default function CalendarView() {
-  const selectedTrip = useAppSelector(selectCurrentTrip);
-
-  const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    console.log("drag", event);
-  };
-
-  const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault();
-    console.log("drop", event);
-  };
-
+export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
+  const calendarRef = useRef<HTMLDivElement>(null);
+  const [colWidth, setColWidth] = useState(10);
   useEffect(() => {
-    console.log("trip current", selectedTrip);
+    //TODO calc width with calendarRef
+    initPlanningDimensions(200, dayCols.length);
+    setColWidth(200);
   }, []);
 
   return (
-    <div
-      onDragOver={onDragOver}
-      onDrop={onDrop}
-      className={styles.hoursContainer}
-    ></div>
+    <div className={styles.calendarContainer} ref={calendarRef}>
+      {dayCols.map((dayCol) => (
+        <div className={styles.dayContainer} style={{ minWidth: colWidth }} />
+      ))}
+    </div>
   );
 }
