@@ -12,11 +12,11 @@ export default function DraggableCardView({
   children: JSX.Element | JSX.Element[];
   backgroundColor?: string;
   className?: string;
-  id: number;
+  id: string;
   index: number;
 }) {
   return (
-    <Draggable draggableId={id.toString()} index={index}>
+    <Draggable draggableId={id} index={index}>
       {(provided, snapshot) => {
         return (
           <div

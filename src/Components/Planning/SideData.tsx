@@ -2,8 +2,12 @@ import React from "react";
 import DraggableCardView from "./DraggableCardView";
 import { Droppable } from "react-beautiful-dnd";
 import styles from "./SideData.module.css";
-export default function SideData() {
-  const map = [0, 0, 0, 0, 0, 0, 0, 0];
+
+export default function SideData({
+  unusedActivities,
+}: {
+  unusedActivities: string[];
+}) {
   return (
     <Droppable droppableId="SideData">
       {(provided, snapshot) => (
@@ -12,9 +16,9 @@ export default function SideData() {
           {...provided.droppableProps}
           className={styles.sideDataContainer}
         >
-          {map.map((m, i) => (
-            <DraggableCardView key={i} id={i} index={i}>
-              <div>Test {i}</div>
+          {unusedActivities.map((m, i) => (
+            <DraggableCardView key={i} id={m} index={i}>
+              <div>{m}</div>
             </DraggableCardView>
           ))}
           {provided.placeholder}
