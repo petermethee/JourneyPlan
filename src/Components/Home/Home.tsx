@@ -5,6 +5,7 @@ import {
   deleteTrip,
   getAllTrips,
   selectTrips,
+  setCurrentTtrip,
 } from "../../features/Redux/tripSlice";
 import { useNavigate } from "react-router-dom";
 import { routerPathes } from "../../Helper/routerPathes";
@@ -26,6 +27,7 @@ export default function Home() {
   const dispatch = useAppDispatch();
 
   const onClick = (id: number) => {
+    dispatch(setCurrentTtrip(id));
     navigate(routerPathes.planning + "/" + id);
   };
 

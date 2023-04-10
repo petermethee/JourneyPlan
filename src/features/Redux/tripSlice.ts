@@ -15,11 +15,13 @@ interface TripState {
     snackBarSeverity?: AlertColor;
     message: string;
   };
+  currentTrip?: ITrip;
 }
 
 const initialState: TripState = {
   trips: [],
   snackbarStatus: { message: "" },
+  currentTrip: undefined,
 };
 
 export const getAllTrips = createAsyncThunk("getAllTrips", async () => {
@@ -57,6 +59,11 @@ export const tripSlice = createSlice({
     },
     deleteTrip: (state: TripState, action: PayloadAction<number>) => {
       state.trips = state.trips.filter((trip) => trip.id !== action.payload);
+    },
+    setCurrentTtrip: (state: TripState, action: PayloadAction<number>) => {
+      state.currentTrip = state.trips.find(
+        (trip) => trip.id === action.payload
+      );
     },
   },
   extraReducers(builder) {
@@ -97,10 +104,13 @@ export const tripSlice = createSlice({
   },
 });
 
-// export const {} = tripSlice.actions;
+export const { setCurrentTtrip } = tripSlice.actions;
 
 export const selectTrips = (state: RootState) => state.tripsReducer.trips;
 export const selectSnackbarStatus = (state: RootState) =>
   state.tripsReducer.snackbarStatus;
+
+export const selectCurrentTrip = (state: RootState) =>
+  state.tripsReducer.currentTrip;
 
 export default tripSlice.reducer;

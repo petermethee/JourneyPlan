@@ -41,30 +41,5 @@ export default class IPC_API_Trip {
     ipcMain.handle(EIpcChanels.deleteTrip, async (_event, tripId: number) => {
       await this.tripsManager.deleteTrip(tripId);
     });
-
-    //ACTIVITIES
-    //SELECT ACTIVITY
-    ipcMain.handle(EIpcChanels.getAllTrips, async () => {
-      return await this.tripsManager.getAllTrips();
-    });
-
-    //INSERT ACTIVITY
-    ipcMain.handle(
-      EIpcChanels.insertTrip,
-      async (_event, trip: Partial<ITrip>) => {
-        //trip is partial to allow id deletion
-        await this.tripsManager.insertTrip(trip);
-      }
-    );
-
-    //UPDATE ACTIVITY
-    ipcMain.handle(EIpcChanels.updateTrip, async (_event, trip: ITrip) => {
-      await this.tripsManager.updateTrip(trip);
-    });
-
-    //DELETE ACTIVITY
-    ipcMain.handle(EIpcChanels.deleteTrip, async (_event, tripId: number) => {
-      await this.tripsManager.deleteTrip(tripId);
-    });
   };
 }

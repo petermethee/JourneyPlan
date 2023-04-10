@@ -3,5 +3,6 @@
   border-radius: 5px;
   padding: 3px;
   margin: 10px;
-  backdrop-filter: blur(2px);
+  transition: 10ms;
+  position: relative;
 }

@@ -1,7 +1,6 @@
 .sideDataContainer {
     display: flex;
     flex-direction: column;
-    row-gap: 10px;
     border: 1px solid #000;
     width: 15rem;
     height: 100%;
