@@ -55,7 +55,7 @@ export enum AccomodationsTable {
 
 export enum PlanningActivityTable {
   id = "id",
-  activity = "activity",
+  activityId = "activityId",
   date = "date",
-  hour = "hour",
+  timeIndex = "timeIndex",
 }

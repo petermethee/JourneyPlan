@@ -14,7 +14,7 @@ export const initPlanningDimensions = (
 
 export const getColWidth = () => columnWidth;
 export const getCellHeight = () => cellHeight;
-export const getCollisionPosition = (
+export const getClampedPosition = (
   x: number,
   y: number,
   deltaMousePosition: { x: number; y: number }
@@ -33,4 +33,16 @@ export const getCollisionPosition = (
 
 export const setSideDataWidth = (width: number) => {
   sideDataWidth = width;
+};
+
+export const getFinalDestination = (x: number, y: number): [number, number] => {
+  const offset = hourLabelWidth + sideDataWidth;
+  const row = Math.round(y / cellHeight);
+
+  if (x < offset) {
+    return [-1, row];
+  } else {
+    const col = Math.round((x - offset) / columnWidth);
+    return [col, row];
+  }
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import DraggableCardView from "./DraggableCardView";
 import styles from "./SideData.module.css";
-import { setSideDataWidth } from "../../Helper/planningHelper";
+import { setSideDataWidth } from "../../DnDCustomLib/DnDHelper";
 import IActivity from "../../Models/IActivity";
 
 export const sideDataWidth = 240;
@@ -22,7 +22,7 @@ export default function SideData({
   return (
     <div ref={sideDataRef} className={styles.sideDataContainer}>
       {unusedActivities.map((activity, i) => (
-        <DraggableCardView key={i} id={i} index={i} onDragEnd={() => {}}>
+        <DraggableCardView key={i} id={activity.id} index={i}>
           <div>{activity.name}</div>
         </DraggableCardView>
       ))}
