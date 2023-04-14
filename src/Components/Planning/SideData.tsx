@@ -1,11 +1,8 @@
 import DraggableCardView from "./DraggableCardView";
 import styles from "./SideData.module.css";
 import IActivity from "../../Models/IActivity";
-import {
-  sideDataDraggableHeight,
-  sideDataDraggableWidth,
-} from "../../DnDCustomLib/CalendarDimensionsHelper";
-import { sideDraggableStyle } from "../../DnDCustomLib/DraggableCSS";
+import { sideDataDragContainerStyle } from "../../DnDCustomLib/DraggableCSS";
+import { sideDataDraggableWidth } from "../../DnDCustomLib/CalendarDimensionsHelper";
 
 export default function SideData({
   unusedActivities,
@@ -13,19 +10,14 @@ export default function SideData({
   unusedActivities: IActivity[];
 }) {
   return (
-    <div
-      className={styles.sideDataContainer}
-      style={{ width: sideDataDraggableWidth + 20 }}
-    >
+    <div className={styles.sideDataContainer}>
       {unusedActivities.map((activity, i) => (
         <DraggableCardView
-          key={i}
+          key={activity.id}
           id={activity.id}
-          index={i}
-          initialStyle={sideDraggableStyle(
-            sideDataDraggableWidth,
-            sideDataDraggableHeight
-          )}
+          containerStyle={sideDataDragContainerStyle(sideDataDraggableWidth)}
+          duration={activity.duration}
+          className={styles.card}
         >
           <div>{activity.name}</div>
         </DraggableCardView>

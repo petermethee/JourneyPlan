@@ -2,11 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./CalendarView.module.css";
 import { TDayCol } from "./Planning";
 import {
+  cellHeight,
   initPlanningDimensions,
   minColWidth,
 } from "../../DnDCustomLib/CalendarDimensionsHelper";
 import DraggableCardView from "./DraggableCardView";
-import { calendarDraggableStyle } from "../../DnDCustomLib/DraggableCSS";
+import { calendarDragContainerStyle } from "../../DnDCustomLib/DraggableCSS";
 
 export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -31,8 +32,12 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
           {dayCol.planningActivities.map((PA) => (
             <DraggableCardView
               id={PA.activity.id}
-              index={0}
-              initialStyle={calendarDraggableStyle(colWidth)}
+              duration={PA.activity.duration}
+              containerStyle={calendarDragContainerStyle(
+                colWidth,
+                PA.activity.duration * cellHeight,
+                PA.timeIndex * cellHeight
+              )}
             >
               <div>{PA.activity.name}</div>
             </DraggableCardView>

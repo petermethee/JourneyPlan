@@ -5,11 +5,15 @@ import {
 
 export const minColWidth = 100;
 export const cellHeight = 50;
-export const sideDataDraggableWidth = 160;
-export const sideDataDraggableHeight = 80;
-
+export const sideDataDraggableWidth = 200;
+export const sideDataDraggableHeight = 100;
 export const hourLabelWidth = 0;
+const offset = hourLabelWidth + sideDataDraggableWidth + 20;
 
+document.documentElement.style.setProperty(
+  "--sideDataDraggableWidth",
+  sideDataDraggableWidth + "px"
+);
 let columnWidth: number;
 
 export const initPlanningDimensions = (initColWidth: number) => {
@@ -19,38 +23,40 @@ export const initPlanningDimensions = (initColWidth: number) => {
 export const getDraggableStyle = (
   x: number,
   y: number,
-  deltaMousePosition: { x: number; y: number }
+  deltaMousePosition: { x: number; y: number },
+  parentCoord: { x: number; y: number },
+  duration: number
 ) => {
-  const offset = hourLabelWidth + sideDataDraggableWidth;
   let style;
 
   if (x < offset) {
-    const clampedX = x - deltaMousePosition.x;
-    const clampedY = y - deltaMousePosition.y;
-    style = onDragOverSideDataStyle(
-      clampedX,
-      clampedY,
-      sideDataDraggableWidth,
-      sideDataDraggableHeight
-    );
+    const newX = x - deltaMousePosition.x;
+    const newY = y - deltaMousePosition.y;
+    style = onDragOverSideDataStyle(newX, newY);
   } else {
     const clampedX =
-      Math.floor((x - offset) / columnWidth) * columnWidth + offset;
-    const clampedY = Math.floor(y / cellHeight) * cellHeight;
-    style = onDragOverCalendarStyle(clampedX, clampedY, columnWidth);
+      Math.floor((x - offset) / columnWidth) * columnWidth +
+      offset -
+      parentCoord.x;
+    const clampedY = Math.floor(y / cellHeight) * cellHeight - parentCoord.y;
+    style = onDragOverCalendarStyle(
+      clampedX,
+      clampedY,
+      columnWidth,
+      cellHeight * duration
+    );
   }
 
   return style;
 };
 
 export const getFinalDestination = (x: number, y: number): [number, number] => {
-  const offset = hourLabelWidth + sideDataDraggableWidth;
-  const row = Math.round(y / cellHeight);
+  const row = Math.floor(y / cellHeight);
 
   if (x < offset) {
     return [-1, row];
   } else {
-    const col = Math.round((x - offset) / columnWidth);
+    const col = Math.floor((x - offset) / columnWidth);
     return [col, row];
   }
 };

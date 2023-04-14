@@ -17,24 +17,23 @@ export default function DraggableCardView({
   children,
   backgroundColor = "#ffffff6e",
   id,
-  index,
-  initialStyle,
+  duration,
+  containerStyle,
+  className,
 }: {
   children: JSX.Element | JSX.Element[];
   backgroundColor?: string;
   id: number;
-  index: number;
-  initialStyle: CSSProperties;
+  duration: number;
+  containerStyle: CSSProperties;
+  className?: string;
 }) {
   const draggableRef = useRef<HTMLDivElement>(null);
   const dndContext = useContext(DragNDropContext);
-  const [ghostPosition, setGhostPosition] = useState({ x: 0, y: 0 });
   const [deltaMousePosition, setDeltaMousePosition] = useState({ x: 0, y: 0 });
   const [isDragged, setIsDragged] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
-  const [style, setStyle] = useState<React.CSSProperties | undefined>(
-    initialStyle
-  );
+  const [style, setStyle] = useState<React.CSSProperties | undefined>();
 
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -52,12 +51,17 @@ export default function DraggableCardView({
         const currentStyle = getDraggableStyle(
           event.clientX,
           event.clientY,
-          deltaMousePosition
+          deltaMousePosition,
+          {
+            x: draggableRef.current!.offsetLeft,
+            y: draggableRef.current!.offsetTop,
+          },
+          duration
         );
         setStyle(currentStyle);
       }
     },
-    [mouseDown, deltaMousePosition]
+    [mouseDown, deltaMousePosition, duration]
   );
 
   const mouseUpListener = useCallback(
@@ -70,11 +74,11 @@ export default function DraggableCardView({
           destination: { dayIndex: x, timeIndex: y },
           source: "",
         });
-        setStyle(initialStyle);
+        setStyle(containerStyle);
       }
       setMouseDown(false);
     },
-    [isDragged, initialStyle, dndContext, id]
+    [isDragged, containerStyle, dndContext, id]
   );
 
   useEffect(() => {
@@ -92,37 +96,29 @@ export default function DraggableCardView({
     };
   }, [mouseUpListener]);
 
-  useEffect(() => {
-    setGhostPosition({
-      x: draggableRef.current!.offsetLeft,
-      y: draggableRef.current!.offsetTop,
-    });
-  }, []);
   return (
-    <>
+    <div
+      ref={draggableRef}
+      className={styles.draggableContainer}
+      style={containerStyle}
+    >
       <div
-        ref={draggableRef}
         style={{ ...style, backgroundColor: backgroundColor }}
-        className={styles.card}
+        className={`${styles.card} ${className}`}
         onMouseDown={onMouseDown}
       >
         {children}
       </div>
 
       <div
-        className={styles.card}
+        className={`${styles.card} ${styles.ghost} ${className}`}
         style={{
-          ...initialStyle,
           display: isDragged ? "" : "none",
-          opacity: 0.5,
-          position: "absolute",
-          left: ghostPosition.x,
-          top: ghostPosition.y,
         }}
         onMouseDown={onMouseDown}
       >
         {children}
       </div>
-    </>
+    </div>
   );
 }
