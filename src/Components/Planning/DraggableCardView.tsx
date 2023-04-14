@@ -1,83 +1,116 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  CSSProperties,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import styles from "./DraggableCardView.module.css";
 import {
-  getClampedPosition,
+  getDraggableStyle,
   getFinalDestination,
-} from "../../DnDCustomLib/DnDHelper";
+} from "../../DnDCustomLib/CalendarDimensionsHelper";
 import { DragNDropContext } from "../../DnDCustomLib/DnDContext";
-import { onDragStyle, onDropStyle } from "../../DnDCustomLib/DndStyle";
 
 export default function DraggableCardView({
   children,
   backgroundColor = "#ffffff6e",
-  className,
   id,
   index,
+  initialStyle,
 }: {
   children: JSX.Element | JSX.Element[];
   backgroundColor?: string;
-  className?: string;
   id: number;
   index: number;
+  initialStyle: CSSProperties;
 }) {
   const dndContext = useContext(DragNDropContext);
-  let nsDragging = false;
-  let nsDeltaMousePosition = { x: 0, y: 0 };
-  const [initialCoord, setInitialCoord] = useState({ x: 0, y: 0 });
-  const draggableRef = useRef<HTMLDivElement>(null);
+  // let nsDragging = false;
+  const [deltaMousePosition, setDeltaMousePosition] = useState({ x: 0, y: 0 });
+  const [isDragged, setIsDragged] = useState(false);
+  const [mouseDown, setMouseDown] = useState(false);
+  const [style, setStyle] = useState<React.CSSProperties | undefined>(
+    initialStyle
+  );
 
-  const [style, setStyle] = useState<React.CSSProperties | undefined>();
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    nsDragging = true;
+    setMouseDown(true);
     const bounds = event.currentTarget.getBoundingClientRect();
-    nsDeltaMousePosition = {
+    setDeltaMousePosition({
       x: event.clientX - bounds.x,
       y: event.clientY - bounds.y,
-    };
+    });
   };
-  window.addEventListener("mousemove", (event) => {
-    if (nsDragging) {
-      const [x, y] = getClampedPosition(
-        event.clientX,
-        event.clientY,
-        nsDeltaMousePosition
-      );
-      /* setCoord({
-        x: x - initialCoord.x,
-        y: y - initialCoord.y,
-      }); */
-      setStyle(onDragStyle(x - initialCoord.x, y - initialCoord.y));
-    }
-  });
-  window.addEventListener("mouseup", (event) => {
-    if (nsDragging) {
-      nsDragging = false;
-      const [x, y] = getFinalDestination(event.clientX, event.clientY);
-      dndContext.onDragEnd({
-        id,
-        destination: { dayIndex: x, timeIndex: y },
-        source: "",
-      });
-      setStyle(onDropStyle);
-    }
-  });
+
+  const mouseMoveListener = useCallback(
+    (event: MouseEvent) => {
+      if (mouseDown) {
+        setIsDragged(true);
+        const currentStyle = getDraggableStyle(
+          event.clientX,
+          event.clientY,
+          deltaMousePosition
+        );
+        setStyle(currentStyle);
+      }
+    },
+    [mouseDown, deltaMousePosition]
+  );
+
+  const mouseUpListener = useCallback(
+    (event: MouseEvent) => {
+      if (isDragged) {
+        setIsDragged(false);
+        const [x, y] = getFinalDestination(event.clientX, event.clientY);
+        dndContext.onDragEnd({
+          id,
+          destination: { dayIndex: x, timeIndex: y },
+          source: "",
+        });
+        setStyle(initialStyle);
+      }
+      setMouseDown(false);
+    },
+    [isDragged, initialStyle, dndContext, id]
+  );
 
   useEffect(() => {
-    setInitialCoord({
-      x: draggableRef.current!.getBoundingClientRect().x,
-      y: draggableRef.current!.getBoundingClientRect().y,
-    });
-  }, []);
+    window.addEventListener("mousemove", mouseMoveListener);
+
+    return () => {
+      window.removeEventListener("mousemove", mouseMoveListener);
+    };
+  }, [mouseMoveListener]);
+
+  useEffect(() => {
+    window.addEventListener("mouseup", mouseUpListener);
+    return () => {
+      window.removeEventListener("mouseup", mouseUpListener);
+    };
+  }, [mouseUpListener]);
 
   return (
-    <div
-      ref={draggableRef}
-      style={{ ...style, backgroundColor: backgroundColor }}
-      className={`${styles.card} ${className}`}
-      onMouseDown={onMouseDown}
-    >
-      {children}
-    </div>
+    <>
+      <div
+        style={{ ...style, backgroundColor: backgroundColor }}
+        className={styles.card}
+        onMouseDown={onMouseDown}
+      >
+        {children}
+      </div>
+      <div
+        className={styles.card}
+        style={{
+          ...initialStyle,
+          display: isDragged ? "" : "none",
+          opacity: 0.5,
+        }}
+        onMouseDown={onMouseDown}
+      >
+        {children}
+      </div>
+    </>
   );
 }
