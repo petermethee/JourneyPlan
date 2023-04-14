@@ -3,14 +3,16 @@ import { CSSProperties } from "react";
 export const onDragOverSideDataStyle = (
   x: number,
   y: number,
-  width: number
+  width: number,
+  height: number
 ): CSSProperties => {
   return {
-    position: "absolute",
+    position: "relative",
     top: y,
     left: x,
     transition: "all 300ms, top 0s, left 0s",
     width,
+    height,
   };
 };
 
@@ -28,12 +30,16 @@ export const onDragOverCalendarStyle = (
   };
 };
 
-export const sideDraggableStyle = (width: number): CSSProperties => {
+export const sideDraggableStyle = (
+  width: number,
+  height: number
+): CSSProperties => {
   return {
     position: "relative",
     top: 0,
     left: 0,
     width,
+    height,
   };
 };
 export const calendarDraggableStyle = (

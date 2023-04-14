@@ -27,7 +27,12 @@ export const getDraggableStyle = (
   if (x < offset) {
     const clampedX = x - deltaMousePosition.x;
     const clampedY = y - deltaMousePosition.y;
-    style = onDragOverSideDataStyle(clampedX, clampedY, sideDataDraggableWidth);
+    style = onDragOverSideDataStyle(
+      clampedX,
+      clampedY,
+      sideDataDraggableWidth,
+      sideDataDraggableHeight
+    );
   } else {
     const clampedX =
       Math.floor((x - offset) / columnWidth) * columnWidth + offset;

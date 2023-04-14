@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import styles from "./DraggableCardView.module.css";
@@ -25,8 +26,9 @@ export default function DraggableCardView({
   index: number;
   initialStyle: CSSProperties;
 }) {
+  const draggableRef = useRef<HTMLDivElement>(null);
   const dndContext = useContext(DragNDropContext);
-  // let nsDragging = false;
+  const [ghostPosition, setGhostPosition] = useState({ x: 0, y: 0 });
   const [deltaMousePosition, setDeltaMousePosition] = useState({ x: 0, y: 0 });
   const [isDragged, setIsDragged] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
@@ -37,10 +39,9 @@ export default function DraggableCardView({
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     setMouseDown(true);
-    const bounds = event.currentTarget.getBoundingClientRect();
     setDeltaMousePosition({
-      x: event.clientX - bounds.x,
-      y: event.clientY - bounds.y,
+      x: event.clientX,
+      y: event.clientY,
     });
   };
 
@@ -91,21 +92,32 @@ export default function DraggableCardView({
     };
   }, [mouseUpListener]);
 
+  useEffect(() => {
+    setGhostPosition({
+      x: draggableRef.current!.offsetLeft,
+      y: draggableRef.current!.offsetTop,
+    });
+  }, []);
   return (
     <>
       <div
+        ref={draggableRef}
         style={{ ...style, backgroundColor: backgroundColor }}
         className={styles.card}
         onMouseDown={onMouseDown}
       >
         {children}
       </div>
+
       <div
         className={styles.card}
         style={{
           ...initialStyle,
           display: isDragged ? "" : "none",
           opacity: 0.5,
+          position: "absolute",
+          left: ghostPosition.x,
+          top: ghostPosition.y,
         }}
         onMouseDown={onMouseDown}
       >
