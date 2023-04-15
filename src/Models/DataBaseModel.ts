@@ -26,6 +26,7 @@ export enum ActivitiesTable {
   location = "location",
   attachment = "attachment",
   contraint = "contraint",
+  used = "used",
 }
 
 export enum TransportsTable {

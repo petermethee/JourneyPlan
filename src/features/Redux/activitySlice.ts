@@ -60,11 +60,20 @@ export const activitySlice = createSlice({
       state: ActivityState,
       action: PayloadAction<IActivity[]>
     ) => {
-      state.activities = action.payload;
+      // state.activities = action.payload;
+      state.activities = mockedActivities;
     },
     deleteActivity: (state: ActivityState, action: PayloadAction<number>) => {
       state.activities = state.activities.filter(
         (activity) => activity.id !== action.payload
+      );
+    },
+    setUsedActivities: (
+      state: ActivityState,
+      action: PayloadAction<number>
+    ) => {
+      state.activities = state.activities.map((activity) =>
+        activity.id === action.payload ? { ...activity, used: true } : activity
       );
     },
   },
@@ -79,7 +88,7 @@ export const activitySlice = createSlice({
   },
 });
 
-// export const {} = activitySlice.actions;
+export const { setUsedActivities } = activitySlice.actions;
 
 export const selectActivities = (state: RootState) =>
   state.activitiesReducer.activities;

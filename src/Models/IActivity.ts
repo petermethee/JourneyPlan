@@ -11,4 +11,5 @@ export default interface IActivity {
   [ActivitiesTable.location]: string;
   [ActivitiesTable.attachment]: string;
   [ActivitiesTable.contraint]: string;
+  [ActivitiesTable.used]: boolean;
 }

@@ -17,9 +17,12 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
     const nColMax = Math.floor(totalWidth / minColWidth);
     const nCol = Math.max(Math.min(dayCols.length, nColMax), 1);
     const initColWidth = totalWidth / nCol - 1; //1 pour 1px de bordure droite
-    initPlanningDimensions(initColWidth);
+    initPlanningDimensions(
+      initColWidth,
+      dayCols.map((day) => day.id)
+    );
     setColWidth(initColWidth);
-  }, []);
+  }, [dayCols]);
 
   return (
     <div className={styles.calendarContainer} ref={calendarRef}>
@@ -31,6 +34,7 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
         >
           {dayCol.planningActivities.map((PA) => (
             <DraggableCardView
+              key={PA.id}
               id={PA.activity.id}
               duration={PA.activity.duration}
               containerStyle={calendarDragContainerStyle(
@@ -38,6 +42,7 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                 PA.activity.duration * cellHeight,
                 PA.timeIndex * cellHeight
               )}
+              source={{ colId: dayCol.id, timeIndex: PA.timeIndex }}
             >
               <div>{PA.activity.name}</div>
             </DraggableCardView>

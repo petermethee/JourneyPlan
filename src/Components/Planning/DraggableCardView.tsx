@@ -11,22 +11,27 @@ import {
   getDraggableStyle,
   getFinalDestination,
 } from "../../DnDCustomLib/CalendarDimensionsHelper";
-import { DragNDropContext } from "../../DnDCustomLib/DnDContext";
+import {
+  DragNDropContext,
+  TDroppableInfo,
+} from "../../DnDCustomLib/DnDContext";
 
 export default function DraggableCardView({
   children,
-  backgroundColor = "#ffffff6e",
   id,
   duration,
   containerStyle,
+  source,
   className,
+  sideDataUsed,
 }: {
   children: JSX.Element | JSX.Element[];
-  backgroundColor?: string;
   id: number;
   duration: number;
   containerStyle: CSSProperties;
+  source: TDroppableInfo;
   className?: string;
+  sideDataUsed?: boolean;
 }) {
   const draggableRef = useRef<HTMLDivElement>(null);
   const dndContext = useContext(DragNDropContext);
@@ -68,17 +73,20 @@ export default function DraggableCardView({
     (event: MouseEvent) => {
       if (isDragged) {
         setIsDragged(false);
-        const [x, y] = getFinalDestination(event.clientX, event.clientY);
+        const [colId, timeIndex] = getFinalDestination(
+          event.clientX,
+          event.clientY
+        );
         dndContext.onDragEnd({
-          id,
-          destination: { dayIndex: x, timeIndex: y },
-          source: "",
+          darggableId: id,
+          destination: { colId, timeIndex },
+          source,
         });
-        setStyle(containerStyle);
+        //setStyle({ top: 0, left: 0 });
       }
       setMouseDown(false);
     },
-    [isDragged, containerStyle, dndContext, id]
+    [isDragged, dndContext, id, source]
   );
 
   useEffect(() => {
@@ -103,7 +111,7 @@ export default function DraggableCardView({
       style={containerStyle}
     >
       <div
-        style={{ ...style, backgroundColor: backgroundColor }}
+        style={style}
         className={`${styles.card} ${className}`}
         onMouseDown={onMouseDown}
       >
@@ -113,6 +121,7 @@ export default function DraggableCardView({
       <div
         className={`${styles.card} ${styles.ghost} ${className}`}
         style={{
+          position: "initial",
           display: isDragged ? "" : "none",
         }}
         onMouseDown={onMouseDown}

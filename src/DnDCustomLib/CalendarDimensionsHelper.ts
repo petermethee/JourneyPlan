@@ -1,3 +1,4 @@
+import { SIDE_DATA_COL_ID } from "../Components/Planning/SideData";
 import {
   onDragOverCalendarStyle,
   onDragOverSideDataStyle,
@@ -15,9 +16,14 @@ document.documentElement.style.setProperty(
   sideDataDraggableWidth + "px"
 );
 let columnWidth: number;
+let colId: string[];
 
-export const initPlanningDimensions = (initColWidth: number) => {
+export const initPlanningDimensions = (
+  initColWidth: number,
+  initColId: string[]
+) => {
   columnWidth = initColWidth;
+  colId = initColId;
 };
 
 export const getDraggableStyle = (
@@ -50,13 +56,13 @@ export const getDraggableStyle = (
   return style;
 };
 
-export const getFinalDestination = (x: number, y: number): [number, number] => {
-  const row = Math.floor(y / cellHeight);
+export const getFinalDestination = (x: number, y: number): [string, number] => {
+  const timeIndex = Math.floor(y / cellHeight);
 
   if (x < offset) {
-    return [-1, row];
+    return [SIDE_DATA_COL_ID, timeIndex];
   } else {
-    const col = Math.floor((x - offset) / columnWidth);
-    return [col, row];
+    const colIndex = Math.floor((x - offset) / columnWidth);
+    return [colId[colIndex], timeIndex];
   }
 };

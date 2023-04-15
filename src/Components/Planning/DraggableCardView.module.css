@@ -1,5 +1,6 @@
 .draggableContainer {
   position: relative;
+  transition: 300ms;
 }
 
 .card {
@@ -9,8 +10,19 @@
   transition: 200ms;
   width: 100%;
   height: 100%;
+  background-color: #ffffff6e;
 }
 
 .ghost {
   opacity: 0.5;
+}
+
+@keyframes ghostDisappear {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }

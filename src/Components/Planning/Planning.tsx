@@ -1,10 +1,11 @@
 import React, { createContext, useEffect, useMemo, useState } from "react";
-import SideData from "./SideData";
+import SideData, { SIDE_DATA_COL_ID } from "./SideData";
 import styles from "./Planning.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   getAllActivities,
   selectActivities,
+  setUsedActivities,
 } from "../../features/Redux/activitySlice";
 import { useParams } from "react-router-dom";
 import CalendarView from "./CalendarView";
@@ -30,9 +31,6 @@ export default function Planning() {
   const [planningActivities, setPlanningActivities] = useState<
     IPlanningAvtivity[]
   >([]);
-  const [unusedActivities, setUnusedActivities] = useState(activities);
-
-  const [usedActivities, setUsedActivities] = useState<string[]>([]);
 
   const dispatch = useAppDispatch();
 
@@ -76,40 +74,53 @@ export default function Planning() {
     return [];
   }, [selectedTrip, planningActivities, activities]);
 
-  const onDragEnd = (event: TDnDEvent) => {
-    if (event.destination.dayIndex !== -1) {
-      setUnusedActivities((prevState) =>
-        prevState.filter((act) => act.id !== event.id)
-      );
-      const activityId = event.id;
-      const date = dayCols[event.destination.dayIndex].id;
-      const timeIndex = event.destination.timeIndex;
-      const planningId = `${activityId}_${date}_${timeIndex}`;
-      setPlanningActivities((prevState) => [
-        ...prevState,
-        {
-          activityId: activityId,
-          date,
-          timeIndex,
-          id: planningId,
-        },
-      ]);
+  const onDragEnd = async (event: TDnDEvent) => {
+    console.log("event on drag end", event);
+    const { darggableId, source, destination } = event;
+    if (
+      source.colId !== destination.colId ||
+      source.timeIndex !== destination.timeIndex
+    ) {
+      if (destination.colId === SIDE_DATA_COL_ID) {
+      } else if (source.colId === SIDE_DATA_COL_ID) {
+        await dispatch(setUsedActivities(darggableId));
+
+        const date = destination.colId;
+        const timeIndex = destination.timeIndex;
+        const planningId = `${darggableId}_${date}_${timeIndex}`;
+        setPlanningActivities((prevState) => [
+          ...prevState,
+          {
+            activityId: darggableId,
+            date,
+            timeIndex,
+            id: planningId,
+          },
+        ]);
+      } else {
+        const date = destination.colId;
+        const timeIndex = destination.timeIndex;
+        const planningId = `${darggableId}_${date}_${timeIndex}`;
+        setPlanningActivities((prevState) =>
+          prevState.map((PA) =>
+            PA.activityId === darggableId
+              ? { id: planningId, activityId: darggableId, date, timeIndex }
+              : PA
+          )
+        );
+      }
     }
   };
 
   useEffect(() => {
-    //dispatch(getAllActivities(parseInt(tripId)));
+    dispatch(getAllActivities(parseInt(tripId)));
     //setPlanningActivities()
   }, [dispatch, tripId]);
-
-  useEffect(() => {
-    setUnusedActivities(activities);
-  }, [activities]);
 
   return (
     <div className={styles.mainContainer}>
       <DragNDropContext.Provider value={{ onDragEnd: onDragEnd }}>
-        <SideData unusedActivities={unusedActivities} />
+        <SideData />
         <CalendarView dayCols={dayCols} />
       </DragNDropContext.Provider>
     </div>

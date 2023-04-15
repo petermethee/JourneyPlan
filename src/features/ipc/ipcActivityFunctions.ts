@@ -3,8 +3,8 @@ import IActivity from "../../Models/IActivity";
 export const getAllActivitiesAPI = (tripId: number) => {
   return new Promise<IActivity[]>(async (resolve, reject) => {
     try {
-      const activitis = await window.electronAPI.getAllActivities(tripId);
-      resolve(activitis);
+      const activities = await window.electronAPI.getAllActivities(tripId);
+      resolve(activities);
     } catch (error) {
       reject(error);
     }

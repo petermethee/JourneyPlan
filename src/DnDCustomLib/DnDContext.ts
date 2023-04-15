@@ -1,9 +1,10 @@
 import { createContext } from "react";
 
+export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
-  id: number;
-  source: string;
-  destination: { dayIndex: number; timeIndex: number };
+  darggableId: number;
+  source: TDroppableInfo;
+  destination: TDroppableInfo;
 };
 export const DragNDropContext = createContext({
   onDragEnd: (event: TDnDEvent) => {},

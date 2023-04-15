@@ -27,8 +27,8 @@ export const onDragOverCalendarStyle = (
   };
 };
 
-export const sideDataDragContainerStyle = (width: number) => {
-  return { width, height: "100px" };
+export const sideDataDragContainerStyle = (width: number, used: boolean) => {
+  return { width, height: used ? 0 : "100px" };
 };
 export const calendarDragContainerStyle = (
   width: number,
