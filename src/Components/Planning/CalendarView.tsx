@@ -18,7 +18,7 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
     const nCol = Math.max(Math.min(dayCols.length, nColMax), 1);
     const initColWidth = totalWidth / nCol - 1; //1 pour 1px de bordure droite
     initPlanningDimensions(
-      initColWidth,
+      initColWidth + 1, //1 pour 1px de bordure droite
       dayCols.map((day) => day.id)
     );
     setColWidth(initColWidth);

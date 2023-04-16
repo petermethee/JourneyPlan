@@ -22,13 +22,18 @@ export const onDragOverCalendarStyle = (
     left: x,
     width,
     height,
-    boxShadow: "none",
+    boxShadow: "0px 0px 6px 0px #00000060",
     borderRadius: 0,
+    transform: "scale(0.95)",
   };
 };
 
-export const sideDataDragContainerStyle = (width: number, used: boolean) => {
-  return { width, height: used ? 0 : "100px" };
+export const sideDataDragContainerStyle = (width: number): CSSProperties => {
+  return {
+    position: "relative",
+    width,
+    height: "100px",
+  };
 };
 export const calendarDragContainerStyle = (
   width: number,
@@ -36,6 +41,7 @@ export const calendarDragContainerStyle = (
   top: number
 ): CSSProperties => {
   return {
+    position: "absolute",
     width,
     height,
     top,

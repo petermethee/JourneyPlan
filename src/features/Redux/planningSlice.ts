@@ -3,6 +3,7 @@ import IPlanningAvtivity from "../../Models/IPlanningActivity";
 
 import { RootState } from "../../app/store";
 import { AlertColor } from "@mui/material";
+import IActivity from "../../Models/IActivity";
 
 interface PlanningState {
   planningActivities: IPlanningAvtivity[];
@@ -17,13 +18,14 @@ const initialState: PlanningState = {
   snackbarStatus: { message: "" },
 };
 
-/* export const getAllPlannings = createAsyncThunk(
+export const getPlanning = createAsyncThunk(
   "getAllPlannings",
   async (tripId: number) => {
-    return await getAllPlanningsAPI(tripId);
+    // return await getAllPlanningsAPI(tripId);
+    return [];
   }
 );
-
+/*
 export const insertPlanning = createAsyncThunk(
   "insertPlanning",
   async (planning: IPlanningAvtivity) => {
@@ -61,19 +63,35 @@ export const planningSlice = createSlice({
         (planning) => planning.id !== action.payload
       );
     },
+    addArtefact: (
+      state: PlanningState,
+      action: PayloadAction<IPlanningAvtivity>
+    ) => {
+      state.planningActivities = [...state.planningActivities, action.payload];
+    },
+    moveArtefact: (
+      state: PlanningState,
+      action: PayloadAction<IPlanningAvtivity>
+    ) => {
+      const { activityId } = action.payload;
+      state.planningActivities = state.planningActivities.map((PA) =>
+        PA.activityId === activityId ? action.payload : PA
+      );
+    },
   },
-  /*   extraReducers(builder) {
+  extraReducers(builder) {
     builder
-      .addCase(getAllPlannings.fulfilled, (state, action) => {
+      .addCase(getPlanning.fulfilled, (state, action) => {
         planningSlice.caseReducers.setAllPlannings(state, action);
       })
-      .addCase(getAllPlannings.rejected, (state, action) => {
+      .addCase(getPlanning.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
             "Erreur lors de la lecture des voyages: " + action.error.message!,
           snackBarSeverity: "error",
         };
-      })
+      });
+    /*
       .addCase(insertPlanning.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
@@ -96,11 +114,11 @@ export const planningSlice = createSlice({
             "Erreur lors de la supression du voyage: " + action.error.message!,
           snackBarSeverity: "error",
         };
-      });
-  }, */
+      }); */
+  },
 });
 
-// export const {} = planningSlice.actions;
+export const { addArtefact, moveArtefact } = planningSlice.actions;
 
 export const selectPlanningActivities = (state: RootState) =>
   state.planningReducer.planningActivities;

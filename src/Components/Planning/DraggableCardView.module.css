@@ -1,13 +1,13 @@
 .draggableContainer {
-  position: relative;
   transition: 300ms;
+  z-index: 10;
 }
 
 .card {
   position: absolute;
   top: 0;
   left: 0;
-  transition: 200ms;
+  transition: all 300ms, top 200ms, left 200ms;
   width: 100%;
   height: 100%;
   background-color: #ffffff6e;
@@ -15,14 +15,37 @@
 
 .ghost {
   opacity: 0.5;
+  overflow: hidden;
 }
 
-@keyframes ghostDisappear {
+@keyframes sideDataDisappearAnim {
   0% {
-    opacity: 0.5;
+    margin-bottom: 0;
+  }
+
+  100% {
+    height: 0;
+    margin-bottom: -20px;
+  }
+}
+
+@keyframes calendarDisappear {}
+
+/* impotant to triger end drag at the end of animation */
+
+
+@keyframes ghostDisappearAnim {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+
   }
 
   100% {
     opacity: 0;
+
+    transform: scale(0.6);
+
+
   }
 }

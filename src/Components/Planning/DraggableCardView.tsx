@@ -11,10 +11,18 @@ import {
   getDraggableStyle,
   getFinalDestination,
 } from "../../DnDCustomLib/CalendarDimensionsHelper";
-import {
-  DragNDropContext,
-  TDroppableInfo,
-} from "../../DnDCustomLib/DnDContext";
+import { SIDE_DATA_COL_ID } from "./SideData";
+import { useAppDispatch } from "../../app/hooks";
+import { setUsedActivities } from "../../features/Redux/activitySlice";
+import { addArtefact, moveArtefact } from "../../features/Redux/planningSlice";
+import { calendarDragContainerStyle } from "../../DnDCustomLib/DraggableCSS";
+
+export type TDroppableInfo = { colId: string; timeIndex: number };
+export type TDnDEvent = {
+  darggableId: number;
+  source: TDroppableInfo;
+  destination: TDroppableInfo;
+};
 
 export default function DraggableCardView({
   children,
@@ -33,12 +41,52 @@ export default function DraggableCardView({
   className?: string;
   sideDataUsed?: boolean;
 }) {
+  const dispatch = useAppDispatch();
   const draggableRef = useRef<HTMLDivElement>(null);
-  const dndContext = useContext(DragNDropContext);
   const [deltaMousePosition, setDeltaMousePosition] = useState({ x: 0, y: 0 });
   const [isDragged, setIsDragged] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
   const [style, setStyle] = useState<React.CSSProperties | undefined>();
+  const [willDisappearAnim, setWillDisappearAnim] = useState<
+    "ghost" | "container" | undefined
+  >(undefined);
+  const [destination, setDestination] = useState<TDroppableInfo>(source);
+
+  const onDragEnd = (event: TDnDEvent) => {
+    console.log("event on drag end", event);
+    const { darggableId, source, destination } = event;
+    if (
+      source.colId !== destination.colId ||
+      source.timeIndex !== destination.timeIndex
+    ) {
+      if (destination.colId === SIDE_DATA_COL_ID) {
+      } else if (source.colId === SIDE_DATA_COL_ID) {
+        const date = destination.colId;
+        const timeIndex = destination.timeIndex;
+        const planningId = `${darggableId}_${date}_${timeIndex}`;
+        dispatch(
+          addArtefact({
+            activityId: darggableId,
+            date,
+            timeIndex,
+            id: planningId,
+          })
+        );
+      } else {
+        const date = destination.colId;
+        const timeIndex = destination.timeIndex;
+        const planningId = `${darggableId}_${date}_${timeIndex}`;
+        dispatch(
+          moveArtefact({
+            id: planningId,
+            activityId: darggableId,
+            date,
+            timeIndex,
+          })
+        );
+      }
+    }
+  };
 
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -77,18 +125,37 @@ export default function DraggableCardView({
           event.clientX,
           event.clientY
         );
-        dndContext.onDragEnd({
-          darggableId: id,
-          destination: { colId, timeIndex },
-          source,
-        });
-        //setStyle({ top: 0, left: 0 });
+
+        if (colId !== SIDE_DATA_COL_ID) {
+          setWillDisappearAnim(
+            source.colId === SIDE_DATA_COL_ID ? "container" : "ghost"
+          );
+
+          setDestination({ colId, timeIndex });
+          setStyle((prevState) => {
+            return {
+              ...prevState,
+              boxShadow: "none",
+              transform: "scale(1)",
+            };
+          });
+        } else {
+          setStyle({ top: 0, left: 0 });
+        }
       }
       setMouseDown(false);
     },
-    [isDragged, dndContext, id, source]
+    [isDragged, id, source]
   );
 
+  const onAnimationEnd = () => {
+    dispatch(setUsedActivities(id));
+    onDragEnd({
+      darggableId: id,
+      destination: destination,
+      source,
+    });
+  };
   useEffect(() => {
     window.addEventListener("mousemove", mouseMoveListener);
 
@@ -108,7 +175,17 @@ export default function DraggableCardView({
     <div
       ref={draggableRef}
       className={styles.draggableContainer}
-      style={containerStyle}
+      style={{
+        ...containerStyle,
+        animation: willDisappearAnim
+          ? `${
+              willDisappearAnim === "container"
+                ? styles.sideDataDisappearAnim
+                : styles.calendarDisappear
+            } 300ms ease-out forwards`
+          : "none",
+      }}
+      onAnimationEnd={onAnimationEnd}
     >
       <div
         style={style}
@@ -122,7 +199,11 @@ export default function DraggableCardView({
         className={`${styles.card} ${styles.ghost} ${className}`}
         style={{
           position: "initial",
-          display: isDragged ? "" : "none",
+          display: isDragged || willDisappearAnim === "ghost" ? "" : "none",
+          animation:
+            willDisappearAnim === "ghost"
+              ? `${styles.ghostDisappearAnim} 300ms ease-out forwards`
+              : "none",
         }}
         onMouseDown={onMouseDown}
       >
