@@ -1,11 +1,27 @@
 .calendarContainer {
-    background-color: yellowgreen;
+    background-color: #fff;
     display: flex;
     flex: 1;
     overflow: auto;
 }
 
+.calendarContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.relativeContainer {
+    position: relative;
+    display: flex;
+    flex: 1;
+}
+
 .dayContainer {
-    height: 100%;
+    height: fit-content;
     border-right: 1px solid #dadce0;
+}
+
+.timeGrid {
+    height: calc(var(--cellHeight) - 1px);
+    width: 100%;
+    border-bottom: 1px dashed #dadce0;
 }

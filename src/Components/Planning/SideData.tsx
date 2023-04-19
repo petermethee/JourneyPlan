@@ -1,12 +1,15 @@
 import DraggableCardView from "./DraggableCardView";
 import styles from "./SideData.module.css";
 import { sideDataDragContainerStyle } from "../../DnDCustomLib/DraggableCSS";
-import { sideDataDraggableWidth } from "../../DnDCustomLib/CalendarDimensionsHelper";
+import {
+  getDraggableSideDataStyle,
+  sideDataDraggableWidth,
+} from "../../DnDCustomLib/CalendarDimensionsHelper";
 import { useAppSelector } from "../../app/hooks";
 import { selectActivities } from "../../features/Redux/activitySlice";
 
 export const SIDE_DATA_COL_ID = "sideDataDropId";
-export default function SideData() {
+export default function SideData({ scrollYOffset }: { scrollYOffset: number }) {
   const activities = useAppSelector(selectActivities);
   return (
     <div className={styles.sideDataContainer}>
@@ -18,8 +21,10 @@ export default function SideData() {
             id={activity.id}
             containerStyle={sideDataDragContainerStyle(sideDataDraggableWidth)}
             duration={activity.duration}
-            className={styles.card}
+            shwoCaseClass={styles.showcaseSideData}
             source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
+            scrollYOffset={scrollYOffset}
+            getDraggableStyle={getDraggableSideDataStyle}
           >
             <div>{activity.name}</div>
           </DraggableCardView>

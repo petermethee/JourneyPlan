@@ -1,0 +1,11 @@
+.container {
+    background-color: aliceblue;
+    height: fit-content;
+}
+
+.hourLabel {
+    height: calc(var(--cellHeight) - 1px);
+    width: var(--hoursLabelWidth);
+    text-align: center;
+    border-bottom: 1px solid #000;
+}

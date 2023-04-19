@@ -5,16 +5,24 @@ import {
 } from "./DraggableCSS";
 
 export const minColWidth = 100;
-export const cellHeight = 50;
+export const cellHeight = 100;
+export const sideDataWidth = 220;
 export const sideDataDraggableWidth = 200;
 export const sideDataDraggableHeight = 100;
-export const hourLabelWidth = 0;
-const offset = hourLabelWidth + sideDataDraggableWidth + 20;
+export const hoursLabelWidth = 30;
+const offset = hoursLabelWidth + sideDataDraggableWidth + 20;
 
 document.documentElement.style.setProperty(
-  "--sideDataDraggableWidth",
-  sideDataDraggableWidth + "px"
+  "--sideDataWidth",
+  sideDataWidth + "px"
 );
+document.documentElement.style.setProperty(
+  "--hoursLabelWidth",
+  hoursLabelWidth + "px"
+);
+
+document.documentElement.style.setProperty("--cellHeight", cellHeight + "px");
+
 let columnWidth: number;
 let colId: string[];
 
@@ -26,25 +34,27 @@ export const initPlanningDimensions = (
   colId = initColId;
 };
 
-export const getDraggableStyle = (
+export const getDraggableCalendarStyle = (
   x: number,
   y: number,
   deltaMousePosition: { x: number; y: number },
-  parentCoord: { x: number; y: number },
-  duration: number
+  dragContainerCoord: { x: number; y: number },
+  duration: number,
+  scrollYOffset: number
 ) => {
   let style;
 
   if (x < offset) {
     const newX = x - deltaMousePosition.x;
-    const newY = y - deltaMousePosition.y;
+    const newY = y - deltaMousePosition.y + scrollYOffset;
     style = onDragOverSideDataStyle(newX, newY);
   } else {
     const clampedX =
       Math.floor((x - offset) / columnWidth) * columnWidth +
-      offset -
-      parentCoord.x;
-    const clampedY = Math.floor(y / cellHeight) * cellHeight - parentCoord.y;
+      -dragContainerCoord.x;
+    const clampedY =
+      Math.floor((y + scrollYOffset) / cellHeight) * cellHeight -
+      dragContainerCoord.y;
     style = onDragOverCalendarStyle(
       clampedX,
       clampedY,
@@ -53,6 +63,41 @@ export const getDraggableStyle = (
     );
   }
 
+  return style;
+};
+
+export const getDraggableSideDataStyle = (
+  x: number,
+  y: number,
+  deltaMousePosition: { x: number; y: number },
+  dragContainerCoord: { x: number; y: number },
+  duration: number,
+  scrollYOffset: number
+) => {
+  let style;
+
+  const scrollAdjust = scrollYOffset % cellHeight;
+
+  if (x < offset) {
+    const newX = x - deltaMousePosition.x;
+    const newY = y - deltaMousePosition.y;
+    style = onDragOverSideDataStyle(newX, newY);
+  } else {
+    const clampedX =
+      Math.floor((x - offset) / columnWidth) * columnWidth +
+      -dragContainerCoord.x +
+      offset;
+    const clampedY =
+      Math.floor((y + scrollAdjust) / cellHeight) * cellHeight -
+      dragContainerCoord.y -
+      scrollAdjust;
+    style = onDragOverCalendarStyle(
+      clampedX,
+      clampedY,
+      columnWidth,
+      cellHeight * duration
+    );
+  }
   return style;
 };
 

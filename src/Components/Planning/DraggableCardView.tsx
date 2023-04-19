@@ -1,21 +1,16 @@
 import React, {
   CSSProperties,
   useCallback,
-  useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
 import styles from "./DraggableCardView.module.css";
-import {
-  getDraggableStyle,
-  getFinalDestination,
-} from "../../DnDCustomLib/CalendarDimensionsHelper";
+import { getFinalDestination } from "../../DnDCustomLib/CalendarDimensionsHelper";
 import { SIDE_DATA_COL_ID } from "./SideData";
 import { useAppDispatch } from "../../app/hooks";
 import { setUsedActivities } from "../../features/Redux/activitySlice";
 import { addArtefact, moveArtefact } from "../../features/Redux/planningSlice";
-import { calendarDragContainerStyle } from "../../DnDCustomLib/DraggableCSS";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
@@ -30,16 +25,25 @@ export default function DraggableCardView({
   duration,
   containerStyle,
   source,
-  className,
-  sideDataUsed,
+  scrollYOffset,
+  getDraggableStyle,
+  shwoCaseClass,
 }: {
   children: JSX.Element | JSX.Element[];
   id: number;
   duration: number;
   containerStyle: CSSProperties;
   source: TDroppableInfo;
-  className?: string;
-  sideDataUsed?: boolean;
+  scrollYOffset: number;
+  getDraggableStyle: (
+    x: number,
+    y: number,
+    deltaMousePosition: { x: number; y: number },
+    dragContainerCoord: { x: number; y: number },
+    duration: number,
+    scrollYOffset: number
+  ) => CSSProperties;
+  shwoCaseClass?: string;
 }) {
   const dispatch = useAppDispatch();
   const draggableRef = useRef<HTMLDivElement>(null);
@@ -48,7 +52,7 @@ export default function DraggableCardView({
   const [mouseDown, setMouseDown] = useState(false);
   const [style, setStyle] = useState<React.CSSProperties | undefined>();
   const [willDisappearAnim, setWillDisappearAnim] = useState<
-    "ghost" | "container" | undefined
+    "calendarStyle" | "sideDataStyle" | undefined
   >(undefined);
   const [destination, setDestination] = useState<TDroppableInfo>(source);
 
@@ -109,12 +113,13 @@ export default function DraggableCardView({
             x: draggableRef.current!.offsetLeft,
             y: draggableRef.current!.offsetTop,
           },
-          duration
+          duration,
+          scrollYOffset
         );
         setStyle(currentStyle);
       }
     },
-    [mouseDown, deltaMousePosition, duration]
+    [mouseDown, deltaMousePosition, duration, scrollYOffset, getDraggableStyle]
   );
 
   const mouseUpListener = useCallback(
@@ -128,7 +133,9 @@ export default function DraggableCardView({
 
         if (colId !== SIDE_DATA_COL_ID) {
           setWillDisappearAnim(
-            source.colId === SIDE_DATA_COL_ID ? "container" : "ghost"
+            source.colId === SIDE_DATA_COL_ID
+              ? "sideDataStyle"
+              : "calendarStyle"
           );
 
           setDestination({ colId, timeIndex });
@@ -137,6 +144,7 @@ export default function DraggableCardView({
               ...prevState,
               boxShadow: "none",
               transform: "scale(1)",
+              borderRadius: 0,
             };
           });
         } else {
@@ -145,7 +153,7 @@ export default function DraggableCardView({
       }
       setMouseDown(false);
     },
-    [isDragged, id, source]
+    [isDragged, source]
   );
 
   const onAnimationEnd = () => {
@@ -179,7 +187,7 @@ export default function DraggableCardView({
         ...containerStyle,
         animation: willDisappearAnim
           ? `${
-              willDisappearAnim === "container"
+              willDisappearAnim === "sideDataStyle"
                 ? styles.sideDataDisappearAnim
                 : styles.calendarDisappear
             } 300ms ease-out forwards`
@@ -189,21 +197,20 @@ export default function DraggableCardView({
     >
       <div
         style={style}
-        className={`${styles.card} ${className}`}
+        className={`${styles.showcase} ${shwoCaseClass}`}
         onMouseDown={onMouseDown}
       >
         {children}
       </div>
 
       <div
-        className={`${styles.card} ${styles.ghost} ${className}`}
+        className={`${styles.ghost} ${shwoCaseClass}`}
         style={{
           position: "initial",
-          display: isDragged || willDisappearAnim === "ghost" ? "" : "none",
-          animation:
-            willDisappearAnim === "ghost"
-              ? `${styles.ghostDisappearAnim} 300ms ease-out forwards`
-              : "none",
+          display: isDragged || willDisappearAnim ? "" : "none",
+          animation: willDisappearAnim
+            ? `${styles.ghostDisappearAnim} 300ms ease-out forwards`
+            : "none",
         }}
         onMouseDown={onMouseDown}
       >

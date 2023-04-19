@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import SideData from "./SideData";
 import styles from "./Planning.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -28,7 +28,7 @@ export default function Planning() {
   const activities = useAppSelector(selectActivities);
   const selectedTrip = useAppSelector(selectCurrentTrip);
   const planningActivities = useAppSelector(selectPlanningActivities);
-
+  const [scrollY, setScrollY] = useState(0);
   const dispatch = useAppDispatch();
 
   const dayCols: TDayCol[] = useMemo(() => {
@@ -78,8 +78,12 @@ export default function Planning() {
 
   return (
     <div className={styles.mainContainer}>
-      <SideData />
-      <CalendarView dayCols={dayCols} />
+      <SideData scrollYOffset={scrollY} />
+      <CalendarView
+        dayCols={dayCols}
+        setScrollY={setScrollY}
+        scrollYOffset={scrollY}
+      />
     </div>
   );
 }
