@@ -16,12 +16,12 @@
 }
 
 .dayContainer {
-    height: fit-content;
+    height: var(--totalHeight);
     border-right: 1px solid #dadce0;
 }
 
-.timeGrid {
-    height: calc(var(--cellHeight) - 1px);
-    width: 100%;
+.hGridLine {
+    position: absolute;
     border-bottom: 1px dashed #dadce0;
+    width: 100%;
 }

@@ -1,13 +1,17 @@
 .sideDataContainer {
+    width: var(--sideDataWidth);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #414141;
+    z-index: 1;
+    box-shadow: 1px 0px 8px 0px #000000b8;
+}
+
+.subContainer {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
     align-items: center;
-    width: var(--sideDataWidth);
-    padding-top: 20px;
-    background-color: #414141;
-    z-index: 1;
-    box-shadow: 1px 0px 8px 0px #000000b8;
 }
 
 .showcaseSideData {

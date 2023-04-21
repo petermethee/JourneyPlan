@@ -12,6 +12,7 @@
   height: 100%;
   background-color: var(--darkSecondaryBlue);
   color: white;
+  border-radius: 3px;
 }
 
 .ghost {

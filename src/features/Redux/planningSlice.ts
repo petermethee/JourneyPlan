@@ -3,7 +3,6 @@ import IPlanningAvtivity from "../../Models/IPlanningActivity";
 
 import { RootState } from "../../app/store";
 import { AlertColor } from "@mui/material";
-import IActivity from "../../Models/IActivity";
 
 interface PlanningState {
   planningActivities: IPlanningAvtivity[];

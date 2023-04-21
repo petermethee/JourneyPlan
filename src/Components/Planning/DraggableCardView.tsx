@@ -19,16 +19,7 @@ export type TDnDEvent = {
   destination: TDroppableInfo;
 };
 
-export default function DraggableCardView({
-  children,
-  id,
-  duration,
-  containerStyle,
-  source,
-  scrollYOffset,
-  getDraggableStyle,
-  shwoCaseClass,
-}: {
+type TDraggableProps = {
   children: JSX.Element | JSX.Element[];
   id: number;
   duration: number;
@@ -44,16 +35,26 @@ export default function DraggableCardView({
     scrollYOffset: number
   ) => CSSProperties;
   shwoCaseClass?: string;
-}) {
+  disappearAnim: string;
+};
+export default function DraggableCardView({
+  children,
+  id,
+  duration,
+  containerStyle,
+  source,
+  scrollYOffset,
+  getDraggableStyle,
+  shwoCaseClass,
+  disappearAnim,
+}: TDraggableProps) {
   const dispatch = useAppDispatch();
   const draggableRef = useRef<HTMLDivElement>(null);
   const [deltaMousePosition, setDeltaMousePosition] = useState({ x: 0, y: 0 });
   const [isDragged, setIsDragged] = useState(false);
   const [mouseDown, setMouseDown] = useState(false);
   const [style, setStyle] = useState<React.CSSProperties | undefined>();
-  const [willDisappearAnim, setWillDisappearAnim] = useState<
-    "calendarStyle" | "sideDataStyle" | undefined
-  >(undefined);
+  const [willDisappear, setWillDisappear] = useState(false);
   const [destination, setDestination] = useState<TDroppableInfo>(source);
 
   const onDragEnd = (event: TDnDEvent) => {
@@ -128,23 +129,22 @@ export default function DraggableCardView({
         setIsDragged(false);
         const [colId, timeIndex] = getFinalDestination(
           event.clientX,
-          event.clientY
+          event.clientY,
+          scrollYOffset
         );
 
-        if (colId !== SIDE_DATA_COL_ID) {
-          setWillDisappearAnim(
-            source.colId === SIDE_DATA_COL_ID
-              ? "sideDataStyle"
-              : "calendarStyle"
-          );
-
+        if (
+          colId !== SIDE_DATA_COL_ID &&
+          (colId !== source.colId || timeIndex !== source.timeIndex)
+        ) {
+          setWillDisappear(true);
           setDestination({ colId, timeIndex });
           setStyle((prevState) => {
             return {
               ...prevState,
               boxShadow: "none",
               transform: "scale(1)",
-              borderRadius: 0,
+              borderRadius: 3,
             };
           });
         } else {
@@ -153,7 +153,7 @@ export default function DraggableCardView({
       }
       setMouseDown(false);
     },
-    [isDragged, source]
+    [isDragged, scrollYOffset, source]
   );
 
   const onAnimationEnd = () => {
@@ -185,12 +185,8 @@ export default function DraggableCardView({
       className={styles.draggableContainer}
       style={{
         ...containerStyle,
-        animation: willDisappearAnim
-          ? `${
-              willDisappearAnim === "sideDataStyle"
-                ? styles.sideDataDisappearAnim
-                : styles.calendarDisappear
-            } 300ms ease-out forwards`
+        animation: willDisappear
+          ? `${disappearAnim} 300ms ease-out forwards`
           : "none",
       }}
       onAnimationEnd={onAnimationEnd}
@@ -207,8 +203,8 @@ export default function DraggableCardView({
         className={`${styles.ghost} ${shwoCaseClass}`}
         style={{
           position: "initial",
-          display: isDragged || willDisappearAnim ? "" : "none",
-          animation: willDisappearAnim
+          display: isDragged || willDisappear ? "" : "none",
+          animation: willDisappear
             ? `${styles.ghostDisappearAnim} 300ms ease-out forwards`
             : "none",
         }}

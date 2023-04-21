@@ -49,15 +49,19 @@ export default function CalendarView({
     >
       <HoursLabel />
       <div className={styles.relativeContainer} ref={calendarRef}>
+        {getHours().map((hour, index) => (
+          <div
+            style={{ top: cellHeight * index }}
+            key={hour}
+            className={styles.hGridLine}
+          />
+        ))}
         {dayCols.map((dayCol) => (
           <div
             key={dayCol.id}
             className={styles.dayContainer}
             style={{ minWidth: colWidth }}
           >
-            {getHours().map((hour) => (
-              <div key={hour} className={styles.timeGrid} />
-            ))}
             {dayCol.planningActivities.map((PA) => (
               <DraggableCardView
                 key={PA.id}
@@ -71,6 +75,7 @@ export default function CalendarView({
                 source={{ colId: dayCol.id, timeIndex: PA.timeIndex }}
                 scrollYOffset={scrollYOffset}
                 getDraggableStyle={getDraggableCalendarStyle}
+                disappearAnim={""}
               >
                 <div>{PA.activity.name}</div>
               </DraggableCardView>

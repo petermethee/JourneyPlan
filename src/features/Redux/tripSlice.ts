@@ -14,6 +14,7 @@ import {
   updateActivity,
   deleteActivity,
 } from "./activitySlice";
+import { mockedTrip } from "../../MockData/MockedTrip";
 
 interface TripState {
   trips: ITrip[];
@@ -27,7 +28,7 @@ interface TripState {
 const initialState: TripState = {
   trips: [],
   snackbarStatus: { message: "" },
-  currentTrip: undefined,
+  currentTrip: mockedTrip,
 };
 
 export const getAllTrips = createAsyncThunk("getAllTrips", async () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SideData from "./SideData";
 import styles from "./Planning.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -37,8 +37,10 @@ export default function Planning() {
         dayjs(selectedTrip!.start_date),
         dayjs(selectedTrip!.end_date),
       ];
+
       let currentDay = dateRange[0];
       const columns: TDayCol[] = [];
+
       while (currentDay < dateRange[1] && columns.length < 5) {
         const dateId = currentDay
           .locale("fr")
@@ -66,6 +68,7 @@ export default function Planning() {
         });
         currentDay = currentDay.add(1, "day");
       }
+
       return columns;
     }
     return [];

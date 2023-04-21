@@ -5,11 +5,11 @@ import {
 } from "./DraggableCSS";
 
 export const minColWidth = 100;
-export const cellHeight = 100;
+export const cellHeight = 70;
 export const sideDataWidth = 220;
 export const sideDataDraggableWidth = 200;
 export const sideDataDraggableHeight = 100;
-export const hoursLabelWidth = 30;
+export const hoursLabelWidth = 40;
 const offset = hoursLabelWidth + sideDataDraggableWidth + 20;
 
 document.documentElement.style.setProperty(
@@ -20,8 +20,11 @@ document.documentElement.style.setProperty(
   "--hoursLabelWidth",
   hoursLabelWidth + "px"
 );
-
 document.documentElement.style.setProperty("--cellHeight", cellHeight + "px");
+document.documentElement.style.setProperty(
+  "--totalHeight",
+  cellHeight * 24 + "px"
+);
 
 let columnWidth: number;
 let colId: string[];
@@ -50,15 +53,17 @@ export const getDraggableCalendarStyle = (
     style = onDragOverSideDataStyle(newX, newY);
   } else {
     const clampedX =
-      Math.floor((x - offset) / columnWidth) * columnWidth +
-      -dragContainerCoord.x;
+      Math.floor((x - offset - dragContainerCoord.x) / columnWidth) *
+      columnWidth;
+
     const clampedY =
-      Math.floor((y + scrollYOffset) / cellHeight) * cellHeight -
-      dragContainerCoord.y;
+      Math.floor((y + scrollYOffset - dragContainerCoord.y) / cellHeight) *
+      cellHeight;
+
     style = onDragOverCalendarStyle(
       clampedX,
       clampedY,
-      columnWidth,
+      columnWidth - 1,
       cellHeight * duration
     );
   }
@@ -84,25 +89,30 @@ export const getDraggableSideDataStyle = (
     style = onDragOverSideDataStyle(newX, newY);
   } else {
     const clampedX =
-      Math.floor((x - offset) / columnWidth) * columnWidth +
-      -dragContainerCoord.x +
+      Math.floor((x - offset) / columnWidth) * columnWidth -
+      dragContainerCoord.x +
       offset;
     const clampedY =
       Math.floor((y + scrollAdjust) / cellHeight) * cellHeight -
       dragContainerCoord.y -
       scrollAdjust;
+
     style = onDragOverCalendarStyle(
       clampedX,
       clampedY,
-      columnWidth,
+      columnWidth - 1,
       cellHeight * duration
     );
   }
   return style;
 };
 
-export const getFinalDestination = (x: number, y: number): [string, number] => {
-  const timeIndex = Math.floor(y / cellHeight);
+export const getFinalDestination = (
+  x: number,
+  y: number,
+  scrollYOffset: number
+): [string, number] => {
+  const timeIndex = Math.floor((y + scrollYOffset) / cellHeight);
 
   if (x < offset) {
     return [SIDE_DATA_COL_ID, timeIndex];
