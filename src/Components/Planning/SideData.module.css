@@ -1,10 +1,10 @@
 .sideDataContainer {
     width: var(--sideDataWidth);
-    padding-top: 20px;
-    padding-bottom: 20px;
     background-color: #414141;
     z-index: 1;
     box-shadow: 1px 0px 8px 0px #000000b8;
+    margin-top: 0;
+    transition: 200ms;
 }
 
 .subContainer {
@@ -12,6 +12,8 @@
     flex-direction: column;
     row-gap: 20px;
     align-items: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .showcaseSideData {
