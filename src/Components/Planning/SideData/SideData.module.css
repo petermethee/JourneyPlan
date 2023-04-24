@@ -1,8 +1,10 @@
 .sideDataContainer {
     width: var(--sideDataWidth);
     background-color: #414141;
-    z-index: 1;
     box-shadow: 1px 0px 8px 0px #000000b8;
+}
+
+.scrollContainer {
     margin-top: 0;
     transition: 200ms;
 }

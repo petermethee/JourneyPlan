@@ -7,10 +7,10 @@ import React, {
 } from "react";
 import styles from "./DraggableCardView.module.css";
 import { getFinalDestination } from "../../DnDCustomLib/CalendarDimensionsHelper";
-import { SIDE_DATA_COL_ID } from "./SideData";
 import { useAppDispatch } from "../../app/hooks";
 import { setUsedActivities } from "../../features/Redux/activitySlice";
 import { addArtefact, moveArtefact } from "../../features/Redux/planningSlice";
+import { SIDE_DATA_COL_ID } from "./SideData/SideData";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
@@ -25,14 +25,12 @@ type TDraggableProps = {
   duration: number;
   containerStyle: CSSProperties;
   source: TDroppableInfo;
-  scrollYOffset: number;
   getDraggableStyle: (
     x: number,
     y: number,
     deltaMousePosition: { x: number; y: number },
     dragContainerCoord: { x: number; y: number },
-    duration: number,
-    scrollYOffset: number
+    duration: number
   ) => CSSProperties;
   shwoCaseClass?: string;
   disappearAnim: string;
@@ -43,7 +41,6 @@ export default function DraggableCardView({
   duration,
   containerStyle,
   source,
-  scrollYOffset,
   getDraggableStyle,
   shwoCaseClass,
   disappearAnim,
@@ -114,13 +111,12 @@ export default function DraggableCardView({
             x: draggableRef.current!.offsetLeft,
             y: draggableRef.current!.offsetTop,
           },
-          duration,
-          scrollYOffset
+          duration
         );
         setStyle(currentStyle);
       }
     },
-    [mouseDown, deltaMousePosition, duration, scrollYOffset, getDraggableStyle]
+    [mouseDown, deltaMousePosition, duration, getDraggableStyle]
   );
 
   const mouseUpListener = useCallback(
@@ -129,8 +125,7 @@ export default function DraggableCardView({
         setIsDragged(false);
         const [colId, timeIndex] = getFinalDestination(
           event.clientX,
-          event.clientY,
-          scrollYOffset
+          event.clientY
         );
 
         if (
@@ -153,7 +148,7 @@ export default function DraggableCardView({
       }
       setMouseDown(false);
     },
-    [isDragged, scrollYOffset, source]
+    [isDragged, source]
   );
 
   const onAnimationEnd = () => {

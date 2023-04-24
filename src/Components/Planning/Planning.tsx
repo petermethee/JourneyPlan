@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
-import SideData from "./SideData";
+import React, { useEffect, useMemo } from "react";
 import styles from "./Planning.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -7,7 +6,7 @@ import {
   selectActivities,
 } from "../../features/Redux/activitySlice";
 import { useParams } from "react-router-dom";
-import CalendarView from "./CalendarView";
+import CalendarView from "./Calendar/CalendarView";
 import { selectCurrentTrip } from "../../features/Redux/tripSlice";
 import dayjs from "dayjs";
 import IActivity from "../../Models/IActivity";
@@ -15,10 +14,11 @@ import {
   getPlanning,
   selectPlanningActivities,
 } from "../../features/Redux/planningSlice";
+import SideData from "./SideData/SideData";
 
 type TDayActivity = { id: string; timeIndex: number; activity: IActivity };
 export type TDayCol = {
-  id: string;
+  dateId: string;
   name: string;
   planningActivities: TDayActivity[];
 };
@@ -28,7 +28,6 @@ export default function Planning() {
   const activities = useAppSelector(selectActivities);
   const selectedTrip = useAppSelector(selectCurrentTrip);
   const planningActivities = useAppSelector(selectPlanningActivities);
-  const [scrollY, setScrollY] = useState(0);
   const dispatch = useAppDispatch();
 
   const dayCols: TDayCol[] = useMemo(() => {
@@ -42,10 +41,7 @@ export default function Planning() {
       const columns: TDayCol[] = [];
 
       while (currentDay < dateRange[1] && columns.length < 5) {
-        const dateId = currentDay
-          .locale("fr")
-          .format("DD MMM YYYY")
-          .toUpperCase();
+        const dateId = currentDay.format("YYYY-MM-DD");
         const currentDayPlanningActivity = planningActivities.filter(
           (p) => p.date === dateId
         );
@@ -62,7 +58,7 @@ export default function Planning() {
           }
         );
         columns.push({
-          id: dateId,
+          dateId: dateId,
           name: dateId,
           planningActivities: dayActivities,
         });
@@ -81,12 +77,8 @@ export default function Planning() {
 
   return (
     <div className={styles.mainContainer}>
-      <SideData scrollYOffset={scrollY} />
-      <CalendarView
-        dayCols={dayCols}
-        setScrollY={setScrollY}
-        scrollYOffset={scrollY}
-      />
+      <SideData />
+      <CalendarView dayCols={dayCols} />
     </div>
   );
 }
