@@ -10,6 +10,7 @@ export const sideDataDraggableWidth = 200;
 
 const sideDataWidth = 220;
 const hoursLabelWidth = 40;
+const accomodationDropZoneHeight = 100;
 
 document.documentElement.style.setProperty(
   "--totalHeight",
@@ -24,6 +25,10 @@ document.documentElement.style.setProperty(
   hoursLabelWidth + "px"
 );
 document.documentElement.style.setProperty("--cellHeight", cellHeight + "px");
+document.documentElement.style.setProperty(
+  "--accomodationDropZoneHeight",
+  accomodationDropZoneHeight + "px"
+);
 
 let columnWidth: number;
 let colIds: string[];

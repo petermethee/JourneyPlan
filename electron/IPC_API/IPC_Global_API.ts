@@ -2,52 +2,51 @@ import { ipcMain } from "electron";
 import { Database } from "sqlite3";
 import IActivity from "../../src/Models/IActivity";
 import DatabaseAPI from "../DatabaseClass";
-import ActivitiesManager from "../Managers/ActivitiesManager";
 import { EIpcChanels } from "./EIpcChannels";
+import DataBaseManager from "../Managers/DataBaseManager";
 
 export default class IPC_API_Activity {
   dataBaseAPI: DatabaseAPI;
   db: Database;
-  activitiesManager: ActivitiesManager;
+  activitiesManager: DataBaseManager;
 
   constructor() {
     this.dataBaseAPI = new DatabaseAPI();
     this.db = this.dataBaseAPI.getDataBase();
-    this.activitiesManager = new ActivitiesManager(this.db);
+    this.activitiesManager = new DataBaseManager(this.db);
   }
 
   initIPCHandlers = () => {
-    //ACTIVITIES
-    //SELECT ACTIVITY
+    //SELECT
     ipcMain.handle(
       EIpcChanels.getAllActivities,
-      async (_event, tripId: number) => {
-        return await this.activitiesManager.getAllActivities(tripId);
+      async (_event, tableName: string, tripId: number) => {
+        return await this.activitiesManager.getAllFromTable(tableName, tripId);
       }
     );
 
-    //INSERT ACTIVITY
+    //INSERT
     ipcMain.handle(
       EIpcChanels.insertActivity,
-      async (_event, trip: Partial<IActivity>) => {
+      async (_event, tableName: string, trip: Partial<IActivity>) => {
         //trip is partial to allow id deletion
-        await this.activitiesManager.insertActivity(trip);
+        await this.activitiesManager.insertInTable(tableName, trip);
       }
     );
 
-    //UPDATE ACTIVITY
+    //UPDATE
     ipcMain.handle(
       EIpcChanels.updateActivity,
-      async (_event, trip: IActivity) => {
-        await this.activitiesManager.updateActivity(trip);
+      async (_event, tableName: string, trip: IActivity) => {
+        await this.activitiesManager.updateTable(tableName, trip);
       }
     );
 
-    //DELETE ACTIVITY
+    //DELETE
     ipcMain.handle(
       EIpcChanels.deleteActivity,
-      async (_event, tripId: number) => {
-        await this.activitiesManager.deleteActivity(tripId);
+      async (_event, tableName: string, tripId: number) => {
+        await this.activitiesManager.deleteFromTable(tableName, tripId);
       }
     );
   };

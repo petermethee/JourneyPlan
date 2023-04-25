@@ -2,6 +2,7 @@
     width: var(--sideDataWidth);
     background-color: #414141;
     box-shadow: 1px 0px 8px 0px #000000b8;
+    z-index: 1;
 }
 
 .scrollContainer {
