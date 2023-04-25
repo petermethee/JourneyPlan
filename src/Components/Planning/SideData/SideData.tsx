@@ -29,9 +29,11 @@ export default function SideData() {
       return newMarginTop;
     });
   };
+
+  const onChange = () => {};
   return (
     <div className={styles.sideDataContainer} onWheel={onWheel}>
-      <div style={{ backgroundColor: "#fff", zIndex: 10 }}>coucou</div>
+      <SideDataHeader onChange={onChange} />
       <div className={styles.scrollContainer} style={{ marginTop: marginTop }}>
         <div ref={sideDataRef} className={styles.subContainer}>
           {activities
