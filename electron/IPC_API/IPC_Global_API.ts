@@ -19,7 +19,7 @@ export default class IPC_API_Activity {
   initIPCHandlers = () => {
     //SELECT
     ipcMain.handle(
-      EIpcChanels.getAllActivities,
+      EIpcChanels.getAllItems,
       async (_event, tableName: string, tripId: number) => {
         return await this.activitiesManager.getAllFromTable(tableName, tripId);
       }
@@ -27,7 +27,7 @@ export default class IPC_API_Activity {
 
     //INSERT
     ipcMain.handle(
-      EIpcChanels.insertActivity,
+      EIpcChanels.insertItem,
       async (_event, tableName: string, trip: Partial<IActivity>) => {
         //trip is partial to allow id deletion
         await this.activitiesManager.insertInTable(tableName, trip);
@@ -36,7 +36,7 @@ export default class IPC_API_Activity {
 
     //UPDATE
     ipcMain.handle(
-      EIpcChanels.updateActivity,
+      EIpcChanels.updateItem,
       async (_event, tableName: string, trip: IActivity) => {
         await this.activitiesManager.updateTable(tableName, trip);
       }
@@ -44,7 +44,7 @@ export default class IPC_API_Activity {
 
     //DELETE
     ipcMain.handle(
-      EIpcChanels.deleteActivity,
+      EIpcChanels.deleteItem,
       async (_event, tableName: string, tripId: number) => {
         await this.activitiesManager.deleteFromTable(tableName, tripId);
       }

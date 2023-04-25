@@ -10,6 +10,7 @@ import { sideDataDragContainerStyle } from "../../../DnDCustomLib/DraggableCSS";
 import { useAppSelector } from "../../../app/hooks";
 import { selectActivities } from "../../../features/Redux/activitySlice";
 import DraggableCardView from "../DraggableCardView";
+import SideDataHeader from "./SideDataHeader";
 export const SIDE_DATA_COL_ID = "sideDataDropId";
 export default function SideData() {
   const sideDataRef = useRef<HTMLDivElement>(null);

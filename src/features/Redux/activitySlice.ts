@@ -1,14 +1,15 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import IActivity from "../../Models/IActivity";
 import {
-  deleteActivityAPI,
-  getAllActivitiesAPI,
-  insertActivityAPI,
-  updateActivityAPI,
-} from "../ipc/ipcActivityFunctions";
+  deleteItemAPI,
+  getAllItemsAPI,
+  insertItemAPI,
+  updateItemAPI,
+} from "../ipc/ipcGenericFunctions";
 import { RootState } from "../../app/store";
 import { AlertColor } from "@mui/material";
 import { mockedActivities } from "../../MockData/MockedActivities";
+import { TablesName } from "../../Models/DataBaseModel";
 
 interface ActivityState {
   activities: IActivity[];
@@ -26,28 +27,28 @@ const initialState: ActivityState = {
 export const getAllActivities = createAsyncThunk(
   "getAllActivities",
   async (tripId: number) => {
-    return await getAllActivitiesAPI(tripId);
+    return (await getAllItemsAPI(TablesName.activities, tripId)) as IActivity[];
   }
 );
 
 export const insertActivity = createAsyncThunk(
   "insertActivity",
   async (activity: IActivity) => {
-    return await insertActivityAPI(activity);
+    return await insertItemAPI(TablesName.activities, activity);
   }
 );
 
 export const updateActivity = createAsyncThunk(
   "updateActivity",
   async (activity: IActivity) => {
-    return await updateActivityAPI(activity);
+    return await updateItemAPI(TablesName.activities, activity);
   }
 );
 
 export const deleteActivity = createAsyncThunk(
   "deleteActivity",
   async (activityId: number) => {
-    await deleteActivityAPI(activityId);
+    await deleteItemAPI(TablesName.activities, activityId);
     return activityId;
   }
 );
