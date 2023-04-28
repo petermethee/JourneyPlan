@@ -36,10 +36,11 @@ export enum TransportsTable {
   description = "description",
   duration = "duration",
   from = "from",
-  to = "",
-  vehicule = "",
+  to = "to",
+  vehicule = "vehicule",
   price = "price",
   attachment = "attachment",
+  used = "used",
 }
 
 export enum AccomodationsTable {
@@ -52,6 +53,7 @@ export enum AccomodationsTable {
   attachment = "attachment",
   checkin = "checkin",
   checkout = "checkout",
+  used = "used",
 }
 
 export enum PlanningActivityTable {

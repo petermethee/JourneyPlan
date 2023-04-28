@@ -10,4 +10,5 @@ export default interface IAccomodation {
   [AccomodationsTable.attachment]: string;
   [AccomodationsTable.checkin]: string;
   [AccomodationsTable.checkout]: string;
+  [AccomodationsTable.used]: boolean;
 }

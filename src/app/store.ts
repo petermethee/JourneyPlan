@@ -1,12 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import tripReducer from "../features/Redux/tripSlice";
-import activityReducer from "../features/Redux/activitySlice";
+import activitiesReducer from "../features/Redux/activitiesSlice";
+import transportsReducer from "../features/Redux/transportsSlice";
+import accomodationsReducer from "../features/Redux/accomodationsSlice";
 import planningReducer from "../features/Redux/planningSlice";
 
 export const store = configureStore({
   reducer: {
     tripsReducer: tripReducer,
-    activitiesReducer: activityReducer,
+    activitiesReducer: activitiesReducer,
+    transportsReducer: transportsReducer,
+    accomodationsReducer: accomodationsReducer,
     planningReducer: planningReducer,
   },
 });

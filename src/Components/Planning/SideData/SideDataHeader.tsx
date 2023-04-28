@@ -6,15 +6,22 @@ import TrainRoundedIcon from "@mui/icons-material/TrainRounded";
 import HotelRoundedIcon from "@mui/icons-material/HotelRounded";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+
+export enum EArtifacts {
+  Activities = "Activities",
+  Transports = "Transports",
+  Accomodation = "Accomodation",
+}
 export default function SideDataHeader({
   onChange,
 }: {
-  onChange: (menu: string) => void;
+  onChange: (menu: EArtifacts) => void;
 }) {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState<EArtifacts>(EArtifacts.Activities);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+  const handleChange = (event: React.SyntheticEvent, menu: EArtifacts) => {
+    setValue(menu);
+    onChange(menu);
   };
 
   return (
@@ -26,6 +33,7 @@ export default function SideDataHeader({
             flex: 1,
           }}
           icon={<LandscapeRoundedIcon />}
+          value={EArtifacts.Activities}
         />
         <Tab
           sx={{
@@ -33,6 +41,7 @@ export default function SideDataHeader({
             flex: 1,
           }}
           icon={<TrainRoundedIcon />}
+          value={EArtifacts.Transports}
         />
         <Tab
           sx={{
@@ -40,6 +49,7 @@ export default function SideDataHeader({
             flex: 1,
           }}
           icon={<HotelRoundedIcon />}
+          value={EArtifacts.Accomodation}
         />
       </Tabs>
     </div>

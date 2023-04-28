@@ -11,4 +11,5 @@ export default interface ITransport {
   [TransportsTable.to]: string;
   [TransportsTable.attachment]: string;
   [TransportsTable.vehicule]: string;
+  [TransportsTable.used]: boolean;
 }

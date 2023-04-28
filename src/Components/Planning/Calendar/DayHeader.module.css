@@ -3,4 +3,23 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+    color: var(--goldenColor);
+    padding: 8px 0px;
+}
+
+
+.container:nth-of-type(odd) {
+    background-color: #1e2b38db;
+}
+
+.container:nth-of-type(even) {
+    background-color: #2a2a2a;
+}
+
+.dayNumber {
+    font-size: 3rem;
+}
+
+.monthYear {
+    font-size: 0.8rem;
 }

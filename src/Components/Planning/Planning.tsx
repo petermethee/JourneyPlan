@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   getAllActivities,
   selectActivities,
-} from "../../features/Redux/activitySlice";
+} from "../../features/Redux/activitiesSlice";
 import { useParams } from "react-router-dom";
 import CalendarView from "./Calendar/CalendarView";
 import { selectCurrentTrip } from "../../features/Redux/tripSlice";

@@ -11,7 +11,7 @@ import { AlertColor } from "@mui/material";
 import { mockedActivities } from "../../MockData/MockedActivities";
 import { TablesName } from "../../Models/DataBaseModel";
 
-interface ActivityState {
+interface ActivitiesState {
   activities: IActivity[];
   snackbarStatus: {
     snackBarSeverity?: AlertColor;
@@ -19,7 +19,7 @@ interface ActivityState {
   };
 }
 
-const initialState: ActivityState = {
+const initialState: ActivitiesState = {
   activities: mockedActivities,
   snackbarStatus: { message: "" },
 };
@@ -53,24 +53,24 @@ export const deleteActivity = createAsyncThunk(
   }
 );
 
-export const activitySlice = createSlice({
-  name: "activitySlice",
+export const activitiesSlice = createSlice({
+  name: "activitiesSlice",
   initialState: initialState,
   reducers: {
     setAllActivities: (
-      state: ActivityState,
+      state: ActivitiesState,
       action: PayloadAction<IActivity[]>
     ) => {
       // state.activities = action.payload;
       state.activities = mockedActivities;
     },
-    deleteActivity: (state: ActivityState, action: PayloadAction<number>) => {
+    deleteActivity: (state: ActivitiesState, action: PayloadAction<number>) => {
       state.activities = state.activities.filter(
         (activity) => activity.id !== action.payload
       );
     },
     setUsedActivities: (
-      state: ActivityState,
+      state: ActivitiesState,
       action: PayloadAction<number>
     ) => {
       state.activities = state.activities.map((activity) =>
@@ -81,17 +81,17 @@ export const activitySlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(getAllActivities.fulfilled, (state, action) => {
-        activitySlice.caseReducers.setAllActivities(state, action);
+        activitiesSlice.caseReducers.setAllActivities(state, action);
       })
       .addCase(deleteActivity.fulfilled, (state, action) => {
-        activitySlice.caseReducers.deleteActivity(state, action);
+        activitiesSlice.caseReducers.deleteActivity(state, action);
       });
   },
 });
 
-export const { setUsedActivities } = activitySlice.actions;
+export const { setUsedActivities } = activitiesSlice.actions;
 
 export const selectActivities = (state: RootState) =>
   state.activitiesReducer.activities;
 
-export default activitySlice.reducer;
+export default activitiesSlice.reducer;

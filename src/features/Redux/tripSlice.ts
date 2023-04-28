@@ -13,7 +13,7 @@ import {
   insertActivity,
   updateActivity,
   deleteActivity,
-} from "./activitySlice";
+} from "./activitiesSlice";
 import { mockedTrip } from "../../MockData/MockedTrip";
 
 interface TripState {

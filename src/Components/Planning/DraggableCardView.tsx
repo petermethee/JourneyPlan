@@ -8,7 +8,7 @@ import React, {
 import styles from "./DraggableCardView.module.css";
 import { getFinalDestination } from "../../DnDCustomLib/CalendarDimensionsHelper";
 import { useAppDispatch } from "../../app/hooks";
-import { setUsedActivities } from "../../features/Redux/activitySlice";
+import { setUsedActivities } from "../../features/Redux/activitiesSlice";
 import { addArtefact, moveArtefact } from "../../features/Redux/planningSlice";
 import { SIDE_DATA_COL_ID } from "./SideData/SideData";
 
