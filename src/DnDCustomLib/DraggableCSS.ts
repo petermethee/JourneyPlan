@@ -8,6 +8,7 @@ export const onDragOverSideDataStyle = (
     top: y,
     left: x,
     transition: "all 300ms, top 0s, left 0s",
+    zIndex: 3,
   };
 };
 
@@ -21,10 +22,11 @@ export const onDragOverCalendarStyle = (
     top: y,
     left: x,
     width,
-    height,
+    height: height - 10,
     boxShadow: "0px 0px 8px 0px #000000bb",
     borderRadius: "5px",
     transform: "scale(0.95)",
+    zIndex: 1,
   };
 };
 
@@ -43,7 +45,7 @@ export const calendarDragContainerStyle = (
   return {
     position: "absolute",
     width,
-    height,
+    height: height - 10,
     top,
   };
 };

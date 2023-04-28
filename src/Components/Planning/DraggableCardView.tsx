@@ -139,7 +139,7 @@ export default function DraggableCardView({
               ...prevState,
               boxShadow: "none",
               transform: "scale(1)",
-              borderRadius: 3,
+              borderRadius: "5px",
             };
           });
         } else {
@@ -187,14 +187,6 @@ export default function DraggableCardView({
       onAnimationEnd={onAnimationEnd}
     >
       <div
-        style={style}
-        className={`${styles.showcase} ${shwoCaseClass}`}
-        onMouseDown={onMouseDown}
-      >
-        {children}
-      </div>
-
-      <div
         className={`${styles.ghost} ${shwoCaseClass}`}
         style={{
           position: "initial",
@@ -203,6 +195,13 @@ export default function DraggableCardView({
             ? `${styles.ghostDisappearAnim} 300ms ease-out forwards`
             : "none",
         }}
+        onMouseDown={onMouseDown}
+      >
+        {children}
+      </div>
+      <div
+        style={style}
+        className={`${styles.showcase} ${shwoCaseClass}`}
         onMouseDown={onMouseDown}
       >
         {children}

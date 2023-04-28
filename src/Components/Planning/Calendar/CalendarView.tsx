@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./CalendarView.module.css";
+import draggableStyle from "../DraggableCardView.module.css";
 import { TDayCol } from "../Planning";
 import {
   cellHeight,
@@ -96,6 +97,7 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                   source={{ colId: dayCol.dateId, timeIndex: PA.timeIndex }}
                   getDraggableStyle={getDraggableCalendarStyle}
                   disappearAnim={""}
+                  shwoCaseClass={draggableStyle.calendarShowcase}
                 >
                   <div>{PA.activity.name}</div>
                 </DraggableCardView>
