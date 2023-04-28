@@ -106,7 +106,7 @@ export const getDraggableSideDataStyle = (
 
     style = onDragOverCalendarStyle(
       clampedX,
-      clampedY,
+      clampedY + 2,
       columnWidth,
       cellHeight * duration
     );
