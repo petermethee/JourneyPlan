@@ -21,11 +21,11 @@ export const onDragOverCalendarStyle = (
   return {
     top: y,
     left: x,
-    width,
-    height: height - 10,
+    width: width - 1,
+    height: height - 5,
     boxShadow: "0px 0px 8px 0px #000000bb",
     borderRadius: "5px",
-    transform: "scale(0.95)",
+    transform: "scale(0.92)",
     zIndex: 1,
   };
 };
@@ -45,7 +45,7 @@ export const calendarDragContainerStyle = (
   return {
     position: "absolute",
     width,
-    height: height - 10,
+    height: height - 5,
     top,
   };
 };
