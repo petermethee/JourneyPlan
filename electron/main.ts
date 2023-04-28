@@ -2,7 +2,8 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import IPC_API_Trip from "./IPC_API/IPC_API_Trip";
-import IPC_API_Activity from "./IPC_API/IPC_API_Activity";
+import IPC_API_Activity from "./IPC_API/IPC_Global_API";
+import installExtension, { REDUX_DEVTOOLS } from "electron-devtools-installer";
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -35,6 +36,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  installExtension(REDUX_DEVTOOLS);
   createWindow();
 
   app.on("activate", () => {

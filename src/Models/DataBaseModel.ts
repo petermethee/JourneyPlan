@@ -26,6 +26,7 @@ export enum ActivitiesTable {
   location = "location",
   attachment = "attachment",
   contraint = "contraint",
+  used = "used",
 }
 
 export enum TransportsTable {
@@ -53,9 +54,9 @@ export enum AccomodationsTable {
   checkout = "checkout",
 }
 
-export enum PlanningsTable {
+export enum PlanningActivityTable {
   id = "id",
-  activity = "activity",
+  activityId = "activityId",
   date = "date",
-  hour = "hour",
+  timeIndex = "timeIndex",
 }

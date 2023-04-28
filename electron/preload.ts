@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from "electron";
 import { IElectronAPI } from "../src/features/ipc/IElectronAPI";
 import ITrip from "../src/Models/ITrip";
 import { EIpcChanels } from "./IPC_API/EIpcChannels";
-import IActivity from "../src/Models/IActivity";
+import { IItem } from "../src/Models/IItem";
 
 type SameAPI<T> = { [k in keyof T]: Function };
 contextBridge.exposeInMainWorld("electronAPI", {
@@ -13,13 +13,13 @@ contextBridge.exposeInMainWorld("electronAPI", {
   deleteTrip: (tripId: number) =>
     ipcRenderer.invoke(EIpcChanels.deleteTrip, tripId),
 
-  //ACTIVITY
-  getAllActivities: (tripId: number) =>
-    ipcRenderer.invoke(EIpcChanels.getAllActivities, tripId),
-  insertActivity: (activity: IActivity) =>
-    ipcRenderer.invoke(EIpcChanels.insertActivity, activity),
-  updateActivity: (activity: IActivity) =>
-    ipcRenderer.invoke(EIpcChanels.updateActivity, activity),
-  deleteActivity: (activityId: number) =>
-    ipcRenderer.invoke(EIpcChanels.deleteActivity, activityId),
+  //GENERIC
+  getAllItems: (tableName: string, tripId: number) =>
+    ipcRenderer.invoke(EIpcChanels.getAllItems, tableName, tripId),
+  insertItem: (tableName: string, item: IItem) =>
+    ipcRenderer.invoke(EIpcChanels.insertItem, tableName, item),
+  updateItem: (tableName: string, item: IItem) =>
+    ipcRenderer.invoke(EIpcChanels.updateItem, tableName, item),
+  deleteItem: (tableName: string, itemId: number) =>
+    ipcRenderer.invoke(EIpcChanels.deleteItem, tableName, itemId),
 } as SameAPI<IElectronAPI>);

@@ -1,0 +1,44 @@
+.calendarContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.daysHeader {
+    display: flex;
+}
+
+.arrowButton {
+    width: var(--hoursLabelWidth);
+}
+
+.gridContainer {
+    background-color: #fff;
+    display: flex;
+    flex: 1;
+    overflow: auto;
+    padding-bottom: var(--accomodationDropZoneHeight);
+}
+
+.gridContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.relativeContainer {
+    position: relative;
+    display: flex;
+    flex: 1;
+    height: fit-content;
+}
+
+.dayContainer {
+    height: var(--totalHeight);
+    border-right: 1px solid #dadce0;
+}
+
+.hGridLine {
+    position: absolute;
+    border-bottom: 1px dashed #dadce0;
+    width: 100%;
+}

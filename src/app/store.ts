@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import tripReducer from "../features/Redux/tripSlice";
 import activityReducer from "../features/Redux/activitySlice";
+import planningReducer from "../features/Redux/planningSlice";
 
 export const store = configureStore({
   reducer: {
     tripsReducer: tripReducer,
     activitiesReducer: activityReducer,
+    planningReducer: planningReducer,
   },
 });
 
