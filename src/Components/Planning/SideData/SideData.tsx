@@ -4,8 +4,8 @@ import draggableStyle from "../DraggableCardView.module.css";
 import draggableStyles from "../../Planning/DraggableCardView.module.css";
 import { useRef, useState } from "react";
 import {
-  sideDataDraggableWidth,
   getDraggableSideDataStyle,
+  sideDataTop,
 } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { sideDataDragContainerStyle } from "../../../DnDCustomLib/DraggableCSS";
 import { useAppSelector } from "../../../app/hooks";
@@ -14,6 +14,10 @@ import DraggableCardView from "../DraggableCardView";
 import SideDataHeader, { EArtifacts } from "./SideDataHeader";
 import { selectTransports } from "../../../features/Redux/transportsSlice";
 import { selectAccomodations } from "../../../features/Redux/accomodationsSlice";
+
+import { Fab } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+
 export const SIDE_DATA_COL_ID = "sideDataDropId";
 
 export default function SideData() {
@@ -31,7 +35,7 @@ export default function SideData() {
         0,
         sideDataRef.current!.clientHeight -
           sideDataRef.current!.parentElement!.parentElement!.clientHeight +
-          48 //48 is the height of tab layout
+          sideDataTop //48 is the height of tab layout
       );
       const tempValue = prevState - 150 * Math.sign(event.deltaY); //150 is the arbitrary choosen step
       const newMarginTop = Math.max(-marginMax, Math.min(0, tempValue));
@@ -52,9 +56,7 @@ export default function SideData() {
                   <DraggableCardView
                     key={activity.id}
                     id={activity.id}
-                    containerStyle={sideDataDragContainerStyle(
-                      sideDataDraggableWidth
-                    )}
+                    containerStyle={sideDataDragContainerStyle()}
                     duration={activity.duration}
                     shwoCaseClass={draggableStyle.showcaseSideData}
                     source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
@@ -70,9 +72,7 @@ export default function SideData() {
                   <DraggableCardView
                     key={activity.id}
                     id={activity.id}
-                    containerStyle={sideDataDragContainerStyle(
-                      sideDataDraggableWidth
-                    )}
+                    containerStyle={sideDataDragContainerStyle()}
                     duration={activity.duration}
                     shwoCaseClass={draggableStyle.showcaseSideData}
                     source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
@@ -84,6 +84,13 @@ export default function SideData() {
                 ))}
         </div>
       </div>
+      <Fab
+        color="primary"
+        size="medium"
+        sx={{ position: "absolute", bottom: "10px", right: "10px" }}
+      >
+        <AddIcon />
+      </Fab>
     </div>
   );
 }

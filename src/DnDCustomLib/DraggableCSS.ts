@@ -30,10 +30,10 @@ export const onDragOverCalendarStyle = (
   };
 };
 
-export const sideDataDragContainerStyle = (width: number): CSSProperties => {
+export const sideDataDragContainerStyle = (): CSSProperties => {
   return {
     position: "relative",
-    width,
+    width: "80%",
     height: "100px",
   };
 };

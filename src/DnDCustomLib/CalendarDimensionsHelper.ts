@@ -6,9 +6,7 @@ import {
 
 export const minColWidth = 100;
 export const cellHeight = 70;
-export const sideDataDraggableWidth = 200;
 
-const sideDataWidth = 220;
 const hoursLabelWidth = 40;
 const accomodationDropZoneHeight = 100;
 
@@ -16,10 +14,7 @@ document.documentElement.style.setProperty(
   "--totalHeight",
   cellHeight * 24 + "px"
 );
-document.documentElement.style.setProperty(
-  "--sideDataWidth",
-  sideDataWidth + "px"
-);
+
 document.documentElement.style.setProperty(
   "--hoursLabelWidth",
   hoursLabelWidth + "px"
@@ -33,6 +28,7 @@ document.documentElement.style.setProperty(
 let columnWidth: number;
 let colIds: string[];
 let calendarRect: DOMRect;
+export let sideDataTop: number;
 
 export const initPlanningDimensions = (
   initColWidth: number,
@@ -46,6 +42,11 @@ export const initPlanningDimensions = (
 
 export const setCalendarBoundary = (initCalendarRect: DOMRect) => {
   calendarRect = initCalendarRect;
+};
+
+export const setSideDataTop = (top: number) => {
+  sideDataTop = top;
+  console.log("top", top);
 };
 
 export const getDraggableCalendarStyle = (
