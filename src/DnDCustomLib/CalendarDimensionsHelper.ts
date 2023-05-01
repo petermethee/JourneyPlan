@@ -4,10 +4,10 @@ import {
   onDragOverSideDataStyle,
 } from "./DraggableCSS";
 
-export const minColWidth = 100;
+export const minColWidth = 200;
 export const cellHeight = 70;
 
-const hoursLabelWidth = 40;
+const hoursLabelWidth = 50;
 const accomodationDropZoneHeight = 100;
 
 document.documentElement.style.setProperty(
@@ -46,7 +46,6 @@ export const setCalendarBoundary = (initCalendarRect: DOMRect) => {
 
 export const setSideDataTop = (top: number) => {
   sideDataTop = top;
-  console.log("top", top);
 };
 
 export const getDraggableCalendarStyle = (

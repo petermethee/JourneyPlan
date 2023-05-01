@@ -40,7 +40,7 @@ export default function Planning() {
       let currentDay = dateRange[0];
       const columns: TDayCol[] = [];
 
-      while (currentDay < dateRange[1] && columns.length < 5) {
+      while (currentDay < dateRange[1]) {
         const dateId = currentDay.format("YYYY-MM-DD");
         const currentDayPlanningActivity = planningActivities.filter(
           (p) => p.date === dateId
