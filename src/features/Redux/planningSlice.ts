@@ -1,11 +1,11 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import IPlanningAvtivity from "../../Models/IPlanningActivity";
+import IPlanningArtifact from "../../Models/IPlanningArtifact";
 
 import { RootState } from "../../app/store";
 import { AlertColor } from "@mui/material";
 
 interface PlanningState {
-  planningActivities: IPlanningAvtivity[];
+  planningArtifacts: IPlanningArtifact[];
   snackbarStatus: {
     snackBarSeverity?: AlertColor;
     message: string;
@@ -13,7 +13,7 @@ interface PlanningState {
 }
 
 const initialState: PlanningState = {
-  planningActivities: [],
+  planningArtifacts: [],
   snackbarStatus: { message: "" },
 };
 
@@ -53,28 +53,28 @@ export const planningSlice = createSlice({
   reducers: {
     setAllPlannings: (
       state: PlanningState,
-      action: PayloadAction<IPlanningAvtivity[]>
+      action: PayloadAction<IPlanningArtifact[]>
     ) => {
-      state.planningActivities = action.payload;
+      state.planningArtifacts = action.payload;
     },
     deletePlanning: (state: PlanningState, action: PayloadAction<string>) => {
-      state.planningActivities = state.planningActivities.filter(
+      state.planningArtifacts = state.planningArtifacts.filter(
         (planning) => planning.id !== action.payload
       );
     },
-    addArtefact: (
+    addArtifact: (
       state: PlanningState,
-      action: PayloadAction<IPlanningAvtivity>
+      action: PayloadAction<IPlanningArtifact>
     ) => {
-      state.planningActivities = [...state.planningActivities, action.payload];
+      state.planningArtifacts = [...state.planningArtifacts, action.payload];
     },
-    moveArtefact: (
+    moveArtifact: (
       state: PlanningState,
-      action: PayloadAction<IPlanningAvtivity>
+      action: PayloadAction<IPlanningArtifact>
     ) => {
-      const { activityId } = action.payload;
-      state.planningActivities = state.planningActivities.map((PA) =>
-        PA.activityId === activityId ? action.payload : PA
+      const { artifactId } = action.payload;
+      state.planningArtifacts = state.planningArtifacts.map((PA) =>
+        PA.artifactId === artifactId ? action.payload : PA
       );
     },
   },
@@ -117,9 +117,9 @@ export const planningSlice = createSlice({
   },
 });
 
-export const { addArtefact, moveArtefact } = planningSlice.actions;
+export const { addArtifact, moveArtifact } = planningSlice.actions;
 
-export const selectPlanningActivities = (state: RootState) =>
-  state.planningReducer.planningActivities;
+export const selectPlanningArtifacts = (state: RootState) =>
+  state.planningReducer.planningArtifacts;
 
 export default planningSlice.reducer;

@@ -11,22 +11,18 @@ import { ERouterPathes } from "../../../Helper/ERouterPathes";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { useNavigate } from "react-router-dom";
 import { setSideDataTop } from "../../../DnDCustomLib/CalendarDimensionsHelper";
+import { EArtifact } from "../../../Models/EArtifacts";
 
-export enum EArtifacts {
-  Activities = "Activities",
-  Transports = "Transports",
-  Accomodation = "Accomodation",
-}
 export default function SideDataHeader({
   onChange,
 }: {
-  onChange: (menu: EArtifacts) => void;
+  onChange: (menu: EArtifact) => void;
 }) {
   const navigate = useNavigate();
   const headerRef = useRef<HTMLDivElement>(null);
 
-  const [value, setValue] = useState<EArtifacts>(EArtifacts.Activities);
-  const handleChange = (event: React.SyntheticEvent, menu: EArtifacts) => {
+  const [value, setValue] = useState<EArtifact>(EArtifact.Activity);
+  const handleChange = (event: React.SyntheticEvent, menu: EArtifact) => {
     setValue(menu);
     onChange(menu);
   };
@@ -57,7 +53,7 @@ export default function SideDataHeader({
             flex: 1,
           }}
           icon={<LandscapeRoundedIcon />}
-          value={EArtifacts.Activities}
+          value={EArtifact.Activity}
         />
         <Tab
           sx={{
@@ -65,7 +61,7 @@ export default function SideDataHeader({
             flex: 1,
           }}
           icon={<TrainRoundedIcon />}
-          value={EArtifacts.Transports}
+          value={EArtifact.Transport}
         />
         <Tab
           sx={{
@@ -73,7 +69,7 @@ export default function SideDataHeader({
             flex: 1,
           }}
           icon={<HotelRoundedIcon />}
-          value={EArtifacts.Accomodation}
+          value={EArtifact.Accomodation}
         />
       </Tabs>
     </div>

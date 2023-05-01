@@ -6,6 +6,9 @@ import {
 
 export const minColWidth = 200;
 export const cellHeight = 70;
+export let sideDataTop: number;
+
+const timeStep = cellHeight / 2;
 
 const hoursLabelWidth = 50;
 const accomodationDropZoneHeight = 100;
@@ -28,7 +31,6 @@ document.documentElement.style.setProperty(
 let columnWidth: number;
 let colIds: string[];
 let calendarRect: DOMRect;
-export let sideDataTop: number;
 
 export const initPlanningDimensions = (
   initColWidth: number,
@@ -68,8 +70,8 @@ export const getDraggableCalendarStyle = (
       columnWidth;
 
     const clampedY =
-      Math.floor((y - dragContainerCoord.y - calendarRect.top) / cellHeight) *
-      cellHeight;
+      Math.floor((y - dragContainerCoord.y - calendarRect.top) / timeStep) *
+      timeStep;
     style = onDragOverCalendarStyle(
       clampedX,
       clampedY,
@@ -100,7 +102,7 @@ export const getDraggableSideDataStyle = (
       calendarRect.left;
 
     const clampedY =
-      Math.floor((y - calendarRect.top) / cellHeight) * cellHeight -
+      (Math.floor((y - calendarRect.top) / timeStep) * cellHeight) / 2 -
       dragContainerCoord.y +
       calendarRect.top;
 
@@ -115,7 +117,9 @@ export const getDraggableSideDataStyle = (
 };
 
 export const getFinalDestination = (x: number, y: number): [string, number] => {
-  const timeIndex = Math.floor((y - calendarRect.y) / cellHeight);
+  const timeIndex = Math.floor((y - calendarRect.y) / timeStep) / 2;
+
+  console.log("tag", timeIndex);
 
   if (x < calendarRect.x) {
     return [SIDE_DATA_COL_ID, timeIndex];

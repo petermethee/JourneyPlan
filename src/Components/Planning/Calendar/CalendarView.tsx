@@ -17,6 +17,8 @@ import CalendarHeader from "./CalendarHeader";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { IconButton } from "@mui/material";
+import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
+import { EArtifact } from "../../../Models/EArtifacts";
 
 export const getHours = (): string[] => {
   const hours: string[] = [];
@@ -137,8 +139,9 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     getDraggableStyle={getDraggableCalendarStyle}
                     disappearAnim={""}
                     shwoCaseClass={draggableStyle.calendarShowcase}
+                    artifactType={EArtifact.Activity}
                   >
-                    <div>{PA.activity.name}</div>
+                    <ActivityDataCard activity={PA.activity} />
                   </DraggableCardView>
                 ))}
               </div>
