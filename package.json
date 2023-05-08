@@ -26,9 +26,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "postinstall": "electron-builder install-app-deps",
-    "dev": "concurrently \"npm run start\" \"tsc -p electron -w\" \"wait-on http://127.0.0.1:3000 && wait-on build/electron/main.js && electronmon .\"",
+    "dev": "concurrently \"npm run start\" \"tsc -p electron -w\" \"wait-on http://192.168.56.1:3000 && wait-on build/electron/main.js && electronmon .\"",
     "electron:build": "tsc -p electron && electron-builder",
-    "electron:start": "tsc -p electron && electron ."
+    "electron:start": "tsc -p electron && electronmon ."
   },
   "eslintConfig": {
     "extends": [
@@ -59,7 +59,8 @@
     "electron": "^23.2.0",
     "electron-builder": "^23.6.0",
     "electronmon": "^2.0.2",
-    "react-app-rewired": "^2.2.1"
+    "react-app-rewired": "^2.2.1",
+    "wait-on": "^7.0.1"
   },
   "electronmon": {
     "patterns": [

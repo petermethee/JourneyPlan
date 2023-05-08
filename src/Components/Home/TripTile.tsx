@@ -6,7 +6,7 @@ import trip_bg from "../../image/trip_bg.jpg";
 import { primaryColor } from "../../style/cssGlobalStyle";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { routerPathes } from "../../Helper/routerPathes";
+import { ERouterPathes } from "../../Helper/ERouterPathes";
 import {
   Draggable,
   DraggableStateSnapshot,
@@ -88,7 +88,7 @@ export default function TripTile({
                   size="small"
                   onClick={(event) => {
                     event.stopPropagation();
-                    navigate(`${routerPathes.addTrip}/${id}`);
+                    navigate(`${ERouterPathes.addTrip}/${id}`);
                   }}
                 >
                   <EditRoundedIcon

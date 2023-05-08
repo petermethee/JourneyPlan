@@ -9,8 +9,9 @@ import styles from "./DraggableCardView.module.css";
 import { getFinalDestination } from "../../DnDCustomLib/CalendarDimensionsHelper";
 import { useAppDispatch } from "../../app/hooks";
 import { setUsedActivities } from "../../features/Redux/activitiesSlice";
-import { addArtefact, moveArtefact } from "../../features/Redux/planningSlice";
+import { addArtifact, moveArtifact } from "../../features/Redux/planningSlice";
 import { SIDE_DATA_COL_ID } from "./SideData/SideData";
+import { EArtifact } from "../../Models/EArtifacts";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
@@ -34,6 +35,7 @@ type TDraggableProps = {
   ) => CSSProperties;
   shwoCaseClass?: string;
   disappearAnim: string;
+  artifactType: EArtifact;
 };
 export default function DraggableCardView({
   children,
@@ -44,6 +46,7 @@ export default function DraggableCardView({
   getDraggableStyle,
   shwoCaseClass,
   disappearAnim,
+  artifactType,
 }: TDraggableProps) {
   const dispatch = useAppDispatch();
   const draggableRef = useRef<HTMLDivElement>(null);
@@ -67,11 +70,12 @@ export default function DraggableCardView({
         const timeIndex = destination.timeIndex;
         const planningId = `${darggableId}_${date}_${timeIndex}`;
         dispatch(
-          addArtefact({
-            activityId: darggableId,
+          addArtifact({
+            artifactId: darggableId,
             date,
             timeIndex,
             id: planningId,
+            artifactType,
           })
         );
       } else {
@@ -79,11 +83,12 @@ export default function DraggableCardView({
         const timeIndex = destination.timeIndex;
         const planningId = `${darggableId}_${date}_${timeIndex}`;
         dispatch(
-          moveArtefact({
+          moveArtifact({
             id: planningId,
-            activityId: darggableId,
+            artifactId: darggableId,
             date,
             timeIndex,
+            artifactType,
           })
         );
       }

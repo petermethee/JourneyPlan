@@ -56,9 +56,10 @@ export enum AccomodationsTable {
   used = "used",
 }
 
-export enum PlanningActivityTable {
+export enum PlanningArtifactTable {
   id = "id",
-  activityId = "activityId",
+  artifactId = "artifactId",
   date = "date",
   timeIndex = "timeIndex",
+  artifactType = "artifactType",
 }

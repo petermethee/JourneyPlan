@@ -2,10 +2,9 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: rgba(117, 182, 239, 0.472);
     height: var(--totalHeight);
     justify-content: space-between;
-    width: var(--hoursLabelWidth);
+    min-width: var(--hoursLabelWidth);
 }
 
 .hourLabel:first-child {

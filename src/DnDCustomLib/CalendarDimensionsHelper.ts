@@ -4,22 +4,20 @@ import {
   onDragOverSideDataStyle,
 } from "./DraggableCSS";
 
-export const minColWidth = 100;
+export const minColWidth = 200;
 export const cellHeight = 70;
-export const sideDataDraggableWidth = 200;
+export let sideDataTop: number;
 
-const sideDataWidth = 220;
-const hoursLabelWidth = 40;
+const timeStep = cellHeight / 2;
+
+const hoursLabelWidth = 50;
 const accomodationDropZoneHeight = 100;
 
 document.documentElement.style.setProperty(
   "--totalHeight",
   cellHeight * 24 + "px"
 );
-document.documentElement.style.setProperty(
-  "--sideDataWidth",
-  sideDataWidth + "px"
-);
+
 document.documentElement.style.setProperty(
   "--hoursLabelWidth",
   hoursLabelWidth + "px"
@@ -48,6 +46,10 @@ export const setCalendarBoundary = (initCalendarRect: DOMRect) => {
   calendarRect = initCalendarRect;
 };
 
+export const setSideDataTop = (top: number) => {
+  sideDataTop = top;
+};
+
 export const getDraggableCalendarStyle = (
   x: number,
   y: number,
@@ -68,8 +70,8 @@ export const getDraggableCalendarStyle = (
       columnWidth;
 
     const clampedY =
-      Math.floor((y - dragContainerCoord.y - calendarRect.top) / cellHeight) *
-      cellHeight;
+      Math.floor((y - dragContainerCoord.y - calendarRect.top) / timeStep) *
+      timeStep;
     style = onDragOverCalendarStyle(
       clampedX,
       clampedY,
@@ -100,7 +102,7 @@ export const getDraggableSideDataStyle = (
       calendarRect.left;
 
     const clampedY =
-      Math.floor((y - calendarRect.top) / cellHeight) * cellHeight -
+      (Math.floor((y - calendarRect.top) / timeStep) * cellHeight) / 2 -
       dragContainerCoord.y +
       calendarRect.top;
 
@@ -115,7 +117,9 @@ export const getDraggableSideDataStyle = (
 };
 
 export const getFinalDestination = (x: number, y: number): [string, number] => {
-  const timeIndex = Math.floor((y - calendarRect.y) / cellHeight);
+  const timeIndex = Math.floor((y - calendarRect.y) / timeStep) / 2;
+
+  console.log("tag", timeIndex);
 
   if (x < calendarRect.x) {
     return [SIDE_DATA_COL_ID, timeIndex];

@@ -8,7 +8,7 @@ import {
   setCurrentTrip,
 } from "../../features/Redux/tripSlice";
 import { useNavigate } from "react-router-dom";
-import { routerPathes } from "../../Helper/routerPathes";
+import { ERouterPathes } from "../../Helper/ERouterPathes";
 import { useEffect, useState } from "react";
 import {
   DragDropContext,
@@ -28,7 +28,7 @@ export default function Home() {
 
   const onClick = (id: number) => {
     dispatch(setCurrentTrip(trips.find((trip) => trip.id === id)!));
-    navigate(routerPathes.planning + "/" + id);
+    navigate(ERouterPathes.planning + "/" + id);
   };
 
   const [tripDragged, setTripDragged] = useState<string | undefined>();
@@ -115,7 +115,7 @@ export default function Home() {
           <Grid item>
             <AddTripTile
               onClick={() => {
-                navigate(routerPathes.addTrip);
+                navigate(ERouterPathes.addTrip);
               }}
             />
           </Grid>

@@ -1,0 +1,10 @@
+.daysHeader {
+    display: flex;
+}
+
+.settingsIcon {
+    min-width: var(--hoursLabelWidth);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

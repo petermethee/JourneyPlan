@@ -1,6 +1,6 @@
 import IAccomodation from "./IAccomodation";
 import IActivity from "./IActivity";
-import IPlanningAvtivity from "./IPlanningActivity";
+import IPlanningArtifact from "./IPlanningArtifact";
 import ITransport from "./ITransport";
 
-export type IItem = ITransport | IAccomodation | IPlanningAvtivity | IActivity;
+export type IItem = ITransport | IAccomodation | IPlanningArtifact | IActivity;
