@@ -24,7 +24,7 @@
     display: flex;
     flex: 1;
     height: fit-content;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .dayContainer {

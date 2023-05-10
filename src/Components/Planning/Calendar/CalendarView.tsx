@@ -38,8 +38,6 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
   const [daysIndex, setDaysIndex] = useState([0, 1]);
 
   const calculColWidth = useCallback(() => {
-    console.log("tag", dayCols);
-
     const totalWidth = calendarRef.current!.clientWidth;
     const nColMax = Math.floor(totalWidth / minColWidth);
     const nCol = Math.max(Math.min(dayCols.length, nColMax), 1);

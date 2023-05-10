@@ -109,7 +109,7 @@ export default function Planning() {
       return columns;
     }
     return [];
-  }, [selectedTrip, planningActivities, activities]);
+  }, [selectedTrip, planningActivities, activities, accomodations, transports]);
 
   useEffect(() => {
     dispatch(getAllActivities(parseInt(tripId)));

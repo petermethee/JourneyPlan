@@ -9,6 +9,7 @@ export const onDragOverSideDataStyle = (
     left: x,
     transition: "all 300ms, top 0s, left 0s",
     zIndex: 3,
+    transform: "scale(0.95)",
   };
 };
 

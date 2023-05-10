@@ -26,7 +26,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "postinstall": "electron-builder install-app-deps",
-    "dev": "concurrently \"npm run start\" \"tsc -p electron -w\" \"wait-on http://192.168.56.1:3000 && wait-on build/electron/main.js && electronmon .\"",
+    "dev": "concurrently \"npm run start\" \"tsc -p electron -w\" \"wait-on http://localhost:3000 && wait-on build/electron/main.js && electronmon .\"",
     "electron:build": "tsc -p electron && electron-builder",
     "electron:start": "tsc -p electron && electronmon ."
   },

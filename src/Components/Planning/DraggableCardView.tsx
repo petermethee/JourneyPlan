@@ -58,7 +58,6 @@ export default function DraggableCardView({
   const [destination, setDestination] = useState<TDroppableInfo>(source);
 
   const onDragEnd = (event: TDnDEvent) => {
-    console.log("event on drag end", event);
     const { darggableId, source, destination } = event;
     if (
       source.colId !== destination.colId ||
@@ -99,14 +98,15 @@ export default function DraggableCardView({
     event.preventDefault();
     setMouseDown(true);
     setDeltaMousePosition({
-      x: event.clientX,
-      y: event.clientY,
+      x: event.clientX - draggableRef.current!.getBoundingClientRect().left,
+      y: event.clientY - draggableRef.current!.getBoundingClientRect().top,
     });
   };
 
   const mouseMoveListener = useCallback(
     (event: MouseEvent) => {
       if (mouseDown) {
+        draggableRef.current!.style.cursor = "grabbing ";
         setIsDragged(true);
         const currentStyle = getDraggableStyle(
           event.clientX,
@@ -127,6 +127,8 @@ export default function DraggableCardView({
   const mouseUpListener = useCallback(
     (event: MouseEvent) => {
       if (isDragged) {
+        draggableRef.current!.style.cursor = "pointer ";
+
         setIsDragged(false);
         const [colId, timeIndex] = getFinalDestination(
           event.clientX,
