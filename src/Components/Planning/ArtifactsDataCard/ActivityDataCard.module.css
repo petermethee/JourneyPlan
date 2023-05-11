@@ -1,5 +1,6 @@
 .container {
     padding: 5px;
+    /* overflow-y: hidden; */
 }
 
 .header {
