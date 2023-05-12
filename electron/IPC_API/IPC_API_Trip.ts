@@ -6,13 +6,11 @@ import TripsManager from "../Managers/TripsManager";
 import { EIpcChanels } from "./EIpcChannels";
 
 export default class IPC_API_Trip {
-  dataBaseAPI: DatabaseAPI;
   db: Database;
   tripsManager: TripsManager;
 
-  constructor() {
-    this.dataBaseAPI = new DatabaseAPI();
-    this.db = this.dataBaseAPI.getDataBase();
+  constructor(dataBaseAPI: DatabaseAPI) {
+    this.db = dataBaseAPI.getDataBase();
     this.tripsManager = new TripsManager(this.db);
   }
 

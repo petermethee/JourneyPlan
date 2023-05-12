@@ -6,13 +6,11 @@ import { EIpcChanels } from "./EIpcChannels";
 import DataBaseManager from "../Managers/DataBaseManager";
 
 export default class IPC_API_Activity {
-  dataBaseAPI: DatabaseAPI;
   db: Database;
   activitiesManager: DataBaseManager;
 
-  constructor() {
-    this.dataBaseAPI = new DatabaseAPI();
-    this.db = this.dataBaseAPI.getDataBase();
+  constructor(dataBaseAPI: DatabaseAPI) {
+    this.db = dataBaseAPI.getDataBase();
     this.activitiesManager = new DataBaseManager(this.db);
   }
 

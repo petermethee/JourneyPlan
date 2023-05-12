@@ -2,8 +2,9 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import IPC_API_Trip from "./IPC_API/IPC_API_Trip";
-import IPC_API_Activity from "./IPC_API/IPC_Global_API";
+import IPC_API_Activity from "./IPC_API/IPC_API_Activity";
 import installExtension, { REDUX_DEVTOOLS } from "electron-devtools-installer";
+import DatabaseAPI from "./DatabaseClass";
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -28,10 +29,10 @@ function createWindow() {
   if (!app.isPackaged) {
     win.webContents.openDevTools({ mode: "detach" });
   }
-
-  const ipcAPITrip = new IPC_API_Trip();
+  const dataBaseAPI = new DatabaseAPI();
+  const ipcAPITrip = new IPC_API_Trip(dataBaseAPI);
+  const ipcAPIActivity = new IPC_API_Activity(dataBaseAPI);
   ipcAPITrip.initIPCHandlers();
-  const ipcAPIActivity = new IPC_API_Activity();
   ipcAPIActivity.initIPCHandlers();
 }
 
