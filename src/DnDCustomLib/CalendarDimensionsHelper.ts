@@ -76,13 +76,9 @@ export const getDraggableCalendarStyle = (
     Math.floor((clampedY - deltaMousePosition.y) / timeStep) /
     ratioTimeStepCellHeight;
 
-  console.log("timeIndex", lastTimeIndex);
-  console.log("dragContainerCoord.y", dragContainerCoord.y);
-
   const relativeTimeStepIndex = Math.floor(
     (clampedY - dragContainerCoord.y - deltaMousePosition.y + 2) / timeStep
   ); //Relative to draggable container position
-  console.log("relativeTimeIndex", relativeTimeStepIndex);
 
   const steppedY = relativeTimeStepIndex * timeStep;
 
@@ -133,8 +129,6 @@ export const getDraggableSideDataStyle = (
           ((duration * ratioTimeStepCellHeight - 1) / 2) * timeStep) /
           timeStep
       ) / ratioTimeStepCellHeight;
-
-    console.log("lastimestep", lastTimeIndex);
 
     style = onDragOverCalendarStyle(
       clampedX,

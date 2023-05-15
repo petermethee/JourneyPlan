@@ -15,8 +15,10 @@ import { EArtifact } from "../../../Models/EArtifacts";
 
 export default function SideDataHeader({
   onChange,
+  setUsedFilter,
 }: {
   onChange: (menu: EArtifact) => void;
+  setUsedFilter: (used: boolean) => void;
 }) {
   const navigate = useNavigate();
   const headerRef = useRef<HTMLDivElement>(null);
@@ -43,7 +45,10 @@ export default function SideDataHeader({
         </Button>
         <span>
           Utilisés
-          <Switch size="small" />
+          <Switch
+            size="small"
+            onClick={(event: any) => setUsedFilter(event.target.checked)}
+          />
         </span>
       </div>
       <Tabs value={value} onChange={handleChange} sx={{ width: "100%" }}>

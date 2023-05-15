@@ -2,7 +2,7 @@ import styles from "./SideData.module.css";
 import draggableStyle from "../DraggableCardView.module.css";
 
 import draggableStyles from "../../Planning/DraggableCardView.module.css";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   getDraggableSideDataStyle,
   sideDataTop,
@@ -28,8 +28,23 @@ export default function SideData() {
   const transports = useAppSelector(selectTransports);
   const accomodations = useAppSelector(selectAccomodations);
 
+  const [usedFilter, setUsedFilter] = useState(false);
   const [marginTop, setMarginTop] = useState(0);
   const [currentArtifact, setCurrentArtifact] = useState(EArtifact.Activity);
+
+  const filteredActivities = useMemo(() => {
+    return activities.filter((activity) => activity.used === usedFilter);
+  }, [activities, usedFilter]);
+
+  const filteredTransports = useMemo(() => {
+    return transports.filter((transport) => transport.used === usedFilter);
+  }, [transports, usedFilter]);
+
+  const filteredAccomodations = useMemo(() => {
+    return accomodations.filter(
+      (accomodation) => accomodation.used === usedFilter
+    );
+  }, [accomodations, usedFilter]);
 
   const onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     setMarginTop((prevState) => {
@@ -48,44 +63,49 @@ export default function SideData() {
 
   return (
     <div className={styles.sideDataContainer} onWheel={onWheel}>
-      <SideDataHeader onChange={(menu) => setCurrentArtifact(menu)} />
+      <SideDataHeader
+        onChange={(menu) => setCurrentArtifact(menu)}
+        setUsedFilter={(used) => setUsedFilter(used)}
+      />
       <div className={styles.scrollContainer} style={{ marginTop: marginTop }}>
         <div ref={sideDataRef} className={styles.subContainer}>
           {currentArtifact === EArtifact.Activity
-            ? activities
-                .filter((activity) => !activity.used)
-                .map((activity) => (
-                  <DraggableCardView
-                    key={activity.id}
-                    id={activity.id}
-                    containerStyle={sideDataDragContainerStyle()}
-                    duration={activity.duration}
-                    shwoCaseClass={draggableStyle.showcaseSideData}
-                    source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
-                    getDraggableStyle={getDraggableSideDataStyle}
-                    disappearAnim={draggableStyles.sideDataDisappearAnim}
-                    artifactType={EArtifact.Activity}
-                  >
-                    <ActivityDataCard activity={activity} />
-                  </DraggableCardView>
-                ))
-            : transports
-                .filter((transport) => !transport.used)
-                .map((transport) => (
-                  <DraggableCardView
-                    key={transport.id}
-                    id={transport.id}
-                    containerStyle={sideDataDragContainerStyle()}
-                    duration={transport.duration}
-                    shwoCaseClass={draggableStyle.showcaseSideData}
-                    source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
-                    getDraggableStyle={getDraggableSideDataStyle}
-                    disappearAnim={draggableStyles.sideDataDisappearAnim}
-                    artifactType={EArtifact.Transport}
-                  >
-                    <div>{transport.name}</div>
-                  </DraggableCardView>
-                ))}
+            ? filteredActivities.map((activity) => (
+                <DraggableCardView
+                  key={activity.id}
+                  planningId={""}
+                  artifactId={activity.id}
+                  containerStyle={sideDataDragContainerStyle()}
+                  duration={activity.duration}
+                  shwoCaseClass={draggableStyle.showcaseSideData}
+                  source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
+                  getDraggableStyle={getDraggableSideDataStyle}
+                  disappearAnim={
+                    activity.used ? "" : draggableStyles.sideDataDisappearAnim
+                  }
+                  artifactType={EArtifact.Activity}
+                >
+                  <ActivityDataCard activity={activity} />
+                </DraggableCardView>
+              ))
+            : filteredTransports.map((transport) => (
+                <DraggableCardView
+                  key={transport.id}
+                  planningId={""}
+                  artifactId={transport.id}
+                  containerStyle={sideDataDragContainerStyle()}
+                  duration={transport.duration}
+                  shwoCaseClass={draggableStyle.showcaseSideData}
+                  source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
+                  getDraggableStyle={getDraggableSideDataStyle}
+                  disappearAnim={
+                    transport.used ? "" : draggableStyles.sideDataDisappearAnim
+                  }
+                  artifactType={EArtifact.Transport}
+                >
+                  <div>{transport.name}</div>
+                </DraggableCardView>
+              ))}
         </div>
       </div>
       <Fab

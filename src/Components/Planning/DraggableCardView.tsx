@@ -15,14 +15,15 @@ import { EArtifact } from "../../Models/EArtifacts";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
-  darggableId: number;
+  artifactId: number;
   source: TDroppableInfo;
   destination: TDroppableInfo;
 };
 
 type TDraggableProps = {
   children: JSX.Element | JSX.Element[];
-  id: number;
+  planningId: string;
+  artifactId: number;
   duration: number;
   containerStyle: CSSProperties;
   source: TDroppableInfo;
@@ -38,8 +39,9 @@ type TDraggableProps = {
   artifactType: EArtifact;
 };
 export default function DraggableCardView({
+  planningId,
   children,
-  id,
+  artifactId,
   duration,
   containerStyle,
   source,
@@ -58,7 +60,9 @@ export default function DraggableCardView({
   const [destination, setDestination] = useState<TDroppableInfo>(source);
 
   const onDragEnd = (event: TDnDEvent) => {
-    const { darggableId, source, destination } = event;
+    console.log("enddrag");
+
+    const { artifactId, source, destination } = event;
     if (
       source.colId !== destination.colId ||
       source.timeIndex !== destination.timeIndex
@@ -67,27 +71,32 @@ export default function DraggableCardView({
       } else if (source.colId === SIDE_DATA_COL_ID) {
         const date = destination.colId;
         const timeIndex = destination.timeIndex;
-        const planningId = `${darggableId}_${date}_${timeIndex}`;
+        const newPlanningId = `${artifactId}_${date}_${timeIndex}`;
         dispatch(
           addArtifact({
-            artifactId: darggableId,
+            artifactId: artifactId,
             date,
             timeIndex,
-            id: planningId,
+            id: newPlanningId,
             artifactType,
           })
         );
       } else {
         const date = destination.colId;
         const timeIndex = destination.timeIndex;
-        const planningId = `${darggableId}_${date}_${timeIndex}`;
+        const newPlanningId = `${artifactId}_${date}_${timeIndex}`;
+        console.log("move", artifactId);
+
         dispatch(
           moveArtifact({
-            id: planningId,
-            artifactId: darggableId,
-            date,
-            timeIndex,
-            artifactType,
+            PA: {
+              id: newPlanningId,
+              artifactId: artifactId,
+              date,
+              timeIndex,
+              artifactType,
+            },
+            prevPAId: planningId,
           })
         );
       }
@@ -139,8 +148,6 @@ export default function DraggableCardView({
           colId !== SIDE_DATA_COL_ID &&
           (colId !== source.colId || timeIndex !== source.timeIndex)
         ) {
-          setWillDisappear(true);
-          setDestination({ colId, timeIndex });
           setStyle((prevState) => {
             return {
               ...prevState,
@@ -149,6 +156,17 @@ export default function DraggableCardView({
               borderRadius: "5px",
             };
           });
+          if (disappearAnim === "" && source.colId === SIDE_DATA_COL_ID) {
+            onDragEnd({
+              artifactId: artifactId,
+              destination: { colId, timeIndex },
+              source,
+            });
+            setStyle({ top: 0, left: 0, transition: "0s" });
+          } else {
+            setWillDisappear(true);
+            setDestination({ colId, timeIndex });
+          }
         } else {
           setStyle({ top: 0, left: 0 });
         }
@@ -159,9 +177,9 @@ export default function DraggableCardView({
   );
 
   const onAnimationEnd = () => {
-    dispatch(setUsedActivities(id));
+    dispatch(setUsedActivities(artifactId));
     onDragEnd({
-      darggableId: id,
+      artifactId: artifactId,
       destination: destination,
       source,
     });

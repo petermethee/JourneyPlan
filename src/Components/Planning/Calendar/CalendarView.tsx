@@ -126,7 +126,8 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                 {dayCol.planningActivities.map((PA) => (
                   <DraggableCardView
                     key={PA.id}
-                    id={PA.activity.id}
+                    planningId={PA.id}
+                    artifactId={PA.activity.id}
                     duration={PA.activity.duration}
                     containerStyle={calendarDragContainerStyle(
                       colWidth,

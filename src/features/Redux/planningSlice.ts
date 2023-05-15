@@ -66,15 +66,17 @@ export const planningSlice = createSlice({
       state: PlanningState,
       action: PayloadAction<IPlanningArtifact>
     ) => {
+      console.log("addartifact");
+
       state.planningArtifacts = [...state.planningArtifacts, action.payload];
     },
     moveArtifact: (
       state: PlanningState,
-      action: PayloadAction<IPlanningArtifact>
+      action: PayloadAction<{ PA: IPlanningArtifact; prevPAId: string }>
     ) => {
-      const { artifactId } = action.payload;
+      const prevId = action.payload.prevPAId;
       state.planningArtifacts = state.planningArtifacts.map((PA) =>
-        PA.artifactId === artifactId ? action.payload : PA
+        PA.id === prevId ? action.payload.PA : PA
       );
     },
   },
