@@ -4,7 +4,10 @@ import draggableStyle from "../DraggableCardView.module.css";
 import draggableStyles from "../../Planning/DraggableCardView.module.css";
 import { useMemo, useRef, useState } from "react";
 import {
+  getDraggableAccomodationStyle,
   getDraggableSideDataStyle,
+  getFinalDestination,
+  getFinalDestinationInAccomodationDZ,
   sideDataTop,
 } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { sideDataDragContainerStyle } from "../../../DnDCustomLib/DraggableCSS";
@@ -30,7 +33,9 @@ export default function SideData() {
 
   const [usedFilter, setUsedFilter] = useState(false);
   const [marginTop, setMarginTop] = useState(0);
-  const [currentArtifact, setCurrentArtifact] = useState(EArtifact.Activity);
+  const [currentArtifactType, setCurrentArtifactType] = useState(
+    EArtifact.Activity
+  );
 
   const filteredActivities = useMemo(() => {
     return activities.filter((activity) => activity.used === usedFilter);
@@ -45,6 +50,77 @@ export default function SideData() {
       (accomodation) => accomodation.used === usedFilter
     );
   }, [accomodations, usedFilter]);
+
+  const currentArtifacts = useMemo(() => {
+    switch (currentArtifactType) {
+      case EArtifact.Activity:
+        return filteredActivities.map((activity) => (
+          <DraggableCardView
+            key={activity.id}
+            planningId={""}
+            artifactId={activity.id}
+            containerStyle={sideDataDragContainerStyle()}
+            duration={activity.duration}
+            shwoCaseClass={draggableStyle.showcaseSideData}
+            source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
+            getDraggableStyle={getDraggableSideDataStyle}
+            disappearAnim={
+              activity.used ? "" : draggableStyles.sideDataDisappearAnim
+            }
+            artifactType={EArtifact.Activity}
+            getFinalDestination={getFinalDestination}
+          >
+            <ActivityDataCard activity={activity} />
+          </DraggableCardView>
+        ));
+      case EArtifact.Transport:
+        return filteredTransports.map((transport) => (
+          <DraggableCardView
+            key={transport.id}
+            planningId={""}
+            artifactId={transport.id}
+            containerStyle={sideDataDragContainerStyle()}
+            duration={transport.duration}
+            shwoCaseClass={draggableStyle.showcaseSideData}
+            source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
+            getDraggableStyle={getDraggableSideDataStyle}
+            disappearAnim={
+              transport.used ? "" : draggableStyles.sideDataDisappearAnim
+            }
+            artifactType={EArtifact.Transport}
+            getFinalDestination={getFinalDestination}
+          >
+            <div>{transport.name}</div>
+          </DraggableCardView>
+        ));
+
+      default:
+        return filteredAccomodations.map((accomodation) => (
+          <DraggableCardView
+            key={accomodation.id}
+            planningId={""}
+            artifactId={accomodation.id}
+            containerStyle={sideDataDragContainerStyle()}
+            duration={1}
+            shwoCaseClass={draggableStyle.showcaseSideData}
+            source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
+            getDraggableStyle={getDraggableAccomodationStyle}
+            disappearAnim={
+              accomodation.used ? "" : draggableStyles.sideDataDisappearAnim
+            }
+            artifactType={EArtifact.Accomodation}
+            getFinalDestination={getFinalDestinationInAccomodationDZ}
+          >
+            <div>{accomodation.name}</div>
+          </DraggableCardView>
+        ));
+    }
+  }, [
+    currentArtifactType,
+    filteredActivities,
+    filteredAccomodations,
+    filteredTransports,
+  ]);
 
   const onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     setMarginTop((prevState) => {
@@ -64,48 +140,12 @@ export default function SideData() {
   return (
     <div className={styles.sideDataContainer} onWheel={onWheel}>
       <SideDataHeader
-        onChange={(menu) => setCurrentArtifact(menu)}
+        onChange={(menu) => setCurrentArtifactType(menu)}
         setUsedFilter={(used) => setUsedFilter(used)}
       />
       <div className={styles.scrollContainer} style={{ marginTop: marginTop }}>
         <div ref={sideDataRef} className={styles.subContainer}>
-          {currentArtifact === EArtifact.Activity
-            ? filteredActivities.map((activity) => (
-                <DraggableCardView
-                  key={activity.id}
-                  planningId={""}
-                  artifactId={activity.id}
-                  containerStyle={sideDataDragContainerStyle()}
-                  duration={activity.duration}
-                  shwoCaseClass={draggableStyle.showcaseSideData}
-                  source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
-                  getDraggableStyle={getDraggableSideDataStyle}
-                  disappearAnim={
-                    activity.used ? "" : draggableStyles.sideDataDisappearAnim
-                  }
-                  artifactType={EArtifact.Activity}
-                >
-                  <ActivityDataCard activity={activity} />
-                </DraggableCardView>
-              ))
-            : filteredTransports.map((transport) => (
-                <DraggableCardView
-                  key={transport.id}
-                  planningId={""}
-                  artifactId={transport.id}
-                  containerStyle={sideDataDragContainerStyle()}
-                  duration={transport.duration}
-                  shwoCaseClass={draggableStyle.showcaseSideData}
-                  source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
-                  getDraggableStyle={getDraggableSideDataStyle}
-                  disappearAnim={
-                    transport.used ? "" : draggableStyles.sideDataDisappearAnim
-                  }
-                  artifactType={EArtifact.Transport}
-                >
-                  <div>{transport.name}</div>
-                </DraggableCardView>
-              ))}
+          {currentArtifacts}
         </div>
       </div>
       <Fab

@@ -29,9 +29,8 @@
   border-radius: 5px;
 }
 
-.showcaseSideData:hover {
+.showcase:hover {
   background-color: #33434a;
-
 }
 
 @keyframes sideDataDisappearAnim {

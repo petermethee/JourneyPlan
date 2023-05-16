@@ -44,7 +44,7 @@ export default function Planning() {
   const accomodations = useAppSelector(selectAccomodations);
 
   const selectedTrip = useAppSelector(selectCurrentTrip);
-  const planningActivities = useAppSelector(selectPlanningArtifacts);
+  const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const dispatch = useAppDispatch();
 
   const dayCols: TDayCol[] = useMemo(() => {
@@ -59,7 +59,7 @@ export default function Planning() {
 
       while (currentDay < dateRange[1]) {
         const dateId = currentDay.format("YYYY-MM-DD");
-        const currentDayPlanningActivity = planningActivities.filter(
+        const currentDayPlanningActivity = planningArtifacts.filter(
           (p) => p.date === dateId
         );
 
@@ -109,7 +109,7 @@ export default function Planning() {
       return columns;
     }
     return [];
-  }, [selectedTrip, planningActivities, activities, accomodations, transports]);
+  }, [selectedTrip, planningArtifacts, activities, accomodations, transports]);
 
   useEffect(() => {
     dispatch(getAllActivities(parseInt(tripId)));

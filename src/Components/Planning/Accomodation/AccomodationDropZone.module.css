@@ -2,14 +2,14 @@
     position: absolute;
     bottom: 0;
     display: flex;
-    width: 100%;
+    width: calc(100% - var(--hoursLabelWidth));
     background-color: #0a48824c;
     height: var(--accomodationDropZoneHeight);
     backdrop-filter: blur(2px);
     border-radius: 20px 20px 0px 0px;
     box-shadow: 0px 0px 6px 0px #0000007b;
     transition: 300ms;
-    z-index: 10;
+    margin-left: var(--hoursLabelWidth);
 }
 
 .container:hover {

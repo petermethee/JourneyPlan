@@ -5,6 +5,7 @@ import { TDayCol } from "../Planning";
 import {
   cellHeight,
   getDraggableCalendarStyle,
+  getFinalDestination,
   initPlanningDimensions,
   minColWidth,
   setCalendarBoundary,
@@ -139,8 +140,30 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     disappearAnim={""}
                     shwoCaseClass={draggableStyle.calendarShowcase}
                     artifactType={EArtifact.Activity}
+                    getFinalDestination={getFinalDestination}
                   >
                     <ActivityDataCard activity={PA.activity} />
+                  </DraggableCardView>
+                ))}
+                {dayCol.planningTransports.map((PT) => (
+                  <DraggableCardView
+                    key={PT.id}
+                    planningId={PT.id}
+                    artifactId={PT.transport.id}
+                    duration={PT.transport.duration}
+                    containerStyle={calendarDragContainerStyle(
+                      colWidth,
+                      PT.transport.duration * cellHeight,
+                      PT.timeIndex * cellHeight
+                    )}
+                    source={{ colId: dayCol.dateId, timeIndex: PT.timeIndex }}
+                    getDraggableStyle={getDraggableCalendarStyle}
+                    disappearAnim={""}
+                    shwoCaseClass={draggableStyle.calendarShowcase}
+                    artifactType={EArtifact.Transport}
+                    getFinalDestination={getFinalDestination}
+                  >
+                    <div>{PT.transport.name}</div>
                   </DraggableCardView>
                 ))}
               </div>

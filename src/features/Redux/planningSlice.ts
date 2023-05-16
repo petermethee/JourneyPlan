@@ -66,8 +66,6 @@ export const planningSlice = createSlice({
       state: PlanningState,
       action: PayloadAction<IPlanningArtifact>
     ) => {
-      console.log("addartifact");
-
       state.planningArtifacts = [...state.planningArtifacts, action.payload];
     },
     moveArtifact: (

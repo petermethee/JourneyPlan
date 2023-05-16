@@ -6,12 +6,14 @@ import React, {
   useState,
 } from "react";
 import styles from "./DraggableCardView.module.css";
-import { getFinalDestination } from "../../DnDCustomLib/CalendarDimensionsHelper";
 import { useAppDispatch } from "../../app/hooks";
 import { setUsedActivities } from "../../features/Redux/activitiesSlice";
 import { addArtifact, moveArtifact } from "../../features/Redux/planningSlice";
 import { SIDE_DATA_COL_ID } from "./SideData/SideData";
 import { EArtifact } from "../../Models/EArtifacts";
+import { setUsedTransports } from "../../features/Redux/transportsSlice";
+import { setUsedAccomodations } from "../../features/Redux/accomodationsSlice";
+import { darkSecondaryBlue } from "../../style/cssGlobalStyle";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
@@ -37,6 +39,7 @@ type TDraggableProps = {
   shwoCaseClass?: string;
   disappearAnim: string;
   artifactType: EArtifact;
+  getFinalDestination(x: number, y: number): [string, number];
 };
 export default function DraggableCardView({
   planningId,
@@ -49,6 +52,7 @@ export default function DraggableCardView({
   shwoCaseClass,
   disappearAnim,
   artifactType,
+  getFinalDestination,
 }: TDraggableProps) {
   const dispatch = useAppDispatch();
   const draggableRef = useRef<HTMLDivElement>(null);
@@ -59,49 +63,48 @@ export default function DraggableCardView({
   const [willDisappear, setWillDisappear] = useState(false);
   const [destination, setDestination] = useState<TDroppableInfo>(source);
 
-  const onDragEnd = (event: TDnDEvent) => {
-    console.log("enddrag");
+  const onDragEnd = useCallback(
+    (event: TDnDEvent) => {
+      const { artifactId, source, destination } = event;
+      if (
+        source.colId !== destination.colId ||
+        source.timeIndex !== destination.timeIndex
+      ) {
+        if (source.colId !== SIDE_DATA_COL_ID) {
+          const date = destination.colId;
+          const timeIndex = destination.timeIndex;
+          const newPlanningId = `${artifactId}_${date}_${timeIndex}`;
 
-    const { artifactId, source, destination } = event;
-    if (
-      source.colId !== destination.colId ||
-      source.timeIndex !== destination.timeIndex
-    ) {
-      if (destination.colId === SIDE_DATA_COL_ID) {
-      } else if (source.colId === SIDE_DATA_COL_ID) {
-        const date = destination.colId;
-        const timeIndex = destination.timeIndex;
-        const newPlanningId = `${artifactId}_${date}_${timeIndex}`;
-        dispatch(
-          addArtifact({
-            artifactId: artifactId,
-            date,
-            timeIndex,
-            id: newPlanningId,
-            artifactType,
-          })
-        );
-      } else {
-        const date = destination.colId;
-        const timeIndex = destination.timeIndex;
-        const newPlanningId = `${artifactId}_${date}_${timeIndex}`;
-        console.log("move", artifactId);
-
-        dispatch(
-          moveArtifact({
-            PA: {
-              id: newPlanningId,
+          dispatch(
+            moveArtifact({
+              PA: {
+                id: newPlanningId,
+                artifactId: artifactId,
+                date,
+                timeIndex,
+                artifactType,
+              },
+              prevPAId: planningId,
+            })
+          );
+        } else {
+          const date = destination.colId;
+          const timeIndex = destination.timeIndex;
+          const newPlanningId = `${artifactId}_${date}_${timeIndex}`;
+          dispatch(
+            addArtifact({
               artifactId: artifactId,
               date,
               timeIndex,
+              id: newPlanningId,
               artifactType,
-            },
-            prevPAId: planningId,
-          })
-        );
+            })
+          );
+        }
       }
-    }
-  };
+    },
+    [artifactType, planningId, dispatch]
+  );
 
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -137,7 +140,6 @@ export default function DraggableCardView({
     (event: MouseEvent) => {
       if (isDragged) {
         draggableRef.current!.style.cursor = "pointer ";
-
         setIsDragged(false);
         const [colId, timeIndex] = getFinalDestination(
           event.clientX,
@@ -154,6 +156,7 @@ export default function DraggableCardView({
               boxShadow: "none",
               transform: "scale(1)",
               borderRadius: "5px",
+              backgroundColor: darkSecondaryBlue,
             };
           });
           if (disappearAnim === "" && source.colId === SIDE_DATA_COL_ID) {
@@ -171,13 +174,34 @@ export default function DraggableCardView({
           setStyle({ top: 0, left: 0 });
         }
       }
-      setMouseDown(false);
+      if (mouseDown) {
+        setMouseDown(false);
+      }
     },
-    [isDragged, source]
+    [
+      isDragged,
+      mouseDown,
+      source,
+      artifactId,
+      disappearAnim,
+      getFinalDestination,
+      onDragEnd,
+    ]
   );
 
   const onAnimationEnd = () => {
-    dispatch(setUsedActivities(artifactId));
+    switch (artifactType) {
+      case EArtifact.Activity:
+        dispatch(setUsedActivities(artifactId));
+        break;
+      case EArtifact.Transport:
+        dispatch(setUsedTransports(artifactId));
+        break;
+      default:
+        dispatch(setUsedAccomodations(artifactId));
+        break;
+    }
+
     onDragEnd({
       artifactId: artifactId,
       destination: destination,
