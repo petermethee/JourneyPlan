@@ -29,6 +29,9 @@
 
 .dayContainer {
     height: var(--totalHeight);
+}
+
+.dayAccomodationDZ, .dayContainer {
     border-right: 1px solid #dadce0;
 }
 

@@ -4,7 +4,7 @@ import draggableStyle from "../DraggableCardView.module.css";
 import draggableStyles from "../../Planning/DraggableCardView.module.css";
 import { useMemo, useRef, useState } from "react";
 import {
-  getDraggableAccomodationStyle,
+  getDraggableAccomodationSideDataStyle,
   getDraggableSideDataStyle,
   getFinalDestination,
   getFinalDestinationInAccomodationDZ,
@@ -104,7 +104,7 @@ export default function SideData() {
             duration={1}
             shwoCaseClass={draggableStyle.showcaseSideData}
             source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
-            getDraggableStyle={getDraggableAccomodationStyle}
+            getDraggableStyle={getDraggableAccomodationSideDataStyle}
             disappearAnim={
               accomodation.used ? "" : draggableStyles.sideDataDisappearAnim
             }

@@ -3,15 +3,24 @@ import styles from "./CalendarView.module.css";
 import draggableStyle from "../DraggableCardView.module.css";
 import { TDayCol } from "../Planning";
 import {
+  accomodationDropZoneHeight,
   cellHeight,
+  getDraggableAccomodationCalendarStyle,
+  getDraggableAccomodationSideDataStyle,
   getDraggableCalendarStyle,
   getFinalDestination,
+  getFinalDestinationInAccomodationDZ,
   initPlanningDimensions,
   minColWidth,
   setCalendarBoundary,
+  setDropZoneBoundary,
 } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import DraggableCardView from "../DraggableCardView";
-import { calendarDragContainerStyle } from "../../../DnDCustomLib/DraggableCSS";
+import {
+  accomodationDropZoneDragContainerStyle,
+  calendarDragContainerStyle,
+  sideDataDragContainerStyle,
+} from "../../../DnDCustomLib/DraggableCSS";
 import HoursLabel from "./HoursLabel";
 import AccomodationDropZone from "../Accomodation/AccomodationDropZone";
 import CalendarHeader from "./CalendarHeader";
@@ -33,6 +42,8 @@ export const RELATIVE_CALENDAR = "RELATIVE_CALENDAR";
 
 export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
   const calendarRef = useRef<HTMLDivElement>(null);
+  const dropZoneRef = useRef<HTMLDivElement>(null);
+
   const [colWidth, setColWidth] = useState(100);
   let calculTimeOut: NodeJS.Timeout;
 
@@ -49,6 +60,7 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
       dayCols.map((day) => day.dateId),
       calendarRef.current!.getBoundingClientRect()
     );
+    setDropZoneBoundary(dropZoneRef.current!.getBoundingClientRect());
     setDaysIndex((prevState) => {
       return [prevState[0], prevState[0] + nCol];
     });
@@ -95,7 +107,7 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
       />
       <div
         className={styles.gridContainer}
-        onScroll={(event) =>
+        onScroll={(_event) =>
           setCalendarBoundary(
             document.getElementById(RELATIVE_CALENDAR)!.getBoundingClientRect()
           )
@@ -170,7 +182,42 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
             ))}
         </div>
       </div>
-      <AccomodationDropZone />
+      <AccomodationDropZone dropZoneRef={dropZoneRef}>
+        <>
+          {dayCols
+            .filter(
+              (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
+            )
+            .map((dayCol) => (
+              <div
+                key={dayCol.dateId}
+                className={styles.dayAccomodationDZ}
+                style={{ width: colWidth }}
+              >
+                {dayCol.planningAccomodations.map((PT) => (
+                  <DraggableCardView
+                    key={PT.id}
+                    planningId={PT.id}
+                    artifactId={PT.accomodation.id}
+                    duration={1}
+                    containerStyle={accomodationDropZoneDragContainerStyle(
+                      colWidth,
+                      accomodationDropZoneHeight
+                    )}
+                    source={{ colId: dayCol.dateId, timeIndex: PT.timeIndex }}
+                    getDraggableStyle={getDraggableAccomodationCalendarStyle}
+                    disappearAnim={""}
+                    shwoCaseClass={draggableStyle.calendarShowcase}
+                    artifactType={EArtifact.Accomodation}
+                    getFinalDestination={getFinalDestinationInAccomodationDZ}
+                  >
+                    <div>{PT.accomodation.name}</div>
+                  </DraggableCardView>
+                ))}
+              </div>
+            ))}
+        </>
+      </AccomodationDropZone>
     </div>
   );
 }

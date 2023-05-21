@@ -190,16 +190,18 @@ export default function DraggableCardView({
   );
 
   const onAnimationEnd = () => {
-    switch (artifactType) {
-      case EArtifact.Activity:
-        dispatch(setUsedActivities(artifactId));
-        break;
-      case EArtifact.Transport:
-        dispatch(setUsedTransports(artifactId));
-        break;
-      default:
-        dispatch(setUsedAccomodations(artifactId));
-        break;
+    if (source.colId === SIDE_DATA_COL_ID) {
+      switch (artifactType) {
+        case EArtifact.Activity:
+          dispatch(setUsedActivities(artifactId));
+          break;
+        case EArtifact.Transport:
+          dispatch(setUsedTransports(artifactId));
+          break;
+        default:
+          dispatch(setUsedAccomodations(artifactId));
+          break;
+      }
     }
 
     onDragEnd({

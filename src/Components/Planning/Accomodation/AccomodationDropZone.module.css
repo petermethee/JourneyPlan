@@ -13,5 +13,5 @@
 }
 
 .container:hover {
-    height: calc(var(--accomodationDropZoneHeight) + 20px);
+    /* height: calc(var(--accomodationDropZoneHeight) + 20px); */
 }

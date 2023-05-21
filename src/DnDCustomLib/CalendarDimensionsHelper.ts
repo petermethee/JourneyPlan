@@ -9,13 +9,14 @@ import {
 
 export const minColWidth = 200;
 export const cellHeight = 70;
+export const accomodationDropZoneHeight = 100;
+
 export let sideDataTop: number;
 
 const ratioTimeStepCellHeight = 4;
 const timeStep = cellHeight / ratioTimeStepCellHeight;
 
 const hoursLabelWidth = 50;
-const accomodationDropZoneHeight = 100;
 
 document.documentElement.style.setProperty(
   "--totalHeight",
@@ -151,7 +152,7 @@ export const getDraggableSideDataStyle = (
   return style;
 };
 
-export const getDraggableAccomodationStyle = (
+export const getDraggableAccomodationSideDataStyle = (
   x: number,
   y: number,
   deltaMousePosition: { x: number; y: number },
@@ -183,7 +184,28 @@ export const getDraggableAccomodationStyle = (
       accomodationDropZoneHeight
     );
   }
-  console.log("style", style);
+  return style;
+};
+
+export const getDraggableAccomodationCalendarStyle = (
+  x: number,
+  y: number,
+  deltaMousePosition: { x: number; y: number },
+  dragContainerCoord: { x: number; y: number },
+  _duration: number
+) => {
+  const relativeX = x - dropZoneRect.left; //Relative to calendar position
+  const clampedX = Math.max(0, Math.min(dropZoneRect.width - 1, relativeX));
+
+  const steppedX =
+    Math.floor((clampedX - dragContainerCoord.x) / columnWidth) * columnWidth; //Relative to draggable container position
+
+  const style = onDragOverAccomodationDZStyle(
+    steppedX,
+    0,
+    columnWidth,
+    accomodationDropZoneHeight
+  );
 
   return style;
 };

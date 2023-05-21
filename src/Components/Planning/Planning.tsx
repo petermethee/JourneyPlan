@@ -34,7 +34,7 @@ export type TDayCol = {
   name: string;
   planningActivities: TDayActivity[];
   planningTransports: TDayTransport[];
-  planningActivitiesAccomodations: TDayAccomodation[];
+  planningAccomodations: TDayAccomodation[];
 };
 
 export default function Planning() {
@@ -100,7 +100,7 @@ export default function Planning() {
           dateId: dateId,
           name: dateId,
           planningActivities: dayActivities,
-          planningActivitiesAccomodations: dayAccomodations,
+          planningAccomodations: dayAccomodations,
           planningTransports: dayTransports,
         });
         currentDay = currentDay.add(1, "day");

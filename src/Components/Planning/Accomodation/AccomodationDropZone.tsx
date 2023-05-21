@@ -1,15 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import styles from "./AccomodationDropZone.module.css";
-import { setDropZoneBoundary } from "../../../DnDCustomLib/CalendarDimensionsHelper";
-export default function AccomodationDropZone() {
-  const dropZoneRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setDropZoneBoundary(dropZoneRef.current!.getBoundingClientRect());
-  }, []);
+export default function AccomodationDropZone({
+  children,
+  dropZoneRef,
+}: {
+  children: JSX.Element;
+  dropZoneRef: React.RefObject<HTMLDivElement>;
+}) {
   return (
     <div ref={dropZoneRef} className={styles.container}>
-      {" "}
+      {children}
     </div>
   );
 }

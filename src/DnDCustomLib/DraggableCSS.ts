@@ -68,3 +68,15 @@ export const calendarDragContainerStyle = (
     top: top + 2,
   };
 };
+
+export const accomodationDropZoneDragContainerStyle = (
+  width: number,
+  height: number
+): CSSProperties => {
+  return {
+    position: "relative",
+    width,
+    height: height - 4,
+    top: "2px",
+  };
+};
