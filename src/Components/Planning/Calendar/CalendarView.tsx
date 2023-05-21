@@ -6,7 +6,6 @@ import {
   accomodationDropZoneHeight,
   cellHeight,
   getDraggableAccomodationCalendarStyle,
-  getDraggableAccomodationSideDataStyle,
   getDraggableCalendarStyle,
   getFinalDestination,
   getFinalDestinationInAccomodationDZ,
@@ -19,7 +18,6 @@ import DraggableCardView from "../DraggableCardView";
 import {
   accomodationDropZoneDragContainerStyle,
   calendarDragContainerStyle,
-  sideDataDragContainerStyle,
 } from "../../../DnDCustomLib/DraggableCSS";
 import HoursLabel from "./HoursLabel";
 import AccomodationDropZone from "../Accomodation/AccomodationDropZone";

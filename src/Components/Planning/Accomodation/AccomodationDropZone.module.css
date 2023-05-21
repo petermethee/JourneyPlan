@@ -11,7 +11,3 @@
     transition: 300ms;
     margin-left: var(--hoursLabelWidth);
 }
-
-.container:hover {
-    /* height: calc(var(--accomodationDropZoneHeight) + 20px); */
-}

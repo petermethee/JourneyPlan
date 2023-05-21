@@ -39,7 +39,11 @@ type TDraggableProps = {
   shwoCaseClass?: string;
   disappearAnim: string;
   artifactType: EArtifact;
-  getFinalDestination(x: number, y: number): [string, number];
+  getFinalDestination(
+    x: number,
+    y: number,
+    allowSideData: boolean
+  ): [string, number];
 };
 export default function DraggableCardView({
   planningId,
@@ -143,7 +147,8 @@ export default function DraggableCardView({
         setIsDragged(false);
         const [colId, timeIndex] = getFinalDestination(
           event.clientX,
-          event.clientY
+          event.clientY,
+          source.colId === SIDE_DATA_COL_ID
         );
 
         if (

@@ -1,5 +1,4 @@
 import { CSSProperties } from "react";
-import { RELATIVE_CALENDAR } from "../Components/Planning/Calendar/CalendarView";
 import { SIDE_DATA_COL_ID } from "../Components/Planning/SideData/SideData";
 import {
   onDragOverAccomodationDZStyle,
@@ -81,7 +80,10 @@ export const getDraggableCalendarStyle = (
   const relativeY = y - calendarRect.top; //Relative to calendar position
   const clampedY = Math.max(
     deltaMousePosition.y + 2,
-    Math.min(calendarRect.height - deltaMousePosition.y, relativeY)
+    Math.min(
+      calendarRect.height + deltaMousePosition.y - duration * cellHeight + 1,
+      relativeY
+    )
   );
 
   lastTimeIndex =
@@ -123,7 +125,7 @@ export const getDraggableSideDataStyle = (
       dragContainerCoord.x +
       calendarRect.left;
 
-    const clampedY =
+    const relativeY =
       Math.floor(
         (y -
           calendarRect.top -
@@ -134,13 +136,26 @@ export const getDraggableSideDataStyle = (
       dragContainerCoord.y +
       calendarRect.top;
 
-    lastTimeIndex =
-      Math.floor(
-        (y -
-          calendarRect.top -
-          ((duration * ratioTimeStepCellHeight - 1) / 2) * timeStep) /
-          timeStep
-      ) / ratioTimeStepCellHeight;
+    const clampedY = Math.min(
+      Math.max(calendarRect.top - dragContainerCoord.y, relativeY),
+      calendarRect.top +
+        calendarRect.height -
+        dragContainerCoord.y -
+        cellHeight * duration
+    );
+
+    lastTimeIndex = Math.min(
+      Math.max(
+        0,
+        Math.floor(
+          (y -
+            calendarRect.top -
+            ((duration * ratioTimeStepCellHeight - 1) / 2) * timeStep) /
+            timeStep
+        ) / ratioTimeStepCellHeight
+      ),
+      24 - duration
+    );
 
     style = onDragOverCalendarStyle(
       clampedX,
@@ -211,13 +226,24 @@ export const getDraggableAccomodationCalendarStyle = (
 };
 
 // final destination values
-export const getFinalDestination = (x: number, y: number): [string, number] => {
-  if (x < calendarRect.x) {
-    return [SIDE_DATA_COL_ID, lastTimeIndex];
-  } else {
-    const colIndex = Math.floor((x - calendarRect.x) / columnWidth);
-    return [colIds[colIndex], lastTimeIndex];
+export const getFinalDestination = (
+  x: number,
+  y: number,
+  allowSideData: boolean
+): [string, number] => {
+  if (!isInsidePlanning(x, y) && allowSideData) {
+    return [SIDE_DATA_COL_ID, -1];
   }
+  if (x < calendarRect.x) {
+    return [colIds[0], lastTimeIndex];
+  } else if (x > calendarRect.x + calendarRect.width) {
+    return [
+      colIds[Math.floor((calendarRect.width - 1) / columnWidth)],
+      lastTimeIndex,
+    ];
+  }
+  const colIndex = Math.floor((x - calendarRect.x) / columnWidth);
+  return [colIds[colIndex], lastTimeIndex];
 };
 
 export const getFinalDestinationInAccomodationDZ = (

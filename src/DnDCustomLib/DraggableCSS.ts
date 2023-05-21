@@ -26,7 +26,7 @@ export const onDragOverCalendarStyle = (
     height: height - 4,
     boxShadow: "0px 0px 8px 0px #000000bb",
     borderRadius: "5px",
-    // transform: "scale(0.9)",
+    transform: "scale(0.9)",
     zIndex: 1,
   };
 };
@@ -44,7 +44,7 @@ export const onDragOverAccomodationDZStyle = (
     height: height - 4,
     boxShadow: "0px 0px 8px 0px #000000bb",
     borderRadius: "5px",
-    // transform: "scale(0.9)",
+    transform: "scale(0.9)",
     zIndex: 1,
   };
 };
