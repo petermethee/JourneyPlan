@@ -65,11 +65,14 @@ export default function DraggableCardView({
   const [mouseDown, setMouseDown] = useState(false);
   const [style, setStyle] = useState<React.CSSProperties | undefined>();
   const [willDisappear, setWillDisappear] = useState(false);
+  const [usedWillDisappear, setUsedWillDisappear] = useState(false);
+
   const [destination, setDestination] = useState<TDroppableInfo>(source);
 
   const onDragEnd = useCallback(
     (event: TDnDEvent) => {
       const { artifactId, source, destination } = event;
+
       if (
         source.colId !== destination.colId ||
         source.timeIndex !== destination.timeIndex
@@ -95,6 +98,7 @@ export default function DraggableCardView({
           const date = destination.colId;
           const timeIndex = destination.timeIndex;
           const newPlanningId = `${artifactId}_${date}_${timeIndex}`;
+
           dispatch(
             addArtifact({
               artifactId: artifactId,
@@ -105,6 +109,8 @@ export default function DraggableCardView({
             })
           );
         }
+        setUsedWillDisappear(false);
+        setStyle({ top: 0, left: 0, transition: "0s" });
       }
     },
     [artifactType, planningId, dispatch]
@@ -165,16 +171,11 @@ export default function DraggableCardView({
             };
           });
           if (disappearAnim === "" && source.colId === SIDE_DATA_COL_ID) {
-            onDragEnd({
-              artifactId: artifactId,
-              destination: { colId, timeIndex },
-              source,
-            });
-            setStyle({ top: 0, left: 0, transition: "0s" });
+            setUsedWillDisappear(true);
           } else {
             setWillDisappear(true);
-            setDestination({ colId, timeIndex });
           }
+          setDestination({ colId, timeIndex });
         } else {
           setStyle({ top: 0, left: 0 });
         }
@@ -183,15 +184,7 @@ export default function DraggableCardView({
         setMouseDown(false);
       }
     },
-    [
-      isDragged,
-      mouseDown,
-      source,
-      artifactId,
-      disappearAnim,
-      getFinalDestination,
-      onDragEnd,
-    ]
+    [isDragged, mouseDown, source, disappearAnim, getFinalDestination]
   );
 
   const onAnimationEnd = () => {
@@ -215,6 +208,7 @@ export default function DraggableCardView({
       source,
     });
   };
+
   useEffect(() => {
     window.addEventListener("mousemove", mouseMoveListener);
 
@@ -240,14 +234,17 @@ export default function DraggableCardView({
           ? `${disappearAnim} 300ms ease-out forwards`
           : "none",
       }}
-      onAnimationEnd={onAnimationEnd}
+      onAnimationEnd={onAnimationEnd} //is also triggered when child animation ends
     >
       <div
         className={`${styles.ghost} ${shwoCaseClass}`}
         style={{
           position: "initial",
-          display: isDragged || willDisappear ? "" : "none",
-          animation: willDisappear
+          display:
+            isDragged || willDisappear || usedWillDisappear ? "" : "none",
+          animation: usedWillDisappear
+            ? `${styles.usedDisappearAnim} 300ms ease-out forwards`
+            : willDisappear
             ? `${styles.ghostDisappearAnim} 300ms ease-out forwards`
             : "none",
         }}

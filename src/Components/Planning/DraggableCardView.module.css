@@ -59,3 +59,10 @@
     transform: scale(0.2);
   }
 }
+
+@keyframes usedDisappearAnim {
+
+  100% {
+    opacity: 1;
+  }
+}
