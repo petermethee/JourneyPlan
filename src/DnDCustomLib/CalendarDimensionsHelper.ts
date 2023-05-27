@@ -9,6 +9,7 @@ import {
 export const minColWidth = 200;
 export const cellHeight = 70;
 export const accomodationDropZoneHeight = 100;
+export const expandedAccomodationDropZoneHeight = 200;
 
 export let sideDataTop: number;
 
@@ -31,7 +32,10 @@ document.documentElement.style.setProperty(
   "--accomodationDropZoneHeight",
   accomodationDropZoneHeight + "px"
 );
-
+document.documentElement.style.setProperty(
+  "--expandedAccomodationDropZoneHeight",
+  expandedAccomodationDropZoneHeight + "px"
+);
 let columnWidth: number;
 let colIds: string[];
 let calendarRect: DOMRect;
@@ -40,8 +44,8 @@ let lastTimeIndex: number;
 let dropZoneRect: DOMRect;
 
 // UI dimensions and parameters
-export const setDropZoneBoundary = (initCalendarRect: DOMRect) => {
-  dropZoneRect = initCalendarRect;
+export const setDropZoneBoundary = (initDropZoneRect: DOMRect) => {
+  dropZoneRect = initDropZoneRect;
 };
 
 export const initPlanningDimensions = (
@@ -72,7 +76,7 @@ export const getDraggableCalendarStyle = (
   duration: number
 ) => {
   const relativeX = x - calendarRect.left; //Relative to calendar position
-  const clampedX = Math.max(0, Math.min(calendarRect.width - 1, relativeX));
+  const clampedX = Math.max(1, Math.min(calendarRect.width - 1, relativeX));
 
   const steppedX =
     Math.floor((clampedX - dragContainerCoord.x) / columnWidth) * columnWidth; //Relative to draggable container position
@@ -176,7 +180,7 @@ export const getDraggableAccomodationSideDataStyle = (
 ) => {
   let style: CSSProperties;
 
-  if (!isInsideAccomodationDZ(x, y)) {
+  if (!isInsidePlanning(x, y)) {
     const newX = x - deltaMousePosition.x - dragContainerCoord.x;
     const newY = y - deltaMousePosition.y - dragContainerCoord.y;
     style = onDragOverSideDataStyle(newX, newY);
@@ -186,17 +190,13 @@ export const getDraggableAccomodationSideDataStyle = (
       dragContainerCoord.x +
       dropZoneRect.left;
 
-    const clampedY =
-      Math.floor((y - dropZoneRect.top) / accomodationDropZoneHeight) *
-        accomodationDropZoneHeight -
-      dragContainerCoord.y +
-      dropZoneRect.top;
+    const clampedY = -dragContainerCoord.y + dropZoneRect.top;
 
     style = onDragOverAccomodationDZStyle(
       clampedX,
       clampedY + 2,
       columnWidth,
-      accomodationDropZoneHeight
+      expandedAccomodationDropZoneHeight
     );
   }
   return style;
@@ -215,12 +215,7 @@ export const getDraggableAccomodationCalendarStyle = (
   const steppedX =
     Math.floor((clampedX - dragContainerCoord.x) / columnWidth) * columnWidth; //Relative to draggable container position
 
-  const style = onDragOverAccomodationDZStyle(
-    steppedX,
-    0,
-    columnWidth,
-    accomodationDropZoneHeight
-  );
+  const style = onDragOverAccomodationDZStyle(steppedX, 0, columnWidth, "100%");
 
   return style;
 };
@@ -250,7 +245,7 @@ export const getFinalDestinationInAccomodationDZ = (
   x: number,
   y: number
 ): [string, number] => {
-  if (isInsideAccomodationDZ(x, y)) {
+  if (isInsideAccomodationDZ(x, y) || isInsidePlanning(x, y)) {
     const colIndex = Math.floor((x - dropZoneRect.x) / columnWidth);
     return [colIds[colIndex], -1];
   }

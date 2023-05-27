@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./CalendarView.module.css";
 import draggableStyle from "../DraggableCardView.module.css";
 import { TDayCol } from "../Planning";
 import {
-  accomodationDropZoneHeight,
   cellHeight,
   getDraggableAccomodationCalendarStyle,
   getDraggableCalendarStyle,
@@ -38,7 +37,7 @@ export const getHours = (): string[] => {
 
 export const RELATIVE_CALENDAR = "RELATIVE_CALENDAR";
 
-export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
+function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
   const calendarRef = useRef<HTMLDivElement>(null);
   const dropZoneRef = useRef<HTMLDivElement>(null);
 
@@ -199,8 +198,7 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     artifactId={PT.accomodation.id}
                     duration={1}
                     containerStyle={accomodationDropZoneDragContainerStyle(
-                      colWidth,
-                      accomodationDropZoneHeight
+                      colWidth
                     )}
                     source={{ colId: dayCol.dateId, timeIndex: PT.timeIndex }}
                     getDraggableStyle={getDraggableAccomodationCalendarStyle}
@@ -219,3 +217,5 @@ export default function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
     </div>
   );
 }
+
+export default memo(CalendarView);

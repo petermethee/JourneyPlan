@@ -7,21 +7,15 @@ import {
   updateItemAPI,
 } from "../ipc/ipcGenericFunctions";
 import { RootState } from "../../app/store";
-import { AlertColor } from "@mui/material";
 import { mockedActivities } from "../../MockData/MockedActivities";
 import { TablesName } from "../../Models/DataBaseModel";
 
 interface ActivitiesState {
   activities: IActivity[];
-  snackbarStatus: {
-    snackBarSeverity?: AlertColor;
-    message: string;
-  };
 }
 
 const initialState: ActivitiesState = {
   activities: mockedActivities,
-  snackbarStatus: { message: "" },
 };
 
 export const getAllActivities = createAsyncThunk(

@@ -15,6 +15,7 @@ import {
   deleteActivity,
 } from "./activitiesSlice";
 import { mockedTrip } from "../../MockData/MockedTrip";
+import { getPlanning } from "./planningSlice";
 
 interface TripState {
   trips: ITrip[];
@@ -109,6 +110,13 @@ export const tripSlice = createSlice({
       })
 
       //Reducers from other slice
+      .addCase(getPlanning.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la lecture des voyages: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
       .addCase(getAllActivities.rejected, (state, action) => {
         state.snackbarStatus = {
           message:

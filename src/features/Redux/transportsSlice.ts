@@ -7,21 +7,15 @@ import {
   updateItemAPI,
 } from "../ipc/ipcGenericFunctions";
 import { RootState } from "../../app/store";
-import { AlertColor } from "@mui/material";
 import { mockedTransports } from "../../MockData/MockedTransports";
 import { TablesName } from "../../Models/DataBaseModel";
 
 interface TransportsState {
   transports: ITransport[];
-  snackbarStatus: {
-    snackBarSeverity?: AlertColor;
-    message: string;
-  };
 }
 
 const initialState: TransportsState = {
   transports: mockedTransports,
-  snackbarStatus: { message: "" },
 };
 
 export const getAllTransports = createAsyncThunk(

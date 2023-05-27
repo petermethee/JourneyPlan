@@ -12,7 +12,10 @@ import { addArtifact, moveArtifact } from "../../features/Redux/planningSlice";
 import { SIDE_DATA_COL_ID } from "./SideData/SideData";
 import { EArtifact } from "../../Models/EArtifacts";
 import { setUsedTransports } from "../../features/Redux/transportsSlice";
-import { setUsedAccomodations } from "../../features/Redux/accomodationsSlice";
+import {
+  setAccomdationIsDragged,
+  setUsedAccomodations,
+} from "../../features/Redux/accomodationsSlice";
 import { darkSecondaryBlue } from "../../style/cssGlobalStyle";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
@@ -130,6 +133,8 @@ export default function DraggableCardView({
       if (mouseDown) {
         draggableRef.current!.style.cursor = "grabbing ";
         setIsDragged(true);
+        artifactType === EArtifact.Accomodation &&
+          dispatch(setAccomdationIsDragged(true));
         const currentStyle = getDraggableStyle(
           event.clientX,
           event.clientY,
@@ -143,12 +148,21 @@ export default function DraggableCardView({
         setStyle(currentStyle);
       }
     },
-    [mouseDown, deltaMousePosition, duration, getDraggableStyle]
+    [
+      mouseDown,
+      deltaMousePosition,
+      duration,
+      getDraggableStyle,
+      artifactType,
+      dispatch,
+    ]
   );
 
   const mouseUpListener = useCallback(
     (event: MouseEvent) => {
       if (isDragged) {
+        artifactType === EArtifact.Accomodation &&
+          dispatch(setAccomdationIsDragged(false));
         draggableRef.current!.style.cursor = "pointer ";
         setIsDragged(false);
         const [colId, timeIndex] = getFinalDestination(
@@ -184,7 +198,15 @@ export default function DraggableCardView({
         setMouseDown(false);
       }
     },
-    [isDragged, mouseDown, source, disappearAnim, getFinalDestination]
+    [
+      isDragged,
+      mouseDown,
+      source,
+      disappearAnim,
+      getFinalDestination,
+      artifactType,
+      dispatch,
+    ]
   );
 
   const onAnimationEnd = () => {

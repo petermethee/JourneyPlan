@@ -35,13 +35,13 @@ export const onDragOverAccomodationDZStyle = (
   x: number,
   y: number,
   width: number,
-  height: number
+  height: number | string
 ): CSSProperties => {
   return {
     top: y,
     left: x,
     width: width - 1,
-    height: height - 4,
+    height: height,
     boxShadow: "0px 0px 8px 0px #000000bb",
     borderRadius: "5px",
     transform: "scale(0.9)",
@@ -70,13 +70,12 @@ export const calendarDragContainerStyle = (
 };
 
 export const accomodationDropZoneDragContainerStyle = (
-  width: number,
-  height: number
+  width: number
 ): CSSProperties => {
   return {
     position: "relative",
     width,
-    height: height - 4,
+    height: "calc(100% - 4px)",
     top: "2px",
   };
 };

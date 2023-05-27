@@ -42,7 +42,6 @@ export default function Planning() {
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
   const accomodations = useAppSelector(selectAccomodations);
-
   const selectedTrip = useAppSelector(selectCurrentTrip);
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const dispatch = useAppDispatch();

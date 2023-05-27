@@ -2,19 +2,13 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import IPlanningArtifact from "../../Models/IPlanningArtifact";
 
 import { RootState } from "../../app/store";
-import { AlertColor } from "@mui/material";
 
 interface PlanningState {
   planningArtifacts: IPlanningArtifact[];
-  snackbarStatus: {
-    snackBarSeverity?: AlertColor;
-    message: string;
-  };
 }
 
 const initialState: PlanningState = {
   planningArtifacts: [],
-  snackbarStatus: { message: "" },
 };
 
 export const getPlanning = createAsyncThunk(
@@ -79,17 +73,9 @@ export const planningSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder
-      .addCase(getPlanning.fulfilled, (state, action) => {
-        planningSlice.caseReducers.setAllPlannings(state, action);
-      })
-      .addCase(getPlanning.rejected, (state, action) => {
-        state.snackbarStatus = {
-          message:
-            "Erreur lors de la lecture des voyages: " + action.error.message!,
-          snackBarSeverity: "error",
-        };
-      });
+    builder.addCase(getPlanning.fulfilled, (state, action) => {
+      planningSlice.caseReducers.setAllPlannings(state, action);
+    });
     /*
       .addCase(insertPlanning.rejected, (state, action) => {
         state.snackbarStatus = {
