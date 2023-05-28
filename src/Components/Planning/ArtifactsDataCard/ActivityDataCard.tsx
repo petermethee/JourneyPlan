@@ -3,11 +3,15 @@ import styles from "./ActivityDataCard.module.css";
 import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";
-import { Grid } from "@mui/material";
-import { activityColor, defaultWhite } from "../../../style/cssGlobalStyle";
+import { Grid, IconButton } from "@mui/material";
+import {
+  activityColor,
+  defaultWhite,
+  secErrorColor,
+} from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { useMemo } from "react";
-
+import CloseIcon from "@mui/icons-material/Close";
 export default function ActivityDataCard({
   activity,
   insideCalendar,
@@ -25,6 +29,26 @@ export default function ActivityDataCard({
   return (
     <div className={styles.container}>
       <div className={styles.iconContainer}>
+        {insideCalendar && !isDragged && (
+          <IconButton
+            size="small"
+            sx={{
+              transition: "300ms",
+              position: "absolute",
+              padding: "2px",
+              backgroundColor: " #3030309f",
+              "&:hover": { backgroundColor: "#303030dd" },
+            }}
+            className={styles.deleteIcon}
+          >
+            <CloseIcon
+              sx={{
+                fontSize: activity.duration === 0.25 ? "13px" : "20px",
+                color: "white",
+              }}
+            />
+          </IconButton>
+        )}
         <LandscapeRoundedIcon sx={{ color: defaultWhite }} />
       </div>
       <Grid
