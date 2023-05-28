@@ -275,6 +275,16 @@ export default function DraggableCardView({
         {children(usedWillDisappear)}
       </div>
       <div
+        style={{
+          height: style?.height,
+          width: style?.width,
+          top: style?.top,
+          left: style?.left,
+          borderRadius: style?.borderRadius,
+        }}
+        className={styles.shadowPosition}
+      />
+      <div
         style={style}
         className={`${styles.showcase} ${shwoCaseClass}`}
         onMouseDown={onMouseDown}

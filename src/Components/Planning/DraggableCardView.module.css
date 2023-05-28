@@ -33,6 +33,13 @@
   background-color: var(--defaultSecWhite);
 }
 
+.shadowPosition {
+  position: absolute;
+  background-color: #6c6c6c21;
+  box-shadow: inset 0 0 20px 0px #7878788a;
+  transition: all 300ms, top 100ms, left 100ms;
+}
+
 @keyframes sideDataDisappearAnim {
   0% {
     margin-bottom: 0;
