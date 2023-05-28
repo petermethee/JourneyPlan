@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: row;
     height: 100%;
+    color: #3b3b3b;
 }
 
 .iconContainer {
@@ -12,7 +13,20 @@
     padding: 0px 3px;
 }
 
+.infoContainer {
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: 300ms
+}
+
 .title {
     font-size: 1.1rem;
     text-transform: capitalize;
+    font-weight: bold;
+    color: var(--activitySecColor);
+}
+
+.textContainer {
+    overflow: hidden;
+    text-overflow: ellipsis
 }

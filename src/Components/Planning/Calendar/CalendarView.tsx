@@ -151,7 +151,13 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     artifactType={EArtifact.Activity}
                     getFinalDestination={getFinalDestination}
                   >
-                    <ActivityDataCard activity={PA.activity} />
+                    {(isDragged) => (
+                      <ActivityDataCard
+                        activity={PA.activity}
+                        insideCalendar
+                        isDragged={isDragged}
+                      />
+                    )}
                   </DraggableCardView>
                 ))}
                 {dayCol.planningTransports.map((PT) => (
@@ -172,7 +178,7 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     artifactType={EArtifact.Transport}
                     getFinalDestination={getFinalDestination}
                   >
-                    <div>{PT.transport.name}</div>
+                    {() => <div>{PT.transport.name}</div>}
                   </DraggableCardView>
                 ))}
               </div>
@@ -207,7 +213,7 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     artifactType={EArtifact.Accomodation}
                     getFinalDestination={getFinalDestinationInAccomodationDZ}
                   >
-                    <div>{PT.accomodation.name}</div>
+                    {() => <div>{PT.accomodation.name}</div>}
                   </DraggableCardView>
                 ))}
               </div>

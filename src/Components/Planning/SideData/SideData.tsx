@@ -70,7 +70,9 @@ export default function SideData() {
             artifactType={EArtifact.Activity}
             getFinalDestination={getFinalDestination}
           >
-            <ActivityDataCard activity={activity} />
+            {(isDragged) => (
+              <ActivityDataCard activity={activity} isDragged={isDragged} />
+            )}
           </DraggableCardView>
         ));
       case EArtifact.Transport:
@@ -90,7 +92,7 @@ export default function SideData() {
             artifactType={EArtifact.Transport}
             getFinalDestination={getFinalDestination}
           >
-            <div>{transport.name}</div>
+            {() => <div>{transport.name}</div>}
           </DraggableCardView>
         ));
 
@@ -111,7 +113,7 @@ export default function SideData() {
             artifactType={EArtifact.Accomodation}
             getFinalDestination={getFinalDestinationInAccomodationDZ}
           >
-            <div>{accomodation.name}</div>
+            {() => <div>{accomodation.name}</div>}
           </DraggableCardView>
         ));
     }

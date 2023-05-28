@@ -16,7 +16,7 @@ import {
   setAccomdationIsDragged,
   setUsedAccomodations,
 } from "../../features/Redux/accomodationsSlice";
-import { darkSecondaryBlue } from "../../style/cssGlobalStyle";
+import { defaultWhite } from "../../style/cssGlobalStyle";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
@@ -26,7 +26,7 @@ export type TDnDEvent = {
 };
 
 type TDraggableProps = {
-  children: JSX.Element | JSX.Element[];
+  children: (isDragged?: boolean) => JSX.Element | JSX.Element[];
   planningId: string;
   artifactId: number;
   duration: number;
@@ -181,7 +181,7 @@ export default function DraggableCardView({
               boxShadow: "none",
               transform: "scale(1)",
               borderRadius: "5px",
-              backgroundColor: darkSecondaryBlue,
+              backgroundColor: defaultWhite,
             };
           });
           if (disappearAnim === "" && source.colId === SIDE_DATA_COL_ID) {
@@ -272,14 +272,14 @@ export default function DraggableCardView({
         }}
         onMouseDown={onMouseDown}
       >
-        {children}
+        {children(usedWillDisappear)}
       </div>
       <div
         style={style}
         className={`${styles.showcase} ${shwoCaseClass}`}
         onMouseDown={onMouseDown}
       >
-        {children}
+        {children(isDragged || willDisappear || usedWillDisappear)}
       </div>
     </div>
   );
