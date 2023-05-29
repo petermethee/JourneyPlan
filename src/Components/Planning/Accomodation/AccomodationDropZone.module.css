@@ -12,7 +12,16 @@
     height: var(--accomodationDropZoneHeight);
 }
 
-@keyframes expand {
+.expand {
+    background-color: aliceblue;
+    height: var(--expandedAccomodationDropZoneHeight);
+}
+
+.hide {
+    height: 0;
+}
+
+/* @keyframes expand {
 
     0% {
         background-color: #0a48824c;
@@ -23,17 +32,41 @@
         background-color: aliceblue;
         height: var(--expandedAccomodationDropZoneHeight);
     }
-}
+} */
 
 @keyframes retract {
 
+    0% {
+        background-color: aliceblue;
+        height: var(--expandedAccomodationDropZoneHeight);
+    }
+
     100% {
         background-color: #0a48824c;
         height: var(--accomodationDropZoneHeight);
     }
 
+
+}
+
+@keyframes show {
     0% {
-        background-color: aliceblue;
-        height: var(--expandedAccomodationDropZoneHeight);
+        height: 0;
+    }
+
+    100% {
+
+        height: var(--accomodationDropZoneHeight);
     }
 }
+
+/* @keyframes hide {
+    0% {
+
+        height: var(--accomodationDropZoneHeight);
+    }
+
+    100% {
+        height: 0;
+    }
+} */

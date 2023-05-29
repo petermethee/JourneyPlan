@@ -8,14 +8,15 @@ import React, {
 import styles from "./DraggableCardView.module.css";
 import { useAppDispatch } from "../../app/hooks";
 import { setUsedActivities } from "../../features/Redux/activitiesSlice";
-import { addArtifact, moveArtifact } from "../../features/Redux/planningSlice";
+import {
+  addArtifact,
+  moveArtifact,
+  setArtifactIsDragged,
+} from "../../features/Redux/planningSlice";
 import { SIDE_DATA_COL_ID } from "./SideData/SideData";
 import { EArtifact } from "../../Models/EArtifacts";
 import { setUsedTransports } from "../../features/Redux/transportsSlice";
-import {
-  setAccomdationIsDragged,
-  setUsedAccomodations,
-} from "../../features/Redux/accomodationsSlice";
+import { setUsedAccomodations } from "../../features/Redux/accomodationsSlice";
 import { defaultWhite } from "../../style/cssGlobalStyle";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
@@ -133,8 +134,8 @@ export default function DraggableCardView({
       if (mouseDown) {
         draggableRef.current!.style.cursor = "grabbing ";
         setIsDragged(true);
-        artifactType === EArtifact.Accomodation &&
-          dispatch(setAccomdationIsDragged(true));
+
+        dispatch(setArtifactIsDragged(artifactType));
         const currentStyle = getDraggableStyle(
           event.clientX,
           event.clientY,
@@ -161,8 +162,7 @@ export default function DraggableCardView({
   const mouseUpListener = useCallback(
     (event: MouseEvent) => {
       if (isDragged) {
-        artifactType === EArtifact.Accomodation &&
-          dispatch(setAccomdationIsDragged(false));
+        dispatch(setArtifactIsDragged(null));
         draggableRef.current!.style.cursor = "pointer ";
         setIsDragged(false);
         const [colId, timeIndex] = getFinalDestination(
@@ -198,15 +198,7 @@ export default function DraggableCardView({
         setMouseDown(false);
       }
     },
-    [
-      isDragged,
-      mouseDown,
-      source,
-      disappearAnim,
-      getFinalDestination,
-      artifactType,
-      dispatch,
-    ]
+    [isDragged, mouseDown, source, disappearAnim, getFinalDestination, dispatch]
   );
 
   const onAnimationEnd = () => {

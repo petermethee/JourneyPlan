@@ -11,6 +11,7 @@ import {
   initPlanningDimensions,
   minColWidth,
   setCalendarBoundary,
+  setColId,
   setDropZoneBoundary,
 } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import DraggableCardView from "../DraggableCardView";
@@ -54,9 +55,10 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
     const initColWidth = totalWidth / nCol - 1; //1 pour 1px de bordure droite
     initPlanningDimensions(
       initColWidth + 1, //1 pour 1px de bordure droite
-      dayCols.map((day) => day.dateId),
+
       calendarRef.current!.getBoundingClientRect()
     );
+    setColId(dayCols.map((day) => day.dateId));
     setDropZoneBoundary(dropZoneRef.current!.getBoundingClientRect());
     setDaysIndex((prevState) => {
       return [prevState[0], prevState[0] + nCol];
@@ -72,6 +74,8 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
   useEffect(() => {
     calculColWidth();
   }, [calculColWidth]);
+
+  useEffect(() => {}, [dayCols]);
 
   return (
     <div className={styles.calendarContainer}>
@@ -186,39 +190,37 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
         </div>
       </div>
       <AccomodationDropZone dropZoneRef={dropZoneRef}>
-        <>
-          {dayCols
-            .filter(
-              (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
-            )
-            .map((dayCol) => (
-              <div
-                key={dayCol.dateId}
-                className={styles.dayAccomodationDZ}
-                style={{ width: colWidth }}
-              >
-                {dayCol.planningAccomodations.map((PT) => (
-                  <DraggableCardView
-                    key={PT.id}
-                    planningId={PT.id}
-                    artifactId={PT.accomodation.id}
-                    duration={1}
-                    containerStyle={accomodationDropZoneDragContainerStyle(
-                      colWidth
-                    )}
-                    source={{ colId: dayCol.dateId, timeIndex: PT.timeIndex }}
-                    getDraggableStyle={getDraggableAccomodationCalendarStyle}
-                    disappearAnim={""}
-                    shwoCaseClass={draggableStyle.calendarShowcase}
-                    artifactType={EArtifact.Accomodation}
-                    getFinalDestination={getFinalDestinationInAccomodationDZ}
-                  >
-                    {() => <div>{PT.accomodation.name}</div>}
-                  </DraggableCardView>
-                ))}
-              </div>
-            ))}
-        </>
+        {dayCols
+          .filter(
+            (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
+          )
+          .map((dayCol) => (
+            <div
+              key={dayCol.dateId}
+              className={styles.dayAccomodationDZ}
+              style={{ width: colWidth }}
+            >
+              {dayCol.planningAccomodations.map((PT) => (
+                <DraggableCardView
+                  key={PT.id}
+                  planningId={PT.id}
+                  artifactId={PT.accomodation.id}
+                  duration={1}
+                  containerStyle={accomodationDropZoneDragContainerStyle(
+                    colWidth
+                  )}
+                  source={{ colId: dayCol.dateId, timeIndex: PT.timeIndex }}
+                  getDraggableStyle={getDraggableAccomodationCalendarStyle}
+                  disappearAnim={""}
+                  shwoCaseClass={draggableStyle.calendarShowcase}
+                  artifactType={EArtifact.Accomodation}
+                  getFinalDestination={getFinalDestinationInAccomodationDZ}
+                >
+                  {() => <div>{PT.accomodation.name}</div>}
+                </DraggableCardView>
+              ))}
+            </div>
+          ))}
       </AccomodationDropZone>
     </div>
   );

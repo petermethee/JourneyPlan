@@ -2,13 +2,16 @@ import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import IPlanningArtifact from "../../Models/IPlanningArtifact";
 
 import { RootState } from "../../app/store";
+import { EArtifact } from "../../Models/EArtifacts";
 
 interface PlanningState {
   planningArtifacts: IPlanningArtifact[];
+  artifactIsDragged: EArtifact | null;
 }
 
 const initialState: PlanningState = {
   planningArtifacts: [],
+  artifactIsDragged: null,
 };
 
 export const getPlanning = createAsyncThunk(
@@ -71,6 +74,12 @@ export const planningSlice = createSlice({
         PA.id === prevId ? action.payload.PA : PA
       );
     },
+    setArtifactIsDragged: (
+      state: PlanningState,
+      action: PayloadAction<EArtifact | null>
+    ) => {
+      state.artifactIsDragged = action.payload;
+    },
   },
   extraReducers(builder) {
     builder.addCase(getPlanning.fulfilled, (state, action) => {
@@ -103,9 +112,12 @@ export const planningSlice = createSlice({
   },
 });
 
-export const { addArtifact, moveArtifact } = planningSlice.actions;
+export const { addArtifact, moveArtifact, setArtifactIsDragged } =
+  planningSlice.actions;
 
 export const selectPlanningArtifacts = (state: RootState) =>
   state.planningReducer.planningArtifacts;
+export const selectArtifactIsDragged = (state: RootState) =>
+  state.planningReducer.artifactIsDragged;
 
 export default planningSlice.reducer;

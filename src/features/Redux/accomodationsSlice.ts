@@ -81,12 +81,6 @@ export const accomodationsSlice = createSlice({
           : accomodation
       );
     },
-    setAccomdationIsDragged: (
-      state: AccomodationsState,
-      action: PayloadAction<boolean>
-    ) => {
-      state.accomodationIsDragged = action.payload;
-    },
   },
   extraReducers(builder) {
     builder
@@ -99,12 +93,9 @@ export const accomodationsSlice = createSlice({
   },
 });
 
-export const { setUsedAccomodations, setAccomdationIsDragged } =
-  accomodationsSlice.actions;
+export const { setUsedAccomodations } = accomodationsSlice.actions;
 
 export const selectAccomodations = (state: RootState) =>
   state.accomodationsReducer.accomodations;
-export const selectAccomodationIsDragged = (state: RootState) =>
-  state.accomodationsReducer.accomodationIsDragged;
 
 export default accomodationsSlice.reducer;

@@ -46,15 +46,17 @@ let dropZoneRect: DOMRect;
 // UI dimensions and parameters
 export const setDropZoneBoundary = (initDropZoneRect: DOMRect) => {
   dropZoneRect = initDropZoneRect;
+  console.log("tag", dropZoneRect.top, dropZoneRect.height);
 };
 
+export const setColId = (initColIds: string[]) => {
+  colIds = initColIds;
+};
 export const initPlanningDimensions = (
   initColWidth: number,
-  initColIds: string[],
   initCalendarRect: DOMRect
 ) => {
   columnWidth = initColWidth;
-  colIds = initColIds;
   calendarRect = initCalendarRect;
 };
 
@@ -190,7 +192,8 @@ export const getDraggableAccomodationSideDataStyle = (
       dragContainerCoord.x +
       dropZoneRect.left;
 
-    const clampedY = -dragContainerCoord.y + dropZoneRect.top;
+    const clampedY =
+      dropZoneRect.top - dragContainerCoord.y - accomodationDropZoneHeight;
 
     style = onDragOverAccomodationDZStyle(
       clampedX,

@@ -1,29 +1,39 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./AccomodationDropZone.module.css";
 import { useAppSelector } from "../../../app/hooks";
-import { selectAccomodationIsDragged } from "../../../features/Redux/accomodationsSlice";
+import { selectArtifactIsDragged } from "../../../features/Redux/planningSlice";
+import { EArtifact } from "../../../Models/EArtifacts";
 
+const animations = {
+  expand: styles.expand,
+  hide: styles.hide,
+  retract: `${styles.retract} 300ms ease 300ms both`,
+  show: `${styles.show} 300ms ease 300ms both`,
+};
 export default function AccomodationDropZone({
   children,
   dropZoneRef,
 }: {
-  children: JSX.Element;
+  children: JSX.Element[];
   dropZoneRef: React.RefObject<HTMLDivElement>;
 }) {
-  const accomodatonIsDragged = useAppSelector(selectAccomodationIsDragged);
+  const artifactDragged = useAppSelector(selectArtifactIsDragged);
 
-  const animation = useMemo(() => {
-    if (accomodatonIsDragged) {
-      return `${styles.expand} 300ms ease forwards`;
+  const currentStyle = useMemo(() => {
+    if (artifactDragged === EArtifact.Accomodation) {
+      return animations.expand;
+    } else if (artifactDragged !== null) {
+      return animations.hide;
     }
-    return `${styles.retract} 300ms ease 300ms both`;
-  }, [accomodatonIsDragged]);
+    return "";
+  }, [artifactDragged]);
+
   return (
     <div
       ref={dropZoneRef}
-      className={`${styles.container}`}
+      className={`${styles.container} ${currentStyle}`}
       style={{
-        animation,
+        transitionDelay: artifactDragged ? "0ms" : "300ms",
       }}
     >
       {children}
