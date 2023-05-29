@@ -11,7 +11,7 @@ import {
   initPlanningDimensions,
   minColWidth,
   setCalendarBoundary,
-  setColId,
+  setColIds,
   setDropZoneBoundary,
 } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import DraggableCardView from "../DraggableCardView";
@@ -51,20 +51,20 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
     const totalWidth = calendarRef.current!.clientWidth;
     const nColMax = Math.floor(totalWidth / minColWidth);
     const nCol = Math.max(Math.min(dayCols.length, nColMax), 1);
+    setDaysIndex((prevState) => {
+      return [prevState[0], prevState[0] + nCol];
+    });
 
-    const initColWidth = totalWidth / nCol - 1; //1 pour 1px de bordure droite
+    const initColWidth = totalWidth / nCol - 1; //1 pour 1px épaisseur de bordure droite
     initPlanningDimensions(
       initColWidth + 1, //1 pour 1px de bordure droite
 
       calendarRef.current!.getBoundingClientRect()
     );
-    setColId(dayCols.map((day) => day.dateId));
     setDropZoneBoundary(dropZoneRef.current!.getBoundingClientRect());
-    setDaysIndex((prevState) => {
-      return [prevState[0], prevState[0] + nCol];
-    });
+
     setColWidth(initColWidth);
-  }, [dayCols]);
+  }, [dayCols.length]);
 
   window.onresize = function () {
     calculTimeOut && clearTimeout(calculTimeOut);
@@ -75,7 +75,9 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
     calculColWidth();
   }, [calculColWidth]);
 
-  useEffect(() => {}, [dayCols]);
+  useEffect(() => {
+    setColIds(dayCols.map((day) => day.dateId));
+  }, [dayCols]);
 
   return (
     <div className={styles.calendarContainer}>

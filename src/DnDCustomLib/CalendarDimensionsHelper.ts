@@ -46,10 +46,9 @@ let dropZoneRect: DOMRect;
 // UI dimensions and parameters
 export const setDropZoneBoundary = (initDropZoneRect: DOMRect) => {
   dropZoneRect = initDropZoneRect;
-  console.log("tag", dropZoneRect.top, dropZoneRect.height);
 };
 
-export const setColId = (initColIds: string[]) => {
+export const setColIds = (initColIds: string[]) => {
   colIds = initColIds;
 };
 export const initPlanningDimensions = (
@@ -182,7 +181,7 @@ export const getDraggableAccomodationSideDataStyle = (
 ) => {
   let style: CSSProperties;
 
-  if (!isInsidePlanning(x, y)) {
+  if (!isInsidePlanning(x, y) && !isInsideAccomodationDZ(x, y)) {
     const newX = x - deltaMousePosition.x - dragContainerCoord.x;
     const newY = y - deltaMousePosition.y - dragContainerCoord.y;
     style = onDragOverSideDataStyle(newX, newY);
