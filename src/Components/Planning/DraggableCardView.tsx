@@ -13,6 +13,7 @@ import {
 } from "../../features/Redux/activitiesSlice";
 import {
   addArtifact,
+  deleteArtifact,
   moveArtifact,
   selectPlanningArtifacts,
   setArtifactIsDragged,
@@ -34,7 +35,10 @@ export type TDnDEvent = {
 };
 
 type TDraggableProps = {
-  children: (isDragged?: boolean) => JSX.Element | JSX.Element[];
+  children: (
+    onDelete: () => void,
+    isDragged?: boolean
+  ) => JSX.Element | JSX.Element[];
   planningId: string;
   artifactId: number;
   duration: number;
@@ -80,6 +84,8 @@ export default function DraggableCardView({
   const [mouseDown, setMouseDown] = useState(false);
   const [style, setStyle] = useState<React.CSSProperties | undefined>();
   const [willDisappear, setWillDisappear] = useState(false);
+  const [willBeDeleted, setWillBeDeleted] = useState(false);
+
   const [usedWillDisappear, setUsedWillDisappear] = useState(false);
 
   const [destination, setDestination] = useState<TDroppableInfo>(source);
@@ -269,6 +275,23 @@ export default function DraggableCardView({
     });
   };
 
+  const onDeleteAnimationEnd = () => {
+    dispatch(deleteArtifact(artifactId));
+    switch (artifactType) {
+      case EArtifact.Activity:
+        dispatch(setUsedActivities(artifactId));
+
+        break;
+      case EArtifact.Transport:
+        dispatch(setUsedTransports(artifactId));
+        break;
+
+      default:
+        dispatch(setUsedAccomodations(artifactId));
+        break;
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("mousemove", mouseMoveListener);
 
@@ -310,7 +333,7 @@ export default function DraggableCardView({
         }}
         onMouseDown={onMouseDown}
       >
-        {children(usedWillDisappear)}
+        {children(() => {}, usedWillDisappear)}
       </div>
       <div
         style={{
@@ -324,10 +347,16 @@ export default function DraggableCardView({
       />
       <div
         style={style}
-        className={`${styles.showcase} ${shwoCaseClass}`}
+        className={`${styles.showcase} ${shwoCaseClass} ${
+          willBeDeleted && styles.deleteAnim
+        }`}
         onMouseDown={onMouseDown}
+        onAnimationEnd={onDeleteAnimationEnd}
       >
-        {children(isDragged || willDisappear || usedWillDisappear)}
+        {children(
+          () => setWillBeDeleted(true),
+          isDragged || willDisappear || usedWillDisappear
+        )}
       </div>
     </div>
   );

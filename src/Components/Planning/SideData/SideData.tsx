@@ -22,6 +22,8 @@ import { Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
+import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
+import AccomodationDataCard from "../ArtifactsDataCard/AccomodationDataCard";
 
 export const SIDE_DATA_COL_ID = "sideDataDropId";
 
@@ -70,8 +72,12 @@ export default function SideData() {
             artifactType={EArtifact.Activity}
             getFinalDestination={getFinalDestination}
           >
-            {(isDragged) => (
-              <ActivityDataCard activity={activity} isDragged={isDragged} />
+            {(onDelete, isDragged) => (
+              <ActivityDataCard
+                activity={activity}
+                isDragged={isDragged}
+                onDelete={onDelete}
+              />
             )}
           </DraggableCardView>
         ));
@@ -92,7 +98,13 @@ export default function SideData() {
             artifactType={EArtifact.Transport}
             getFinalDestination={getFinalDestination}
           >
-            {() => <div>{transport.name}</div>}
+            {(onDelete, isDragged) => (
+              <TransportDataCard
+                transport={transport}
+                isDragged={isDragged}
+                onDelete={onDelete}
+              />
+            )}
           </DraggableCardView>
         ));
 
@@ -113,7 +125,13 @@ export default function SideData() {
             artifactType={EArtifact.Accomodation}
             getFinalDestination={getFinalDestinationInAccomodationDZ}
           >
-            {() => <div>{accomodation.name}</div>}
+            {(onDelete, isDragged) => (
+              <AccomodationDataCard
+                accomodation={accomodation}
+                isDragged={isDragged}
+                onDelete={onDelete}
+              />
+            )}
           </DraggableCardView>
         ));
     }

@@ -1,30 +1,23 @@
-import IActivity from "../../../Models/IActivity";
-import styles from "./ActivityDataCard.module.css";
+import IAccomodation from "../../../Models/IAccomodation";
+import styles from "./AccomodationDataCard.module.css";
 import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Grid, IconButton } from "@mui/material";
-import { activityColor, defaultWhite } from "../../../style/cssGlobalStyle";
+import { accomodationColor, defaultWhite } from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
-import { useMemo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-
-export default function ActivityDataCard({
-  activity,
+export default function AccomodationDataCard({
+  accomodation,
   insideCalendar,
   isDragged,
   onDelete,
 }: {
-  activity: IActivity;
+  accomodation: IAccomodation;
   insideCalendar?: boolean;
   isDragged?: boolean;
   onDelete: () => void;
 }) {
-  const minimalView = useMemo(
-    () => (insideCalendar || isDragged) && activity.duration < 1,
-    [insideCalendar, isDragged, activity.duration]
-  );
-
   return (
     <div className={styles.container}>
       <div className={styles.iconContainer}>
@@ -43,7 +36,7 @@ export default function ActivityDataCard({
           >
             <CloseIcon
               sx={{
-                fontSize: activity.duration === 0.25 ? "13px" : "20px",
+                fontSize: "20px",
                 color: "white",
               }}
             />
@@ -57,7 +50,7 @@ export default function ActivityDataCard({
         direction="column"
         flexWrap="nowrap"
         overflow="hidden"
-        justifyContent={activity.duration < 1 ? "center" : "top"}
+        justifyContent={"top"}
         sx={{ transition: "300ms" }}
       >
         <Grid
@@ -65,10 +58,10 @@ export default function ActivityDataCard({
           container
           width="100%"
           justifyContent="space-between"
-          borderBottom={"1px solid " + activityColor}
+          borderBottom={"1px solid " + accomodationColor}
         >
-          <span className={styles.title}>{activity.name}</span>
-          <span>{activity.price} €</span>
+          <span className={styles.title}>{accomodation.name}</span>
+          <span>{accomodation.price} €</span>
         </Grid>
 
         <Grid
@@ -77,9 +70,9 @@ export default function ActivityDataCard({
           flexDirection="column"
           flexWrap={"nowrap"}
           flex={1}
-          maxHeight={minimalView ? 0 : cellHeight}
+          maxHeight={cellHeight}
           sx={{
-            opacity: minimalView ? 0 : 1,
+            opacity: 1,
           }}
           className={styles.infoContainer}
         >
@@ -92,7 +85,7 @@ export default function ActivityDataCard({
           >
             <PlaceIcon fontSize="small" />
             <span className={styles.textContainer}>
-              {activity.location}
+              {accomodation.location}
               tttttttttttttttttttttttttttttttttttttttttttttt
             </span>
           </Grid>
@@ -107,7 +100,7 @@ export default function ActivityDataCard({
             <AttachFileIcon fontSize="small" />
             <span className={styles.textContainer}>
               tttttttttttttttttttttttttttttttttttttttttttttt
-              {activity.attachment}
+              {accomodation.attachment}
             </span>
           </Grid>
         </Grid>

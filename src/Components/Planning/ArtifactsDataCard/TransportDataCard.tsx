@@ -1,28 +1,28 @@
-import IActivity from "../../../Models/IActivity";
-import styles from "./ActivityDataCard.module.css";
+import ITransport from "../../../Models/ITransport";
+import styles from "./TransportDataCard.module.css";
 import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Grid, IconButton } from "@mui/material";
-import { activityColor, defaultWhite } from "../../../style/cssGlobalStyle";
+import { transportColor, defaultWhite } from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { useMemo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function ActivityDataCard({
-  activity,
+export default function TransportDataCard({
+  transport,
   insideCalendar,
   isDragged,
   onDelete,
 }: {
-  activity: IActivity;
+  transport: ITransport;
   insideCalendar?: boolean;
   isDragged?: boolean;
   onDelete: () => void;
 }) {
   const minimalView = useMemo(
-    () => (insideCalendar || isDragged) && activity.duration < 1,
-    [insideCalendar, isDragged, activity.duration]
+    () => (insideCalendar || isDragged) && transport.duration < 1,
+    [insideCalendar, isDragged, transport.duration]
   );
 
   return (
@@ -43,7 +43,7 @@ export default function ActivityDataCard({
           >
             <CloseIcon
               sx={{
-                fontSize: activity.duration === 0.25 ? "13px" : "20px",
+                fontSize: transport.duration === 0.25 ? "13px" : "20px",
                 color: "white",
               }}
             />
@@ -57,7 +57,7 @@ export default function ActivityDataCard({
         direction="column"
         flexWrap="nowrap"
         overflow="hidden"
-        justifyContent={activity.duration < 1 ? "center" : "top"}
+        justifyContent={transport.duration < 1 ? "center" : "top"}
         sx={{ transition: "300ms" }}
       >
         <Grid
@@ -65,10 +65,10 @@ export default function ActivityDataCard({
           container
           width="100%"
           justifyContent="space-between"
-          borderBottom={"1px solid " + activityColor}
+          borderBottom={"1px solid " + transportColor}
         >
-          <span className={styles.title}>{activity.name}</span>
-          <span>{activity.price} €</span>
+          <span className={styles.title}>{transport.name}</span>
+          <span>{transport.price} €</span>
         </Grid>
 
         <Grid
@@ -92,7 +92,7 @@ export default function ActivityDataCard({
           >
             <PlaceIcon fontSize="small" />
             <span className={styles.textContainer}>
-              {activity.location}
+              {transport.from}
               tttttttttttttttttttttttttttttttttttttttttttttt
             </span>
           </Grid>
@@ -107,7 +107,7 @@ export default function ActivityDataCard({
             <AttachFileIcon fontSize="small" />
             <span className={styles.textContainer}>
               tttttttttttttttttttttttttttttttttttttttttttttt
-              {activity.attachment}
+              {transport.attachment}
             </span>
           </Grid>
         </Grid>

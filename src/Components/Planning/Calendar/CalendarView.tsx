@@ -27,6 +27,8 @@ import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRound
 import { IconButton } from "@mui/material";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
+import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
+import AccomodationDataCard from "../ArtifactsDataCard/AccomodationDataCard";
 
 export const getHours = (): string[] => {
   const hours: string[] = [];
@@ -157,11 +159,12 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     artifactType={EArtifact.Activity}
                     getFinalDestination={getFinalDestination}
                   >
-                    {(isDragged) => (
+                    {(onDelete, isDragged) => (
                       <ActivityDataCard
                         activity={PA.activity}
                         insideCalendar
                         isDragged={isDragged}
+                        onDelete={onDelete}
                       />
                     )}
                   </DraggableCardView>
@@ -184,7 +187,13 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     artifactType={EArtifact.Transport}
                     getFinalDestination={getFinalDestination}
                   >
-                    {() => <div>{PT.transport.name}</div>}
+                    {(onDelete, isDragged) => (
+                      <TransportDataCard
+                        transport={PT.transport}
+                        isDragged={isDragged}
+                        onDelete={onDelete}
+                      />
+                    )}
                   </DraggableCardView>
                 ))}
               </div>
@@ -218,7 +227,13 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                   artifactType={EArtifact.Accomodation}
                   getFinalDestination={getFinalDestinationInAccomodationDZ}
                 >
-                  {() => <div>{PT.accomodation.name}</div>}
+                  {(onDelete, isDragged) => (
+                    <AccomodationDataCard
+                      accomodation={PT.accomodation}
+                      isDragged={isDragged}
+                      onDelete={onDelete}
+                    />
+                  )}
                 </DraggableCardView>
               ))}
             </div>

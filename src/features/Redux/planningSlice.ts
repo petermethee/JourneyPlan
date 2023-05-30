@@ -80,6 +80,11 @@ export const planningSlice = createSlice({
     ) => {
       state.artifactIsDragged = action.payload;
     },
+    deleteArtifact: (state: PlanningState, action: PayloadAction<number>) => {
+      state.planningArtifacts = state.planningArtifacts.filter(
+        (PA) => PA.artifactId !== action.payload
+      );
+    },
   },
   extraReducers(builder) {
     builder.addCase(getPlanning.fulfilled, (state, action) => {
@@ -112,8 +117,12 @@ export const planningSlice = createSlice({
   },
 });
 
-export const { addArtifact, moveArtifact, setArtifactIsDragged } =
-  planningSlice.actions;
+export const {
+  addArtifact,
+  moveArtifact,
+  setArtifactIsDragged,
+  deleteArtifact,
+} = planningSlice.actions;
 
 export const selectPlanningArtifacts = (state: RootState) =>
   state.planningReducer.planningArtifacts;

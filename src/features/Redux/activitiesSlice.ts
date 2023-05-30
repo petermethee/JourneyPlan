@@ -68,7 +68,9 @@ export const activitiesSlice = createSlice({
       action: PayloadAction<number>
     ) => {
       state.activities = state.activities.map((activity) =>
-        activity.id === action.payload ? { ...activity, used: true } : activity
+        activity.id === action.payload
+          ? { ...activity, used: !activity.used }
+          : activity
       );
     },
   },
