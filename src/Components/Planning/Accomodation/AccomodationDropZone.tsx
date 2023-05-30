@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import styles from "./AccomodationDropZone.module.css";
 import { useAppSelector } from "../../../app/hooks";
 import { selectArtifactIsDragged } from "../../../features/Redux/planningSlice";

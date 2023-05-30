@@ -6,16 +6,23 @@ import React, {
   useState,
 } from "react";
 import styles from "./DraggableCardView.module.css";
-import { useAppDispatch } from "../../app/hooks";
-import { setUsedActivities } from "../../features/Redux/activitiesSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import {
+  selectActivities,
+  setUsedActivities,
+} from "../../features/Redux/activitiesSlice";
 import {
   addArtifact,
   moveArtifact,
+  selectPlanningArtifacts,
   setArtifactIsDragged,
 } from "../../features/Redux/planningSlice";
 import { SIDE_DATA_COL_ID } from "./SideData/SideData";
 import { EArtifact } from "../../Models/EArtifacts";
-import { setUsedTransports } from "../../features/Redux/transportsSlice";
+import {
+  selectTransports,
+  setUsedTransports,
+} from "../../features/Redux/transportsSlice";
 import { setUsedAccomodations } from "../../features/Redux/accomodationsSlice";
 import { defaultWhite } from "../../style/cssGlobalStyle";
 
@@ -63,6 +70,10 @@ export default function DraggableCardView({
   getFinalDestination,
 }: TDraggableProps) {
   const dispatch = useAppDispatch();
+  const planningArtifacts = useAppSelector(selectPlanningArtifacts);
+  const activities = useAppSelector(selectActivities);
+  const transports = useAppSelector(selectTransports);
+
   const draggableRef = useRef<HTMLDivElement>(null);
   const [deltaMousePosition, setDeltaMousePosition] = useState({ x: 0, y: 0 });
   const [isDragged, setIsDragged] = useState(false);
@@ -120,6 +131,32 @@ export default function DraggableCardView({
     [artifactType, planningId, dispatch]
   );
 
+  const checkCollision = useCallback(
+    (colId: string, timeIndex: number) => {
+      return planningArtifacts.some((planningArtifact) => {
+        if (planningArtifact.artifactId === artifactId) {
+          return false;
+        }
+        let duration = 1;
+        if (planningArtifact.artifactType === EArtifact.Activity) {
+          duration = activities.find(
+            (activity) => activity.id === planningArtifact.artifactId
+          )!.duration;
+        } else if (planningArtifact.artifactType === EArtifact.Transport) {
+          duration = transports.find(
+            (transport) => transport.id === planningArtifact.artifactId
+          )!.duration;
+        }
+        return (
+          planningArtifact.date === colId &&
+          planningArtifact.timeIndex <= timeIndex &&
+          planningArtifact.timeIndex + duration > timeIndex
+        );
+      });
+    },
+    [planningArtifacts, activities, transports, artifactId]
+  );
+
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     setMouseDown(true);
@@ -163,7 +200,7 @@ export default function DraggableCardView({
     (event: MouseEvent) => {
       if (isDragged) {
         dispatch(setArtifactIsDragged(null));
-        draggableRef.current!.style.cursor = "pointer ";
+        draggableRef.current!.style.cursor = "pointer";
         setIsDragged(false);
         const [colId, timeIndex] = getFinalDestination(
           event.clientX,
@@ -173,7 +210,8 @@ export default function DraggableCardView({
 
         if (
           colId !== SIDE_DATA_COL_ID &&
-          (colId !== source.colId || timeIndex !== source.timeIndex)
+          (colId !== source.colId || timeIndex !== source.timeIndex) &&
+          !checkCollision(colId, timeIndex)
         ) {
           setStyle((prevState) => {
             return {
@@ -198,7 +236,15 @@ export default function DraggableCardView({
         setMouseDown(false);
       }
     },
-    [isDragged, mouseDown, source, disappearAnim, getFinalDestination, dispatch]
+    [
+      isDragged,
+      mouseDown,
+      source,
+      disappearAnim,
+      getFinalDestination,
+      dispatch,
+      checkCollision,
+    ]
   );
 
   const onAnimationEnd = () => {
