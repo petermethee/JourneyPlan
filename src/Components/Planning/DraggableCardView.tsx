@@ -278,7 +278,7 @@ export default function DraggableCardView({
 
   const onDeleteAnimationEnd = (event: React.AnimationEvent) => {
     if (event.animationName === styles.ghostDisappearAnim) {
-      dispatch(deleteArtifact(artifactId));
+      dispatch(deleteArtifact(planningId));
       switch (artifactType) {
         case EArtifact.Activity:
           dispatch(setUsedActivities(artifactId));
@@ -320,7 +320,7 @@ export default function DraggableCardView({
           ? `${disappearAnim} 300ms ease-out forwards`
           : disappearAnim === styles.calendarDisappear
           ? "none"
-          : `${styles.sideDataAppearAnim} 300ms ease-out both `,
+          : `300ms ease-out ${styles.sideDataAppearAnim}`,
       }}
       onAnimationEnd={onAnimationEnd} //is also triggered when child animation ends
     >

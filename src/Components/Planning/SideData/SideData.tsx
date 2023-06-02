@@ -58,7 +58,7 @@ export default function SideData() {
       case EArtifact.Activity:
         return filteredActivities.map((activity) => (
           <DraggableCardView
-            key={activity.id}
+            key={"activity-" + activity.id}
             planningId={""}
             artifactId={activity.id}
             containerStyle={sideDataDragContainerStyle()}
@@ -84,7 +84,7 @@ export default function SideData() {
       case EArtifact.Transport:
         return filteredTransports.map((transport) => (
           <DraggableCardView
-            key={transport.id}
+            key={"transport-" + transport.id}
             planningId={""}
             artifactId={transport.id}
             containerStyle={sideDataDragContainerStyle()}
@@ -111,7 +111,7 @@ export default function SideData() {
       default:
         return filteredAccomodations.map((accomodation) => (
           <DraggableCardView
-            key={accomodation.id}
+            key={"accomodation-" + accomodation.id}
             planningId={""}
             artifactId={accomodation.id}
             containerStyle={sideDataDragContainerStyle()}

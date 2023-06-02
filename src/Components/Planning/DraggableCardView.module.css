@@ -85,11 +85,9 @@
     height: 0;
     margin-bottom: -20px;
     opacity: 0;
-    transform: scale(0.2);
   }
 
   100% {
     margin-bottom: 0px;
-    transform: scale(1);
   }
 }
