@@ -253,42 +253,45 @@ export default function DraggableCardView({
     ]
   );
 
-  const onAnimationEnd = () => {
-    if (source.colId === SIDE_DATA_COL_ID) {
+  const onAnimationEnd = (event: React.AnimationEvent) => {
+    if (event.animationName === disappearAnim) {
+      if (source.colId === SIDE_DATA_COL_ID) {
+        switch (artifactType) {
+          case EArtifact.Activity:
+            dispatch(setUsedActivities(artifactId));
+            break;
+          case EArtifact.Transport:
+            dispatch(setUsedTransports(artifactId));
+            break;
+          default:
+            dispatch(setUsedAccomodations(artifactId));
+            break;
+        }
+      }
+      onDragEnd({
+        artifactId: artifactId,
+        destination: destination,
+        source,
+      });
+    }
+  };
+
+  const onDeleteAnimationEnd = (event: React.AnimationEvent) => {
+    if (event.animationName === styles.ghostDisappearAnim) {
+      dispatch(deleteArtifact(artifactId));
       switch (artifactType) {
         case EArtifact.Activity:
           dispatch(setUsedActivities(artifactId));
+
           break;
         case EArtifact.Transport:
           dispatch(setUsedTransports(artifactId));
           break;
+
         default:
           dispatch(setUsedAccomodations(artifactId));
           break;
       }
-    }
-
-    onDragEnd({
-      artifactId: artifactId,
-      destination: destination,
-      source,
-    });
-  };
-
-  const onDeleteAnimationEnd = () => {
-    dispatch(deleteArtifact(artifactId));
-    switch (artifactType) {
-      case EArtifact.Activity:
-        dispatch(setUsedActivities(artifactId));
-
-        break;
-      case EArtifact.Transport:
-        dispatch(setUsedTransports(artifactId));
-        break;
-
-      default:
-        dispatch(setUsedAccomodations(artifactId));
-        break;
     }
   };
 
@@ -315,7 +318,9 @@ export default function DraggableCardView({
         ...containerStyle,
         animation: willDisappear
           ? `${disappearAnim} 300ms ease-out forwards`
-          : "none",
+          : disappearAnim === styles.calendarDisappear
+          ? "none"
+          : `${styles.sideDataAppearAnim} 300ms ease-out both `,
       }}
       onAnimationEnd={onAnimationEnd} //is also triggered when child animation ends
     >
@@ -351,7 +356,7 @@ export default function DraggableCardView({
           willBeDeleted && styles.deleteAnim
         }`}
         onMouseDown={onMouseDown}
-        onAnimationEnd={onDeleteAnimationEnd}
+        onAnimationEnd={(event) => onDeleteAnimationEnd(event)}
       >
         {children(
           () => setWillBeDeleted(true),

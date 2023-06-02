@@ -154,7 +154,7 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     )}
                     source={{ colId: dayCol.dateId, timeIndex: PA.timeIndex }}
                     getDraggableStyle={getDraggableCalendarStyle}
-                    disappearAnim={""}
+                    disappearAnim={draggableStyle.calendarDisappear}
                     shwoCaseClass={draggableStyle.calendarShowcase}
                     artifactType={EArtifact.Activity}
                     getFinalDestination={getFinalDestination}
@@ -182,7 +182,7 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     )}
                     source={{ colId: dayCol.dateId, timeIndex: PT.timeIndex }}
                     getDraggableStyle={getDraggableCalendarStyle}
-                    disappearAnim={""}
+                    disappearAnim={draggableStyle.calendarDisappear}
                     shwoCaseClass={draggableStyle.calendarShowcase}
                     artifactType={EArtifact.Transport}
                     getFinalDestination={getFinalDestination}
@@ -222,7 +222,7 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                   )}
                   source={{ colId: dayCol.dateId, timeIndex: PT.timeIndex }}
                   getDraggableStyle={getDraggableAccomodationCalendarStyle}
-                  disappearAnim={""}
+                  disappearAnim={draggableStyle.calendarDisappear}
                   shwoCaseClass={draggableStyle.calendarShowcase}
                   artifactType={EArtifact.Accomodation}
                   getFinalDestination={getFinalDestinationInAccomodationDZ}
