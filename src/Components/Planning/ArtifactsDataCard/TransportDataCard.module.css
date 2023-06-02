@@ -8,10 +8,11 @@
 .iconContainer {
     position: relative;
     height: 100%;
-    background-color: var(--activityColor);
+    background-color: var(--transportColor);
     display: flex;
     align-items: center;
     padding: 0px 3px;
+    box-shadow: 0px 0px 6px 0px #000000ac;
 }
 
 .infoContainer {
@@ -24,7 +25,7 @@
     font-size: 1.1rem;
     text-transform: capitalize;
     font-weight: bold;
-    color: var(--activitySecColor);
+    color: var(--transportSecColor);
 }
 
 .textContainer {

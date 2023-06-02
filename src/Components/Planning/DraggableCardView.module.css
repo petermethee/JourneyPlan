@@ -14,7 +14,6 @@
   background-color: var(--defaultWhite);
   color: #2c2c2c;
   overflow: hidden;
-
 }
 
 .ghost {
@@ -27,8 +26,14 @@
 }
 
 .showcaseSideData {
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.593);
+  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.652);
   border-radius: 5px;
+  transition: 300ms;
+}
+
+.showcaseSideData:hover {
+  box-shadow: 0px 0px 16px 4px rgba(0, 0, 0, 0.696);
+  ;
 }
 
 .showcase:hover {

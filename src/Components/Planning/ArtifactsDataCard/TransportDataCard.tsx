@@ -1,6 +1,6 @@
 import ITransport from "../../../Models/ITransport";
 import styles from "./TransportDataCard.module.css";
-import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
+import TrainRoundedIcon from "@mui/icons-material/TrainRounded";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Grid, IconButton } from "@mui/material";
@@ -49,7 +49,7 @@ export default function TransportDataCard({
             />
           </IconButton>
         )}
-        <LandscapeRoundedIcon sx={{ color: defaultWhite }} />
+        <TrainRoundedIcon sx={{ color: defaultWhite }} />
       </div>
       <Grid
         container

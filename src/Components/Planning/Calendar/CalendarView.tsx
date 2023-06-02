@@ -192,6 +192,7 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                         transport={PT.transport}
                         isDragged={isDragged}
                         onDelete={onDelete}
+                        insideCalendar
                       />
                     )}
                   </DraggableCardView>
@@ -232,6 +233,7 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                       accomodation={PT.accomodation}
                       isDragged={isDragged}
                       onDelete={onDelete}
+                      insideCalendar
                     />
                   )}
                 </DraggableCardView>

@@ -12,8 +12,8 @@ export const darkSecondaryBlue = "#475c66";
 
 export const activityColor = "#5ca4a5";
 export const activitySecColor = "#014344";
-export const transportColor = "#475c66";
-export const transportSecColor = "#475c66";
+export const transportColor = "#7f6698";
+export const transportSecColor = "#342f3c";
 export const accomodationColor = "#475c66";
 export const accomodationSecColor = "#475c66";
 

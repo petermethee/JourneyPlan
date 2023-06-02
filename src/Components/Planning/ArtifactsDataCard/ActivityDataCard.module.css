@@ -8,10 +8,11 @@
 .iconContainer {
     position: relative;
     height: 100%;
-    background-color: var(--activityColor);
     display: flex;
     align-items: center;
     padding: 0px 3px;
+    background: var(--activityColor);
+    box-shadow: 0px 0px 6px 0px #000000ac;
 }
 
 .infoContainer {
