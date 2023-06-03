@@ -1,10 +1,14 @@
 import IActivity from "../../../Models/IActivity";
-import styles from "./ActivityDataCard.module.css";
+import styles from "./CommonArtifactStyle.module.css";
 import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Grid, IconButton } from "@mui/material";
-import { activityColor, defaultWhite } from "../../../style/cssGlobalStyle";
+import {
+  activityColor,
+  activitySecColor,
+  defaultWhite,
+} from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { useMemo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -27,7 +31,12 @@ export default function ActivityDataCard({
 
   return (
     <div className={styles.container}>
-      <div className={styles.iconContainer}>
+      <div
+        className={styles.iconContainer}
+        style={{
+          backgroundColor: activityColor,
+        }}
+      >
         {insideCalendar && !isDragged && (
           <IconButton
             onClick={onDelete}
@@ -67,7 +76,9 @@ export default function ActivityDataCard({
           justifyContent="space-between"
           borderBottom={"1px solid " + activityColor}
         >
-          <span className={styles.title}>{activity.name}</span>
+          <span className={styles.title} style={{ color: activitySecColor }}>
+            {activity.name}
+          </span>
           <span>{activity.price} €</span>
         </Grid>
 

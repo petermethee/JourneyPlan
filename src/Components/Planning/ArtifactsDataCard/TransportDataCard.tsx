@@ -1,13 +1,17 @@
 import ITransport from "../../../Models/ITransport";
-import styles from "./TransportDataCard.module.css";
+import styles from "./CommonArtifactStyle.module.css";
 import TrainRoundedIcon from "@mui/icons-material/TrainRounded";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import PlaceIcon from "@mui/icons-material/Place";
 import { Grid, IconButton } from "@mui/material";
-import { transportColor, defaultWhite } from "../../../style/cssGlobalStyle";
+import {
+  transportColor,
+  defaultWhite,
+  transportSecColor,
+} from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { useMemo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import EastRoundedIcon from "@mui/icons-material/EastRounded";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
 
 export default function TransportDataCard({
   transport,
@@ -27,7 +31,12 @@ export default function TransportDataCard({
 
   return (
     <div className={styles.container}>
-      <div className={styles.iconContainer}>
+      <div
+        className={styles.iconContainer}
+        style={{
+          backgroundColor: transportColor,
+        }}
+      >
         {insideCalendar && !isDragged && (
           <IconButton
             onClick={onDelete}
@@ -67,7 +76,14 @@ export default function TransportDataCard({
           justifyContent="space-between"
           borderBottom={"1px solid " + transportColor}
         >
-          <span className={styles.title}>{transport.name}</span>
+          <span
+            className={styles.title}
+            style={{
+              color: transportSecColor,
+            }}
+          >
+            {transport.name}
+          </span>
           <span>{transport.price} €</span>
         </Grid>
 
@@ -89,11 +105,13 @@ export default function TransportDataCard({
             alignItems="center"
             flexWrap="nowrap"
             marginTop="auto"
+            justifyContent="space-evenly"
           >
-            <PlaceIcon fontSize="small" />
+            <span className={styles.textContainer}>{transport.from}</span>
+            <EastRoundedIcon />
             <span className={styles.textContainer}>
-              {transport.from}
-              tttttttttttttttttttttttttttttttttttttttttttttt
+              {transport.to}
+              {transport.attachment}{" "}
             </span>
           </Grid>
           <Grid

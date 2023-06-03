@@ -1,10 +1,14 @@
 import IAccomodation from "../../../Models/IAccomodation";
-import styles from "./AccomodationDataCard.module.css";
+import styles from "./CommonArtifactStyle.module.css";
 import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Grid, IconButton } from "@mui/material";
-import { accomodationColor, defaultWhite } from "../../../style/cssGlobalStyle";
+import {
+  accomodationColor,
+  accomodationSecColor,
+  defaultWhite,
+} from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import CloseIcon from "@mui/icons-material/Close";
 export default function AccomodationDataCard({
@@ -20,7 +24,12 @@ export default function AccomodationDataCard({
 }) {
   return (
     <div className={styles.container}>
-      <div className={styles.iconContainer}>
+      <div
+        className={styles.iconContainer}
+        style={{
+          backgroundColor: accomodationColor,
+        }}
+      >
         {insideCalendar && !isDragged && (
           <IconButton
             onClick={onDelete}
@@ -60,7 +69,14 @@ export default function AccomodationDataCard({
           justifyContent="space-between"
           borderBottom={"1px solid " + accomodationColor}
         >
-          <span className={styles.title}>{accomodation.name}</span>
+          <span
+            className={styles.title}
+            style={{
+              color: accomodationSecColor,
+            }}
+          >
+            {accomodation.name}
+          </span>
           <span>{accomodation.price} €</span>
         </Grid>
 
