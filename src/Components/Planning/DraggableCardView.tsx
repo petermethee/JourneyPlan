@@ -139,28 +139,50 @@ export default function DraggableCardView({
 
   const checkCollision = useCallback(
     (colId: string, timeIndex: number) => {
-      return planningArtifacts.some((planningArtifact) => {
-        if (planningArtifact.artifactId === artifactId) {
+      return planningArtifacts.some((PA) => {
+        if (PA.artifactId === artifactId) {
           return false;
         }
-        let duration = 1;
-        if (planningArtifact.artifactType === EArtifact.Activity) {
-          duration = activities.find(
-            (activity) => activity.id === planningArtifact.artifactId
-          )!.duration;
-        } else if (planningArtifact.artifactType === EArtifact.Transport) {
-          duration = transports.find(
-            (transport) => transport.id === planningArtifact.artifactId
-          )!.duration;
+        if (artifactType === EArtifact.Accomodation) {
+          return PA.date === colId;
+        } else {
+          let currentDuration = 1;
+
+          if (PA.artifactType === EArtifact.Activity) {
+            currentDuration = activities.find(
+              (activity) => activity.id === PA.artifactId
+            )!.duration;
+          } else {
+            currentDuration = transports.find(
+              (transport) => transport.id === PA.artifactId
+            )!.duration;
+          }
+          if (PA.date === colId) {
+            //SAME DAY
+            if (
+              PA.timeIndex <= timeIndex &&
+              PA.timeIndex + currentDuration > timeIndex
+            ) {
+              return true;
+            } else if (
+              timeIndex <= PA.timeIndex &&
+              timeIndex + duration > PA.timeIndex
+            ) {
+              return true;
+            }
+          }
+          return false;
         }
-        return (
-          planningArtifact.date === colId &&
-          planningArtifact.timeIndex <= timeIndex &&
-          planningArtifact.timeIndex + duration > timeIndex
-        );
       });
     },
-    [planningArtifacts, activities, transports, artifactId]
+    [
+      planningArtifacts,
+      activities,
+      transports,
+      artifactId,
+      artifactType,
+      duration,
+    ]
   );
 
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
