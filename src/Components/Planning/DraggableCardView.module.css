@@ -1,7 +1,6 @@
 .draggableContainer {
   transition: 300ms;
   cursor: pointer;
-
 }
 
 .showcase, .ghost {
@@ -65,6 +64,9 @@
 
 /* impotant to triger end drag at the end of animation */
 
+@keyframes sideDataNotDisappear {}
+
+/* impotant to triger end drag at the end of animation */
 
 @keyframes ghostDisappearAnim {
   0% {

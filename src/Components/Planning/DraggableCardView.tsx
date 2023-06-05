@@ -39,7 +39,7 @@ type TDraggableProps = {
     onDelete: () => void,
     isDragged?: boolean
   ) => JSX.Element | JSX.Element[];
-  planningId: string;
+  planningId?: string;
   artifactId: number;
   duration: number;
   containerStyle: CSSProperties;
@@ -93,12 +93,11 @@ export default function DraggableCardView({
   const onDragEnd = useCallback(
     (event: TDnDEvent) => {
       const { artifactId, source, destination } = event;
-
       if (
         source.colId !== destination.colId ||
         source.timeIndex !== destination.timeIndex
       ) {
-        if (source.colId !== SIDE_DATA_COL_ID) {
+        if (planningId) {
           const date = destination.colId;
           const timeIndex = destination.timeIndex;
           const newPlanningId = `${artifactId}_${date}_${timeIndex}`;
@@ -140,11 +139,13 @@ export default function DraggableCardView({
   const checkCollision = useCallback(
     (colId: string, timeIndex: number) => {
       return planningArtifacts.some((PA) => {
-        if (PA.artifactId === artifactId) {
+        if (PA.id === planningId) {
           return false;
         }
         if (artifactType === EArtifact.Accomodation) {
-          return PA.date === colId;
+          return (
+            PA.date === colId && PA.artifactType === EArtifact.Accomodation
+          );
         } else {
           let currentDuration = 1;
 
@@ -179,9 +180,9 @@ export default function DraggableCardView({
       planningArtifacts,
       activities,
       transports,
-      artifactId,
       artifactType,
       duration,
+      planningId,
     ]
   );
 
@@ -276,8 +277,14 @@ export default function DraggableCardView({
   );
 
   const onAnimationEnd = (event: React.AnimationEvent) => {
-    if (event.animationName === disappearAnim) {
-      if (source.colId === SIDE_DATA_COL_ID) {
+    if (
+      event.animationName === disappearAnim ||
+      event.animationName === styles.usedDisappearAnim
+    ) {
+      if (
+        source.colId === SIDE_DATA_COL_ID &&
+        event.animationName !== styles.usedDisappearAnim
+      ) {
         switch (artifactType) {
           case EArtifact.Activity:
             dispatch(setUsedActivities(artifactId));
@@ -300,19 +307,24 @@ export default function DraggableCardView({
 
   const onDeleteAnimationEnd = (event: React.AnimationEvent) => {
     if (event.animationName === styles.ghostDisappearAnim) {
-      dispatch(deleteArtifact(planningId));
-      switch (artifactType) {
-        case EArtifact.Activity:
-          dispatch(setUsedActivities(artifactId));
+      dispatch(deleteArtifact(planningId!));
+      if (
+        planningArtifacts.filter((PA) => PA.artifactId === artifactId)
+          .length === 1
+      ) {
+        switch (artifactType) {
+          case EArtifact.Activity:
+            dispatch(setUsedActivities(artifactId));
 
-          break;
-        case EArtifact.Transport:
-          dispatch(setUsedTransports(artifactId));
-          break;
+            break;
+          case EArtifact.Transport:
+            dispatch(setUsedTransports(artifactId));
+            break;
 
-        default:
-          dispatch(setUsedAccomodations(artifactId));
-          break;
+          default:
+            dispatch(setUsedAccomodations(artifactId));
+            break;
+        }
       }
     }
   };
