@@ -18,12 +18,13 @@ import SideDataHeader from "./SideDataHeader";
 import { selectTransports } from "../../../features/Redux/transportsSlice";
 import { selectAccomodations } from "../../../features/Redux/accomodationsSlice";
 
-import { Fab } from "@mui/material";
+import { Backdrop, Fab, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
 import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
 import AccomodationDataCard from "../ArtifactsDataCard/AccomodationDataCard";
+import AddArtifacts from "../../AddArtifacts/AddArtifacts";
 
 export const SIDE_DATA_COL_ID = "sideDataDropId";
 
@@ -33,6 +34,7 @@ export default function SideData() {
   const transports = useAppSelector(selectTransports);
   const accomodations = useAppSelector(selectAccomodations);
 
+  const [openModal, setOpenModal] = useState(false);
   const [usedFilter, setUsedFilter] = useState(false);
   const [marginTop, setMarginTop] = useState(0);
   const [currentArtifactType, setCurrentArtifactType] = useState(
@@ -166,12 +168,16 @@ export default function SideData() {
         </div>
       </div>
       <Fab
+        onClick={() => setOpenModal((prevState) => !prevState)}
         color="primary"
-        size="medium"
+        size="small"
         sx={{ position: "absolute", bottom: "10px", right: "10px" }}
       >
         <AddIcon />
       </Fab>
+      <Backdrop open={openModal} sx={{ zIndex: 10 }} />
+
+      <AddArtifacts open={openModal} setOpen={setOpenModal} />
     </div>
   );
 }

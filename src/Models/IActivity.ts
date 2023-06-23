@@ -13,3 +13,13 @@ export default interface IActivity {
   [ActivitiesTable.contraint]: string;
   [ActivitiesTable.used]: boolean;
 }
+
+export type TFormActivity = {
+  [ActivitiesTable.name]: string;
+  [ActivitiesTable.description]: string;
+  [ActivitiesTable.duration]: number;
+  [ActivitiesTable.price]: number;
+  [ActivitiesTable.pleasure]: number;
+  [ActivitiesTable.location]: string;
+  [ActivitiesTable.attachment]: string;
+};

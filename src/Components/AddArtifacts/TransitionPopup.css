@@ -1,0 +1,39 @@
+.popupTransitionBg-enter {
+    opacity: 0;
+}
+
+.popupTransitionBg-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease;
+}
+
+.popupTransitionBg-exit {
+    opacity: 1;
+}
+
+.popupTransitionBg-exit-active {
+    opacity: 0;
+    transition: all 500ms ease;
+}
+
+.popupTransitionContent-enter {
+    transform: translateY(100vh);
+    opacity: 1;
+}
+
+.popupTransitionContent-enter-active {
+    transform: translateY(0);
+    transition: all 300ms ease;
+    opacity: 1;
+}
+
+.popupTransitionContent-exit {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.popupTransitionContent-exit-active {
+    transform: translateY(100vh);
+    transition: all 300ms ease;
+    opacity: 1;
+}

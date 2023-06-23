@@ -1,6 +1,5 @@
 import IAccomodation from "../../../Models/IAccomodation";
 import styles from "./CommonArtifactStyle.module.css";
-import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Grid, IconButton } from "@mui/material";
@@ -11,6 +10,7 @@ import {
 } from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import CloseIcon from "@mui/icons-material/Close";
+import ActivityIcon from "../../Shared/ActivityIcon";
 export default function AccomodationDataCard({
   accomodation,
   insideCalendar,
@@ -51,7 +51,7 @@ export default function AccomodationDataCard({
             />
           </IconButton>
         )}
-        <LandscapeRoundedIcon sx={{ color: defaultWhite }} />
+        <ActivityIcon color={defaultWhite} />
       </div>
       <Grid
         container

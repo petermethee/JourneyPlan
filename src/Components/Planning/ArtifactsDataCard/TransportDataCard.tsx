@@ -1,6 +1,5 @@
 import ITransport from "../../../Models/ITransport";
 import styles from "./CommonArtifactStyle.module.css";
-import TrainRoundedIcon from "@mui/icons-material/TrainRounded";
 import { Grid, IconButton } from "@mui/material";
 import {
   transportColor,
@@ -12,6 +11,7 @@ import { useMemo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import EastRoundedIcon from "@mui/icons-material/EastRounded";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import TransportIcon from "../../Shared/TransportIcon";
 
 export default function TransportDataCard({
   transport,
@@ -58,7 +58,7 @@ export default function TransportDataCard({
             />
           </IconButton>
         )}
-        <TrainRoundedIcon sx={{ color: defaultWhite }} />
+        <TransportIcon color={defaultWhite} />
       </div>
       <Grid
         container

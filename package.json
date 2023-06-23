@@ -7,6 +7,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
+    "@mui/lab": "^5.0.0-alpha.133",
     "@mui/material": "^5.11.15",
     "@reduxjs/toolkit": "^1.9.3",
     "dayjs": "^1.11.7",
@@ -19,6 +20,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
+    "react-swipeable-views": "^0.14.0",
     "sqlite3": "^5.1.6"
   },
   "scripts": {
@@ -54,6 +56,7 @@
     "@types/react": "^18.0.29",
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-dom": "^18.0.11",
+    "@types/react-swipeable-views": "^0.13.1",
     "concurrently": "^7.6.0",
     "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",

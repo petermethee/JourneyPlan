@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import styles from "./SideDataHeader.module.css";
-import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
-import TrainRoundedIcon from "@mui/icons-material/TrainRounded";
-import HotelRoundedIcon from "@mui/icons-material/HotelRounded";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Button, Switch } from "@mui/material";
@@ -12,6 +9,10 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { useNavigate } from "react-router-dom";
 import { setSideDataTop } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { EArtifact } from "../../../Models/EArtifacts";
+import ActivityIcon from "../../Shared/ActivityIcon";
+import { primaryColor } from "../../../style/cssGlobalStyle";
+import TransportIcon from "../../Shared/TransportIcon";
+import AccomodationIcon from "../../Shared/AccomodationIcon";
 
 export default function SideDataHeader({
   onChange,
@@ -57,7 +58,7 @@ export default function SideDataHeader({
             minWidth: "0px",
             flex: 1,
           }}
-          icon={<LandscapeRoundedIcon />}
+          icon={<ActivityIcon color={primaryColor} />}
           value={EArtifact.Activity}
         />
         <Tab
@@ -65,7 +66,7 @@ export default function SideDataHeader({
             minWidth: "0px",
             flex: 1,
           }}
-          icon={<TrainRoundedIcon />}
+          icon={<TransportIcon color={primaryColor} />}
           value={EArtifact.Transport}
         />
         <Tab
@@ -73,7 +74,7 @@ export default function SideDataHeader({
             minWidth: "0px",
             flex: 1,
           }}
-          icon={<HotelRoundedIcon />}
+          icon={<AccomodationIcon color={primaryColor} />}
           value={EArtifact.Accomodation}
         />
       </Tabs>

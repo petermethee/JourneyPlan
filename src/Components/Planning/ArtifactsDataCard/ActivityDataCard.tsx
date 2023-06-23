@@ -1,6 +1,5 @@
 import IActivity from "../../../Models/IActivity";
 import styles from "./CommonArtifactStyle.module.css";
-import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Grid, IconButton } from "@mui/material";
@@ -12,6 +11,7 @@ import {
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { useMemo } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import ActivityIcon from "../../Shared/ActivityIcon";
 
 export default function ActivityDataCard({
   activity,
@@ -58,7 +58,7 @@ export default function ActivityDataCard({
             />
           </IconButton>
         )}
-        <LandscapeRoundedIcon sx={{ color: defaultWhite }} />
+        <ActivityIcon color={defaultWhite} />
       </div>
       <Grid
         container
