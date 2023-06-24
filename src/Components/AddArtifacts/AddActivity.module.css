@@ -1,0 +1,25 @@
+/* Drag drop attachment */
+
+.labelDropZone {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+}
+
+.dragActive {
+    background-color: #ffffff9d;
+}
+
+.dropHandler {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.dropLabel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

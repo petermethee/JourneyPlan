@@ -45,7 +45,7 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
   const dropZoneRef = useRef<HTMLDivElement>(null);
 
   const [colWidth, setColWidth] = useState(100);
-  let calculTimeOut: NodeJS.Timeout;
+  const [calculTimeOut, setCalculTimeOut] = useState<NodeJS.Timeout>();
 
   const [daysIndex, setDaysIndex] = useState([0, 1]);
 
@@ -68,10 +68,11 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
     setColWidth(initColWidth);
   }, [dayCols.length]);
 
-  window.onresize = function () {
+  const onResize = useCallback(() => {
     calculTimeOut && clearTimeout(calculTimeOut);
-    calculTimeOut = setTimeout(calculColWidth, 500);
-  };
+    setCalculTimeOut(setTimeout(calculColWidth, 500));
+  }, [calculColWidth, calculTimeOut]);
+  window.onresize = onResize;
 
   useEffect(() => {
     calculColWidth();
@@ -80,6 +81,12 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
   useEffect(() => {
     setColIds(dayCols.map((day) => day.dateId));
   }, [dayCols]);
+
+  useEffect(() => {
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, [onResize]);
 
   return (
     <div className={styles.calendarContainer}>

@@ -1,9 +1,13 @@
-import { Modal, Tab, Tabs } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import React, { useState } from "react";
 import ActivityIcon from "../Shared/ActivityIcon";
 import TransportIcon from "../Shared/TransportIcon";
 import AccomodationIcon from "../Shared/AccomodationIcon";
-import { primaryColor } from "../../style/cssGlobalStyle";
+import {
+  accomodationSecColor,
+  activitySecColor,
+  transportSecColor,
+} from "../../style/cssGlobalStyle";
 import styles from "./AddArtifacts.module.css";
 import { EArtifact } from "../../Models/EArtifacts";
 import SwipeableViews from "react-swipeable-views";
@@ -65,19 +69,30 @@ export default function AddArtifacts({
               indicatorColor="secondary"
               textColor="inherit"
               variant="fullWidth"
+              sx={{
+                backgroundColor:
+                  tab === EArtifact.Activity
+                    ? activitySecColor
+                    : tab === EArtifact.Accomodation
+                    ? accomodationSecColor
+                    : transportSecColor,
+                color: "white",
+                boxShadow: "0px 0px 10px 0px #000000ff",
+                transition: "300ms",
+              }}
             >
               <Tab
-                icon={<ActivityIcon color={primaryColor} />}
+                icon={<ActivityIcon color="white" />}
                 value={EArtifact.Activity}
                 label="Activité"
               />
               <Tab
-                icon={<TransportIcon color={primaryColor} />}
+                icon={<TransportIcon color="white" />}
                 value={EArtifact.Transport}
                 label="Transport"
               />
               <Tab
-                icon={<AccomodationIcon color={primaryColor} />}
+                icon={<AccomodationIcon color="white" />}
                 value={EArtifact.Accomodation}
                 label="Logement"
               />
@@ -85,6 +100,8 @@ export default function AddArtifacts({
             <SwipeableViews
               index={Object.values(EArtifact).indexOf(tab)}
               onChangeIndex={(index) => setTab(Object.values(EArtifact)[index])}
+              containerStyle={{ height: "100%" }}
+              style={{ height: "100%" }}
             >
               <AddActivity />
               <AddTransport />
