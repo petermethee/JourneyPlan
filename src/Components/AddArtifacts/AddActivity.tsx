@@ -1,9 +1,10 @@
 import { Grid, MenuItem, TextField } from "@mui/material";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { TFormActivity } from "../../Models/IActivity";
 import { ActivitiesTable } from "../../Models/DataBaseModel";
 import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddActivity.module.css";
+import AttachmentCard from "../AttachmentCard/AttachmentCard";
 
 export default function AddActivity() {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -18,6 +19,10 @@ export default function AddActivity() {
     [ActivitiesTable.attachment]: "",
   });
 
+  const [attachment, setAttachment] = useState<
+    { imagePath: string; fileName: string }[]
+  >([]);
+
   const [dragActive, setDragActive] = useState(false);
   const [hours, setHours] = useState("0");
   const [minutes, setMinutes] = useState(0);
@@ -31,6 +36,8 @@ export default function AddActivity() {
 
   // handle drag events
   const handleDrag = function (e: any) {
+    console.log("tag", e.type);
+
     e.preventDefault();
     e.stopPropagation();
     if (e.type === "dragenter") {
@@ -46,12 +53,30 @@ export default function AddActivity() {
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const image = e.dataTransfer.files[0] as unknown as {
+      let images = Object.values(e.dataTransfer.files) as unknown as {
         path: string;
         name: string;
-      };
-      setFormValues((prevState) => {
-        return { ...prevState, image_path: image.path, fileName: image.name };
+      }[];
+      console.log("images", images);
+      setAttachment((prevState) => {
+        images = images.filter((image) => {
+          const extension = image.path.split(".")[1];
+
+          return (
+            (extension === "jpg" ||
+              extension === "jpeg" ||
+              extension === "png" ||
+              extension === "pdf") &&
+            !prevState.some((attachment) => attachment.imagePath === image.path)
+          );
+        });
+
+        return [
+          ...prevState,
+          ...images.map((image) => {
+            return { imagePath: image.path, fileName: image.name };
+          }),
+        ];
       });
     }
   };
@@ -64,8 +89,8 @@ export default function AddActivity() {
         path: string;
         name: string;
       };
-      setFormValues((prevState) => {
-        return { ...prevState, image_path: image.path, fileName: image.name };
+      setAttachment((prevState) => {
+        return [...prevState, { imagePath: image.path, fileName: image.name }];
       });
     }
   };
@@ -81,108 +106,128 @@ export default function AddActivity() {
   }, [hours]);
 
   return (
-    <Grid container spacing={4} padding={4}>
-      <Grid item xs={9}>
-        <TextField
-          name={ActivitiesTable.name}
-          fullWidth
-          variant="standard"
-          label="Titre"
-          value={formValues.name}
-          onChange={updateForm}
-        />
-      </Grid>
+    <>
+      <div className={styles.dropLabel} style={{ opacity: dragActive ? 1 : 0 }}>
+        <DownloadIcon />
+        Lâcher le document ici
+      </div>
 
-      <Grid item xs={3}>
-        <TextField
-          name={ActivitiesTable.price}
-          fullWidth
-          variant="standard"
-          label="Prix"
-          value={formValues.price}
-          onChange={updateForm}
-          type="number"
-        />
-      </Grid>
-      <Grid item xs={9}>
-        <TextField
-          name={ActivitiesTable.location}
-          fullWidth
-          variant="standard"
-          label="Localisation"
-          value={formValues.location}
-          onChange={updateForm}
-        />
-      </Grid>
-      <Grid item xs={3} flexWrap="nowrap" display="flex" gap={1}>
-        <TextField
-          fullWidth
-          variant="standard"
-          label="H"
-          value={hours}
-          type="number"
-          InputProps={{ inputProps: { min: 0, max: 23 } }}
-          onChange={(event) => setHours(event.target.value)}
-          error={!isHourValid}
-        />
-        <TextField
-          select
-          fullWidth
-          variant="standard"
-          label="MIN"
-          value={minutes}
-          type="number"
-          onChange={(event) => setMinutes(parseInt(event.target.value))}
-        >
-          {[0, 15, 30, 45].map((minute, index) => (
-            <MenuItem key={minute} value={index}>
-              {minute}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          name={ActivitiesTable.description}
-          fullWidth
-          variant="standard"
-          label="Notes"
-          value={formValues.description}
-          onChange={updateForm}
-          multiline
-          sx={{ height: "100%" }}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        PJ
-      </Grid>
-      <input
-        accept="image/png, image/jpeg, "
-        ref={inputRef}
-        type="file"
-        id="input-file-upload"
-        multiple={true}
-        onChange={handleChange}
-        style={{ display: "none" }}
-      />
-      <label
-        htmlFor="input-file-upload"
-        className={`${styles.labelDropZone} ${dragActive && styles.dragActive}`}
-      >
+      <div style={{ position: "relative", width: "100%", flex: 1 }}>
         <div
-          className={styles.dropHandler}
           onDragEnter={handleDrag}
           onDragLeave={handleDrag}
           onDragOver={handleDrag}
           onDrop={handleDrop}
+          className={`${styles.dropHandler} ${dragActive && styles.dragActive}`}
         />
-        {dragActive && (
-          <div className={styles.dropLabel}>
-            <DownloadIcon />
-            Lâcher le document ici
-          </div>
-        )}
-      </label>
-    </Grid>
+
+        <Grid container spacing={4} padding={4}>
+          <Grid item xs={9}>
+            <TextField
+              name={ActivitiesTable.name}
+              fullWidth
+              variant="standard"
+              label="Titre"
+              value={formValues.name}
+              onChange={updateForm}
+            />
+          </Grid>
+
+          <Grid item xs={3}>
+            <TextField
+              name={ActivitiesTable.price}
+              fullWidth
+              variant="standard"
+              label="Prix"
+              value={formValues.price}
+              onChange={updateForm}
+              type="number"
+            />
+          </Grid>
+          <Grid item xs={9}>
+            <TextField
+              name={ActivitiesTable.location}
+              fullWidth
+              variant="standard"
+              label="Localisation"
+              value={formValues.location}
+              onChange={updateForm}
+            />
+          </Grid>
+          <Grid item xs={3} flexWrap="nowrap" display="flex" gap={1}>
+            <TextField
+              fullWidth
+              variant="standard"
+              label="H"
+              value={hours}
+              type="number"
+              InputProps={{ inputProps: { min: 0, max: 23 } }}
+              onChange={(event) => setHours(event.target.value)}
+              error={!isHourValid}
+            />
+            <TextField
+              select
+              fullWidth
+              variant="standard"
+              label="MIN"
+              value={minutes}
+              type="number"
+              onChange={(event) => setMinutes(parseInt(event.target.value))}
+            >
+              {[0, 15, 30, 45].map((minute, index) => (
+                <MenuItem key={minute} value={index}>
+                  {minute}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              name={ActivitiesTable.description}
+              fullWidth
+              variant="standard"
+              label="Notes"
+              value={formValues.description}
+              onChange={updateForm}
+              multiline
+              sx={{ height: "100%" }}
+            />
+          </Grid>
+          <Grid item width="100%" display="flex">
+            <div className={styles.attachmentLabels}>
+              <input
+                accept="image/png, image/jpeg "
+                ref={inputRef}
+                type="file"
+                id="input-file-upload"
+                multiple={true}
+                onChange={handleChange}
+                style={{ display: "none" }}
+              />
+              <label>Pièce(s) jointe(s):</label>
+              <div>
+                Glisser - déposer les fichiers ou
+                <label
+                  htmlFor="input-file-upload"
+                  className={styles.attachmentLabelInput}
+                >
+                  Importer
+                </label>
+              </div>
+            </div>
+          </Grid>
+          <Grid item xs={12} container gap={1}>
+            {attachment.map((PJ) => (
+              <Grid key={PJ.imagePath} item>
+                <AttachmentCard
+                  imagePath={PJ.imagePath}
+                  imageName={PJ.fileName}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Grid>
+      </div>
+    </>
   );
 }

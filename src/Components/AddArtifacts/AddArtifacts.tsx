@@ -100,8 +100,15 @@ export default function AddArtifacts({
             <SwipeableViews
               index={Object.values(EArtifact).indexOf(tab)}
               onChangeIndex={(index) => setTab(Object.values(EArtifact)[index])}
-              containerStyle={{ height: "100%" }}
+              containerStyle={{
+                height: "100%",
+              }}
               style={{ height: "100%" }}
+              slideStyle={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
             >
               <AddActivity />
               <AddTransport />

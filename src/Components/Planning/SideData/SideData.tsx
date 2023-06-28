@@ -142,18 +142,20 @@ export default function SideData() {
   ]);
 
   const onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    setMarginTop((prevState) => {
-      const marginMax = Math.max(
-        0,
-        sideDataRef.current!.clientHeight -
-          sideDataRef.current!.parentElement!.parentElement!.clientHeight +
-          sideDataTop
-      );
-      const tempValue = prevState - 150 * Math.sign(event.deltaY); //150 is the arbitrary choosen step
-      const newMarginTop = Math.max(-marginMax, Math.min(0, tempValue));
+    if (!openModal) {
+      setMarginTop((prevState) => {
+        const marginMax = Math.max(
+          0,
+          sideDataRef.current!.clientHeight -
+            sideDataRef.current!.parentElement!.parentElement!.clientHeight +
+            sideDataTop
+        );
+        const tempValue = prevState - 150 * Math.sign(event.deltaY); //150 is the arbitrary choosen step
+        const newMarginTop = Math.max(-marginMax, Math.min(0, tempValue));
 
-      return newMarginTop;
-    });
+        return newMarginTop;
+      });
+    }
   };
 
   return (

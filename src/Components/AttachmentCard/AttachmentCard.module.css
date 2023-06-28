@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    align-items: center;
+}
+
+
+
+.imageContainer {
+    height: 170px;
+    width: 120px;
+    border-radius: 10px;
+    object-fit: contain;
+    object-position: center;
+    overflow: hidden;
+    background-color: black;
+    transition: 300ms;
+    position: relative;
+    box-shadow: 0 0 6px 2px #00000091;
+}
+
+.imageContainer:hover {
+    transform: scale(1.5);
+    box-shadow: 0 0 15px 4px #00000091;
+    z-index: 1;
+}
+
+
+.label {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}
