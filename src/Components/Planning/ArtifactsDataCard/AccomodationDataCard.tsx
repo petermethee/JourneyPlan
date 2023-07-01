@@ -116,7 +116,7 @@ export default function AccomodationDataCard({
             <AttachFileIcon fontSize="small" />
             <span className={styles.textContainer}>
               tttttttttttttttttttttttttttttttttttttttttttttt
-              {accomodation.attachment}
+              {accomodation.attachment.length}
             </span>
           </Grid>
         </Grid>

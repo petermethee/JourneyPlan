@@ -3,7 +3,11 @@ import IActivity from "../../src/Models/IActivity";
 import ITransport from "../../src/Models/ITransport";
 import IAccomodation from "../../src/Models/IAccomodation";
 
-import { TablesName, TripsTable } from "../../src/Models/DataBaseModel";
+import {
+  AttachmentsTable,
+  TablesName,
+  TripsTable,
+} from "../../src/Models/DataBaseModel";
 import { EArtifactTableName } from "../../src/Models/EArtifacts";
 
 export default class ArtifactsDbManager {
@@ -31,6 +35,8 @@ export default class ArtifactsDbManager {
     item: Partial<IActivity> | Partial<ITransport> | Partial<IAccomodation>
   ) => {
     delete item.id; //tem is partial to allow id deletion
+    const attachments = item.attachment;
+    delete item.attachment;
     const columns = "(" + Object.keys(item).join(",") + ")";
     const values = Object.values(item);
     const placeholders =
@@ -39,6 +45,14 @@ export default class ArtifactsDbManager {
         .map((_key) => "?")
         .join(",") +
       ")";
+
+    const attachmentsId: number[] = [];
+
+    //insert attachment
+    if (attachments) {
+      await this.manageAttachment(attachments);
+    }
+
     const sql = `INSERT INTO ${tableName} ${columns} VALUES ${placeholders}`;
 
     await new Promise<void>((resolve, reject) => {
@@ -46,6 +60,7 @@ export default class ArtifactsDbManager {
         if (err) {
           reject(err);
         }
+
         resolve();
       });
     });
@@ -82,5 +97,30 @@ export default class ArtifactsDbManager {
         resolve();
       });
     });
+  };
+
+  manageAttachment = async (
+    attachments: {
+      path: string;
+      name: string;
+    }[]
+  ) => {
+    const attachmentQueries = attachments.map(
+      (_PJ) =>
+        `INSERT INTO ${TablesName.attachments} (${AttachmentsTable.name},${AttachmentsTable.path}) VALUES(?,?)`
+    );
+
+    for (let index = 0; index < attachmentQueries.length; index++) {
+      const query = attachmentQueries[index];
+      const pj = attachments[index];
+      await new Promise<void>((resolve, reject) => {
+        this.db.run(query, [pj.name, pj.path], (err) => {
+          if (err) {
+            reject(err);
+          }
+          resolve();
+        });
+      });
+    }
   };
 }

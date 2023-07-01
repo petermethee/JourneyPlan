@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { TFormActivity, convertFromToActivity } from "../../Models/IActivity";
+import IActivity, { TFormActivity } from "../../Models/IActivity";
 import { ActivitiesTable } from "../../Models/DataBaseModel";
 import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddActivity.module.css";
@@ -14,8 +14,9 @@ import AttachmentCard from "./Attachment/AttachmentCard";
 import AttachmentDZ from "./Attachment/AttachmentDZ";
 import { ESavingStatus } from "./AddArtifacts";
 import { EArtifact } from "../../Models/EArtifacts";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { insertActivity } from "../../features/Redux/activitiesSlice";
+import { selectCurrentTrip } from "../../features/Redux/tripSlice";
 
 export const AddActivity = forwardRef(
   (
@@ -27,19 +28,17 @@ export const AddActivity = forwardRef(
     ref
   ) => {
     const dispatch = useAppDispatch();
-
+    const id_trip = useAppSelector(selectCurrentTrip)!.id;
     const [formValues, setFormValues] = useState<TFormActivity>({
       [ActivitiesTable.name]: "",
       [ActivitiesTable.description]: "",
-      [ActivitiesTable.duration]: 0,
       [ActivitiesTable.price]: 0,
       [ActivitiesTable.pleasure]: 0,
       [ActivitiesTable.location]: "",
-      [ActivitiesTable.attachment]: [],
     });
 
     const [attachment, setAttachment] = useState<
-      { imagePath: string; fileName: string }[]
+      { path: string; name: string }[]
     >([]);
 
     const [dragActive, setDragActive] = useState(false);
@@ -50,7 +49,16 @@ export const AddActivity = forwardRef(
       save(child: EArtifact) {
         const duration =
           parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
-        dispatch(insertActivity(convertFromToActivity(formValues, 0)));
+
+        const newActivity: IActivity = {
+          id: 0,
+          id_trip,
+          duration,
+          ...formValues,
+          attachment,
+          used: false,
+        };
+        dispatch(insertActivity(newActivity));
       },
     }));
 
@@ -71,10 +79,7 @@ export const AddActivity = forwardRef(
           name: string;
         };
         setAttachment((prevState) => {
-          return [
-            ...prevState,
-            { imagePath: image.path, fileName: image.name },
-          ];
+          return [...prevState, { path: image.path, name: image.name }];
         });
       }
     };
@@ -213,15 +218,13 @@ export const AddActivity = forwardRef(
             </Grid>
             <Grid item xs={12} container gap={1}>
               {attachment.map((PJ) => (
-                <Grid key={PJ.imagePath} item>
+                <Grid key={PJ.path} item>
                   <AttachmentCard
-                    imagePath={PJ.imagePath}
-                    imageName={PJ.fileName}
+                    imagePath={PJ.path}
+                    imageName={PJ.name}
                     onDelete={() =>
                       setAttachment((prevState) =>
-                        prevState.filter(
-                          (newPJ) => newPJ.imagePath !== PJ.imagePath
-                        )
+                        prevState.filter((newPJ) => newPJ.path !== PJ.path)
                       )
                     }
                   />

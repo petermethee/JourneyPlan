@@ -9,7 +9,7 @@ export default interface ITransport {
   [TransportsTable.price]: number;
   [TransportsTable.from]: string;
   [TransportsTable.to]: string;
-  [TransportsTable.attachment]: string;
+  [TransportsTable.attachment]: { path: string; name: string }[];
   [TransportsTable.vehicule]: string;
   [TransportsTable.used]: boolean;
 }

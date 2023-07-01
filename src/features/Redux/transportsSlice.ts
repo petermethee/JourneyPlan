@@ -8,7 +8,6 @@ import {
 } from "../ipc/ipcGenericFunctions";
 import { RootState } from "../../app/store";
 import { mockedTransports } from "../../MockData/MockedTransports";
-import { TablesName } from "../../Models/DataBaseModel";
 import { EArtifactTableName } from "../../Models/EArtifacts";
 
 interface TransportsState {

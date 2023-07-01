@@ -6,6 +6,8 @@ import { EIpcChanels } from "./EIpcChannels";
 import ArtifactsDbManager from "../Managers/ArtifactsDbManager";
 import { TablesName } from "../../src/Models/DataBaseModel";
 import { EArtifactTableName } from "../../src/Models/EArtifacts";
+import ITransport from "../../src/Models/ITransport";
+import IAccomodation from "../../src/Models/IAccomodation";
 
 export default class ArtifactIpcHandlers {
   db: Database;
@@ -31,10 +33,13 @@ export default class ArtifactIpcHandlers {
       async (
         _event,
         tableName: EArtifactTableName,
-        trip: Partial<IActivity>
+        artifact:
+          | Partial<IActivity>
+          | Partial<ITransport>
+          | Partial<IAccomodation>
       ) => {
         //trip is partial to allow id deletion
-        await this.dataBaseManager.insertInTable(tableName, trip);
+        await this.dataBaseManager.insertInTable(tableName, artifact);
       }
     );
 

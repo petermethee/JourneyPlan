@@ -21,6 +21,7 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "react-swipeable-views": "^0.14.0",
+    "sequelize": "^6.32.1",
     "sqlite3": "^5.1.6"
   },
   "scripts": {

@@ -111,7 +111,7 @@ export default function TransportDataCard({
             <EastRoundedIcon />
             <span className={styles.textContainer}>
               {transport.to}
-              {transport.attachment}{" "}
+              {transport.attachment.length}
             </span>
           </Grid>
           <Grid
@@ -125,7 +125,7 @@ export default function TransportDataCard({
             <AttachFileIcon fontSize="small" />
             <span className={styles.textContainer}>
               tttttttttttttttttttttttttttttttttttttttttttttt
-              {transport.attachment}
+              {transport.attachment.length}
             </span>
           </Grid>
         </Grid>

@@ -45,8 +45,6 @@ export default function AddArtifacts({
   };
 
   const handleSave = () => {
-    console.log("addACttivty", addActivityRef.current);
-
     addActivityRef.current!.save(tab);
   };
 

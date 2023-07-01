@@ -13,8 +13,8 @@ export default function AttachmentDZ({
   setAttachment: React.Dispatch<
     React.SetStateAction<
       {
-        imagePath: string;
-        fileName: string;
+        path: string;
+        name: string;
       }[]
     >
   >;
@@ -50,9 +50,7 @@ export default function AttachmentDZ({
               extension === "jpeg" ||
               extension === "png" ||
               extension === "pdf") &&
-            !prevState.some(
-              (attachment) => attachment.imagePath === image.path
-            );
+            !prevState.some((attachment) => attachment.path === image.path);
           !isValid && invalidFiles.push(image.name);
           return isValid;
         });
@@ -68,7 +66,7 @@ export default function AttachmentDZ({
         return [
           ...prevState,
           ...images.map((image) => {
-            return { imagePath: image.path, fileName: image.name };
+            return { path: image.path, name: image.name };
           }),
         ];
       });
