@@ -1,0 +1,11 @@
+.dragActive {
+    background-color: #ffffff9d;
+    z-index: 1;
+}
+
+.dropHandler {
+    transition: 300ms;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}

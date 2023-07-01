@@ -1,16 +1,15 @@
-import React from "react";
+import CustomCloseIcon from "../../Shared/CustomCloseIcon";
+import cstmCloseIconStyle from "../../Shared/CustomCloseIcon.module.css";
 import styles from "./AttachmentCard.module.css";
-import { IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import CustomCloseIcon from "../Shared/CustomCloseIcon";
-import cstmCloseIconStyle from "../Shared/CustomCloseIcon.module.css";
 
 export default function AttachmentCard({
   imagePath,
   imageName,
+  onDelete,
 }: {
   imagePath: string;
   imageName: string;
+  onDelete: () => void;
 }) {
   return (
     <div className={styles.container + " " + cstmCloseIconStyle.container}>
@@ -21,7 +20,7 @@ export default function AttachmentCard({
             right: "5px",
             top: "5px",
           }}
-          onDelete={() => {}}
+          onDelete={onDelete}
           size="18px"
         />
       </div>

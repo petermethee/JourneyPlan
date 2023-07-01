@@ -4,7 +4,8 @@ import { TFormActivity } from "../../Models/IActivity";
 import { ActivitiesTable } from "../../Models/DataBaseModel";
 import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddActivity.module.css";
-import AttachmentCard from "../AttachmentCard/AttachmentCard";
+import AttachmentCard from "./Attachment/AttachmentCard";
+import AttachmentDZ from "./Attachment/AttachmentDZ";
 
 export default function AddActivity() {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -32,50 +33,6 @@ export default function AddActivity() {
     setFormValues((prevState) => {
       return { ...prevState, [name]: value };
     });
-  };
-
-  // handle drag events
-  const handleDrag = function (e: any) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-  };
-
-  // triggers when file is dropped
-  const handleDrop = function (e: React.DragEvent<HTMLDivElement>) {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      let images = Object.values(e.dataTransfer.files) as unknown as {
-        path: string;
-        name: string;
-      }[];
-      setAttachment((prevState) => {
-        images = images.filter((image) => {
-          const extension = image.path.split(".")[1];
-
-          return (
-            (extension === "jpg" ||
-              extension === "jpeg" ||
-              extension === "png" ||
-              extension === "pdf") &&
-            !prevState.some((attachment) => attachment.imagePath === image.path)
-          );
-        });
-
-        return [
-          ...prevState,
-          ...images.map((image) => {
-            return { imagePath: image.path, fileName: image.name };
-          }),
-        ];
-      });
-    }
   };
 
   // triggers when file is selected with click
@@ -110,12 +67,10 @@ export default function AddActivity() {
       </div>
 
       <div style={{ position: "relative", width: "100%", flex: 1 }}>
-        <div
-          onDragEnter={handleDrag}
-          onDragLeave={handleDrag}
-          onDragOver={handleDrag}
-          onDrop={handleDrop}
-          className={`${styles.dropHandler} ${dragActive && styles.dragActive}`}
+        <AttachmentDZ
+          setDragActive={setDragActive}
+          dragActive={dragActive}
+          setAttachment={setAttachment}
         />
 
         <Grid container spacing={4} padding={4}>
@@ -127,6 +82,7 @@ export default function AddActivity() {
               label="Titre"
               value={formValues.name}
               onChange={updateForm}
+              autoFocus
             />
           </Grid>
 
@@ -219,6 +175,13 @@ export default function AddActivity() {
                 <AttachmentCard
                   imagePath={PJ.imagePath}
                   imageName={PJ.fileName}
+                  onDelete={() =>
+                    setAttachment((prevState) =>
+                      prevState.filter(
+                        (newPJ) => newPJ.imagePath !== PJ.imagePath
+                      )
+                    )
+                  }
                 />
               </Grid>
             ))}

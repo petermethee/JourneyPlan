@@ -71,6 +71,15 @@ export const tripSlice = createSlice({
     setCurrentTrip: (state: TripState, action: PayloadAction<ITrip>) => {
       state.currentTrip = action.payload;
     },
+    setSnackbarStatus: (
+      state: TripState,
+      action: PayloadAction<{
+        snackBarSeverity?: AlertColor | undefined;
+        message: string;
+      }>
+    ) => {
+      state.snackbarStatus = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
@@ -149,7 +158,7 @@ export const tripSlice = createSlice({
   },
 });
 
-export const { setCurrentTrip } = tripSlice.actions;
+export const { setCurrentTrip, setSnackbarStatus } = tripSlice.actions;
 
 export const selectTrips = (state: RootState) => state.tripsReducer.trips;
 export const selectSnackbarStatus = (state: RootState) =>
