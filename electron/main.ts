@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
-import IPC_API_Trip from "./IPC_API/IPC_API_Trip";
-import IPC_API_Activity from "./IPC_API/IPC_API_Activity";
+import TripIpcHandlers from "./IPC_API/TripIpcHandlers";
+import ArtifactIpcHandlers from "./IPC_API/ArtifactIpcHandlers";
 import installExtension, { REDUX_DEVTOOLS } from "electron-devtools-installer";
 import DatabaseAPI from "./DatabaseClass";
 
@@ -30,8 +30,8 @@ function createWindow() {
     win.webContents.openDevTools({ mode: "detach" });
   }
   const dataBaseAPI = new DatabaseAPI();
-  const ipcAPITrip = new IPC_API_Trip(dataBaseAPI);
-  const ipcAPIActivity = new IPC_API_Activity(dataBaseAPI);
+  const ipcAPITrip = new TripIpcHandlers(dataBaseAPI);
+  const ipcAPIActivity = new ArtifactIpcHandlers(dataBaseAPI);
   ipcAPITrip.initIPCHandlers();
   ipcAPIActivity.initIPCHandlers();
 }

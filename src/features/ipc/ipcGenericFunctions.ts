@@ -1,6 +1,10 @@
+import { EArtifactTableName } from "../../Models/EArtifacts";
 import { IItem } from "../../Models/IItem";
 
-export const getAllItemsAPI = (tableName: string, tripId: number) => {
+export const getAllItemsAPI = (
+  tableName: EArtifactTableName,
+  tripId: number
+) => {
   return new Promise<IItem[]>(async (resolve, reject) => {
     try {
       const activities = await window.electronAPI.getAllItems(
@@ -14,7 +18,7 @@ export const getAllItemsAPI = (tableName: string, tripId: number) => {
   });
 };
 
-export const insertItemAPI = (tableName: string, item: IItem) => {
+export const insertItemAPI = (tableName: EArtifactTableName, item: IItem) => {
   return new Promise<void>(async (resolve, reject) => {
     try {
       await window.electronAPI.insertItem(tableName, item);
@@ -25,7 +29,7 @@ export const insertItemAPI = (tableName: string, item: IItem) => {
   });
 };
 
-export const updateItemAPI = (tableName: string, item: IItem) => {
+export const updateItemAPI = (tableName: EArtifactTableName, item: IItem) => {
   return new Promise<void>(async (resolve, reject) => {
     try {
       await window.electronAPI.updateItem(tableName, item);
@@ -36,7 +40,10 @@ export const updateItemAPI = (tableName: string, item: IItem) => {
   });
 };
 
-export const deleteItemAPI = (tableName: string, itemId: number) => {
+export const deleteItemAPI = (
+  tableName: EArtifactTableName,
+  itemId: number
+) => {
   return new Promise<void>(async (resolve, reject) => {
     try {
       await window.electronAPI.deleteItem(tableName, itemId);

@@ -3,32 +3,31 @@ import IActivity from "../../src/Models/IActivity";
 import ITransport from "../../src/Models/ITransport";
 import IAccomodation from "../../src/Models/IAccomodation";
 
-import {
-  TablesName,
-  ActivitiesTable,
-  TripsTable,
-} from "../../src/Models/DataBaseModel";
+import { TablesName, TripsTable } from "../../src/Models/DataBaseModel";
+import { EArtifactTableName } from "../../src/Models/EArtifacts";
 
-export default class DataBaseManager {
+export default class ArtifactsDbManager {
   db: Database;
   constructor(db: Database) {
     this.db = db;
   }
-  getAllFromTable = async (tableName: string, tripId: number) => {
+  getAllFromTable = async (tableName: EArtifactTableName, tripId: number) => {
     const sql = `SELECT * FROM ${tableName} WHERE ${TripsTable.id} = ${tripId}`;
-    const activities = await new Promise<IActivity[]>((resolve, reject) => {
+    const artifacts = await new Promise<
+      IActivity[] | ITransport[] | IAccomodation[]
+    >((resolve, reject) => {
       this.db.all(sql, (err, rows) => {
         if (err) {
           reject(err);
         }
-        resolve(rows as IActivity[]);
+        resolve(rows as IActivity[] | ITransport[] | IAccomodation[]);
       });
     });
-    return activities;
+    return artifacts;
   };
 
   insertInTable = async (
-    tableName: string,
+    tableName: EArtifactTableName,
     item: Partial<IActivity> | Partial<ITransport> | Partial<IAccomodation>
   ) => {
     delete item.id; //tem is partial to allow id deletion
@@ -53,7 +52,7 @@ export default class DataBaseManager {
   };
 
   updateTable = async (
-    tableName: string,
+    tableName: EArtifactTableName,
     item: IActivity | IAccomodation | ITransport
   ) => {
     const columns = Object.keys(item)
@@ -73,7 +72,7 @@ export default class DataBaseManager {
     });
   };
 
-  deleteFromTable = async (tableName: string, itemId: number) => {
+  deleteFromTable = async (tableName: EArtifactTableName, itemId: number) => {
     const sql = `DELETE FROM ${tableName} WHERE id = ${itemId}`;
     await new Promise<void>((resolve, reject) => {
       this.db.run(sql, (err) => {

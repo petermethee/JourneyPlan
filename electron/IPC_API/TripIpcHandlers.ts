@@ -5,7 +5,7 @@ import DatabaseAPI from "../DatabaseClass";
 import TripsManager from "../Managers/TripsManager";
 import { EIpcChanels } from "./EIpcChannels";
 
-export default class IPC_API_Trip {
+export default class TripIpcHandlers {
   db: Database;
   tripsManager: TripsManager;
 

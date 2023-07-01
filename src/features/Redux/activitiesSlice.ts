@@ -9,6 +9,7 @@ import {
 import { RootState } from "../../app/store";
 import { mockedActivities } from "../../MockData/MockedActivities";
 import { TablesName } from "../../Models/DataBaseModel";
+import { EArtifactTableName } from "../../Models/EArtifacts";
 
 interface ActivitiesState {
   activities: IActivity[];
@@ -21,28 +22,31 @@ const initialState: ActivitiesState = {
 export const getAllActivities = createAsyncThunk(
   "getAllActivities",
   async (tripId: number) => {
-    return (await getAllItemsAPI(TablesName.activities, tripId)) as IActivity[];
+    return (await getAllItemsAPI(
+      EArtifactTableName.Activity,
+      tripId
+    )) as IActivity[];
   }
 );
 
 export const insertActivity = createAsyncThunk(
   "insertActivity",
   async (activity: IActivity) => {
-    return await insertItemAPI(TablesName.activities, activity);
+    return await insertItemAPI(EArtifactTableName.Activity, activity);
   }
 );
 
 export const updateActivity = createAsyncThunk(
   "updateActivity",
   async (activity: IActivity) => {
-    return await updateItemAPI(TablesName.activities, activity);
+    return await updateItemAPI(EArtifactTableName.Activity, activity);
   }
 );
 
 export const deleteActivity = createAsyncThunk(
   "deleteActivity",
   async (activityId: number) => {
-    await deleteItemAPI(TablesName.activities, activityId);
+    await deleteItemAPI(EArtifactTableName.Activity, activityId);
     return activityId;
   }
 );

@@ -104,7 +104,7 @@ export default function ActivityDataCard({
             <AttachFileIcon fontSize="small" />
             <span className={styles.textContainer}>
               tttttttttttttttttttttttttttttttttttttttttttttt
-              {activity.attachment}
+              {activity.attachment.length}
             </span>
           </Grid>
         </Grid>

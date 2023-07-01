@@ -9,6 +9,7 @@ import {
 import { RootState } from "../../app/store";
 import { mockedAccomodations } from "../../MockData/MockedAccomodations";
 import { TablesName } from "../../Models/DataBaseModel";
+import { EArtifactTableName } from "../../Models/EArtifacts";
 
 interface AccomodationsState {
   accomodations: IAccomodation[];
@@ -24,7 +25,7 @@ export const getAllAccomodations = createAsyncThunk(
   "getAllAccomodations",
   async (tripId: number) => {
     return (await getAllItemsAPI(
-      TablesName.accomodations,
+      EArtifactTableName.Accomodation,
       tripId
     )) as IAccomodation[];
   }
@@ -33,21 +34,21 @@ export const getAllAccomodations = createAsyncThunk(
 export const insertAccomodation = createAsyncThunk(
   "insertAccomodation",
   async (accomodation: IAccomodation) => {
-    return await insertItemAPI(TablesName.accomodations, accomodation);
+    return await insertItemAPI(EArtifactTableName.Accomodation, accomodation);
   }
 );
 
 export const updateAccomodation = createAsyncThunk(
   "updateAccomodation",
   async (accomodation: IAccomodation) => {
-    return await updateItemAPI(TablesName.accomodations, accomodation);
+    return await updateItemAPI(EArtifactTableName.Accomodation, accomodation);
   }
 );
 
 export const deleteAccomodation = createAsyncThunk(
   "deleteAccomodation",
   async (accomodationId: number) => {
-    await deleteItemAPI(TablesName.accomodations, accomodationId);
+    await deleteItemAPI(EArtifactTableName.Accomodation, accomodationId);
     return accomodationId;
   }
 );

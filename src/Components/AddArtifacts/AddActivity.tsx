@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { TFormActivity } from "../../Models/IActivity";
+import { TFormActivity, convertFromToActivity } from "../../Models/IActivity";
 import { ActivitiesTable } from "../../Models/DataBaseModel";
 import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddActivity.module.css";
@@ -14,6 +14,8 @@ import AttachmentCard from "./Attachment/AttachmentCard";
 import AttachmentDZ from "./Attachment/AttachmentDZ";
 import { ESavingStatus } from "./AddArtifacts";
 import { EArtifact } from "../../Models/EArtifacts";
+import { useAppDispatch } from "../../app/hooks";
+import { insertActivity } from "../../features/Redux/activitiesSlice";
 
 export const AddActivity = forwardRef(
   (
@@ -24,11 +26,7 @@ export const AddActivity = forwardRef(
     },
     ref
   ) => {
-    useImperativeHandle(ref, () => ({
-      save(child: EArtifact) {
-        alert("getAlert from Child " + child);
-      },
-    }));
+    const dispatch = useAppDispatch();
 
     const [formValues, setFormValues] = useState<TFormActivity>({
       [ActivitiesTable.name]: "",
@@ -37,7 +35,7 @@ export const AddActivity = forwardRef(
       [ActivitiesTable.price]: 0,
       [ActivitiesTable.pleasure]: 0,
       [ActivitiesTable.location]: "",
-      [ActivitiesTable.attachment]: "",
+      [ActivitiesTable.attachment]: [],
     });
 
     const [attachment, setAttachment] = useState<
@@ -47,6 +45,15 @@ export const AddActivity = forwardRef(
     const [dragActive, setDragActive] = useState(false);
     const [hours, setHours] = useState("1");
     const [minutes, setMinutes] = useState(0);
+
+    useImperativeHandle(ref, () => ({
+      save(child: EArtifact) {
+        const duration =
+          parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
+        dispatch(insertActivity(convertFromToActivity(formValues, 0)));
+      },
+    }));
+
     const updateForm = (event: React.ChangeEvent<HTMLInputElement>) => {
       const name = event.target.name;
       const value = event.target.value;

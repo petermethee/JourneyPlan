@@ -9,6 +9,7 @@ import {
 import { RootState } from "../../app/store";
 import { mockedTransports } from "../../MockData/MockedTransports";
 import { TablesName } from "../../Models/DataBaseModel";
+import { EArtifactTableName } from "../../Models/EArtifacts";
 
 interface TransportsState {
   transports: ITransport[];
@@ -22,7 +23,7 @@ export const getAllTransports = createAsyncThunk(
   "getAllTransports",
   async (tripId: number) => {
     return (await getAllItemsAPI(
-      TablesName.transports,
+      EArtifactTableName.Transport,
       tripId
     )) as ITransport[];
   }
@@ -31,21 +32,21 @@ export const getAllTransports = createAsyncThunk(
 export const insertTransport = createAsyncThunk(
   "insertTransport",
   async (transport: ITransport) => {
-    return await insertItemAPI(TablesName.transports, transport);
+    return await insertItemAPI(EArtifactTableName.Transport, transport);
   }
 );
 
 export const updateTransport = createAsyncThunk(
   "updateTransport",
   async (transport: ITransport) => {
-    return await updateItemAPI(TablesName.transports, transport);
+    return await updateItemAPI(EArtifactTableName.Transport, transport);
   }
 );
 
 export const deleteTransport = createAsyncThunk(
   "deleteTransport",
   async (transportId: number) => {
-    await deleteItemAPI(TablesName.transports, transportId);
+    await deleteItemAPI(EArtifactTableName.Transport, transportId);
     return transportId;
   }
 );
