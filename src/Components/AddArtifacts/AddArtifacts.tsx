@@ -1,5 +1,5 @@
 import { Tab, Tabs } from "@mui/material";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import ActivityIcon from "../Shared/ActivityIcon";
 import TransportIcon from "../Shared/TransportIcon";
 import AccomodationIcon from "../Shared/AccomodationIcon";
@@ -11,7 +11,6 @@ import {
 import styles from "./AddArtifacts.module.css";
 import { EArtifact } from "../../Models/EArtifacts";
 import SwipeableViews from "react-swipeable-views";
-import AddActivity from "./AddActivity";
 import AddTransport from "./AddTransport";
 import AddAccomodation from "./AddAccomodation";
 import { CSSTransition } from "react-transition-group";
@@ -19,8 +18,9 @@ import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save";
 
 import "./TransitionPopup.css";
+import { AddActivity } from "./AddActivity";
 
-enum ESavingStatus {
+export enum ESavingStatus {
   enabled = 0,
   disabled = 1,
   loading = 2,
@@ -33,6 +33,7 @@ export default function AddArtifacts({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const addActivityRef = useRef<{ save: (child: EArtifact) => void }>();
   const [saving, setSaving] = useState<ESavingStatus>(ESavingStatus.disabled);
 
   const [tab, setTab] = useState(EArtifact.Activity);
@@ -43,7 +44,11 @@ export default function AddArtifacts({
     }
   };
 
-  const handleSave = () => {};
+  const handleSave = () => {
+    console.log("addACttivty", addActivityRef.current);
+
+    addActivityRef.current!.save(tab);
+  };
 
   return (
     <>
@@ -110,18 +115,10 @@ export default function AddArtifacts({
                 flexDirection: "column",
               }}
             >
-              <AddActivity />
+              <AddActivity setSaving={setSaving} ref={addActivityRef} />
               <AddTransport />
               <AddAccomodation />
             </SwipeableViews>
-
-            {/*  {tab === EArtifact.Activity ? (
-            <AddActivity />
-          ) : tab === EArtifact.Transport ? (
-            <AddTransport />
-          ) : (
-            <AddAccomodation />
-          )} */}
 
             <div className={styles.windowBottom}>
               <div className={styles.saveTransacBt}>
