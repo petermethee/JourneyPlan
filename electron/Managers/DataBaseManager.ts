@@ -75,8 +75,6 @@ export default class DataBaseManager {
 
   deleteFromTable = async (tableName: string, itemId: number) => {
     const sql = `DELETE FROM ${tableName} WHERE id = ${itemId}`;
-    console.log("delet", sql);
-
     await new Promise<void>((resolve, reject) => {
       this.db.run(sql, (err) => {
         if (err) {

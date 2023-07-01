@@ -5,14 +5,11 @@
     align-items: center;
 }
 
-
-
 .imageContainer {
     height: 170px;
     width: 120px;
     border-radius: 10px;
-    object-fit: contain;
-    object-position: center;
+
     overflow: hidden;
     background-color: black;
     transition: 300ms;
@@ -26,6 +23,12 @@
     z-index: 1;
 }
 
+.image {
+    object-fit: contain;
+    object-position: center;
+    height: 100%;
+    width: 100%;
+}
 
 .label {
     width: 100%;

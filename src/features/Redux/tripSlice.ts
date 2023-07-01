@@ -69,7 +69,6 @@ export const tripSlice = createSlice({
       state.trips = state.trips.filter((trip) => trip.id !== action.payload);
     },
     setCurrentTrip: (state: TripState, action: PayloadAction<ITrip>) => {
-      console.log("setCurrentTrip", action.payload);
       state.currentTrip = action.payload;
     },
   },

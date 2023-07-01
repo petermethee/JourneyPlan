@@ -2,7 +2,7 @@ import IActivity from "../../../Models/IActivity";
 import styles from "./CommonArtifactStyle.module.css";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";
-import { Grid, IconButton } from "@mui/material";
+import { Grid } from "@mui/material";
 import {
   activityColor,
   activitySecColor,
@@ -10,9 +10,9 @@ import {
 } from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { useMemo } from "react";
-import CloseIcon from "@mui/icons-material/Close";
 import ActivityIcon from "../../Shared/ActivityIcon";
-
+import CustomCloseIcon from "../../Shared/CustomCloseIcon";
+import cstmCloseIconStyle from "../../Shared/CustomCloseIcon.module.css";
 export default function ActivityDataCard({
   activity,
   insideCalendar,
@@ -30,7 +30,7 @@ export default function ActivityDataCard({
   );
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${cstmCloseIconStyle.container}`}>
       <div
         className={styles.iconContainer}
         style={{
@@ -38,25 +38,11 @@ export default function ActivityDataCard({
         }}
       >
         {insideCalendar && !isDragged && (
-          <IconButton
-            onClick={onDelete}
-            size="small"
-            sx={{
-              transition: "300ms",
-              position: "absolute",
-              padding: "2px",
-              backgroundColor: " #3030309f",
-              "&:hover": { backgroundColor: "#303030dd" },
-            }}
-            className={styles.deleteIcon}
-          >
-            <CloseIcon
-              sx={{
-                fontSize: activity.duration === 0.25 ? "13px" : "20px",
-                color: "white",
-              }}
-            />
-          </IconButton>
+          <CustomCloseIcon
+            center
+            onDelete={onDelete}
+            size={activity.duration === 0.25 ? "13px" : "20px"}
+          />
         )}
         <ActivityIcon color={defaultWhite} />
       </div>

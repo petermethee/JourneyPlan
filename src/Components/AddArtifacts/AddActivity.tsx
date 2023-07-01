@@ -36,8 +36,6 @@ export default function AddActivity() {
 
   // handle drag events
   const handleDrag = function (e: any) {
-    console.log("tag", e.type);
-
     e.preventDefault();
     e.stopPropagation();
     if (e.type === "dragenter") {
@@ -57,7 +55,6 @@ export default function AddActivity() {
         path: string;
         name: string;
       }[];
-      console.log("images", images);
       setAttachment((prevState) => {
         images = images.filter((image) => {
           const extension = image.path.split(".")[1];
