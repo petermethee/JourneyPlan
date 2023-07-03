@@ -33,3 +33,11 @@
     overflow: hidden;
     text-overflow: ellipsis
 }
+
+.deleteArtifact {
+    opacity: 0;
+}
+
+.container:hover, .deleteArtifact {
+    opacity: 1;
+}

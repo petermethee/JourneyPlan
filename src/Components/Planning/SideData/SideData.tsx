@@ -25,6 +25,7 @@ import { EArtifact } from "../../../Models/EArtifacts";
 import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
 import AccomodationDataCard from "../ArtifactsDataCard/AccomodationDataCard";
 import AddArtifacts from "../../AddArtifacts/AddArtifacts";
+import Artifacttemplate from "../ArtifactsDataCard/ArtifactTemplate";
 
 export const SIDE_DATA_COL_ID = "sideDataDropId";
 
@@ -74,7 +75,7 @@ export default function SideData() {
             getFinalDestination={getFinalDestination}
           >
             {(onDelete, isDragged) => (
-              <ActivityDataCard
+              <Artifacttemplate
                 activity={activity}
                 isDragged={isDragged}
                 onDelete={onDelete}

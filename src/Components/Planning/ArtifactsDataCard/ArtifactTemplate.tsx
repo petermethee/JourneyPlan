@@ -16,7 +16,7 @@ import CustomCloseIcon from "../../Shared/CustomCloseIcon";
 import cstmCloseIconStyle from "../../Shared/CustomCloseIcon.module.css";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
-export default function ActivityDataCard({
+export default function Artifacttemplate({
   activity,
   insideCalendar,
   isDragged,
@@ -84,43 +84,6 @@ export default function ActivityDataCard({
             {activity.name}
           </span>
           <span>{activity.price} €</span>
-        </Grid>
-
-        <Grid
-          container
-          item
-          flexDirection="column"
-          flexWrap={"nowrap"}
-          flex={1}
-          maxHeight={minimalView ? 0 : cellHeight}
-          sx={{
-            opacity: minimalView ? 0 : 1,
-          }}
-          className={styles.infoContainer}
-        >
-          <Grid
-            display="flex"
-            item
-            alignItems="center"
-            flexWrap="nowrap"
-            marginTop="auto"
-          >
-            <PlaceIcon fontSize="small" />
-            <span className={styles.textContainer}>{activity.location}</span>
-          </Grid>
-          <Grid
-            display="flex"
-            item
-            alignItems="center"
-            flexWrap="nowrap"
-            marginTop="auto"
-            marginBottom="auto"
-          >
-            <AttachFileIcon fontSize="small" />
-            <span className={styles.textContainer}>
-              {activity.attachment.length}
-            </span>
-          </Grid>
         </Grid>
       </Grid>
     </div>

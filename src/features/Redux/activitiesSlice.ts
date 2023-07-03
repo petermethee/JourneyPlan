@@ -30,7 +30,8 @@ export const getAllActivities = createAsyncThunk(
 export const insertActivity = createAsyncThunk(
   "insertActivity",
   async (activity: IActivity) => {
-    return await insertItemAPI(EArtifactTableName.Activity, activity);
+    const id = await insertItemAPI(EArtifactTableName.Activity, activity);
+    return { ...activity, id };
   }
 );
 
@@ -59,6 +60,12 @@ export const activitiesSlice = createSlice({
     ) => {
       state.activities = action.payload;
     },
+    insertActivity: (
+      state: ActivitiesState,
+      action: PayloadAction<IActivity>
+    ) => {
+      state.activities.push(action.payload);
+    },
     deleteActivity: (state: ActivitiesState, action: PayloadAction<number>) => {
       state.activities = state.activities.filter(
         (activity) => activity.id !== action.payload
@@ -82,6 +89,9 @@ export const activitiesSlice = createSlice({
       })
       .addCase(deleteActivity.fulfilled, (state, action) => {
         activitiesSlice.caseReducers.deleteActivity(state, action);
+      })
+      .addCase(insertActivity.fulfilled, (state, action) => {
+        activitiesSlice.caseReducers.insertActivity(state, action);
       });
   },
 });
