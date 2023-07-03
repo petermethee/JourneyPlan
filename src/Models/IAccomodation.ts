@@ -7,8 +7,8 @@ export default interface IAccomodation {
   [AccomodationsTable.description]: string;
   [AccomodationsTable.price]: number;
   [AccomodationsTable.location]: string;
-  [AccomodationsTable.attachment]: { path: string; name: string }[];
   [AccomodationsTable.checkin]: string;
   [AccomodationsTable.checkout]: string;
-  [AccomodationsTable.used]: boolean;
+  [AccomodationsTable.used]: number;
+  attachment: { path: string; name: string }[];
 }

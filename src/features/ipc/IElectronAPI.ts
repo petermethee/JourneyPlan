@@ -14,7 +14,7 @@ export interface IElectronAPI {
     tableName: EArtifactTableName,
     tripId: number
   ) => Promise<IItem[]>;
-  insertItem: (tableName: EArtifactTableName, item: IItem) => Promise<void>;
+  insertItem: (tableName: EArtifactTableName, item: IItem) => Promise<number>;
   updateItem: (tableName: EArtifactTableName, item: IItem) => Promise<void>;
   deleteItem: (tableName: EArtifactTableName, itemId: number) => Promise<void>;
 }

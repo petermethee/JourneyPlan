@@ -1,5 +1,5 @@
 import { ipcMain } from "electron";
-import { Database } from "sqlite3";
+import { Database } from "better-sqlite3";
 import ITrip from "../../src/Models/ITrip";
 import DatabaseAPI from "../DatabaseClass";
 import TripsManager from "../Managers/TripsManager";

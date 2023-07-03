@@ -7,7 +7,6 @@ import {
   updateItemAPI,
 } from "../ipc/ipcGenericFunctions";
 import { RootState } from "../../app/store";
-import { mockedActivities } from "../../MockData/MockedActivities";
 import { EArtifactTableName } from "../../Models/EArtifacts";
 
 interface ActivitiesState {
@@ -15,7 +14,7 @@ interface ActivitiesState {
 }
 
 const initialState: ActivitiesState = {
-  activities: mockedActivities,
+  activities: [],
 };
 
 export const getAllActivities = createAsyncThunk(
@@ -58,8 +57,7 @@ export const activitiesSlice = createSlice({
       state: ActivitiesState,
       action: PayloadAction<IActivity[]>
     ) => {
-      // state.activities = action.payload;
-      state.activities = mockedActivities;
+      state.activities = action.payload;
     },
     deleteActivity: (state: ActivitiesState, action: PayloadAction<number>) => {
       state.activities = state.activities.filter(
@@ -72,7 +70,7 @@ export const activitiesSlice = createSlice({
     ) => {
       state.activities = state.activities.map((activity) =>
         activity.id === action.payload
-          ? { ...activity, used: !activity.used }
+          ? { ...activity, used: activity.used === 0 ? 1 : 0 }
           : activity
       );
     },

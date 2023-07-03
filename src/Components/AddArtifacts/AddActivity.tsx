@@ -56,7 +56,7 @@ export const AddActivity = forwardRef(
           duration,
           ...formValues,
           attachment,
-          used: false,
+          used: 0,
         };
         dispatch(insertActivity(newActivity));
       },

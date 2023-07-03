@@ -1,4 +1,9 @@
-import { TablesName } from "./DataBaseModel";
+import {
+  AccomodationsTable,
+  ActivitiesTable,
+  TablesName,
+  TransportsTable,
+} from "./DataBaseModel";
 
 export enum EArtifact {
   Activity = "Activity",
@@ -11,3 +16,14 @@ export enum EArtifactTableName {
   Transport = TablesName.accomodations,
   Accomodation = TablesName.transports,
 }
+
+export const getArtifactTableEnum = (table: EArtifactTableName) => {
+  switch (table) {
+    case EArtifactTableName.Activity:
+      return ActivitiesTable;
+    case EArtifactTableName.Transport:
+      return TransportsTable;
+    default:
+      return AccomodationsTable;
+  }
+};

@@ -19,10 +19,10 @@ export const getAllItemsAPI = (
 };
 
 export const insertItemAPI = (tableName: EArtifactTableName, item: IItem) => {
-  return new Promise<void>(async (resolve, reject) => {
+  return new Promise<number>(async (resolve, reject) => {
     try {
-      await window.electronAPI.insertItem(tableName, item);
-      resolve();
+      const id = await window.electronAPI.insertItem(tableName, item);
+      resolve(id);
     } catch (error) {
       reject(error);
     }

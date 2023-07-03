@@ -19,7 +19,7 @@ export default function SideDataHeader({
   setUsedFilter,
 }: {
   onChange: (menu: EArtifact) => void;
-  setUsedFilter: (used: boolean) => void;
+  setUsedFilter: (used: 0 | 1) => void;
 }) {
   const navigate = useNavigate();
   const headerRef = useRef<HTMLDivElement>(null);
@@ -48,7 +48,9 @@ export default function SideDataHeader({
           Utilisés
           <Switch
             size="small"
-            onClick={(event: any) => setUsedFilter(event.target.checked)}
+            onClick={(event: any) =>
+              setUsedFilter(event.target.checked ? 1 : 0)
+            }
           />
         </span>
       </div>

@@ -1,22 +1,9 @@
-import sqlite3 = require("sqlite3");
+import betterSqlite = require("better-sqlite3");
 export default class DatabaseAPI {
-  db: sqlite3.Database;
+  db: betterSqlite.Database;
 
   constructor() {
-    sqlite3.verbose();
-    this.db = new sqlite3.Database(
-      "./journey_plan.db",
-      sqlite3.OPEN_READWRITE,
-      (err: any) => {
-        if (err) {
-          return console.error(err.message);
-        }
-        console.log(
-          "Connected to the SQlite database: ",
-          __dirname + "/journey_plan.db"
-        );
-      }
-    );
+    this.db = new betterSqlite("./journey_plan.db", { verbose: console.log });
   }
 
   getDataBase() {

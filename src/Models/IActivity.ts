@@ -9,9 +9,9 @@ export default interface IActivity {
   [ActivitiesTable.price]: number;
   [ActivitiesTable.pleasure]?: number;
   [ActivitiesTable.location]: string;
-  [ActivitiesTable.attachment]: { path: string; name: string }[];
   [ActivitiesTable.contraint]?: string;
-  [ActivitiesTable.used]: boolean;
+  [ActivitiesTable.used]: number;
+  attachment: { path: string; name: string }[];
 }
 
 export type TFormActivity = {
