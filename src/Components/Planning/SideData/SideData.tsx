@@ -18,7 +18,7 @@ import SideDataHeader from "./SideDataHeader";
 import { selectTransports } from "../../../features/Redux/transportsSlice";
 import { selectAccomodations } from "../../../features/Redux/accomodationsSlice";
 
-import { Backdrop, Fab, IconButton } from "@mui/material";
+import { Backdrop, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
@@ -35,7 +35,7 @@ export default function SideData() {
   const accomodations = useAppSelector(selectAccomodations);
 
   const [openModal, setOpenModal] = useState(false);
-  const [usedFilter, setUsedFilter] = useState(false);
+  const [usedFilter, setUsedFilter] = useState<0 | 1>(0);
   const [marginTop, setMarginTop] = useState(0);
   const [currentArtifactType, setCurrentArtifactType] = useState(
     EArtifact.Activity

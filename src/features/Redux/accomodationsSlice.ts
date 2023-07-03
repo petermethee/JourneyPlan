@@ -77,7 +77,7 @@ export const accomodationsSlice = createSlice({
     ) => {
       state.accomodations = state.accomodations.map((accomodation) =>
         accomodation.id === action.payload
-          ? { ...accomodation, used: !accomodation.used }
+          ? { ...accomodation, used: accomodation.used === 0 ? 1 : 0 }
           : accomodation
       );
     },

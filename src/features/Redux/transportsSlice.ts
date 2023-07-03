@@ -75,7 +75,7 @@ export const transportsSlice = createSlice({
     ) => {
       state.transports = state.transports.map((transport) =>
         transport.id === action.payload
-          ? { ...transport, used: !transport.used }
+          ? { ...transport, used: transport.used === 0 ? 1 : 0 }
           : transport
       );
     },

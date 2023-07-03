@@ -12,7 +12,7 @@ export const mockedTransports: ITransport[] = [
     from: "dubai",
     to: "france",
     vehicule: "voiture",
-    used: false,
+    used: 0,
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ export const mockedTransports: ITransport[] = [
     from: "dubai",
     to: "france",
     vehicule: "voiture",
-    used: false,
+    used: 0,
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ export const mockedTransports: ITransport[] = [
     from: "dubai",
     to: "france",
     vehicule: "voiture",
-    used: false,
+    used: 0,
   },
   {
     id: 4,
@@ -51,7 +51,7 @@ export const mockedTransports: ITransport[] = [
     from: "dubai",
     to: "france",
     vehicule: "voiture",
-    used: false,
+    used: 0,
   },
   {
     id: 5,
@@ -64,7 +64,7 @@ export const mockedTransports: ITransport[] = [
     from: "dubai",
     to: "france",
     vehicule: "voiture",
-    used: false,
+    used: 0,
   },
   {
     id: 6,
@@ -77,7 +77,7 @@ export const mockedTransports: ITransport[] = [
     from: "dubai",
     to: "france",
     vehicule: "voiture",
-    used: false,
+    used: 0,
   },
   {
     id: 7,
@@ -90,7 +90,7 @@ export const mockedTransports: ITransport[] = [
     from: "dubai",
     to: "france",
     vehicule: "voiture",
-    used: false,
+    used: 0,
   },
   {
     id: 8,
@@ -103,6 +103,6 @@ export const mockedTransports: ITransport[] = [
     from: "dubai",
     to: "france",
     vehicule: "voiture",
-    used: false,
+    used: 0,
   },
 ];
