@@ -18,8 +18,14 @@ import SideData from "./SideData/SideData";
 import IAccomodation from "../../Models/IAccomodation";
 import ITransport from "../../Models/ITransport";
 import { EArtifact } from "../../Models/EArtifacts";
-import { selectTransports } from "../../features/Redux/transportsSlice";
-import { selectAccomodations } from "../../features/Redux/accomodationsSlice";
+import {
+  getAllTransports,
+  selectTransports,
+} from "../../features/Redux/transportsSlice";
+import {
+  getAllAccomodations,
+  selectAccomodations,
+} from "../../features/Redux/accomodationsSlice";
 
 type TDayActivity = { id: string; timeIndex: number; activity: IActivity };
 type TDayAccomodation = {
@@ -112,6 +118,8 @@ export default function Planning() {
 
   useEffect(() => {
     dispatch(getAllActivities(parseInt(tripId)));
+    dispatch(getAllTransports(parseInt(tripId)));
+    dispatch(getAllAccomodations(parseInt(tripId)));
     dispatch(getPlanning(parseInt(tripId)));
   }, [dispatch, tripId]);
 

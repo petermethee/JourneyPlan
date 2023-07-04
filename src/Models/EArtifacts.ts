@@ -13,8 +13,8 @@ export enum EArtifact {
 
 export enum EArtifactTableName {
   Activity = TablesName.activities,
-  Transport = TablesName.accomodations,
-  Accomodation = TablesName.transports,
+  Transport = TablesName.transports,
+  Accomodation = TablesName.accomodations,
 }
 
 export const getArtifactTableEnum = (table: EArtifactTableName) => {

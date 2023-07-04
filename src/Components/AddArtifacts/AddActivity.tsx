@@ -9,7 +9,7 @@ import React, {
 import IActivity, { TFormActivity } from "../../Models/IActivity";
 import { ActivitiesTable } from "../../Models/DataBaseModel";
 import DownloadIcon from "@mui/icons-material/Download";
-import styles from "./AddActivity.module.css";
+import styles from "./AddArtifacts.module.css";
 import AttachmentCard from "./Attachment/AttachmentCard";
 import AttachmentDZ from "./Attachment/AttachmentDZ";
 import { ESavingStatus } from "./AddArtifacts";
@@ -47,18 +47,20 @@ export const AddActivity = forwardRef(
 
     useImperativeHandle(ref, () => ({
       save(child: EArtifact) {
-        const duration =
-          parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
+        if (child === EArtifact.Activity) {
+          const duration =
+            parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
 
-        const newActivity: IActivity = {
-          id: 0,
-          id_trip,
-          duration,
-          ...formValues,
-          attachment,
-          used: 0,
-        };
-        dispatch(insertActivity(newActivity));
+          const newActivity: IActivity = {
+            id: 0,
+            id_trip,
+            duration,
+            ...formValues,
+            attachment,
+            used: 0,
+          };
+          dispatch(insertActivity(newActivity));
+        }
       },
     }));
 
@@ -88,11 +90,15 @@ export const AddActivity = forwardRef(
       const hourNum = parseInt(hours);
       if (isNaN(hourNum)) {
         return false;
-      } else if (hourNum < 0 || hourNum > 23) {
+      } else if (
+        hourNum < 0 ||
+        hourNum > 23 ||
+        (hourNum === 0 && minutes === 0)
+      ) {
         return false;
       }
       return true;
-    }, [hours]);
+    }, [hours, minutes]);
 
     useEffect(() => {
       if (isHourValid && formValues.name !== "" && formValues.location) {
@@ -174,6 +180,7 @@ export const AddActivity = forwardRef(
                 value={minutes}
                 type="number"
                 onChange={(event) => setMinutes(parseInt(event.target.value))}
+                error={!isHourValid}
               >
                 {[0, 15, 30, 45].map((minute, index) => (
                   <MenuItem key={minute} value={index}>

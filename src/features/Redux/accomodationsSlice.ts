@@ -7,7 +7,6 @@ import {
   updateItemAPI,
 } from "../ipc/ipcGenericFunctions";
 import { RootState } from "../../app/store";
-import { mockedAccomodations } from "../../MockData/MockedAccomodations";
 import { EArtifactTableName } from "../../Models/EArtifacts";
 
 interface AccomodationsState {
@@ -16,7 +15,7 @@ interface AccomodationsState {
 }
 
 const initialState: AccomodationsState = {
-  accomodations: mockedAccomodations,
+  accomodations: [],
   accomodationIsDragged: false,
 };
 
@@ -60,8 +59,7 @@ export const accomodationsSlice = createSlice({
       state: AccomodationsState,
       action: PayloadAction<IAccomodation[]>
     ) => {
-      // state.accomodations = action.payload;
-      state.accomodations = mockedAccomodations;
+      state.accomodations = action.payload;
     },
     deleteAccomodation: (
       state: AccomodationsState,

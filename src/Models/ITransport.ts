@@ -13,3 +13,12 @@ export default interface ITransport {
   [TransportsTable.used]: number;
   attachment: { path: string; name: string }[];
 }
+
+export type TFormTransport = {
+  [TransportsTable.name]: string;
+  [TransportsTable.description]: string;
+  [TransportsTable.price]: number;
+  [TransportsTable.from]: string;
+  [TransportsTable.to]: string;
+  [TransportsTable.vehicule]: string;
+};

@@ -11,14 +11,14 @@ import {
 import styles from "./AddArtifacts.module.css";
 import { EArtifact } from "../../Models/EArtifacts";
 import SwipeableViews from "react-swipeable-views";
-import AddTransport from "./AddTransport";
-import AddAccomodation from "./AddAccomodation";
 import { CSSTransition } from "react-transition-group";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save";
 
 import "./TransitionPopup.css";
 import { AddActivity } from "./AddActivity";
+import { AddTransport } from "./AddTransport";
+import { AddAccomodation } from "./AddAccomodation";
 
 export enum ESavingStatus {
   enabled = 0,
@@ -34,6 +34,9 @@ export default function AddArtifacts({
   setOpen: (open: boolean) => void;
 }) {
   const addActivityRef = useRef<{ save: (child: EArtifact) => void }>();
+  const addTransportRef = useRef<{ save: (child: EArtifact) => void }>();
+  const addAccomodationRef = useRef<{ save: (child: EArtifact) => void }>();
+
   const [saving, setSaving] = useState<ESavingStatus>(ESavingStatus.disabled);
 
   const [tab, setTab] = useState(EArtifact.Activity);
@@ -46,6 +49,8 @@ export default function AddArtifacts({
 
   const handleSave = () => {
     addActivityRef.current!.save(tab);
+    addTransportRef.current!.save(tab);
+    // addAccomodationRef.current!.save(tab);
   };
 
   return (
@@ -114,8 +119,8 @@ export default function AddArtifacts({
               }}
             >
               <AddActivity setSaving={setSaving} ref={addActivityRef} />
-              <AddTransport />
-              <AddAccomodation />
+              <AddTransport setSaving={setSaving} ref={addTransportRef} />
+              <AddAccomodation setSaving={setSaving} ref={addAccomodationRef} />
             </SwipeableViews>
 
             <div className={styles.windowBottom}>

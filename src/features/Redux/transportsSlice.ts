@@ -7,7 +7,6 @@ import {
   updateItemAPI,
 } from "../ipc/ipcGenericFunctions";
 import { RootState } from "../../app/store";
-import { mockedTransports } from "../../MockData/MockedTransports";
 import { EArtifactTableName } from "../../Models/EArtifacts";
 
 interface TransportsState {
@@ -15,7 +14,7 @@ interface TransportsState {
 }
 
 const initialState: TransportsState = {
-  transports: mockedTransports,
+  transports: [],
 };
 
 export const getAllTransports = createAsyncThunk(
@@ -58,8 +57,7 @@ export const transportsSlice = createSlice({
       state: TransportsState,
       action: PayloadAction<ITransport[]>
     ) => {
-      // state.transports = action.payload;
-      state.transports = mockedTransports;
+      state.transports = action.payload;
     },
     deleteTransport: (
       state: TransportsState,

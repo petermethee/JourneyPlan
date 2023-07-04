@@ -19,9 +19,9 @@ export default function TransportDataCard({
         marginTop="auto"
         justifyContent="space-evenly"
       >
-        <span className={styles.textContainer}>{transport.from}</span>
+        <span className={styles.textContainer}>{transport.departure}</span>
         <EastRoundedIcon />
-        <span className={styles.textContainer}>{transport.to}</span>
+        <span className={styles.textContainer}>{transport.destination}</span>
       </Grid>
       <Grid
         display="flex"
