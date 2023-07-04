@@ -1,35 +1,39 @@
-import IActivity from "../../../Models/IActivity";
 import styles from "./CommonArtifactStyle.module.css";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import PlaceIcon from "@mui/icons-material/Place";
 import { Grid, IconButton } from "@mui/material";
-import {
-  activityColor,
-  activitySecColor,
-  defaultWhite,
-  secErrorColor,
-} from "../../../style/cssGlobalStyle";
+import { secErrorColor } from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { useMemo } from "react";
-import ActivityIcon from "../../Shared/ActivityIcon";
 import CustomCloseIcon from "../../Shared/CustomCloseIcon";
 import cstmCloseIconStyle from "../../Shared/CustomCloseIcon.module.css";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import { IItem } from "../../../Models/IItem";
 
-export default function Artifacttemplate({
-  activity,
+export default function ArtifactTemplate({
+  artifact,
+  duration,
   insideCalendar,
   isDragged,
+  onDeleteFromPlanning,
   onDelete,
+  children,
+  artifactColor,
+  artifactSecColor,
+  artifactIcon,
 }: {
-  activity: IActivity;
+  artifact: IItem;
+  duration?: number;
   insideCalendar?: boolean;
   isDragged?: boolean;
+  onDeleteFromPlanning: () => void;
   onDelete: () => void;
+  children: JSX.Element;
+  artifactColor: string;
+  artifactSecColor: string;
+  artifactIcon: JSX.Element;
 }) {
   const minimalView = useMemo(
-    () => (insideCalendar || isDragged) && activity.duration < 1,
-    [insideCalendar, isDragged, activity.duration]
+    () => (insideCalendar || isDragged) && duration && duration < 1,
+    [insideCalendar, isDragged, duration]
   );
 
   return (
@@ -37,17 +41,17 @@ export default function Artifacttemplate({
       <div
         className={styles.iconContainer}
         style={{
-          backgroundColor: activityColor,
+          backgroundColor: artifactColor,
         }}
       >
         {insideCalendar && !isDragged && (
           <CustomCloseIcon
             center
-            onDelete={onDelete}
-            size={activity.duration === 0.25 ? "13px" : "20px"}
+            onDelete={onDeleteFromPlanning}
+            size={duration === 0.25 ? "13px" : "20px"}
           />
         )}
-        {!insideCalendar && !isDragged && (
+        {!insideCalendar && !isDragged && !artifact.used && (
           <IconButton
             className={styles.deleteArtifact}
             sx={{
@@ -58,11 +62,12 @@ export default function Artifacttemplate({
               backgroundColor: " #5453539f",
               "&:hover": { backgroundColor: "#303030dd" },
             }}
+            onClick={onDelete}
           >
             <DeleteRoundedIcon fontSize="small" sx={{ color: secErrorColor }} />
           </IconButton>
         )}
-        <ActivityIcon color={defaultWhite} />
+        {artifactIcon}
       </div>
       <Grid
         container
@@ -70,7 +75,7 @@ export default function Artifacttemplate({
         direction="column"
         flexWrap="nowrap"
         overflow="hidden"
-        justifyContent={activity.duration < 1 ? "center" : "top"}
+        justifyContent={duration && duration < 1 ? "center" : "top"}
         sx={{ transition: "300ms" }}
       >
         <Grid
@@ -78,12 +83,26 @@ export default function Artifacttemplate({
           container
           width="100%"
           justifyContent="space-between"
-          borderBottom={"1px solid " + activityColor}
+          borderBottom={"1px solid " + artifactColor}
         >
-          <span className={styles.title} style={{ color: activitySecColor }}>
-            {activity.name}
+          <span className={styles.title} style={{ color: artifactSecColor }}>
+            {artifact.name}
           </span>
-          <span>{activity.price} €</span>
+          <span>{artifact.price} €</span>
+        </Grid>
+        <Grid
+          container
+          item
+          flexDirection="column"
+          flexWrap={"nowrap"}
+          flex={1}
+          maxHeight={minimalView ? 0 : cellHeight}
+          sx={{
+            opacity: minimalView ? 0 : 1,
+          }}
+          className={styles.infoContainer}
+        >
+          {children}
         </Grid>
       </Grid>
     </div>

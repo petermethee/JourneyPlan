@@ -25,7 +25,19 @@ import { EArtifact } from "../../../Models/EArtifacts";
 import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
 import AccomodationDataCard from "../ArtifactsDataCard/AccomodationDataCard";
 import AddArtifacts from "../../AddArtifacts/AddArtifacts";
-import Artifacttemplate from "../ArtifactsDataCard/ArtifactTemplate";
+import ArtifactTemplate from "../ArtifactsDataCard/ArtifactTemplate";
+import {
+  accomodationColor,
+  accomodationSecColor,
+  activityColor,
+  activitySecColor,
+  defaultWhite,
+  transportColor,
+  transportSecColor,
+} from "../../../style/cssGlobalStyle";
+import ActivityIcon from "../../Shared/ActivityIcon";
+import TransportIcon from "../../Shared/TransportIcon";
+import AccomodationIcon from "../../Shared/AccomodationIcon";
 
 export const SIDE_DATA_COL_ID = "sideDataDropId";
 
@@ -74,12 +86,19 @@ export default function SideData() {
             artifactType={EArtifact.Activity}
             getFinalDestination={getFinalDestination}
           >
-            {(onDelete, isDragged) => (
-              <Artifacttemplate
-                activity={activity}
+            {(onDeleteFromPlanning, onDelete, isDragged) => (
+              <ArtifactTemplate
+                artifact={activity}
                 isDragged={isDragged}
+                onDeleteFromPlanning={onDeleteFromPlanning}
                 onDelete={onDelete}
-              />
+                duration={activity.duration}
+                artifactColor={activityColor}
+                artifactSecColor={activitySecColor}
+                artifactIcon={<ActivityIcon color={defaultWhite} />}
+              >
+                <ActivityDataCard activity={activity} />
+              </ArtifactTemplate>
             )}
           </DraggableCardView>
         ));
@@ -99,12 +118,19 @@ export default function SideData() {
             artifactType={EArtifact.Transport}
             getFinalDestination={getFinalDestination}
           >
-            {(onDelete, isDragged) => (
-              <TransportDataCard
-                transport={transport}
+            {(onDeleteFromPlanning, onDelete, isDragged) => (
+              <ArtifactTemplate
+                artifact={transport}
                 isDragged={isDragged}
+                onDeleteFromPlanning={onDeleteFromPlanning}
                 onDelete={onDelete}
-              />
+                duration={transport.duration}
+                artifactColor={transportColor}
+                artifactSecColor={transportSecColor}
+                artifactIcon={<TransportIcon color={defaultWhite} />}
+              >
+                <TransportDataCard transport={transport} />
+              </ArtifactTemplate>
             )}
           </DraggableCardView>
         ));
@@ -125,12 +151,18 @@ export default function SideData() {
             artifactType={EArtifact.Accomodation}
             getFinalDestination={getFinalDestinationInAccomodationDZ}
           >
-            {(onDelete, isDragged) => (
-              <AccomodationDataCard
-                accomodation={accomodation}
+            {(onDeleteFromPlanning, onDelete, isDragged) => (
+              <ArtifactTemplate
+                artifact={accomodation}
                 isDragged={isDragged}
+                onDeleteFromPlanning={onDeleteFromPlanning}
                 onDelete={onDelete}
-              />
+                artifactColor={accomodationColor}
+                artifactSecColor={accomodationSecColor}
+                artifactIcon={<AccomodationIcon color={defaultWhite} />}
+              >
+                <AccomodationDataCard accomodation={accomodation} />
+              </ArtifactTemplate>
             )}
           </DraggableCardView>
         ));

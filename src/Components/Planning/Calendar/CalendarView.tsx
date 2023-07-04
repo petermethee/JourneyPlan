@@ -29,6 +29,19 @@ import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
 import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
 import AccomodationDataCard from "../ArtifactsDataCard/AccomodationDataCard";
+import ArtifactTemplate from "../ArtifactsDataCard/ArtifactTemplate";
+import {
+  accomodationColor,
+  accomodationSecColor,
+  activityColor,
+  activitySecColor,
+  defaultWhite,
+  transportColor,
+  transportSecColor,
+} from "../../../style/cssGlobalStyle";
+import AccomodationIcon from "../../Shared/AccomodationIcon";
+import ActivityIcon from "../../Shared/ActivityIcon";
+import TransportIcon from "../../Shared/TransportIcon";
 
 export const getHours = (): string[] => {
   const hours: string[] = [];
@@ -166,13 +179,20 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     artifactType={EArtifact.Activity}
                     getFinalDestination={getFinalDestination}
                   >
-                    {(onDelete, isDragged) => (
-                      <ActivityDataCard
-                        activity={PA.activity}
-                        insideCalendar
+                    {(onDeleteFromPlanning, onDelete, isDragged) => (
+                      <ArtifactTemplate
+                        artifact={PA.activity}
                         isDragged={isDragged}
+                        onDeleteFromPlanning={onDeleteFromPlanning}
                         onDelete={onDelete}
-                      />
+                        duration={PA.activity.duration}
+                        artifactColor={activityColor}
+                        artifactSecColor={activitySecColor}
+                        artifactIcon={<ActivityIcon color={defaultWhite} />}
+                        insideCalendar
+                      >
+                        <ActivityDataCard activity={PA.activity} />
+                      </ArtifactTemplate>
                     )}
                   </DraggableCardView>
                 ))}
@@ -194,13 +214,20 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     artifactType={EArtifact.Transport}
                     getFinalDestination={getFinalDestination}
                   >
-                    {(onDelete, isDragged) => (
-                      <TransportDataCard
-                        transport={PT.transport}
+                    {(onDeleteFromPlanning, onDelete, isDragged) => (
+                      <ArtifactTemplate
+                        artifact={PT.transport}
                         isDragged={isDragged}
+                        onDeleteFromPlanning={onDeleteFromPlanning}
                         onDelete={onDelete}
+                        duration={PT.transport.duration}
+                        artifactColor={transportColor}
+                        artifactSecColor={transportSecColor}
+                        artifactIcon={<TransportIcon color={defaultWhite} />}
                         insideCalendar
-                      />
+                      >
+                        <TransportDataCard transport={PT.transport} />
+                      </ArtifactTemplate>
                     )}
                   </DraggableCardView>
                 ))}
@@ -219,29 +246,35 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
               className={styles.dayAccomodationDZ}
               style={{ width: colWidth }}
             >
-              {dayCol.planningAccomodations.map((PT) => (
+              {dayCol.planningAccomodations.map((PA) => (
                 <DraggableCardView
-                  key={PT.id}
-                  planningId={PT.id}
-                  artifactId={PT.accomodation.id}
+                  key={PA.id}
+                  planningId={PA.id}
+                  artifactId={PA.accomodation.id}
                   duration={1}
                   containerStyle={accomodationDropZoneDragContainerStyle(
                     colWidth
                   )}
-                  source={{ colId: dayCol.dateId, timeIndex: PT.timeIndex }}
+                  source={{ colId: dayCol.dateId, timeIndex: PA.timeIndex }}
                   getDraggableStyle={getDraggableAccomodationCalendarStyle}
                   disappearAnim={draggableStyle.calendarDisappear}
                   shwoCaseClass={draggableStyle.calendarShowcase}
                   artifactType={EArtifact.Accomodation}
                   getFinalDestination={getFinalDestinationInAccomodationDZ}
                 >
-                  {(onDelete, isDragged) => (
-                    <AccomodationDataCard
-                      accomodation={PT.accomodation}
+                  {(onDeleteFromPlanning, onDelete, isDragged) => (
+                    <ArtifactTemplate
+                      artifact={PA.accomodation}
                       isDragged={isDragged}
+                      onDeleteFromPlanning={onDeleteFromPlanning}
                       onDelete={onDelete}
+                      artifactColor={accomodationColor}
+                      artifactSecColor={accomodationSecColor}
+                      artifactIcon={<AccomodationIcon color={defaultWhite} />}
                       insideCalendar
-                    />
+                    >
+                      <AccomodationDataCard accomodation={PA.accomodation} />
+                    </ArtifactTemplate>
                   )}
                 </DraggableCardView>
               ))}

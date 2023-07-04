@@ -2,18 +2,20 @@ import React, {
   CSSProperties,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 import styles from "./DraggableCardView.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
+  deleteActivity,
   selectActivities,
   setUsedActivities,
 } from "../../features/Redux/activitiesSlice";
 import {
   addArtifact,
-  deleteArtifact,
+  deleteArtifactFromPlanning,
   moveArtifact,
   selectPlanningArtifacts,
   setArtifactIsDragged,
@@ -21,10 +23,14 @@ import {
 import { SIDE_DATA_COL_ID } from "./SideData/SideData";
 import { EArtifact } from "../../Models/EArtifacts";
 import {
+  deleteTransport,
   selectTransports,
   setUsedTransports,
 } from "../../features/Redux/transportsSlice";
-import { setUsedAccomodations } from "../../features/Redux/accomodationsSlice";
+import {
+  deleteAccomodation,
+  setUsedAccomodations,
+} from "../../features/Redux/accomodationsSlice";
 import { defaultWhite } from "../../style/cssGlobalStyle";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
@@ -36,6 +42,7 @@ export type TDnDEvent = {
 
 type TDraggableProps = {
   children: (
+    onDeleteFromPlanning: () => void,
     onDelete: () => void,
     isDragged?: boolean
   ) => JSX.Element | JSX.Element[];
@@ -84,11 +91,32 @@ export default function DraggableCardView({
   const [mouseDown, setMouseDown] = useState(false);
   const [style, setStyle] = useState<React.CSSProperties | undefined>();
   const [willDisappear, setWillDisappear] = useState(false);
+  const [willBeDeletedFromPlanning, setWillBeDeletedFromPlanning] =
+    useState(false);
+  const [usedWillDisappear, setUsedWillDisappear] = useState(false);
   const [willBeDeleted, setWillBeDeleted] = useState(false);
 
-  const [usedWillDisappear, setUsedWillDisappear] = useState(false);
-
   const [destination, setDestination] = useState<TDroppableInfo>(source);
+
+  const containerAnimation = useMemo(() => {
+    if (willDisappear || willBeDeleted) {
+      return `${disappearAnim} 300ms ease-out forwards`;
+    } else if (disappearAnim === styles.calendarDisappear) {
+      return "none";
+    } else {
+      return `300ms ease-out ${styles.sideDataAppearAnim}`;
+    }
+  }, [willDisappear, willBeDeleted, disappearAnim]);
+
+  const ghostAnimation = useMemo(() => {
+    if (usedWillDisappear) {
+      return `${styles.usedDisappearAnim} 300ms ease-out forwards`;
+    } else if (willDisappear) {
+      return `${styles.ghostDisappearAnim} 300ms ease-out forwards`;
+    } else {
+      return "none";
+    }
+  }, [usedWillDisappear, willDisappear]);
 
   const onDragEnd = useCallback(
     (event: TDnDEvent) => {
@@ -283,6 +311,7 @@ export default function DraggableCardView({
     ) {
       if (
         source.colId === SIDE_DATA_COL_ID &&
+        destination.colId !== SIDE_DATA_COL_ID &&
         event.animationName !== styles.usedDisappearAnim
       ) {
         switch (artifactType) {
@@ -306,8 +335,8 @@ export default function DraggableCardView({
   };
 
   const onDeleteAnimationEnd = (event: React.AnimationEvent) => {
-    if (event.animationName === styles.ghostDisappearAnim) {
-      dispatch(deleteArtifact(planningId!));
+    if (event.animationName === styles.ghostDisappearAnim && planningId) {
+      dispatch(deleteArtifactFromPlanning(planningId!));
       if (
         planningArtifacts.filter((PA) => PA.artifactId === artifactId)
           .length === 1
@@ -325,6 +354,20 @@ export default function DraggableCardView({
             dispatch(setUsedAccomodations(artifactId));
             break;
         }
+      }
+    } else {
+      switch (artifactType) {
+        case EArtifact.Activity:
+          dispatch(deleteActivity(artifactId));
+
+          break;
+        case EArtifact.Transport:
+          dispatch(deleteTransport(artifactId));
+          break;
+
+        default:
+          dispatch(deleteAccomodation(artifactId));
+          break;
       }
     }
   };
@@ -350,11 +393,7 @@ export default function DraggableCardView({
       className={styles.draggableContainer}
       style={{
         ...containerStyle,
-        animation: willDisappear
-          ? `${disappearAnim} 300ms ease-out forwards`
-          : disappearAnim === styles.calendarDisappear
-          ? "none"
-          : `300ms ease-out ${styles.sideDataAppearAnim}`,
+        animation: containerAnimation,
       }}
       onAnimationEnd={onAnimationEnd} //is also triggered when child animation ends
     >
@@ -364,15 +403,15 @@ export default function DraggableCardView({
           position: "initial",
           display:
             isDragged || willDisappear || usedWillDisappear ? "" : "none",
-          animation: usedWillDisappear
-            ? `${styles.usedDisappearAnim} 300ms ease-out forwards`
-            : willDisappear
-            ? `${styles.ghostDisappearAnim} 300ms ease-out forwards`
-            : "none",
+          animation: ghostAnimation,
         }}
         onMouseDown={onMouseDown}
       >
-        {children(() => {}, usedWillDisappear)}
+        {children(
+          () => {},
+          () => {},
+          usedWillDisappear
+        )}
       </div>
       <div
         style={{
@@ -387,12 +426,13 @@ export default function DraggableCardView({
       <div
         style={style}
         className={`${styles.showcase} ${shwoCaseClass} ${
-          willBeDeleted && styles.deleteAnim
+          (willBeDeletedFromPlanning || willBeDeleted) && styles.deleteAnim
         }`}
         onMouseDown={onMouseDown}
-        onAnimationEnd={(event) => onDeleteAnimationEnd(event)}
+        onAnimationEnd={onDeleteAnimationEnd}
       >
         {children(
+          () => setWillBeDeletedFromPlanning(true),
           () => setWillBeDeleted(true),
           isDragged || willDisappear || usedWillDisappear
         )}

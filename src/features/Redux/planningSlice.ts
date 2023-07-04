@@ -80,7 +80,10 @@ export const planningSlice = createSlice({
     ) => {
       state.artifactIsDragged = action.payload;
     },
-    deleteArtifact: (state: PlanningState, action: PayloadAction<string>) => {
+    deleteArtifactFromPlanning: (
+      state: PlanningState,
+      action: PayloadAction<string>
+    ) => {
       state.planningArtifacts = state.planningArtifacts.filter(
         (PA) => PA.id !== action.payload
       );
@@ -121,7 +124,7 @@ export const {
   addArtifact,
   moveArtifact,
   setArtifactIsDragged,
-  deleteArtifact,
+  deleteArtifactFromPlanning,
 } = planningSlice.actions;
 
 export const selectPlanningArtifacts = (state: RootState) =>

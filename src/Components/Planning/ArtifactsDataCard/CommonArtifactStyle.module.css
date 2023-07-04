@@ -38,6 +38,6 @@
     opacity: 0;
 }
 
-.container:hover, .deleteArtifact {
+.container:hover .deleteArtifact {
     opacity: 1;
 }

@@ -28,7 +28,6 @@ export default class ArtifactsDbManager {
     } = ${tripId}`;
     const stmt = this.db.prepare(sql);
     const res = stmt.all() as IActivity[] | ITransport[] | IAccomodation[];
-    console.log("res", res);
     const artifactColumn = getAttachmentCorrectColumn(tableName);
     res.forEach((artifact) => {
       const sql = `SELECT ${AttachmentsTable.name},${AttachmentsTable.path} FROM ${TablesName.attachments} WHERE ${artifactColumn} = ${artifact.id}`;
