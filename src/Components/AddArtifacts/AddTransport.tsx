@@ -19,6 +19,7 @@ import { insertTransport } from "../../features/Redux/transportsSlice";
 import { TransportsTable } from "../../Models/DataBaseModel";
 import EastRoundedIcon from "@mui/icons-material/EastRounded";
 import { transportSecColor } from "../../style/cssGlobalStyle";
+import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 
 export const AddTransport = forwardRef(
   (
@@ -73,20 +74,6 @@ export const AddTransport = forwardRef(
       setFormValues((prevState) => {
         return { ...prevState, [name]: value };
       });
-    };
-
-    // triggers when file is selected with click
-    const handleChange = function (e: React.ChangeEvent<HTMLInputElement>) {
-      e.preventDefault();
-      if (e.target.files && e.target.files[0]) {
-        const image = e.target.files[0] as unknown as {
-          path: string;
-          name: string;
-        };
-        setAttachment((prevState) => {
-          return [...prevState, { path: image.path, name: image.name }];
-        });
-      }
     };
 
     const isHourValid = useMemo(() => {
@@ -222,10 +209,9 @@ export const AddTransport = forwardRef(
                 variant="standard"
                 label="MIN"
                 value={minutes}
-                type="number"
                 onChange={(event) => setMinutes(parseInt(event.target.value))}
               >
-                {[0, 15, 30, 45].map((minute, index) => (
+                {["00", 15, 30, 45].map((minute, index) => (
                   <MenuItem key={minute} value={index}>
                     {minute}
                   </MenuItem>
@@ -241,30 +227,10 @@ export const AddTransport = forwardRef(
                 value={formValues.description}
                 onChange={updateForm}
                 multiline
-                sx={{ height: "100%" }}
               />
             </Grid>
             <Grid item width="100%" display="flex">
-              <div className={styles.attachmentLabels}>
-                <input
-                  accept="image/png, image/jpeg "
-                  type="file"
-                  id="input-file-upload"
-                  multiple={true}
-                  onChange={handleChange}
-                  style={{ display: "none" }}
-                />
-                <label>Pièce(s) jointe(s):</label>
-                <div>
-                  Glisser - déposer les fichiers ou
-                  <label
-                    htmlFor="input-file-upload"
-                    className={styles.attachmentLabelInput}
-                  >
-                    Importer
-                  </label>
-                </div>
-              </div>
+              <ImportAttachmentInput setAttachment={setAttachment} />
             </Grid>
             <Grid item xs={12} container gap={1}>
               {attachment.map((PJ) => (

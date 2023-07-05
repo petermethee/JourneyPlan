@@ -1,15 +1,11 @@
 import React from "react";
-import styles from "./AttachmentDZ.module.css";
+import styles from "./ImportAttachmentInput.module.css";
 import { useAppDispatch } from "../../../app/hooks";
 import { setSnackbarStatus } from "../../../features/Redux/tripSlice";
 
-export default function AttachmentDZ({
-  dragActive,
-  setDragActive,
+export default function ImportAttachmentInput({
   setAttachment,
 }: {
-  dragActive: boolean;
-  setDragActive: (active: boolean) => void;
   setAttachment: React.Dispatch<
     React.SetStateAction<
       {
@@ -20,24 +16,12 @@ export default function AttachmentDZ({
   >;
 }) {
   const dispatch = useAppDispatch();
-  // handle drag events
-  const handleDrag = function (e: any) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-  };
 
-  // triggers when file is dropped
-  const handleDrop = function (e: React.DragEvent<HTMLDivElement>) {
+  // triggers when file is selected with click
+  const handleChange = function (e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files) {
-      let images = Object.values(e.dataTransfer.files) as unknown as {
+    if (e.target.files) {
+      let images = Object.values(e.target.files) as unknown as {
         path: string;
         name: string;
       }[];
@@ -74,12 +58,28 @@ export default function AttachmentDZ({
   };
 
   return (
-    <div
-      onDragEnter={handleDrag}
-      onDragLeave={handleDrag}
-      onDragOver={handleDrag}
-      onDrop={handleDrop}
-      className={`${styles.dropHandler} ${dragActive && styles.dragActive}`}
-    />
+    <div className={styles.attachmentLabels}>
+      <input
+        accept=".pdf, .jpg, .jpeg, .png"
+        type="file"
+        id="input-file-upload"
+        multiple={true}
+        onChange={handleChange}
+        style={{ display: "none" }}
+      />
+      <label>Pièce(s) jointe(s):</label>
+      <div>
+        <label style={{ color: "#414141" }}>
+          Glisser / Déposer les fichiers ou
+        </label>
+
+        <label
+          htmlFor="input-file-upload"
+          className={styles.attachmentLabelInput}
+        >
+          Importer
+        </label>
+      </div>
+    </div>
   );
 }

@@ -1,0 +1,25 @@
+.attachmentLabels {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.attachmentLabelInput {
+    position: relative;
+    background-color: var(--primaryColor);
+    border-radius: 20px;
+    margin: 0px 10px;
+    padding: 5px 10px;
+    color: white;
+    cursor: pointer;
+    transition: 300ms;
+    box-shadow: 0 0 5px 0px #00000091;
+    display: inline-block;
+
+}
+
+.attachmentLabelInput:hover {
+    box-shadow: 0 0 8px 1px #00000091;
+
+}

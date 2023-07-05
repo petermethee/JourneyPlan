@@ -3,10 +3,14 @@ import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  useMemo,
   useState,
 } from "react";
 import IAccomodation, { TFormAccomodation } from "../../Models/IAccomodation";
-import { AccomodationsTable } from "../../Models/DataBaseModel";
+import {
+  AccomodationsTable,
+  TransportsTable,
+} from "../../Models/DataBaseModel";
 import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddArtifacts.module.css";
 import AttachmentCard from "./Attachment/AttachmentCard";
@@ -19,6 +23,8 @@ import { selectCurrentTrip } from "../../features/Redux/tripSlice";
 import { MobileTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 
 export const AddAccomodation = forwardRef(
   (
@@ -36,8 +42,8 @@ export const AddAccomodation = forwardRef(
       [AccomodationsTable.description]: "",
       [AccomodationsTable.price]: 0,
       [AccomodationsTable.location]: "",
-      [AccomodationsTable.checkin]: "",
-      [AccomodationsTable.checkout]: "",
+      [AccomodationsTable.checkin]: undefined,
+      [AccomodationsTable.checkout]: undefined,
     });
 
     const [attachment, setAttachment] = useState<
@@ -61,26 +67,34 @@ export const AddAccomodation = forwardRef(
       },
     }));
 
+    const dayJsCheckin = useMemo(() => {
+      if (formValues.checkin) {
+        const [h, m] = formValues.checkin.split(":");
+        const dateTime = dayjs()
+          .set("hours", parseInt(h))
+          .set("minutes", parseInt(m));
+        return dateTime;
+      }
+      return null;
+    }, [formValues.checkin]);
+
+    const dayJsCheckout = useMemo(() => {
+      if (formValues.checkout) {
+        const [h, m] = formValues.checkout.split(":");
+        const dateTime = dayjs()
+          .set("hours", parseInt(h))
+          .set("minutes", parseInt(m));
+        return dateTime;
+      }
+      return null;
+    }, [formValues.checkout]);
+
     const updateForm = (event: React.ChangeEvent<HTMLInputElement>) => {
       const name = event.target.name;
       const value = event.target.value;
       setFormValues((prevState) => {
         return { ...prevState, [name]: value };
       });
-    };
-
-    // triggers when file is selected with click
-    const handleChange = function (e: React.ChangeEvent<HTMLInputElement>) {
-      e.preventDefault();
-      if (e.target.files && e.target.files[0]) {
-        const image = e.target.files[0] as unknown as {
-          path: string;
-          name: string;
-        };
-        setAttachment((prevState) => {
-          return [...prevState, { path: image.path, name: image.name }];
-        });
-      }
     };
 
     useEffect(() => {
@@ -118,7 +132,6 @@ export const AddAccomodation = forwardRef(
                 label="Titre"
                 value={formValues.name}
                 onChange={updateForm}
-                autoFocus
               />
             </Grid>
 
@@ -149,7 +162,17 @@ export const AddAccomodation = forwardRef(
                 <MobileTimePicker
                   ampm={false}
                   label="Checkin"
-                  value={formValues.checkin}
+                  value={dayJsCheckin}
+                  onChange={(newValue) =>
+                    setFormValues((prevState) => {
+                      return {
+                        ...prevState,
+                        checkin: newValue
+                          ? newValue.hour() + ":" + newValue.minute()
+                          : undefined,
+                      };
+                    })
+                  }
                 />
               </LocalizationProvider>
             </Grid>
@@ -158,36 +181,33 @@ export const AddAccomodation = forwardRef(
                 <MobileTimePicker
                   ampm={false}
                   label="Checkout"
-                  value={formValues.checkout}
+                  value={dayJsCheckout ?? null}
                   onChange={(newValue) =>
                     setFormValues((prevState) => {
-                      return { ...prevState, checkout: newValue ?? "" };
+                      return {
+                        ...prevState,
+                        checkout: newValue
+                          ? newValue.hour() + ":" + newValue.minute()
+                          : undefined,
+                      };
                     })
                   }
                 />
               </LocalizationProvider>
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                name={TransportsTable.description}
+                fullWidth
+                variant="standard"
+                label="Notes"
+                value={formValues.description}
+                onChange={updateForm}
+                multiline
+              />
+            </Grid>
             <Grid item width="100%" display="flex">
-              <div className={styles.attachmentLabels}>
-                <input
-                  accept="image/png, image/jpeg "
-                  type="file"
-                  id="input-file-upload"
-                  multiple={true}
-                  onChange={handleChange}
-                  style={{ display: "none" }}
-                />
-                <label>Pièce(s) jointe(s):</label>
-                <div>
-                  Glisser - déposer les fichiers ou
-                  <label
-                    htmlFor="input-file-upload"
-                    className={styles.attachmentLabelInput}
-                  >
-                    Importer
-                  </label>
-                </div>
-              </div>
+              <ImportAttachmentInput setAttachment={setAttachment} />
             </Grid>
             <Grid item xs={12} container gap={1}>
               {attachment.map((PJ) => (
