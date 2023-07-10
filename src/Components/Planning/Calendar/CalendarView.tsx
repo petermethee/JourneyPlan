@@ -1,7 +1,7 @@
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./CalendarView.module.css";
 import draggableStyle from "../DraggableCardView.module.css";
-import { TDayCol } from "../Planning";
+import { TArtifactEditor, TDayCol } from "../Planning";
 import {
   cellHeight,
   getDraggableAccomodationCalendarStyle,
@@ -53,7 +53,13 @@ export const getHours = (): string[] => {
 
 export const RELATIVE_CALENDAR = "RELATIVE_CALENDAR";
 
-function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
+function CalendarView({
+  dayCols,
+  openArtifactEditor,
+}: {
+  dayCols: TDayCol[];
+  openArtifactEditor: (artifactEditor: TArtifactEditor) => void;
+}) {
   const calendarRef = useRef<HTMLDivElement>(null);
   const dropZoneRef = useRef<HTMLDivElement>(null);
 
@@ -178,6 +184,12 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     shwoCaseClass={draggableStyle.calendarShowcase}
                     artifactType={EArtifact.Activity}
                     getFinalDestination={getFinalDestination}
+                    editArtifact={() =>
+                      openArtifactEditor({
+                        type: EArtifact.Activity,
+                        artifact: PA.activity,
+                      })
+                    }
                   >
                     {(onDeleteFromPlanning, onDelete, isDragged) => (
                       <ArtifactTemplate
@@ -213,6 +225,12 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                     shwoCaseClass={draggableStyle.calendarShowcase}
                     artifactType={EArtifact.Transport}
                     getFinalDestination={getFinalDestination}
+                    editArtifact={() =>
+                      openArtifactEditor({
+                        type: EArtifact.Transport,
+                        artifact: PT.transport,
+                      })
+                    }
                   >
                     {(onDeleteFromPlanning, onDelete, isDragged) => (
                       <ArtifactTemplate
@@ -261,6 +279,12 @@ function CalendarView({ dayCols }: { dayCols: TDayCol[] }) {
                   shwoCaseClass={draggableStyle.calendarShowcase}
                   artifactType={EArtifact.Accomodation}
                   getFinalDestination={getFinalDestinationInAccomodationDZ}
+                  editArtifact={() =>
+                    openArtifactEditor({
+                      type: EArtifact.Accomodation,
+                      artifact: PA.accomodation,
+                    })
+                  }
                 >
                   {(onDeleteFromPlanning, onDelete, isDragged) => (
                     <ArtifactTemplate

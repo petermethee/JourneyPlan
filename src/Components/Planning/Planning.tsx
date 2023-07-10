@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./Planning.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -26,6 +26,8 @@ import {
   getAllAccomodations,
   selectAccomodations,
 } from "../../features/Redux/accomodationsSlice";
+import { Backdrop } from "@mui/material";
+import AddArtifacts from "../AddArtifacts/AddArtifacts";
 
 type TDayActivity = { id: string; timeIndex: number; activity: IActivity };
 type TDayAccomodation = {
@@ -42,6 +44,10 @@ export type TDayCol = {
   planningTransports: TDayTransport[];
   planningAccomodations: TDayAccomodation[];
 };
+export type TArtifactEditor = null | {
+  type: EArtifact;
+  artifact: IActivity | IAccomodation | ITransport;
+};
 
 export default function Planning() {
   const tripId = useParams().tripId!;
@@ -51,6 +57,9 @@ export default function Planning() {
   const selectedTrip = useAppSelector(selectCurrentTrip);
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const dispatch = useAppDispatch();
+
+  const [openModal, setOpenModal] = useState(false);
+  const [artifactToEdit, setArtifactToEdit] = useState<TArtifactEditor>(null);
 
   const dayCols: TDayCol[] = useMemo(() => {
     if (selectedTrip) {
@@ -125,8 +134,26 @@ export default function Planning() {
 
   return (
     <div className={styles.mainContainer}>
-      <SideData />
-      <CalendarView dayCols={dayCols} />
+      <SideData
+        isEditorOpen={openModal}
+        openArtifactEditor={(artifactEditor: TArtifactEditor) => {
+          setArtifactToEdit(artifactEditor);
+          setOpenModal(true);
+        }}
+      />
+      <CalendarView
+        dayCols={dayCols}
+        openArtifactEditor={(artifactEditor: TArtifactEditor) => {
+          setArtifactToEdit(artifactEditor);
+          setOpenModal(true);
+        }}
+      />
+      <Backdrop open={openModal} sx={{ zIndex: 10 }} />
+      <AddArtifacts
+        open={openModal}
+        setOpen={setOpenModal}
+        artifactToEdit={artifactToEdit}
+      />
     </div>
   );
 }

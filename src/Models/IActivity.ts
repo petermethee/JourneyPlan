@@ -16,8 +16,8 @@ export default interface IActivity {
 
 export type TFormActivity = {
   [ActivitiesTable.name]: string;
-  [ActivitiesTable.description]: string;
+  [ActivitiesTable.description]?: string;
   [ActivitiesTable.price]: number;
-  [ActivitiesTable.pleasure]: number;
+  [ActivitiesTable.pleasure]?: number;
   [ActivitiesTable.location]: string;
 };

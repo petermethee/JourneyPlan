@@ -1,5 +1,5 @@
 import { Tab, Tabs } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ActivityIcon from "../Shared/ActivityIcon";
 import TransportIcon from "../Shared/TransportIcon";
 import AccomodationIcon from "../Shared/AccomodationIcon";
@@ -21,6 +21,9 @@ import { AddTransport } from "./AddTransport";
 import { AddAccomodation } from "./AddAccomodation";
 import { useAppSelector } from "../../app/hooks";
 import { selectCurrentTrip } from "../../features/Redux/tripSlice";
+import IAccomodation from "../../Models/IAccomodation";
+import IActivity from "../../Models/IActivity";
+import ITransport from "../../Models/ITransport";
 
 export enum ESavingStatus {
   enabled = 0,
@@ -31,8 +34,13 @@ export enum ESavingStatus {
 export default function AddArtifacts({
   open,
   setOpen,
+  artifactToEdit,
 }: {
   open: boolean;
+  artifactToEdit: null | {
+    type: EArtifact;
+    artifact: IActivity | IAccomodation | ITransport;
+  };
   setOpen: (open: boolean) => void;
 }) {
   const addActivityRef = useRef<{ save: (child: EArtifact) => void }>();
@@ -43,7 +51,7 @@ export default function AddArtifacts({
 
   const [saving, setSaving] = useState<ESavingStatus>(ESavingStatus.disabled);
 
-  const [tab, setTab] = useState(EArtifact.Activity);
+  const [tab, setTab] = useState(artifactToEdit?.type ?? EArtifact.Activity);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (e.currentTarget === e.target) {
@@ -57,6 +65,9 @@ export default function AddArtifacts({
     addAccomodationRef.current!.save(tab);
   };
 
+  useEffect(() => {
+    setTab(artifactToEdit?.type ?? EArtifact.Activity);
+  }, [artifactToEdit?.type]);
   return (
     <>
       <CSSTransition
@@ -97,16 +108,31 @@ export default function AddArtifacts({
                 icon={<ActivityIcon color="white" />}
                 value={EArtifact.Activity}
                 label="Activité"
+                disabled={
+                  artifactToEdit
+                    ? artifactToEdit.type !== EArtifact.Activity
+                    : false
+                }
               />
               <Tab
                 icon={<TransportIcon color="white" />}
                 value={EArtifact.Transport}
                 label="Transport"
+                disabled={
+                  artifactToEdit
+                    ? artifactToEdit.type !== EArtifact.Transport
+                    : false
+                }
               />
               <Tab
                 icon={<AccomodationIcon color="white" />}
                 value={EArtifact.Accomodation}
                 label="Logement"
+                disabled={
+                  artifactToEdit
+                    ? artifactToEdit.type !== EArtifact.Accomodation
+                    : false
+                }
               />
             </Tabs>
             <SwipeableViews
@@ -125,19 +151,37 @@ export default function AddArtifacts({
               {id_trip
                 ? [
                     <AddActivity
+                      key="activity"
                       id_trip={id_trip}
                       setSaving={setSaving}
                       ref={addActivityRef}
+                      activity={
+                        artifactToEdit?.type === EArtifact.Activity
+                          ? (artifactToEdit?.artifact as IActivity)
+                          : undefined
+                      }
                     />,
                     <AddTransport
+                      key="transport"
                       id_trip={id_trip}
                       setSaving={setSaving}
                       ref={addTransportRef}
+                      transport={
+                        artifactToEdit?.type === EArtifact.Transport
+                          ? (artifactToEdit?.artifact as ITransport)
+                          : undefined
+                      }
                     />,
                     <AddAccomodation
+                      key="accomodation"
                       id_trip={id_trip}
                       setSaving={setSaving}
                       ref={addAccomodationRef}
+                      accomodation={
+                        artifactToEdit?.type === EArtifact.Accomodation
+                          ? (artifactToEdit?.artifact as IAccomodation)
+                          : undefined
+                      }
                     />,
                   ]
                 : []}

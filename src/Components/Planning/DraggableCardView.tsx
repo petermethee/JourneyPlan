@@ -66,6 +66,7 @@ type TDraggableProps = {
     y: number,
     allowSideData: boolean
   ): [string, number];
+  editArtifact: () => void;
 };
 export default function DraggableCardView({
   planningId,
@@ -79,6 +80,7 @@ export default function DraggableCardView({
   disappearAnim,
   artifactType,
   getFinalDestination,
+  editArtifact,
 }: TDraggableProps) {
   const dispatch = useAppDispatch();
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
@@ -291,6 +293,9 @@ export default function DraggableCardView({
       }
       if (mouseDown) {
         setMouseDown(false);
+        if (!isDragged) {
+          editArtifact();
+        }
       }
     },
     [
@@ -301,6 +306,7 @@ export default function DraggableCardView({
       getFinalDestination,
       dispatch,
       checkCollision,
+      editArtifact,
     ]
   );
 

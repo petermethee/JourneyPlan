@@ -84,7 +84,8 @@ export default class ArtifactsDbManager {
         }[]
       ) => {
         for (const pj of pjs) {
-          const extension = pj.path.split(".")[1];
+          const splitted = pj.path.split(".");
+          const extension = splitted[splitted.length - 1];
           const fileName = new Date().getTime() + "." + extension;
           const newPath = path.join(IMAGE_FOLDER_PATH, fileName);
           try {
@@ -94,9 +95,7 @@ export default class ArtifactsDbManager {
           } catch (error) {
             console.log("catch an error when copying attachment file: ", error);
           }
-          console.log("data", { ...pj, [artifactColumn]: artifactId });
-
-          insert.run({ ...pj, [artifactColumn]: artifactId });
+          insert.run({ ...pj, [artifactColumn]: artifactId, path: newPath });
         }
       }
     );

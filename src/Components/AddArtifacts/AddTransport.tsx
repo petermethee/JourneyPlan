@@ -26,29 +26,37 @@ export const AddTransport = forwardRef(
     {
       setSaving,
       id_trip,
+      transport,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
       id_trip: number;
+      transport?: ITransport;
     },
     ref
   ) => {
     const dispatch = useAppDispatch();
     const [formValues, setFormValues] = useState<TFormTransport>({
-      [TransportsTable.name]: "",
-      [TransportsTable.description]: "",
-      [TransportsTable.price]: 0,
-      [TransportsTable.from]: "",
-      [TransportsTable.to]: "",
-      [TransportsTable.vehicule]: "",
+      [TransportsTable.name]: transport ? transport.name : "",
+      [TransportsTable.description]: transport ? transport.description : "",
+      [TransportsTable.price]: transport ? transport.price : 0,
+      [TransportsTable.from]: transport ? transport.departure : "",
+      [TransportsTable.to]: transport ? transport.destination : "",
+      [TransportsTable.vehicule]: transport ? transport.vehicule : "",
     });
 
     const [attachment, setAttachment] = useState<
       { path: string; name: string }[]
-    >([]);
+    >(transport ? transport.attachment : []);
 
     const [dragActive, setDragActive] = useState(false);
-    const [hours, setHours] = useState("1");
-    const [minutes, setMinutes] = useState(0);
+    const [hours, setHours] = useState(
+      transport ? transport.duration.toString().split(".")[0] : "1"
+    );
+    const [minutes, setMinutes] = useState(
+      transport
+        ? (parseInt(transport.duration.toString().split(".")[1]) / 10) * 4
+        : 0
+    );
 
     useImperativeHandle(ref, () => ({
       save(child: EArtifact) {

@@ -24,19 +24,21 @@ export const AddActivity = forwardRef(
     {
       setSaving,
       id_trip,
+      activity,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
       id_trip: number;
+      activity?: IActivity;
     },
     ref
   ) => {
     const dispatch = useAppDispatch();
     const [formValues, setFormValues] = useState<TFormActivity>({
-      [ActivitiesTable.name]: "",
-      [ActivitiesTable.description]: "",
-      [ActivitiesTable.price]: 0,
-      [ActivitiesTable.pleasure]: 0,
-      [ActivitiesTable.location]: "",
+      [ActivitiesTable.name]: activity ? activity.name : "",
+      [ActivitiesTable.description]: activity ? activity.description : "",
+      [ActivitiesTable.price]: activity ? activity.price : 0,
+      [ActivitiesTable.pleasure]: activity ? activity.pleasure : 0,
+      [ActivitiesTable.location]: activity ? activity.location : "",
     });
 
     const [attachment, setAttachment] = useState<

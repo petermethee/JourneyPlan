@@ -18,13 +18,12 @@ import SideDataHeader from "./SideDataHeader";
 import { selectTransports } from "../../../features/Redux/transportsSlice";
 import { selectAccomodations } from "../../../features/Redux/accomodationsSlice";
 
-import { Backdrop, Fab } from "@mui/material";
+import { Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
 import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
 import AccomodationDataCard from "../ArtifactsDataCard/AccomodationDataCard";
-import AddArtifacts from "../../AddArtifacts/AddArtifacts";
 import ArtifactTemplate from "../ArtifactsDataCard/ArtifactTemplate";
 import {
   accomodationColor,
@@ -38,16 +37,22 @@ import {
 import ActivityIcon from "../../Shared/ActivityIcon";
 import TransportIcon from "../../Shared/TransportIcon";
 import AccomodationIcon from "../../Shared/AccomodationIcon";
+import { TArtifactEditor } from "../Planning";
 
 export const SIDE_DATA_COL_ID = "sideDataDropId";
 
-export default function SideData() {
+export default function SideData({
+  openArtifactEditor,
+  isEditorOpen,
+}: {
+  openArtifactEditor: (artifactEditor: TArtifactEditor) => void;
+  isEditorOpen: boolean;
+}) {
   const sideDataRef = useRef<HTMLDivElement>(null);
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
   const accomodations = useAppSelector(selectAccomodations);
 
-  const [openModal, setOpenModal] = useState(false);
   const [usedFilter, setUsedFilter] = useState<0 | 1>(0);
   const [marginTop, setMarginTop] = useState(0);
   const [currentArtifactType, setCurrentArtifactType] = useState(
@@ -85,6 +90,12 @@ export default function SideData() {
             }
             artifactType={EArtifact.Activity}
             getFinalDestination={getFinalDestination}
+            editArtifact={() =>
+              openArtifactEditor({
+                type: EArtifact.Activity,
+                artifact: activity,
+              })
+            }
           >
             {(onDeleteFromPlanning, onDelete, isDragged) => (
               <ArtifactTemplate
@@ -117,6 +128,12 @@ export default function SideData() {
             }
             artifactType={EArtifact.Transport}
             getFinalDestination={getFinalDestination}
+            editArtifact={() =>
+              openArtifactEditor({
+                type: EArtifact.Transport,
+                artifact: transport,
+              })
+            }
           >
             {(onDeleteFromPlanning, onDelete, isDragged) => (
               <ArtifactTemplate
@@ -150,6 +167,12 @@ export default function SideData() {
             }
             artifactType={EArtifact.Accomodation}
             getFinalDestination={getFinalDestinationInAccomodationDZ}
+            editArtifact={() =>
+              openArtifactEditor({
+                type: EArtifact.Accomodation,
+                artifact: accomodation,
+              })
+            }
           >
             {(onDeleteFromPlanning, onDelete, isDragged) => (
               <ArtifactTemplate
@@ -172,10 +195,11 @@ export default function SideData() {
     filteredActivities,
     filteredAccomodations,
     filteredTransports,
+    openArtifactEditor,
   ]);
 
   const onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    if (!openModal) {
+    if (!isEditorOpen) {
       setMarginTop((prevState) => {
         const marginMax = Math.max(
           0,
@@ -203,16 +227,13 @@ export default function SideData() {
         </div>
       </div>
       <Fab
-        onClick={() => setOpenModal((prevState) => !prevState)}
+        onClick={() => openArtifactEditor(null)}
         color="primary"
         size="small"
         sx={{ position: "absolute", bottom: "10px", right: "10px" }}
       >
         <AddIcon />
       </Fab>
-      <Backdrop open={openModal} sx={{ zIndex: 10 }} />
-
-      <AddArtifacts open={openModal} setOpen={setOpenModal} />
     </div>
   );
 }

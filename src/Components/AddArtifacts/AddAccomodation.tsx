@@ -31,20 +31,28 @@ export const AddAccomodation = forwardRef(
     {
       setSaving,
       id_trip,
+      accomodation,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
       id_trip: number;
+      accomodation?: IAccomodation;
     },
     ref
   ) => {
     const dispatch = useAppDispatch();
     const [formValues, setFormValues] = useState<TFormAccomodation>({
-      [AccomodationsTable.name]: "",
-      [AccomodationsTable.description]: "",
-      [AccomodationsTable.price]: 0,
-      [AccomodationsTable.location]: "",
-      [AccomodationsTable.checkin]: undefined,
-      [AccomodationsTable.checkout]: undefined,
+      [AccomodationsTable.name]: accomodation ? accomodation.name : "",
+      [AccomodationsTable.description]: accomodation
+        ? accomodation.description
+        : "",
+      [AccomodationsTable.price]: accomodation ? accomodation.price : 0,
+      [AccomodationsTable.location]: accomodation ? accomodation.location : "",
+      [AccomodationsTable.checkin]: accomodation
+        ? accomodation.checkin
+        : undefined,
+      [AccomodationsTable.checkout]: accomodation
+        ? accomodation.checkout
+        : undefined,
     });
 
     const [attachment, setAttachment] = useState<
