@@ -52,7 +52,8 @@ export default class ArtifactsDbManager {
     const placeholders = "(@" + Object.keys(item).join(",@") + ")";
 
     const sql = `INSERT INTO ${tableName} ${columns} VALUES ${placeholders}`;
-    console.log("sql", sql);
+    console.log("sql query debug is", sql);
+    console.log("values", item);
 
     const stmt = this.db.prepare(sql);
     const id = stmt.run(item).lastInsertRowid;

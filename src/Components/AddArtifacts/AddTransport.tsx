@@ -13,8 +13,8 @@ import AttachmentCard from "./Attachment/AttachmentCard";
 import AttachmentDZ from "./Attachment/AttachmentDZ";
 import { ESavingStatus } from "./AddArtifacts";
 import { EArtifact } from "../../Models/EArtifacts";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectCurrentTrip } from "../../features/Redux/tripSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import { insertTransport } from "../../features/Redux/transportsSlice";
 import { TransportsTable } from "../../Models/DataBaseModel";
 import EastRoundedIcon from "@mui/icons-material/EastRounded";
@@ -25,13 +25,14 @@ export const AddTransport = forwardRef(
   (
     {
       setSaving,
+      id_trip,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
+      id_trip: number;
     },
     ref
   ) => {
     const dispatch = useAppDispatch();
-    const id_trip = useAppSelector(selectCurrentTrip)!.id;
     const [formValues, setFormValues] = useState<TFormTransport>({
       [TransportsTable.name]: "",
       [TransportsTable.description]: "",
@@ -63,7 +64,16 @@ export const AddTransport = forwardRef(
             attachment,
             used: 0,
           };
-          dispatch(insertTransport(newTransport));
+          dispatch(insertTransport(newTransport)).then((result) => {
+            if (result.meta.requestStatus === "fulfilled") {
+              dispatch(
+                setSnackbarStatus({
+                  message: "Votre transport a correctement été ajouté",
+                  snackBarSeverity: "success",
+                })
+              );
+            }
+          });
         }
       },
     }));

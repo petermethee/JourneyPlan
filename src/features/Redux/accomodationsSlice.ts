@@ -32,7 +32,11 @@ export const getAllAccomodations = createAsyncThunk(
 export const insertAccomodation = createAsyncThunk(
   "insertAccomodation",
   async (accomodation: IAccomodation) => {
-    return await insertItemAPI(EArtifactTableName.Accomodation, accomodation);
+    const id = await insertItemAPI(
+      EArtifactTableName.Accomodation,
+      accomodation
+    );
+    return { ...accomodation, id };
   }
 );
 
@@ -61,6 +65,12 @@ export const accomodationsSlice = createSlice({
     ) => {
       state.accomodations = action.payload;
     },
+    insertAccomodation: (
+      state: AccomodationsState,
+      action: PayloadAction<IAccomodation>
+    ) => {
+      state.accomodations.push(action.payload);
+    },
     deleteAccomodation: (
       state: AccomodationsState,
       action: PayloadAction<number>
@@ -87,6 +97,9 @@ export const accomodationsSlice = createSlice({
       })
       .addCase(deleteAccomodation.fulfilled, (state, action) => {
         accomodationsSlice.caseReducers.deleteAccomodation(state, action);
+      })
+      .addCase(insertAccomodation.fulfilled, (state, action) => {
+        accomodationsSlice.caseReducers.insertAccomodation(state, action);
       });
   },
 });

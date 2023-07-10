@@ -14,22 +14,23 @@ import AttachmentCard from "./Attachment/AttachmentCard";
 import AttachmentDZ from "./Attachment/AttachmentDZ";
 import { ESavingStatus } from "./AddArtifacts";
 import { EArtifact } from "../../Models/EArtifacts";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { insertActivity } from "../../features/Redux/activitiesSlice";
-import { selectCurrentTrip } from "../../features/Redux/tripSlice";
+import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 
 export const AddActivity = forwardRef(
   (
     {
       setSaving,
+      id_trip,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
+      id_trip: number;
     },
     ref
   ) => {
     const dispatch = useAppDispatch();
-    const id_trip = useAppSelector(selectCurrentTrip)!.id;
     const [formValues, setFormValues] = useState<TFormActivity>({
       [ActivitiesTable.name]: "",
       [ActivitiesTable.description]: "",
@@ -60,7 +61,16 @@ export const AddActivity = forwardRef(
             attachment,
             used: 0,
           };
-          dispatch(insertActivity(newActivity));
+          dispatch(insertActivity(newActivity)).then((result) => {
+            if (result.meta.requestStatus === "fulfilled") {
+              dispatch(
+                setSnackbarStatus({
+                  message: "Votre activité a correctement été ajoutée",
+                  snackBarSeverity: "success",
+                })
+              );
+            }
+          });
         }
       },
     }));

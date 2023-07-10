@@ -19,6 +19,8 @@ import "./TransitionPopup.css";
 import { AddActivity } from "./AddActivity";
 import { AddTransport } from "./AddTransport";
 import { AddAccomodation } from "./AddAccomodation";
+import { useAppSelector } from "../../app/hooks";
+import { selectCurrentTrip } from "../../features/Redux/tripSlice";
 
 export enum ESavingStatus {
   enabled = 0,
@@ -37,6 +39,8 @@ export default function AddArtifacts({
   const addTransportRef = useRef<{ save: (child: EArtifact) => void }>();
   const addAccomodationRef = useRef<{ save: (child: EArtifact) => void }>();
 
+  const id_trip = useAppSelector(selectCurrentTrip)?.id;
+
   const [saving, setSaving] = useState<ESavingStatus>(ESavingStatus.disabled);
 
   const [tab, setTab] = useState(EArtifact.Activity);
@@ -50,7 +54,7 @@ export default function AddArtifacts({
   const handleSave = () => {
     addActivityRef.current!.save(tab);
     addTransportRef.current!.save(tab);
-    // addAccomodationRef.current!.save(tab);
+    addAccomodationRef.current!.save(tab);
   };
 
   return (
@@ -118,9 +122,25 @@ export default function AddArtifacts({
                 flexDirection: "column",
               }}
             >
-              <AddActivity setSaving={setSaving} ref={addActivityRef} />
-              <AddTransport setSaving={setSaving} ref={addTransportRef} />
-              <AddAccomodation setSaving={setSaving} ref={addAccomodationRef} />
+              {id_trip
+                ? [
+                    <AddActivity
+                      id_trip={id_trip}
+                      setSaving={setSaving}
+                      ref={addActivityRef}
+                    />,
+                    <AddTransport
+                      id_trip={id_trip}
+                      setSaving={setSaving}
+                      ref={addTransportRef}
+                    />,
+                    <AddAccomodation
+                      id_trip={id_trip}
+                      setSaving={setSaving}
+                      ref={addAccomodationRef}
+                    />,
+                  ]
+                : []}
             </SwipeableViews>
 
             <div className={styles.windowBottom}>

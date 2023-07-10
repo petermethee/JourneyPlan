@@ -30,7 +30,8 @@ export const getAllTransports = createAsyncThunk(
 export const insertTransport = createAsyncThunk(
   "insertTransport",
   async (transport: ITransport) => {
-    return await insertItemAPI(EArtifactTableName.Transport, transport);
+    const id = await insertItemAPI(EArtifactTableName.Transport, transport);
+    return { ...transport, id };
   }
 );
 
@@ -59,6 +60,12 @@ export const transportsSlice = createSlice({
     ) => {
       state.transports = action.payload;
     },
+    insertTransport: (
+      state: TransportsState,
+      action: PayloadAction<ITransport>
+    ) => {
+      state.transports.push(action.payload);
+    },
     deleteTransport: (
       state: TransportsState,
       action: PayloadAction<number>
@@ -85,6 +92,9 @@ export const transportsSlice = createSlice({
       })
       .addCase(deleteTransport.fulfilled, (state, action) => {
         transportsSlice.caseReducers.deleteTransport(state, action);
+      })
+      .addCase(insertTransport.fulfilled, (state, action) => {
+        transportsSlice.caseReducers.insertTransport(state, action);
       });
   },
 });
