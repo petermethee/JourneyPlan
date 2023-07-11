@@ -7,10 +7,7 @@ import React, {
   useState,
 } from "react";
 import IAccomodation, { TFormAccomodation } from "../../Models/IAccomodation";
-import {
-  AccomodationsTable,
-  TransportsTable,
-} from "../../Models/DataBaseModel";
+import { AccomodationsTable } from "../../Models/DataBaseModel";
 import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddArtifacts.module.css";
 import AttachmentCard from "./Attachment/AttachmentCard";
@@ -18,7 +15,10 @@ import AttachmentDZ from "./Attachment/AttachmentDZ";
 import { ESavingStatus } from "./AddArtifacts";
 import { EArtifact } from "../../Models/EArtifacts";
 import { useAppDispatch } from "../../app/hooks";
-import { insertAccomodation } from "../../features/Redux/accomodationsSlice";
+import {
+  insertAccomodation,
+  updateAccomodation,
+} from "../../features/Redux/accomodationsSlice";
 import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import { MobileTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
@@ -40,30 +40,42 @@ export const AddAccomodation = forwardRef(
     ref
   ) => {
     const dispatch = useAppDispatch();
-    const [formValues, setFormValues] = useState<TFormAccomodation>({
-      [AccomodationsTable.name]: accomodation ? accomodation.name : "",
-      [AccomodationsTable.description]: accomodation
-        ? accomodation.description
-        : "",
-      [AccomodationsTable.price]: accomodation ? accomodation.price : 0,
-      [AccomodationsTable.location]: accomodation ? accomodation.location : "",
-      [AccomodationsTable.checkin]: accomodation
-        ? accomodation.checkin
-        : undefined,
-      [AccomodationsTable.checkout]: accomodation
-        ? accomodation.checkout
-        : undefined,
-    });
+    const initialFormValues = useMemo(() => {
+      return {
+        [AccomodationsTable.name]: accomodation ? accomodation.name : "",
+        [AccomodationsTable.description]: accomodation
+          ? accomodation.description
+          : "",
+        [AccomodationsTable.price]: accomodation ? accomodation.price : 0,
+        [AccomodationsTable.location]: accomodation
+          ? accomodation.location
+          : "",
+        [AccomodationsTable.checkin]: accomodation
+          ? accomodation.checkin
+          : undefined,
+        [AccomodationsTable.checkout]: accomodation
+          ? accomodation.checkout
+          : undefined,
+      };
+    }, [accomodation]);
+
+    const [formValues, setFormValues] =
+      useState<TFormAccomodation>(initialFormValues);
 
     const [attachment, setAttachment] = useState<
       { path: string; name: string }[]
-    >([]);
+    >(accomodation ? accomodation.attachment : []);
 
     const [dragActive, setDragActive] = useState(false);
 
+    const clearInputs = () => {
+      setFormValues(initialFormValues);
+      setAttachment([]);
+    };
+
     useImperativeHandle(ref, () => ({
-      save(child: EArtifact) {
-        if (child === EArtifact.Accomodation) {
+      save(artifactType: EArtifact) {
+        if (artifactType === EArtifact.Accomodation) {
           const newAccomodation: IAccomodation = {
             id: 0,
             id_trip,
@@ -79,6 +91,37 @@ export const AddAccomodation = forwardRef(
                   snackBarSeverity: "success",
                 })
               );
+              setSaving(ESavingStatus.disabled);
+              clearInputs();
+            } else if (result.meta.requestStatus === "rejected") {
+              //no need to set snackbar in case of rejection, handled in globalSlice
+              setSaving(ESavingStatus.enabled);
+            }
+          });
+        }
+      },
+      edit(artifactType: EArtifact) {
+        if (artifactType === EArtifact.Accomodation) {
+          const updatedAccomodation: IAccomodation = {
+            id: accomodation!.id,
+            id_trip,
+            ...formValues,
+            attachment,
+            used: accomodation!.used,
+          };
+          dispatch(updateAccomodation(updatedAccomodation)).then((result) => {
+            if (result.meta.requestStatus === "fulfilled") {
+              dispatch(
+                setSnackbarStatus({
+                  message: "Le logement a correctement été mis à jour",
+                  snackBarSeverity: "success",
+                })
+              );
+              setSaving(ESavingStatus.disabled);
+              clearInputs();
+            } else if (result.meta.requestStatus === "rejected") {
+              //no need to set snackbar in case of rejection, handled in globalSlice
+              setSaving(ESavingStatus.enabled);
             }
           });
         }
@@ -215,7 +258,7 @@ export const AddAccomodation = forwardRef(
             </Grid>
             <Grid item xs={12}>
               <TextField
-                name={TransportsTable.description}
+                name={AccomodationsTable.description}
                 fullWidth
                 variant="standard"
                 label="Notes"

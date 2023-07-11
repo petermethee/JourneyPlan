@@ -15,7 +15,10 @@ import { ESavingStatus } from "./AddArtifacts";
 import { EArtifact } from "../../Models/EArtifacts";
 import { useAppDispatch } from "../../app/hooks";
 import { setSnackbarStatus } from "../../features/Redux/tripSlice";
-import { insertTransport } from "../../features/Redux/transportsSlice";
+import {
+  insertTransport,
+  updateTransport,
+} from "../../features/Redux/transportsSlice";
 import { TransportsTable } from "../../Models/DataBaseModel";
 import EastRoundedIcon from "@mui/icons-material/EastRounded";
 import { transportSecColor } from "../../style/cssGlobalStyle";
@@ -35,20 +38,25 @@ export const AddTransport = forwardRef(
     ref
   ) => {
     const dispatch = useAppDispatch();
-    const [formValues, setFormValues] = useState<TFormTransport>({
-      [TransportsTable.name]: transport ? transport.name : "",
-      [TransportsTable.description]: transport ? transport.description : "",
-      [TransportsTable.price]: transport ? transport.price : 0,
-      [TransportsTable.from]: transport ? transport.departure : "",
-      [TransportsTable.to]: transport ? transport.destination : "",
-      [TransportsTable.vehicule]: transport ? transport.vehicule : "",
-    });
+
+    const initialFormValues = useMemo(() => {
+      return {
+        [TransportsTable.name]: transport ? transport.name : "",
+        [TransportsTable.description]: transport ? transport.description : "",
+        [TransportsTable.price]: transport ? transport.price : 0,
+        [TransportsTable.from]: transport ? transport.departure : "",
+        [TransportsTable.to]: transport ? transport.destination : "",
+        [TransportsTable.vehicule]: transport ? transport.vehicule : "",
+      };
+    }, [transport]);
+
+    const [formValues, setFormValues] =
+      useState<TFormTransport>(initialFormValues);
 
     const [attachment, setAttachment] = useState<
       { path: string; name: string }[]
     >(transport ? transport.attachment : []);
 
-    const [dragActive, setDragActive] = useState(false);
     const [hours, setHours] = useState(
       transport ? transport.duration.toString().split(".")[0] : "1"
     );
@@ -57,10 +65,18 @@ export const AddTransport = forwardRef(
         ? (parseInt(transport.duration.toString().split(".")[1]) / 10) * 4
         : 0
     );
+    const [dragActive, setDragActive] = useState(false);
+
+    const clearInputs = () => {
+      setFormValues(initialFormValues);
+      setAttachment([]);
+      setHours("1");
+      setMinutes(0);
+    };
 
     useImperativeHandle(ref, () => ({
-      save(child: EArtifact) {
-        if (child === EArtifact.Transport) {
+      save(artifactType: EArtifact) {
+        if (artifactType === EArtifact.Transport) {
           const duration =
             parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
 
@@ -80,6 +96,41 @@ export const AddTransport = forwardRef(
                   snackBarSeverity: "success",
                 })
               );
+              setSaving(ESavingStatus.disabled);
+              clearInputs();
+            } else if (result.meta.requestStatus === "rejected") {
+              //no need to set snackbar in case of rejection, handled in globalSlice
+              setSaving(ESavingStatus.enabled);
+            }
+          });
+        }
+      },
+      edit(artifactType: EArtifact) {
+        if (artifactType === EArtifact.Transport) {
+          const duration =
+            parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
+
+          const updatedTransport: ITransport = {
+            id: transport!.id,
+            id_trip,
+            duration,
+            ...formValues,
+            attachment,
+            used: transport!.used,
+          };
+          dispatch(updateTransport(updatedTransport)).then((result) => {
+            if (result.meta.requestStatus === "fulfilled") {
+              dispatch(
+                setSnackbarStatus({
+                  message: "Le transport a correctement été mis à jour",
+                  snackBarSeverity: "success",
+                })
+              );
+              setSaving(ESavingStatus.disabled);
+              clearInputs();
+            } else if (result.meta.requestStatus === "rejected") {
+              //no need to set snackbar in case of rejection, handled in globalSlice
+              setSaving(ESavingStatus.enabled);
             }
           });
         }

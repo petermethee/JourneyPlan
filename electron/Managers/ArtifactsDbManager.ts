@@ -104,8 +104,11 @@ export default class ArtifactsDbManager {
 
   updateTable = (
     tableName: EArtifactTableName,
-    item: IActivity | IAccomodation | ITransport
+    item: Partial<IActivity> | Partial<ITransport> | Partial<IAccomodation>
   ) => {
+    const attachments = item.attachment;
+    delete item.attachment;
+
     const columns = Object.keys(item)
       .map((key) => `${key} = ? `)
       .join(",");

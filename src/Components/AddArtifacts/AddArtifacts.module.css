@@ -44,13 +44,9 @@
     height: 50px;
     background-color: #d4d4d4;
     box-shadow: 0px 0px 10px 0px #00000080;
-}
-
-.saveTransacBt {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 /* Drag drop attachment */

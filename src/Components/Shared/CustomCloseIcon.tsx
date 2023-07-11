@@ -17,6 +17,7 @@ export default function CustomCloseIcon({
   return (
     <IconButton
       onClick={onDelete}
+      // onMouseDown={(e) => e.stopPropagation()} //stop propagation to prevent edit mode
       size="small"
       sx={{
         transition: "300ms",

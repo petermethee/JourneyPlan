@@ -63,6 +63,7 @@ export default function ArtifactTemplate({
               "&:hover": { backgroundColor: "#303030dd" },
             }}
             onClick={onDelete}
+            onMouseDown={(e) => e.stopPropagation()} //stop propagation to prevent edit mode
           >
             <DeleteRoundedIcon fontSize="small" sx={{ color: secErrorColor }} />
           </IconButton>

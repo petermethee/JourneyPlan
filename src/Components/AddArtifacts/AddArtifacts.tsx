@@ -43,9 +43,18 @@ export default function AddArtifacts({
   };
   setOpen: (open: boolean) => void;
 }) {
-  const addActivityRef = useRef<{ save: (child: EArtifact) => void }>();
-  const addTransportRef = useRef<{ save: (child: EArtifact) => void }>();
-  const addAccomodationRef = useRef<{ save: (child: EArtifact) => void }>();
+  const addActivityRef = useRef<{
+    edit: (artifactType: EArtifact) => void;
+    save: (artifactType: EArtifact) => void;
+  }>();
+  const addTransportRef = useRef<{
+    edit: (artifactType: EArtifact) => void;
+    save: (artifactType: EArtifact) => void;
+  }>();
+  const addAccomodationRef = useRef<{
+    edit: (artifactType: EArtifact) => void;
+    save: (artifactType: EArtifact) => void;
+  }>();
 
   const id_trip = useAppSelector(selectCurrentTrip)?.id;
 
@@ -59,15 +68,23 @@ export default function AddArtifacts({
     }
   };
 
-  const handleSave = () => {
-    addActivityRef.current!.save(tab);
-    addTransportRef.current!.save(tab);
-    addAccomodationRef.current!.save(tab);
+  const handleSave = (edit: boolean) => {
+    setSaving(ESavingStatus.loading);
+    if (edit) {
+      addActivityRef.current?.edit(tab);
+      addTransportRef.current?.edit(tab);
+      addAccomodationRef.current?.edit(tab);
+    } else {
+      addActivityRef.current?.save(tab);
+      addTransportRef.current?.save(tab);
+      addAccomodationRef.current?.save(tab);
+    }
   };
 
   useEffect(() => {
     setTab(artifactToEdit?.type ?? EArtifact.Activity);
   }, [artifactToEdit?.type]);
+
   return (
     <>
       <CSSTransition
@@ -108,31 +125,16 @@ export default function AddArtifacts({
                 icon={<ActivityIcon color="white" />}
                 value={EArtifact.Activity}
                 label="Activité"
-                disabled={
-                  artifactToEdit
-                    ? artifactToEdit.type !== EArtifact.Activity
-                    : false
-                }
               />
               <Tab
                 icon={<TransportIcon color="white" />}
                 value={EArtifact.Transport}
                 label="Transport"
-                disabled={
-                  artifactToEdit
-                    ? artifactToEdit.type !== EArtifact.Transport
-                    : false
-                }
               />
               <Tab
                 icon={<AccomodationIcon color="white" />}
                 value={EArtifact.Accomodation}
                 label="Logement"
-                disabled={
-                  artifactToEdit
-                    ? artifactToEdit.type !== EArtifact.Accomodation
-                    : false
-                }
               />
             </Tabs>
             <SwipeableViews
@@ -140,6 +142,7 @@ export default function AddArtifacts({
               onChangeIndex={(index) => setTab(Object.values(EArtifact)[index])}
               containerStyle={{
                 height: "100%",
+                willChange: "auto !important",
               }}
               style={{ height: "100%" }}
               slideStyle={{
@@ -188,18 +191,16 @@ export default function AddArtifacts({
             </SwipeableViews>
 
             <div className={styles.windowBottom}>
-              <div className={styles.saveTransacBt}>
-                <LoadingButton
-                  disabled={saving === ESavingStatus.disabled}
-                  onClick={handleSave}
-                  loading={saving === ESavingStatus.loading}
-                  loadingPosition="start"
-                  startIcon={<SaveIcon />}
-                  variant="contained"
-                >
-                  Save
-                </LoadingButton>
-              </div>
+              <LoadingButton
+                disabled={saving === ESavingStatus.disabled}
+                onClick={() => handleSave(artifactToEdit?.type === tab)}
+                loading={saving === ESavingStatus.loading}
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+                variant="contained"
+              >
+                {artifactToEdit?.type === tab ? "Mettre à jour" : "Ajouter"}
+              </LoadingButton>
             </div>
           </div>
         </div>

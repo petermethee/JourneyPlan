@@ -15,7 +15,10 @@ import AttachmentDZ from "./Attachment/AttachmentDZ";
 import { ESavingStatus } from "./AddArtifacts";
 import { EArtifact } from "../../Models/EArtifacts";
 import { useAppDispatch } from "../../app/hooks";
-import { insertActivity } from "../../features/Redux/activitiesSlice";
+import {
+  insertActivity,
+  updateActivity,
+} from "../../features/Redux/activitiesSlice";
 import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 
@@ -33,25 +36,44 @@ export const AddActivity = forwardRef(
     ref
   ) => {
     const dispatch = useAppDispatch();
-    const [formValues, setFormValues] = useState<TFormActivity>({
-      [ActivitiesTable.name]: activity ? activity.name : "",
-      [ActivitiesTable.description]: activity ? activity.description : "",
-      [ActivitiesTable.price]: activity ? activity.price : 0,
-      [ActivitiesTable.pleasure]: activity ? activity.pleasure : 0,
-      [ActivitiesTable.location]: activity ? activity.location : "",
-    });
+
+    const initialFormValues = useMemo(() => {
+      return {
+        [ActivitiesTable.name]: activity ? activity.name : "",
+        [ActivitiesTable.description]: activity ? activity.description : "",
+        [ActivitiesTable.price]: activity ? activity.price : 0,
+        [ActivitiesTable.pleasure]: activity ? activity.pleasure : 0,
+        [ActivitiesTable.location]: activity ? activity.location : "",
+      };
+    }, [activity]);
+
+    const [formValues, setFormValues] =
+      useState<TFormActivity>(initialFormValues);
 
     const [attachment, setAttachment] = useState<
       { path: string; name: string }[]
-    >([]);
+    >(activity ? activity.attachment : []);
 
+    const [hours, setHours] = useState(
+      activity ? activity.duration.toString().split(".")[0] : "1"
+    );
+    const [minutes, setMinutes] = useState(
+      activity
+        ? (parseInt(activity.duration.toString().split(".")[1]) / 10) * 4
+        : 0
+    );
     const [dragActive, setDragActive] = useState(false);
-    const [hours, setHours] = useState("1");
-    const [minutes, setMinutes] = useState(0);
+
+    const clearInputs = () => {
+      setFormValues(initialFormValues);
+      setAttachment([]);
+      setHours("1");
+      setMinutes(0);
+    };
 
     useImperativeHandle(ref, () => ({
-      save(child: EArtifact) {
-        if (child === EArtifact.Activity) {
+      save(artifactType: EArtifact) {
+        if (artifactType === EArtifact.Activity) {
           const duration =
             parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
 
@@ -71,6 +93,41 @@ export const AddActivity = forwardRef(
                   snackBarSeverity: "success",
                 })
               );
+              setSaving(ESavingStatus.disabled);
+              clearInputs();
+            } else if (result.meta.requestStatus === "rejected") {
+              //no need to set snackbar in case of rejection, handled in globalSlice
+              setSaving(ESavingStatus.enabled);
+            }
+          });
+        }
+      },
+      edit(artifactType: EArtifact) {
+        if (artifactType === EArtifact.Activity) {
+          const duration =
+            parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
+
+          const updatedActivity: IActivity = {
+            id: activity!.id,
+            id_trip,
+            duration,
+            ...formValues,
+            attachment,
+            used: activity!.used,
+          };
+          dispatch(updateActivity(updatedActivity)).then((result) => {
+            if (result.meta.requestStatus === "fulfilled") {
+              dispatch(
+                setSnackbarStatus({
+                  message: "L'activité a correctement été mise à jour",
+                  snackBarSeverity: "success",
+                })
+              );
+              setSaving(ESavingStatus.disabled);
+              clearInputs();
+            } else if (result.meta.requestStatus === "rejected") {
+              //no need to set snackbar in case of rejection, handled in globalSlice
+              setSaving(ESavingStatus.enabled);
             }
           });
         }
