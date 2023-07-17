@@ -341,39 +341,39 @@ export default function DraggableCardView({
   };
 
   const onDeleteAnimationEnd = (event: React.AnimationEvent) => {
-    if (event.animationName === styles.ghostDisappearAnim && planningId) {
-      dispatch(deleteArtifactFromPlanning(planningId!));
-      if (
-        planningArtifacts.filter((PA) => PA.artifactId === artifactId)
-          .length === 1
-      ) {
+    if (event.animationName === styles.ghostDisappearAnim) {
+      if (planningId) {
+        dispatch(deleteArtifactFromPlanning(planningId!));
+        if (
+          planningArtifacts.filter((PA) => PA.artifactId === artifactId)
+            .length === 1
+        ) {
+          switch (artifactType) {
+            case EArtifact.Activity:
+              dispatch(setUsedActivities(artifactId));
+
+              break;
+            case EArtifact.Transport:
+              dispatch(setUsedTransports(artifactId));
+              break;
+
+            default:
+              dispatch(setUsedAccomodations(artifactId));
+              break;
+          }
+        }
+      } else {
         switch (artifactType) {
           case EArtifact.Activity:
-            dispatch(setUsedActivities(artifactId));
-
+            dispatch(deleteActivity(artifactId));
             break;
           case EArtifact.Transport:
-            dispatch(setUsedTransports(artifactId));
+            dispatch(deleteTransport(artifactId));
             break;
-
           default:
-            dispatch(setUsedAccomodations(artifactId));
+            dispatch(deleteAccomodation(artifactId));
             break;
         }
-      }
-    } else {
-      switch (artifactType) {
-        case EArtifact.Activity:
-          dispatch(deleteActivity(artifactId));
-
-          break;
-        case EArtifact.Transport:
-          dispatch(deleteTransport(artifactId));
-          break;
-
-        default:
-          dispatch(deleteAccomodation(artifactId));
-          break;
       }
     }
   };

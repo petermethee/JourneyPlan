@@ -57,11 +57,15 @@ export const AddActivity = forwardRef(
     const [hours, setHours] = useState(
       activity ? activity.duration.toString().split(".")[0] : "1"
     );
-    const [minutes, setMinutes] = useState(
-      activity
-        ? (parseInt(activity.duration.toString().split(".")[1]) / 10) * 4
-        : 0
-    );
+    const initMinute = useMemo(() => {
+      const min = activity?.duration.toString().split(".");
+      if (min && min.length > 1) {
+        return (parseInt(min[1]) / 10) * 4;
+      }
+      return 0;
+    }, [activity?.duration]);
+
+    const [minutes, setMinutes] = useState(initMinute);
     const [dragActive, setDragActive] = useState(false);
 
     const clearInputs = () => {

@@ -58,12 +58,38 @@ export default class ArtifactsDbManager {
     const stmt = this.db.prepare(sql);
     const id = stmt.run(item).lastInsertRowid;
     if (attachments) {
-      this.manageAttachment(id, tableName, attachments);
+      this.manageAttachmentInsertion(id, tableName, attachments);
     }
     return id;
   };
 
-  manageAttachment = (
+  updateTable = (
+    tableName: EArtifactTableName,
+    item: Partial<IActivity> | Partial<ITransport> | Partial<IAccomodation>
+  ) => {
+    const attachments = item.attachment;
+    console.log("attachment update");
+
+    delete item.attachment;
+
+    const columns = Object.keys(item)
+      .map((key) => `${key} = ? `)
+      .join(",");
+
+    const sql = `UPDATE ${tableName} SET ${columns} WHERE id = ${item.id}`;
+
+    const stmt = this.db.prepare(sql);
+    stmt.run(item);
+  };
+
+  deleteFromTable = (tableName: EArtifactTableName, artifactId: number) => {
+    this.manageAttachmentDeletion(artifactId, tableName);
+    const sql = `DELETE FROM ${tableName} WHERE id = ${artifactId}`;
+    const stmt = this.db.prepare(sql);
+    stmt.run();
+  };
+
+  manageAttachmentInsertion = (
     artifactId: number | bigint,
     artifactType: EArtifactTableName,
     attachments: {
@@ -93,7 +119,10 @@ export default class ArtifactsDbManager {
               if (err) console.log("Copy of attachment error: ", err);
             });
           } catch (error) {
-            console.log("catch an error when copying attachment file: ", error);
+            console.warn(
+              "Caught an error when copying attachment file: ",
+              error
+            );
           }
           insert.run({ ...pj, [artifactColumn]: artifactId, path: newPath });
         }
@@ -102,27 +131,38 @@ export default class ArtifactsDbManager {
     insertMany(attachments);
   };
 
-  updateTable = (
-    tableName: EArtifactTableName,
-    item: Partial<IActivity> | Partial<ITransport> | Partial<IAccomodation>
+  manageAttachmentUpdate = (
+    artifactId: number | bigint,
+    artifactType: EArtifactTableName
   ) => {
-    const attachments = item.attachment;
-    delete item.attachment;
-
-    const columns = Object.keys(item)
-      .map((key) => `${key} = ? `)
-      .join(",");
-
-    const sql = `UPDATE ${tableName} SET ${columns} WHERE id = ${item.id}`;
-
-    const stmt = this.db.prepare(sql);
-    stmt.run(item);
+    const artifactColumn = getAttachmentCorrectColumn(artifactType);
+    const query = `SELECT ${AttachmentsTable.path} FROM ${TablesName.attachments} WHERE ${artifactColumn} = ${artifactId}`;
+    const stmt = this.db.prepare(query);
+    const pathes = stmt.all() as { path: string }[];
+    for (const pathObj of pathes) {
+      try {
+        fs.unlinkSync(pathObj.path);
+      } catch (error) {
+        console.warn("Caught an error when deleting attachment : ", error);
+      }
+    }
   };
 
-  deleteFromTable = (tableName: EArtifactTableName, itemId: number) => {
-    const sql = `DELETE FROM ${tableName} WHERE id = ${itemId}`;
-    const stmt = this.db.prepare(sql);
-    stmt.run();
+  manageAttachmentDeletion = (
+    artifactId: number | bigint,
+    artifactType: EArtifactTableName
+  ) => {
+    const artifactColumn = getAttachmentCorrectColumn(artifactType);
+    const query = `SELECT ${AttachmentsTable.path} FROM ${TablesName.attachments} WHERE ${artifactColumn} = ${artifactId}`;
+    const stmt = this.db.prepare(query);
+    const pathes = stmt.all() as { path: string }[];
+    for (const pathObj of pathes) {
+      try {
+        fs.unlinkSync(pathObj.path);
+      } catch (error) {
+        console.warn("Caught an error when deleting attachment : ", error);
+      }
+    }
   };
 }
 
