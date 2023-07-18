@@ -17,6 +17,7 @@ import {
   updateTrip,
 } from "../../features/Redux/tripSlice";
 import { TFormTrip, transformFormToTrip } from "../../Models/ITrip";
+import IAttachment from "../../Models/IAttachment";
 
 export default function AddTrip() {
   const tripId = useParams().tripId;
@@ -51,10 +52,7 @@ export default function AddTrip() {
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const image = e.dataTransfer.files[0] as unknown as {
-        path: string;
-        name: string;
-      };
+      const image = e.dataTransfer.files[0] as unknown as IAttachment;
       setFormValues((prevState) => {
         return { ...prevState, image_path: image.path, fileName: image.name };
       });
@@ -65,10 +63,7 @@ export default function AddTrip() {
   const handleChange = function (e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      const image = e.target.files[0] as unknown as {
-        path: string;
-        name: string;
-      };
+      const image = e.target.files[0] as unknown as IAttachment;
       setFormValues((prevState) => {
         return { ...prevState, image_path: image.path, fileName: image.name };
       });

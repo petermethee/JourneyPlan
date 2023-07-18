@@ -30,15 +30,16 @@ export const getAllActivities = createAsyncThunk(
 export const insertActivity = createAsyncThunk(
   "insertActivity",
   async (activity: IActivity) => {
-    const id = await insertItemAPI(EArtifactTableName.Activity, activity);
-    return { ...activity, id };
+    const result = await insertItemAPI(EArtifactTableName.Activity, activity);
+    return { ...activity, id: result.id, attachment: result.newAttachments };
   }
 );
 
 export const updateActivity = createAsyncThunk(
   "updateActivity",
   async (activity: IActivity) => {
-    return await updateItemAPI(EArtifactTableName.Activity, activity);
+    await updateItemAPI(EArtifactTableName.Activity, activity);
+    return activity;
   }
 );
 
@@ -66,6 +67,15 @@ export const activitiesSlice = createSlice({
     ) => {
       state.activities.push(action.payload);
     },
+    updateActivity: (
+      state: ActivitiesState,
+      action: PayloadAction<IActivity>
+    ) => {
+      const updatedActivity = action.payload;
+      state.activities = state.activities.map((activity) =>
+        activity.id === updatedActivity.id ? updatedActivity : activity
+      );
+    },
     deleteActivity: (state: ActivitiesState, action: PayloadAction<number>) => {
       state.activities = state.activities.filter(
         (activity) => activity.id !== action.payload
@@ -92,6 +102,9 @@ export const activitiesSlice = createSlice({
       })
       .addCase(insertActivity.fulfilled, (state, action) => {
         activitiesSlice.caseReducers.insertActivity(state, action);
+      })
+      .addCase(updateActivity.fulfilled, (state, action) => {
+        activitiesSlice.caseReducers.updateActivity(state, action);
       });
   },
 });

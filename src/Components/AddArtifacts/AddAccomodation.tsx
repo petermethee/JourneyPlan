@@ -25,6 +25,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
+import IAttachment from "../../Models/IAttachment";
 
 export const AddAccomodation = forwardRef(
   (
@@ -62,9 +63,9 @@ export const AddAccomodation = forwardRef(
     const [formValues, setFormValues] =
       useState<TFormAccomodation>(initialFormValues);
 
-    const [attachment, setAttachment] = useState<
-      { path: string; name: string }[]
-    >(accomodation ? accomodation.attachment : []);
+    const [attachment, setAttachment] = useState<IAttachment[]>(
+      accomodation ? accomodation.attachment : []
+    );
 
     const [dragActive, setDragActive] = useState(false);
 

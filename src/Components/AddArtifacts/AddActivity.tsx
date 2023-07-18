@@ -21,6 +21,7 @@ import {
 } from "../../features/Redux/activitiesSlice";
 import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
+import IAttachment from "../../Models/IAttachment";
 
 export const AddActivity = forwardRef(
   (
@@ -50,9 +51,9 @@ export const AddActivity = forwardRef(
     const [formValues, setFormValues] =
       useState<TFormActivity>(initialFormValues);
 
-    const [attachment, setAttachment] = useState<
-      { path: string; name: string }[]
-    >(activity ? activity.attachment : []);
+    const [attachment, setAttachment] = useState<IAttachment[]>(
+      activity ? activity.attachment : []
+    );
 
     const [hours, setHours] = useState(
       activity ? activity.duration.toString().split(".")[0] : "1"

@@ -1,4 +1,5 @@
 import { ActivitiesTable } from "./DataBaseModel";
+import IAttachment from "./IAttachment";
 
 export default interface IActivity {
   [ActivitiesTable.id]: number;
@@ -11,7 +12,7 @@ export default interface IActivity {
   [ActivitiesTable.location]: string;
   [ActivitiesTable.contraint]?: string;
   [ActivitiesTable.used]: number;
-  attachment: { path: string; name: string }[];
+  attachment: IAttachment[];
 }
 
 export type TFormActivity = {

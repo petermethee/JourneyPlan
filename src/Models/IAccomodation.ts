@@ -1,4 +1,5 @@
 import { AccomodationsTable } from "./DataBaseModel";
+import IAttachment from "./IAttachment";
 
 export default interface IAccomodation {
   [AccomodationsTable.id]: number;
@@ -10,7 +11,7 @@ export default interface IAccomodation {
   [AccomodationsTable.checkin]?: string;
   [AccomodationsTable.checkout]?: string;
   [AccomodationsTable.used]: number;
-  attachment: { path: string; name: string }[];
+  attachment: IAttachment[];
 }
 
 export type TFormAccomodation = {

@@ -32,11 +32,15 @@ export const getAllAccomodations = createAsyncThunk(
 export const insertAccomodation = createAsyncThunk(
   "insertAccomodation",
   async (accomodation: IAccomodation) => {
-    const id = await insertItemAPI(
+    const result = await insertItemAPI(
       EArtifactTableName.Accomodation,
       accomodation
     );
-    return { ...accomodation, id };
+    return {
+      ...accomodation,
+      id: result.id,
+      attachment: result.newAttachments,
+    };
   }
 );
 

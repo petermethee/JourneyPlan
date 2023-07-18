@@ -23,6 +23,7 @@ import { TransportsTable } from "../../Models/DataBaseModel";
 import EastRoundedIcon from "@mui/icons-material/EastRounded";
 import { transportSecColor } from "../../style/cssGlobalStyle";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
+import IAttachment from "../../Models/IAttachment";
 
 export const AddTransport = forwardRef(
   (
@@ -53,9 +54,9 @@ export const AddTransport = forwardRef(
     const [formValues, setFormValues] =
       useState<TFormTransport>(initialFormValues);
 
-    const [attachment, setAttachment] = useState<
-      { path: string; name: string }[]
-    >(transport ? transport.attachment : []);
+    const [attachment, setAttachment] = useState<IAttachment[]>(
+      transport ? transport.attachment : []
+    );
 
     const [hours, setHours] = useState(
       transport ? transport.duration.toString().split(".")[0] : "1"

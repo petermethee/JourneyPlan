@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./AttachmentDZ.module.css";
 import { useAppDispatch } from "../../../app/hooks";
 import { setSnackbarStatus } from "../../../features/Redux/tripSlice";
+import IAttachment from "../../../Models/IAttachment";
 
 export default function AttachmentDZ({
   dragActive,
@@ -10,14 +11,7 @@ export default function AttachmentDZ({
 }: {
   dragActive: boolean;
   setDragActive: (active: boolean) => void;
-  setAttachment: React.Dispatch<
-    React.SetStateAction<
-      {
-        path: string;
-        name: string;
-      }[]
-    >
-  >;
+  setAttachment: React.Dispatch<React.SetStateAction<IAttachment[]>>;
 }) {
   const dispatch = useAppDispatch();
   // handle drag events
@@ -37,10 +31,9 @@ export default function AttachmentDZ({
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files) {
-      let images = Object.values(e.dataTransfer.files) as unknown as {
-        path: string;
-        name: string;
-      }[];
+      let images = Object.values(
+        e.dataTransfer.files
+      ) as unknown as IAttachment[];
       setAttachment((prevState) => {
         const invalidFiles: string[] = [];
         images = images.filter((image) => {

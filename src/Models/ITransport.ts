@@ -1,4 +1,5 @@
 import { TransportsTable } from "./DataBaseModel";
+import IAttachment from "./IAttachment";
 
 export default interface ITransport {
   [TransportsTable.id]: number;
@@ -11,7 +12,7 @@ export default interface ITransport {
   [TransportsTable.to]: string;
   [TransportsTable.vehicule]: string;
   [TransportsTable.used]: number;
-  attachment: { path: string; name: string }[];
+  attachment: IAttachment[];
 }
 
 export type TFormTransport = {

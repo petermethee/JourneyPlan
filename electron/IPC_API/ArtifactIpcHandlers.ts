@@ -39,8 +39,7 @@ export default class ArtifactIpcHandlers {
           | Partial<IAccomodation>
       ) => {
         //trip is partial to allow id deletion
-        const id = this.dataBaseManager.insertInTable(tableName, artifact);
-        return id;
+        return this.dataBaseManager.insertInTable(tableName, artifact);
       }
     );
 
@@ -48,7 +47,7 @@ export default class ArtifactIpcHandlers {
     ipcMain.handle(
       EIpcChanels.updateItem,
       (_event, tableName: EArtifactTableName, trip: IActivity) => {
-        this.dataBaseManager.updateTable(tableName, trip);
+        return this.dataBaseManager.updateTable(tableName, trip);
       }
     );
 

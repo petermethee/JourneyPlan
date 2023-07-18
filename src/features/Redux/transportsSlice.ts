@@ -30,8 +30,8 @@ export const getAllTransports = createAsyncThunk(
 export const insertTransport = createAsyncThunk(
   "insertTransport",
   async (transport: ITransport) => {
-    const id = await insertItemAPI(EArtifactTableName.Transport, transport);
-    return { ...transport, id };
+    const result = await insertItemAPI(EArtifactTableName.Transport, transport);
+    return { ...transport, id: result.id, attachment: result.newAttachments };
   }
 );
 

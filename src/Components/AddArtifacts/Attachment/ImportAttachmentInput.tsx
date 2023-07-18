@@ -2,18 +2,12 @@ import React, { useId } from "react";
 import styles from "./ImportAttachmentInput.module.css";
 import { useAppDispatch } from "../../../app/hooks";
 import { setSnackbarStatus } from "../../../features/Redux/tripSlice";
+import IAttachment from "../../../Models/IAttachment";
 
 export default function ImportAttachmentInput({
   setAttachment,
 }: {
-  setAttachment: React.Dispatch<
-    React.SetStateAction<
-      {
-        path: string;
-        name: string;
-      }[]
-    >
-  >;
+  setAttachment: React.Dispatch<React.SetStateAction<IAttachment[]>>;
 }) {
   const inputFileId = useId();
 
@@ -23,10 +17,7 @@ export default function ImportAttachmentInput({
   const handleChange = function (e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     if (e.target.files) {
-      let images = Object.values(e.target.files) as unknown as {
-        path: string;
-        name: string;
-      }[];
+      let images = Object.values(e.target.files) as unknown as IAttachment[];
 
       setAttachment((prevState) => {
         const invalidFilesExtension: string[] = [];

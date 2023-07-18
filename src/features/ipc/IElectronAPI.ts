@@ -1,4 +1,5 @@
 import { EArtifactTableName } from "../../Models/EArtifacts";
+import IAttachment from "../../Models/IAttachment";
 import { IItem } from "../../Models/IItem";
 import ITrip from "../../Models/ITrip";
 import ITrips from "../../Models/ITrip";
@@ -14,7 +15,13 @@ export interface IElectronAPI {
     tableName: EArtifactTableName,
     tripId: number
   ) => Promise<IItem[]>;
-  insertItem: (tableName: EArtifactTableName, item: IItem) => Promise<number>;
-  updateItem: (tableName: EArtifactTableName, item: IItem) => Promise<void>;
+  insertItem: (
+    tableName: EArtifactTableName,
+    item: IItem
+  ) => Promise<{ id: number; newAttachments: IAttachment[] }>;
+  updateItem: (
+    tableName: EArtifactTableName,
+    item: IItem
+  ) => Promise<IAttachment[]>;
   deleteItem: (tableName: EArtifactTableName, itemId: number) => Promise<void>;
 }
