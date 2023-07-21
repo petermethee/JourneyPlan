@@ -41,31 +41,37 @@ export const AddAccomodation = forwardRef(
     ref
   ) => {
     const dispatch = useAppDispatch();
+
     const initialFormValues = useMemo(() => {
+      if (accomodation) {
+        return {
+          [AccomodationsTable.name]: accomodation.name,
+          [AccomodationsTable.description]: accomodation.description,
+          [AccomodationsTable.price]: accomodation.price,
+          [AccomodationsTable.location]: accomodation.location,
+          [AccomodationsTable.checkin]: accomodation.checkin,
+          [AccomodationsTable.checkout]: accomodation.checkout,
+        };
+      }
       return {
-        [AccomodationsTable.name]: accomodation ? accomodation.name : "",
-        [AccomodationsTable.description]: accomodation
-          ? accomodation.description
-          : "",
-        [AccomodationsTable.price]: accomodation ? accomodation.price : 0,
-        [AccomodationsTable.location]: accomodation
-          ? accomodation.location
-          : "",
-        [AccomodationsTable.checkin]: accomodation
-          ? accomodation.checkin
-          : undefined,
-        [AccomodationsTable.checkout]: accomodation
-          ? accomodation.checkout
-          : undefined,
+        [AccomodationsTable.name]: "",
+        [AccomodationsTable.description]: "",
+        [AccomodationsTable.price]: 0,
+        [AccomodationsTable.location]: "",
+        [AccomodationsTable.checkin]: "18:0",
+        [AccomodationsTable.checkout]: "10:0",
       };
     }, [accomodation]);
 
     const [formValues, setFormValues] =
       useState<TFormAccomodation>(initialFormValues);
 
-    const [attachment, setAttachment] = useState<IAttachment[]>(
-      accomodation ? accomodation.attachment : []
+    const initialAttachment = useMemo(
+      () => (accomodation ? accomodation.attachment : []),
+      [accomodation]
     );
+    const [attachment, setAttachment] =
+      useState<IAttachment[]>(initialAttachment);
 
     const [dragActive, setDragActive] = useState(false);
 
@@ -119,7 +125,6 @@ export const AddAccomodation = forwardRef(
                 })
               );
               setSaving(ESavingStatus.disabled);
-              clearInputs();
             } else if (result.meta.requestStatus === "rejected") {
               //no need to set snackbar in case of rejection, handled in globalSlice
               setSaving(ESavingStatus.enabled);
@@ -130,14 +135,11 @@ export const AddAccomodation = forwardRef(
     }));
 
     const dayJsCheckin = useMemo(() => {
-      if (formValues.checkin) {
-        const [h, m] = formValues.checkin.split(":");
-        const dateTime = dayjs()
-          .set("hours", parseInt(h))
-          .set("minutes", parseInt(m));
-        return dateTime;
-      }
-      return null;
+      const [h, m] = formValues.checkin.split(":");
+      const dateTime = dayjs()
+        .set("hours", parseInt(h))
+        .set("minutes", parseInt(m));
+      return dateTime;
     }, [formValues.checkin]);
 
     const dayJsCheckout = useMemo(() => {
@@ -155,17 +157,31 @@ export const AddAccomodation = forwardRef(
       const name = event.target.name;
       const value = event.target.value;
       setFormValues((prevState) => {
-        return { ...prevState, [name]: value };
+        return {
+          ...prevState,
+          [name]: name === "price" ? parseInt(value) : value,
+        };
       });
     };
 
     useEffect(() => {
-      if (formValues.name !== "" && formValues.location) {
+      if (
+        (formValues.name !== "" &&
+          formValues.location &&
+          JSON.stringify(formValues) !== JSON.stringify(initialFormValues)) ||
+        initialAttachment.join() !== attachment.join()
+      ) {
         setSaving(ESavingStatus.enabled);
       } else {
         setSaving(ESavingStatus.disabled);
       }
-    }, [formValues.name, formValues.location, setSaving]);
+    }, [
+      formValues,
+      initialFormValues,
+      attachment,
+      initialAttachment,
+      setSaving,
+    ]);
 
     return (
       <>
@@ -231,7 +247,7 @@ export const AddAccomodation = forwardRef(
                         ...prevState,
                         checkin: newValue
                           ? newValue.hour() + ":" + newValue.minute()
-                          : undefined,
+                          : "18:0",
                       };
                     })
                   }
@@ -250,7 +266,7 @@ export const AddAccomodation = forwardRef(
                         ...prevState,
                         checkout: newValue
                           ? newValue.hour() + ":" + newValue.minute()
-                          : undefined,
+                          : "10:0",
                       };
                     })
                   }

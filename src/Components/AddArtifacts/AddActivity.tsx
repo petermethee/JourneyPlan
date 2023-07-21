@@ -39,25 +39,40 @@ export const AddActivity = forwardRef(
     const dispatch = useAppDispatch();
 
     const initialFormValues = useMemo(() => {
+      if (activity) {
+        return {
+          [ActivitiesTable.name]: activity.name,
+          [ActivitiesTable.description]: activity.description,
+          [ActivitiesTable.price]: activity.price,
+          [ActivitiesTable.pleasure]: activity.pleasure,
+          [ActivitiesTable.location]: activity.location,
+        };
+      }
       return {
-        [ActivitiesTable.name]: activity ? activity.name : "",
-        [ActivitiesTable.description]: activity ? activity.description : "",
-        [ActivitiesTable.price]: activity ? activity.price : 0,
-        [ActivitiesTable.pleasure]: activity ? activity.pleasure : 0,
-        [ActivitiesTable.location]: activity ? activity.location : "",
+        [ActivitiesTable.name]: "",
+        [ActivitiesTable.description]: "",
+        [ActivitiesTable.price]: 0,
+        [ActivitiesTable.pleasure]: 0,
+        [ActivitiesTable.location]: "",
       };
     }, [activity]);
 
     const [formValues, setFormValues] =
       useState<TFormActivity>(initialFormValues);
 
-    const [attachment, setAttachment] = useState<IAttachment[]>(
-      activity ? activity.attachment : []
+    const initialAttachment = useMemo(
+      () => (activity ? activity.attachment : []),
+      [activity]
     );
+    const [attachment, setAttachment] =
+      useState<IAttachment[]>(initialAttachment);
 
-    const [hours, setHours] = useState(
-      activity ? activity.duration.toString().split(".")[0] : "1"
+    const initialHours = useMemo(
+      () => (activity ? activity.duration.toString().split(".")[0] : "1"),
+      [activity]
     );
+    const [hours, setHours] = useState(initialHours);
+
     const initMinute = useMemo(() => {
       const min = activity?.duration.toString().split(".");
       if (min && min.length > 1) {
@@ -71,9 +86,9 @@ export const AddActivity = forwardRef(
 
     const clearInputs = () => {
       setFormValues(initialFormValues);
-      setAttachment([]);
-      setHours("1");
-      setMinutes(0);
+      setAttachment(activity ? activity.attachment : []);
+      setHours(activity ? activity.duration.toString().split(".")[0] : "1");
+      setMinutes(initMinute);
     };
 
     useImperativeHandle(ref, () => ({
@@ -129,7 +144,6 @@ export const AddActivity = forwardRef(
                 })
               );
               setSaving(ESavingStatus.disabled);
-              clearInputs();
             } else if (result.meta.requestStatus === "rejected") {
               //no need to set snackbar in case of rejection, handled in globalSlice
               setSaving(ESavingStatus.enabled);
@@ -143,7 +157,10 @@ export const AddActivity = forwardRef(
       const name = event.target.name;
       const value = event.target.value;
       setFormValues((prevState) => {
-        return { ...prevState, [name]: value };
+        return {
+          ...prevState,
+          [name]: name === "price" ? parseInt(value) : value,
+        };
       });
     };
 
@@ -162,12 +179,36 @@ export const AddActivity = forwardRef(
     }, [hours, minutes]);
 
     useEffect(() => {
-      if (isHourValid && formValues.name !== "" && formValues.location) {
+      if (
+        isHourValid &&
+        formValues.name !== "" &&
+        formValues.location &&
+        (JSON.stringify(formValues) !== JSON.stringify(initialFormValues) ||
+          initialAttachment.join() !== attachment.join() ||
+          initialHours !== hours ||
+          initMinute !== minutes)
+      ) {
+        console.log(
+          JSON.stringify(formValues),
+          JSON.stringify(initialFormValues)
+        );
+
         setSaving(ESavingStatus.enabled);
       } else {
         setSaving(ESavingStatus.disabled);
       }
-    }, [formValues.name, formValues.location, isHourValid, setSaving]);
+    }, [
+      formValues,
+      initialFormValues,
+      minutes,
+      hours,
+      initMinute,
+      initialHours,
+      attachment,
+      initialAttachment,
+      isHourValid,
+      setSaving,
+    ]);
 
     return (
       <>

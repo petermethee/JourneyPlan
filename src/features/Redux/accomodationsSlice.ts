@@ -47,7 +47,8 @@ export const insertAccomodation = createAsyncThunk(
 export const updateAccomodation = createAsyncThunk(
   "updateAccomodation",
   async (accomodation: IAccomodation) => {
-    return await updateItemAPI(EArtifactTableName.Accomodation, accomodation);
+    await updateItemAPI(EArtifactTableName.Accomodation, accomodation);
+    return accomodation;
   }
 );
 
@@ -74,6 +75,15 @@ export const accomodationsSlice = createSlice({
       action: PayloadAction<IAccomodation>
     ) => {
       state.accomodations.push(action.payload);
+    },
+    updateAccomodation: (
+      state: AccomodationsState,
+      action: PayloadAction<IAccomodation>
+    ) => {
+      const updatedAccomodation = action.payload;
+      state.accomodations = state.accomodations.map((activity) =>
+        activity.id === updatedAccomodation.id ? updatedAccomodation : activity
+      );
     },
     deleteAccomodation: (
       state: AccomodationsState,
@@ -104,6 +114,9 @@ export const accomodationsSlice = createSlice({
       })
       .addCase(insertAccomodation.fulfilled, (state, action) => {
         accomodationsSlice.caseReducers.insertAccomodation(state, action);
+      })
+      .addCase(updateAccomodation.fulfilled, (state, action) => {
+        accomodationsSlice.caseReducers.updateAccomodation(state, action);
       });
   },
 });

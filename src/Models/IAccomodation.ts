@@ -8,8 +8,8 @@ export default interface IAccomodation {
   [AccomodationsTable.description]: string;
   [AccomodationsTable.price]: number;
   [AccomodationsTable.location]: string;
-  [AccomodationsTable.checkin]?: string;
-  [AccomodationsTable.checkout]?: string;
+  [AccomodationsTable.checkin]: string;
+  [AccomodationsTable.checkout]: string;
   [AccomodationsTable.used]: number;
   attachment: IAttachment[];
 }
@@ -19,6 +19,6 @@ export type TFormAccomodation = {
   [AccomodationsTable.description]: string;
   [AccomodationsTable.price]: number;
   [AccomodationsTable.location]: string;
-  [AccomodationsTable.checkin]?: string;
-  [AccomodationsTable.checkout]?: string;
+  [AccomodationsTable.checkin]: string;
+  [AccomodationsTable.checkout]: string;
 };

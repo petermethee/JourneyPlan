@@ -38,7 +38,8 @@ export const insertTransport = createAsyncThunk(
 export const updateTransport = createAsyncThunk(
   "updateTransport",
   async (transport: ITransport) => {
-    return await updateItemAPI(EArtifactTableName.Transport, transport);
+    await updateItemAPI(EArtifactTableName.Transport, transport);
+    return transport;
   }
 );
 
@@ -65,6 +66,15 @@ export const transportsSlice = createSlice({
       action: PayloadAction<ITransport>
     ) => {
       state.transports.push(action.payload);
+    },
+    updateTransport: (
+      state: TransportsState,
+      action: PayloadAction<ITransport>
+    ) => {
+      const updatedTransport = action.payload;
+      state.transports = state.transports.map((transport) =>
+        transport.id === updatedTransport.id ? updatedTransport : transport
+      );
     },
     deleteTransport: (
       state: TransportsState,
@@ -95,6 +105,9 @@ export const transportsSlice = createSlice({
       })
       .addCase(insertTransport.fulfilled, (state, action) => {
         transportsSlice.caseReducers.insertTransport(state, action);
+      })
+      .addCase(updateTransport.fulfilled, (state, action) => {
+        transportsSlice.caseReducers.updateTransport(state, action);
       });
   },
 });

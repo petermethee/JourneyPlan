@@ -41,31 +41,50 @@ export const AddTransport = forwardRef(
     const dispatch = useAppDispatch();
 
     const initialFormValues = useMemo(() => {
+      if (transport) {
+        return {
+          [TransportsTable.name]: transport.name,
+          [TransportsTable.description]: transport.description,
+          [TransportsTable.price]: transport.price,
+          [TransportsTable.from]: transport.departure,
+          [TransportsTable.to]: transport.destination,
+          [TransportsTable.vehicule]: transport.vehicule,
+        };
+      }
       return {
-        [TransportsTable.name]: transport ? transport.name : "",
-        [TransportsTable.description]: transport ? transport.description : "",
-        [TransportsTable.price]: transport ? transport.price : 0,
-        [TransportsTable.from]: transport ? transport.departure : "",
-        [TransportsTable.to]: transport ? transport.destination : "",
-        [TransportsTable.vehicule]: transport ? transport.vehicule : "",
+        [TransportsTable.name]: "",
+        [TransportsTable.description]: "",
+        [TransportsTable.price]: 0,
+        [TransportsTable.from]: "",
+        [TransportsTable.to]: "",
+        [TransportsTable.vehicule]: "",
       };
     }, [transport]);
 
     const [formValues, setFormValues] =
       useState<TFormTransport>(initialFormValues);
+    const initialAttachment = useMemo(
+      () => (transport ? transport.attachment : []),
+      [transport]
+    );
+    const [attachment, setAttachment] =
+      useState<IAttachment[]>(initialAttachment);
 
-    const [attachment, setAttachment] = useState<IAttachment[]>(
-      transport ? transport.attachment : []
+    const initialHours = useMemo(
+      () => (transport ? transport.duration.toString().split(".")[0] : "1"),
+      [transport]
     );
+    const [hours, setHours] = useState(initialHours);
 
-    const [hours, setHours] = useState(
-      transport ? transport.duration.toString().split(".")[0] : "1"
-    );
-    const [minutes, setMinutes] = useState(
-      transport
-        ? (parseInt(transport.duration.toString().split(".")[1]) / 10) * 4
-        : 0
-    );
+    const initMinute = useMemo(() => {
+      const min = transport?.duration.toString().split(".");
+      if (min && min.length > 1) {
+        return (parseInt(min[1]) / 10) * 4;
+      }
+      return 0;
+    }, [transport?.duration]);
+
+    const [minutes, setMinutes] = useState(initMinute);
     const [dragActive, setDragActive] = useState(false);
 
     const clearInputs = () => {
@@ -128,7 +147,6 @@ export const AddTransport = forwardRef(
                 })
               );
               setSaving(ESavingStatus.disabled);
-              clearInputs();
             } else if (result.meta.requestStatus === "rejected") {
               //no need to set snackbar in case of rejection, handled in globalSlice
               setSaving(ESavingStatus.enabled);
@@ -142,7 +160,10 @@ export const AddTransport = forwardRef(
       const name = event.target.name;
       const value = event.target.value;
       setFormValues((prevState) => {
-        return { ...prevState, [name]: value };
+        return {
+          ...prevState,
+          [name]: name === "price" ? parseInt(value) : value,
+        };
       });
     };
 
@@ -162,17 +183,25 @@ export const AddTransport = forwardRef(
         formValues.name !== "" &&
         formValues.vehicule !== "" &&
         formValues.destination !== "" &&
-        formValues.departure !== ""
+        formValues.departure !== "" &&
+        (JSON.stringify(formValues) !== JSON.stringify(initialFormValues) ||
+          initialAttachment.join() !== attachment.join() ||
+          initialHours !== hours ||
+          initMinute !== minutes)
       ) {
         setSaving(ESavingStatus.enabled);
       } else {
         setSaving(ESavingStatus.disabled);
       }
     }, [
-      formValues.name,
-      formValues.vehicule,
-      formValues.departure,
-      formValues.destination,
+      formValues,
+      initialFormValues,
+      attachment,
+      initialAttachment,
+      initMinute,
+      initialHours,
+      minutes,
+      hours,
       isHourValid,
       setSaving,
     ]);

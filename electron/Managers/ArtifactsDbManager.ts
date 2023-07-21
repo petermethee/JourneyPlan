@@ -72,8 +72,6 @@ export default class ArtifactsDbManager {
 
     const sql = `UPDATE ${tableName} SET ${columns} WHERE id = ${item.id}`;
     const stmt = this.db.prepare(sql);
-    console.log("sql", sql, item);
-
     stmt.run(...Object.values(item));
     let newAttachments: IAttachment[] = [];
 
