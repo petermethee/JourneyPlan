@@ -255,6 +255,7 @@ export const AddTransport = forwardRef(
                 value={formValues.price}
                 onChange={updateForm}
                 type="number"
+                InputProps={{ inputProps: { min: 0 } }}
               />
             </Grid>
             <Grid item xs={4}>

@@ -24,6 +24,7 @@ import { selectCurrentTrip } from "../../features/Redux/tripSlice";
 import IAccomodation from "../../Models/IAccomodation";
 import IActivity from "../../Models/IActivity";
 import ITransport from "../../Models/ITransport";
+import { TArtifactEditor } from "../Planning/Planning";
 
 export enum ESavingStatus {
   enabled = 0,
@@ -37,10 +38,7 @@ export default function AddArtifacts({
   artifactToEdit,
 }: {
   open: boolean;
-  artifactToEdit: null | {
-    type: EArtifact;
-    artifact: IActivity | IAccomodation | ITransport;
-  };
+  artifactToEdit: TArtifactEditor;
   setOpen: (open: boolean) => void;
 }) {
   const addActivityRef = useRef<{
@@ -60,7 +58,7 @@ export default function AddArtifacts({
 
   const [saving, setSaving] = useState<ESavingStatus>(ESavingStatus.disabled);
 
-  const [tab, setTab] = useState(artifactToEdit?.type ?? EArtifact.Activity);
+  const [tab, setTab] = useState(artifactToEdit.type);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (e.currentTarget === e.target) {
@@ -82,8 +80,8 @@ export default function AddArtifacts({
   };
 
   useEffect(() => {
-    setTab(artifactToEdit?.type ?? EArtifact.Activity);
-  }, [artifactToEdit?.type]);
+    setTab(artifactToEdit.type);
+  }, [artifactToEdit.type]);
 
   return (
     <>
@@ -159,8 +157,9 @@ export default function AddArtifacts({
                       setSaving={setSaving}
                       ref={addActivityRef}
                       activity={
-                        artifactToEdit?.type === EArtifact.Activity
-                          ? (artifactToEdit?.artifact as IActivity)
+                        artifactToEdit.type === EArtifact.Activity &&
+                        artifactToEdit.artifact
+                          ? (artifactToEdit.artifact as IActivity)
                           : undefined
                       }
                     />,
@@ -170,8 +169,9 @@ export default function AddArtifacts({
                       setSaving={setSaving}
                       ref={addTransportRef}
                       transport={
-                        artifactToEdit?.type === EArtifact.Transport
-                          ? (artifactToEdit?.artifact as ITransport)
+                        artifactToEdit.type === EArtifact.Transport &&
+                        artifactToEdit.artifact
+                          ? (artifactToEdit.artifact as ITransport)
                           : undefined
                       }
                     />,
@@ -181,8 +181,9 @@ export default function AddArtifacts({
                       setSaving={setSaving}
                       ref={addAccomodationRef}
                       accomodation={
-                        artifactToEdit?.type === EArtifact.Accomodation
-                          ? (artifactToEdit?.artifact as IAccomodation)
+                        artifactToEdit.type === EArtifact.Accomodation &&
+                        artifactToEdit.artifact
+                          ? (artifactToEdit.artifact as IAccomodation)
                           : undefined
                       }
                     />,
@@ -193,13 +194,19 @@ export default function AddArtifacts({
             <div className={styles.windowBottom}>
               <LoadingButton
                 disabled={saving === ESavingStatus.disabled}
-                onClick={() => handleSave(artifactToEdit?.type === tab)}
+                onClick={() =>
+                  handleSave(
+                    artifactToEdit.type === tab && !!artifactToEdit.artifact
+                  )
+                }
                 loading={saving === ESavingStatus.loading}
                 loadingPosition="start"
                 startIcon={<SaveIcon />}
                 variant="contained"
               >
-                {artifactToEdit?.type === tab ? "Mettre à jour" : "Ajouter"}
+                {artifactToEdit.type === tab && artifactToEdit.artifact
+                  ? "Mettre à jour"
+                  : "Ajouter"}
               </LoadingButton>
             </div>
           </div>

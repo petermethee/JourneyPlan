@@ -44,9 +44,9 @@ export type TDayCol = {
   planningTransports: TDayTransport[];
   planningAccomodations: TDayAccomodation[];
 };
-export type TArtifactEditor = null | {
+export type TArtifactEditor = {
   type: EArtifact;
-  artifact: IActivity | IAccomodation | ITransport;
+  artifact?: IActivity | IAccomodation | ITransport;
 };
 
 export default function Planning() {
@@ -59,7 +59,9 @@ export default function Planning() {
   const dispatch = useAppDispatch();
 
   const [openModal, setOpenModal] = useState(false);
-  const [artifactToEdit, setArtifactToEdit] = useState<TArtifactEditor>(null);
+  const [artifactToEdit, setArtifactToEdit] = useState<TArtifactEditor>({
+    type: EArtifact.Activity,
+  });
 
   const dayCols: TDayCol[] = useMemo(() => {
     if (selectedTrip) {

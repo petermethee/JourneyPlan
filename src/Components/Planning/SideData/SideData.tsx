@@ -227,7 +227,7 @@ export default function SideData({
         </div>
       </div>
       <Fab
-        onClick={() => openArtifactEditor(null)}
+        onClick={() => openArtifactEditor({ type: currentArtifactType })}
         color="primary"
         size="small"
         sx={{ position: "absolute", bottom: "10px", right: "10px" }}
