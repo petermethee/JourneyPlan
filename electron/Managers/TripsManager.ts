@@ -1,5 +1,9 @@
 import { Database } from "better-sqlite3";
-import { TablesName, TripsTable } from "../../src/Models/DataBaseModel";
+import {
+  PlanningTable,
+  TablesName,
+  TripsTable,
+} from "../../src/Models/DataBaseModel";
 import ITrip from "../../src/Models/ITrip";
 import fs = require("fs");
 import path = require("path");
@@ -34,10 +38,15 @@ export default class TripsManager {
     delete trip.id; //trip is partial to allow id deletion
     const columns = "(" + Object.keys(trip).join(",") + ")";
     const placeholders = "(@" + Object.keys(trip).join(",@") + ")";
-    const sql =
+    let sql =
       "INSERT INTO " + TablesName.trips + columns + " VALUES " + placeholders;
+    let stmt = this.db.prepare(sql);
 
-    const stmt = this.db.prepare(sql);
+    const id_trip = stmt.run(trip).lastInsertRowid;
+
+    sql = `INSERT INTO ${TablesName.plannings} (${PlanningTable.id_trip}) VALUES (${id_trip})`;
+
+    stmt = this.db.prepare(sql);
     stmt.run(trip);
   };
 

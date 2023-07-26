@@ -3,8 +3,8 @@ import { EArtifact } from "./EArtifacts";
 
 export default interface IPlanningArtifact {
   [PlanningArtifactTable.id]: string;
-  [PlanningArtifactTable.artifactId]: number;
+  artifactId: number;
   [PlanningArtifactTable.date]: string;
   [PlanningArtifactTable.timeIndex]: number;
-  [PlanningArtifactTable.artifactType]: EArtifact;
+  artifactType: EArtifact;
 }

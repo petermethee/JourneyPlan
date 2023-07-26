@@ -78,7 +78,7 @@ export default function AddTrip() {
     });
   };
 
-  const createTrip = async () => {
+  const createTrip = () => {
     setFormValid(false);
     const newTrip = transformFormToTrip(
       formValues,
@@ -86,11 +86,14 @@ export default function AddTrip() {
       tripId
     );
     if (tripId) {
-      await dispatch(updateTrip(newTrip));
+      dispatch(updateTrip(newTrip))
+        .unwrap()
+        .then(() => navigate(ERouterPathes.home));
     } else {
-      await dispatch(insertTrip(newTrip));
+      dispatch(insertTrip(newTrip))
+        .unwrap()
+        .then(() => navigate(ERouterPathes.home));
     }
-    navigate(ERouterPathes.home);
   };
 
   useEffect(() => {

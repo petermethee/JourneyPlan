@@ -4,6 +4,7 @@ export enum TablesName {
   transports = "transports",
   accomodations = "accomodations",
   plannings = "plannings",
+  planning_artifact = "planning_artifact",
   attachments = "attachments",
 }
 
@@ -56,10 +57,17 @@ export enum AccomodationsTable {
 
 export enum PlanningArtifactTable {
   id = "id",
-  artifactId = "artifactId",
+  id_planning = "id_planning",
+  id_activity = "id_activity",
+  id_transport = "id_transport",
+  id_accomodation = "id_accomodation",
   date = "date",
   timeIndex = "timeIndex",
-  artifactType = "artifactType",
+}
+
+export enum PlanningTable {
+  id = "id",
+  id_trip = "id_trip",
 }
 
 export enum AttachmentsTable {
