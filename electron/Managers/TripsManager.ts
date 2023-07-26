@@ -1,6 +1,6 @@
 import { Database } from "better-sqlite3";
 import {
-  PlanningTable,
+  PlanningsTable,
   TablesName,
   TripsTable,
 } from "../../src/Models/DataBaseModel";
@@ -44,10 +44,14 @@ export default class TripsManager {
 
     const id_trip = stmt.run(trip).lastInsertRowid;
 
-    sql = `INSERT INTO ${TablesName.plannings} (${PlanningTable.id_trip}) VALUES (${id_trip})`;
-
+    //#region Create a first empty planning
+    const cols = [PlanningsTable.id_trip, PlanningsTable.name];
+    sql = `INSERT INTO ${TablesName.plannings} (${cols
+      .map((col) => col)
+      .join(",")}) VALUES (${cols.map((col) => "@" + col).join(",")})`;
     stmt = this.db.prepare(sql);
-    stmt.run(trip);
+    stmt.run({ [cols[0]]: id_trip, [cols[1]]: "Planning 1" });
+    //#endregion
   };
 
   updateTrip = async (trip: ITrip) => {

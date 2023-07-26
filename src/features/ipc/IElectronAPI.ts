@@ -1,6 +1,7 @@
 import { EArtifactTableName } from "../../Models/EArtifacts";
 import IAttachment from "../../Models/IAttachment";
 import { IItem } from "../../Models/IItem";
+import IPlanningArtifact, { IPlanning } from "../../Models/IPlanningArtifact";
 import ITrip from "../../Models/ITrip";
 import ITrips from "../../Models/ITrip";
 
@@ -24,4 +25,10 @@ export interface IElectronAPI {
     item: IItem
   ) => Promise<IAttachment[]>;
   deleteItem: (tableName: EArtifactTableName, itemId: number) => Promise<void>;
+
+  //Planning
+  getAllPlannings: (tripId: number) => Promise<IPlanning[]>;
+  insertPlanning: (planning: IPlanning) => Promise<number>;
+  updatePlanning: (planning: IPlanning) => Promise<void>;
+  deletePlanning: (tripId: number) => Promise<void>;
 }

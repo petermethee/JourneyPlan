@@ -42,6 +42,7 @@ import {
 import AccomodationIcon from "../../Shared/AccomodationIcon";
 import ActivityIcon from "../../Shared/ActivityIcon";
 import TransportIcon from "../../Shared/TransportIcon";
+import PlanningSheets from "./PlanningSheets/PlanningSheets";
 
 export const getHours = (): string[] => {
   const hours: string[] = [];
@@ -109,6 +110,7 @@ function CalendarView({
 
   return (
     <div className={styles.calendarContainer}>
+      <PlanningSheets />
       <div className={styles.arrowButtonL}>
         <IconButton
           onClick={() =>

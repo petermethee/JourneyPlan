@@ -1,38 +1,48 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import IPlanningArtifact from "../../Models/IPlanningArtifact";
+import IPlanningArtifact, { IPlanning } from "../../Models/IPlanningArtifact";
 
 import { RootState } from "../../app/store";
 import { EArtifact } from "../../Models/EArtifacts";
+import {
+  deletePlanningAPI,
+  getAllPlanningsAPI,
+  insertPlanningAPI,
+  updatePlanningAPI,
+} from "../ipc/ipcPlanningFunctions";
 
 interface PlanningState {
+  selectedPlanningId?: number;
+  plannings: IPlanning[];
   planningArtifacts: IPlanningArtifact[];
   artifactIsDragged: EArtifact | null;
 }
 
 const initialState: PlanningState = {
+  plannings: [],
   planningArtifacts: [],
   artifactIsDragged: null,
 };
 
-export const getPlanning = createAsyncThunk(
+export const getAllPlanning = createAsyncThunk(
   "getAllPlannings",
   async (tripId: number) => {
-    // return await getAllPlanningsAPI(tripId);
-    return [];
+    return await getAllPlanningsAPI(tripId);
   }
 );
-/*
+
 export const insertPlanning = createAsyncThunk(
   "insertPlanning",
-  async (planning: IPlanningAvtivity) => {
-    return await insertPlanningAPI(planning);
+  async (planning: IPlanning) => {
+    const planningId = await insertPlanningAPI(planning);
+    return { ...planning, id: planningId };
   }
 );
 
 export const updatePlanning = createAsyncThunk(
   "updatePlanning",
-  async (planning: IPlanningAvtivity) => {
-    return await updatePlanningAPI(planning);
+  async (planning: IPlanning) => {
+    await updatePlanningAPI(planning);
+    return planning;
   }
 );
 
@@ -42,23 +52,16 @@ export const deletePlanning = createAsyncThunk(
     await deletePlanningAPI(planningId);
     return planningId;
   }
-); */
+);
 
 export const planningSlice = createSlice({
   name: "planningSlice",
   initialState: initialState,
   reducers: {
-    setAllPlannings: (
-      state: PlanningState,
-      action: PayloadAction<IPlanningArtifact[]>
-    ) => {
-      state.planningArtifacts = action.payload;
+    selectPlanning: (state: PlanningState, action: PayloadAction<number>) => {
+      state.selectedPlanningId = action.payload;
     },
-    deletePlanning: (state: PlanningState, action: PayloadAction<string>) => {
-      state.planningArtifacts = state.planningArtifacts.filter(
-        (planning) => planning.id !== action.payload
-      );
-    },
+
     addArtifact: (
       state: PlanningState,
       action: PayloadAction<IPlanningArtifact>
@@ -90,9 +93,32 @@ export const planningSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(getPlanning.fulfilled, (state, action) => {
-      planningSlice.caseReducers.setAllPlannings(state, action);
-    });
+    builder
+      .addCase(getAllPlanning.fulfilled, (state, action) => {
+        state.plannings = action.payload;
+        state.selectedPlanningId = action.payload[0].id;
+      })
+      .addCase(deletePlanning.fulfilled, (state, action) => {
+        state.plannings = state.plannings.filter(
+          (planning) => planning.id !== action.payload
+        );
+        if (state.selectedPlanningId === action.payload) {
+          planningSlice.caseReducers.selectPlanning(state, {
+            payload: state.plannings[0].id,
+            type: action.type,
+          });
+        }
+      })
+      .addCase(insertPlanning.fulfilled, (state, action) => {
+        state.plannings.push(action.payload);
+        state.selectedPlanningId = action.payload.id;
+      })
+      .addCase(updatePlanning.fulfilled, (state, action) => {
+        const updatedPlanning = action.payload;
+        state.plannings = state.plannings.map((planning) =>
+          planning.id === updatedPlanning.id ? updatedPlanning : planning
+        );
+      });
     /*
       .addCase(insertPlanning.rejected, (state, action) => {
         state.snackbarStatus = {
@@ -107,9 +133,7 @@ export const planningSlice = createSlice({
           snackBarSeverity: "error",
         };
       })
-      .addCase(deletePlanning.fulfilled, (state, action) => {
-        planningSlice.caseReducers.deletePlanning(state, action);
-      })
+      
       .addCase(deletePlanning.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
@@ -125,8 +149,13 @@ export const {
   moveArtifact,
   setArtifactIsDragged,
   deleteArtifactFromPlanning,
+  selectPlanning,
 } = planningSlice.actions;
 
+export const selectAllPlannings = (state: RootState) =>
+  state.planningReducer.plannings;
+export const selectPlanningId = (state: RootState) =>
+  state.planningReducer.selectedPlanningId;
 export const selectPlanningArtifacts = (state: RootState) =>
   state.planningReducer.planningArtifacts;
 export const selectArtifactIsDragged = (state: RootState) =>

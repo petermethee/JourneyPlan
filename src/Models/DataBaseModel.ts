@@ -65,9 +65,10 @@ export enum PlanningArtifactTable {
   timeIndex = "timeIndex",
 }
 
-export enum PlanningTable {
+export enum PlanningsTable {
   id = "id",
   id_trip = "id_trip",
+  name = "name",
 }
 
 export enum AttachmentsTable {

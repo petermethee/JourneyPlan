@@ -8,4 +8,9 @@ export enum EIpcChanels {
   insertItem = "insertItem",
   updateItem = "updateItem",
   deleteItem = "deleteItem",
+
+  getAllPlannings = "getAllPlannings",
+  insertPlanning = "insertPlanning",
+  updatePlanning = "updatePlanning",
+  deletePlanning = "deletePlanning",
 }

@@ -14,7 +14,7 @@ import {
   updateActivity,
   deleteActivity,
 } from "./activitiesSlice";
-import { getPlanning } from "./planningSlice";
+import { getAllPlanning } from "./planningSlice";
 
 interface TripState {
   trips: ITrip[];
@@ -116,10 +116,10 @@ export const tripSlice = createSlice({
       })
 
       //Reducers from other slice
-      .addCase(getPlanning.rejected, (state, action) => {
+      .addCase(getAllPlanning.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
-            "Erreur lors de la lecture des voyages: " + action.error.message!,
+            "Erreur lors de la lecture des planning: " + action.error.message!,
           snackBarSeverity: "error",
         };
       })

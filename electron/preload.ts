@@ -4,6 +4,7 @@ import ITrip from "../src/Models/ITrip";
 import { EIpcChanels } from "./IPC_API/EIpcChannels";
 import { IItem } from "../src/Models/IItem";
 import { EArtifactTableName } from "../src/Models/EArtifacts";
+import { IPlanning } from "../src/Models/IPlanningArtifact";
 
 type SameAPI<T> = { [k in keyof T]: Function };
 contextBridge.exposeInMainWorld("electronAPI", {
@@ -23,4 +24,14 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke(EIpcChanels.updateItem, tableName, item),
   deleteItem: (tableName: EArtifactTableName, itemId: number) =>
     ipcRenderer.invoke(EIpcChanels.deleteItem, tableName, itemId),
+
+  //PLANNING
+  getAllPlannings: (tripId: number) =>
+    ipcRenderer.invoke(EIpcChanels.getAllPlannings, tripId),
+  deletePlanning: (planningId: number) =>
+    ipcRenderer.invoke(EIpcChanels.deletePlanning, planningId),
+  insertPlanning: (planning: IPlanning) =>
+    ipcRenderer.invoke(EIpcChanels.insertPlanning, planning),
+  updatePlanning: (planning: IPlanning) =>
+    ipcRenderer.invoke(EIpcChanels.updatePlanning, planning),
 } as SameAPI<IElectronAPI>);

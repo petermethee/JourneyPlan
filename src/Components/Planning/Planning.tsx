@@ -11,7 +11,7 @@ import { selectCurrentTrip } from "../../features/Redux/tripSlice";
 import dayjs from "dayjs";
 import IActivity from "../../Models/IActivity";
 import {
-  getPlanning,
+  getAllPlanning,
   selectPlanningArtifacts,
 } from "../../features/Redux/planningSlice";
 import SideData from "./SideData/SideData";
@@ -131,7 +131,7 @@ export default function Planning() {
     dispatch(getAllActivities(parseInt(tripId)));
     dispatch(getAllTransports(parseInt(tripId)));
     dispatch(getAllAccomodations(parseInt(tripId)));
-    dispatch(getPlanning(parseInt(tripId)));
+    dispatch(getAllPlanning(parseInt(tripId)));
   }, [dispatch, tripId]);
 
   return (
