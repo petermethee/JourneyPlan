@@ -55,6 +55,7 @@ export default function PlanningSheets() {
                 selectedPlanning === planning.id && styles.selectedSheet
               }`}
               onClick={() => dispatch(selectPlanning(planning.id))}
+              onDoubleClick={() => setEditPlanning(planning.id)}
             >
               {editPlanning === planning.id ? (
                 <TextField
@@ -67,7 +68,12 @@ export default function PlanningSheets() {
                   onBlur={(event) => handleBlur(event.target.value, planning)}
                 />
               ) : (
-                <span className={styles.sheetName}> {planning.name}</span>
+                <div
+                  onMouseDown={(e) => e.preventDefault()}
+                  className={styles.sheetName}
+                >
+                  {planning.name}
+                </div>
               )}
               <IconButton
                 disabled={plannings.length === 1}
