@@ -9,31 +9,3 @@
     display: flex;
     overflow-x: hidden;
 }
-
-.sheet {
-    overflow: hidden;
-    cursor: pointer;
-    padding: 0px 10px;
-    transition: 300ms;
-    color: #141a1d;
-    display: flex;
-    align-items: center;
-    height: 35px;
-    border-right: solid 1px #37484f;
-    gap: 5px;
-}
-
-.sheet:hover {
-    background-color: #5c7885;
-}
-
-.selectedSheet {
-    background-color: var(--defaultWhite) !important;
-    color: var(--goldenColor);
-}
-
-.sheetName {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
