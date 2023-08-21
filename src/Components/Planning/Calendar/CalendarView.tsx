@@ -22,9 +22,6 @@ import {
 import HoursLabel from "./HoursLabel";
 import AccomodationDropZone from "../Accomodation/AccomodationDropZone";
 import CalendarHeader from "./CalendarHeader";
-import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
-import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import { IconButton } from "@mui/material";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
 import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
@@ -111,32 +108,15 @@ function CalendarView({
   return (
     <div className={styles.calendarContainer}>
       <PlanningSheets />
-      <div className={styles.arrowButtonL}>
-        <IconButton
-          onClick={() =>
-            setDaysIndex((prevState) => [prevState[0] - 1, prevState[1] - 1])
-          }
-          disabled={daysIndex[0] === 0}
-        >
-          <ArrowBackIosRoundedIcon />
-        </IconButton>
-      </div>
-      <div className={styles.arrowButtonR}>
-        <IconButton
-          onClick={() =>
-            setDaysIndex((prevState) => [prevState[0] + 1, prevState[1] + 1])
-          }
-          disabled={dayCols.length === daysIndex[1]}
-        >
-          <ArrowForwardIosRoundedIcon />
-        </IconButton>
-      </div>
+
       <CalendarHeader
         dayCols={dayCols
           .filter(
             (dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
           )
           .map((dayCol) => dayCol.dateId)}
+        daysIndex={daysIndex}
+        setDaysIndex={setDaysIndex}
       />
       <div
         className={styles.gridContainer}
