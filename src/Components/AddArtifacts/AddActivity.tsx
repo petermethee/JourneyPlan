@@ -188,11 +188,6 @@ export const AddActivity = forwardRef(
           initialHours !== hours ||
           initMinute !== minutes)
       ) {
-        console.log(
-          JSON.stringify(formValues),
-          JSON.stringify(initialFormValues)
-        );
-
         setSaving(ESavingStatus.enabled);
       } else {
         setSaving(ESavingStatus.disabled);
