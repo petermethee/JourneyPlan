@@ -151,8 +151,8 @@ function CalendarView({
               >
                 {dayCol.planningActivities.map((PA) => (
                   <DraggableCardView
-                    key={PA.id}
-                    planningId={PA.id}
+                    key={`${PA.activity.id}_${dayCol.dateId}_${PA.timeIndex}`}
+                    PAId={PA.id}
                     artifactId={PA.activity.id}
                     duration={PA.activity.duration}
                     containerStyle={calendarDragContainerStyle(
@@ -192,8 +192,8 @@ function CalendarView({
                 ))}
                 {dayCol.planningTransports.map((PT) => (
                   <DraggableCardView
-                    key={PT.id}
-                    planningId={PT.id}
+                    key={`${PT.transport.id}_${dayCol.dateId}_${PT.timeIndex}`}
+                    PAId={PT.id}
                     artifactId={PT.transport.id}
                     duration={PT.transport.duration}
                     containerStyle={calendarDragContainerStyle(
@@ -248,8 +248,8 @@ function CalendarView({
             >
               {dayCol.planningAccomodations.map((PA) => (
                 <DraggableCardView
-                  key={PA.id}
-                  planningId={PA.id}
+                  key={`${PA.accomodation.id}_${dayCol.dateId}_${PA.timeIndex}`}
+                  PAId={PA.id}
                   artifactId={PA.accomodation.id}
                   duration={1}
                   containerStyle={accomodationDropZoneDragContainerStyle(

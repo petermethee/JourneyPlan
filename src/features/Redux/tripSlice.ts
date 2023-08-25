@@ -14,7 +14,12 @@ import {
   updateActivity,
   deleteActivity,
 } from "./activitiesSlice";
-import { getAllPlanning } from "./planningSlice";
+import {
+  deletePlanning,
+  getAllPlannings,
+  insertPlanning,
+  updatePlanning,
+} from "./planningSlice";
 
 interface TripState {
   trips: ITrip[];
@@ -116,13 +121,6 @@ export const tripSlice = createSlice({
       })
 
       //Reducers from other slice
-      .addCase(getAllPlanning.rejected, (state, action) => {
-        state.snackbarStatus = {
-          message:
-            "Erreur lors de la lecture des planning: " + action.error.message!,
-          snackBarSeverity: "error",
-        };
-      })
       .addCase(getAllActivities.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
@@ -152,7 +150,39 @@ export const tripSlice = createSlice({
             action.error.message!,
           snackBarSeverity: "error",
         };
+      })
+
+      //Planning
+      .addCase(getAllPlannings.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la lecture des plannings: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(insertPlanning.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la création du voyage: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(updatePlanning.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message: "Erreur lors de la MAJ du voyage: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(deletePlanning.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la supression du voyage: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
       });
+
+    //Planning Artifact
+    //TODO
   },
 });
 

@@ -4,7 +4,7 @@ import ITrip from "../src/Models/ITrip";
 import { EIpcChanels } from "./IPC_API/EIpcChannels";
 import { IItem } from "../src/Models/IItem";
 import { EArtifactTableName } from "../src/Models/EArtifacts";
-import { IPlanning } from "../src/Models/IPlanningArtifact";
+import IPlanningArtifact, { IPlanning } from "../src/Models/IPlanningArtifact";
 
 type SameAPI<T> = { [k in keyof T]: Function };
 contextBridge.exposeInMainWorld("electronAPI", {
@@ -34,4 +34,14 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke(EIpcChanels.insertPlanning, planning),
   updatePlanning: (planning: IPlanning) =>
     ipcRenderer.invoke(EIpcChanels.updatePlanning, planning),
+
+  //PLANNING ARTIFACTS
+  getAllArtifactsPlanning: (planningId: number) =>
+    ipcRenderer.invoke(EIpcChanels.getAllArtifactsPlanning, planningId),
+  deleteArtifactPlanning: (planningArtifactId: number) =>
+    ipcRenderer.invoke(EIpcChanels.deleteArtifactPlanning, planningArtifactId),
+  insertArtifactPlanning: (planningArtifact: IPlanningArtifact) =>
+    ipcRenderer.invoke(EIpcChanels.insertArtifactPlanning, planningArtifact),
+  updateArtifactPlanning: (planningArtifact: IPlanningArtifact) =>
+    ipcRenderer.invoke(EIpcChanels.updateArtifactPlanning, planningArtifact),
 } as SameAPI<IElectronAPI>);

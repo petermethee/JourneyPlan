@@ -4,9 +4,13 @@ import IPlanningArtifact, { IPlanning } from "../../Models/IPlanningArtifact";
 import { RootState } from "../../app/store";
 import { EArtifact } from "../../Models/EArtifacts";
 import {
+  deleteArtifactPlanningAPI,
   deletePlanningAPI,
+  getAllArtifactsPlanningAPI,
   getAllPlanningsAPI,
+  insertArtifactPlanningAPI,
   insertPlanningAPI,
+  updateArtifactPlanningAPI,
   updatePlanningAPI,
 } from "../ipc/ipcPlanningFunctions";
 
@@ -23,7 +27,7 @@ const initialState: PlanningState = {
   artifactIsDragged: null,
 };
 
-export const getAllPlanning = createAsyncThunk(
+export const getAllPlannings = createAsyncThunk(
   "getAllPlannings",
   async (tripId: number) => {
     return await getAllPlanningsAPI(tripId);
@@ -54,6 +58,41 @@ export const deletePlanning = createAsyncThunk(
   }
 );
 
+//#region Planning Artifact
+export const getAllArtifactsPlanning = createAsyncThunk(
+  "getAllArtifactsPlanning",
+  async (planningArtifactId: number) => {
+    return await getAllArtifactsPlanningAPI(planningArtifactId);
+  }
+);
+
+export const insertArtifactPlanning = createAsyncThunk(
+  "insertArtifactPlanning",
+  async (planningArtifact: IPlanningArtifact) => {
+    const planningArtifactId = await insertArtifactPlanningAPI(
+      planningArtifact
+    );
+    return planningArtifactId;
+  }
+);
+
+export const updateArtifactPlanning = createAsyncThunk(
+  "updateArtifactPlanning",
+  async (planningArtifact: IPlanningArtifact) => {
+    await updateArtifactPlanningAPI(planningArtifact);
+  }
+);
+
+export const deleteArtifactPlanning = createAsyncThunk(
+  "deleteArtifactPlanning",
+  async (planningArtifactId: number) => {
+    await deleteArtifactPlanningAPI(planningArtifactId);
+    return planningArtifactId;
+  }
+);
+
+//#endregion
+
 export const planningSlice = createSlice({
   name: "planningSlice",
   initialState: initialState,
@@ -61,40 +100,32 @@ export const planningSlice = createSlice({
     selectPlanning: (state: PlanningState, action: PayloadAction<number>) => {
       state.selectedPlanningId = action.payload;
     },
-
-    addArtifact: (
-      state: PlanningState,
-      action: PayloadAction<IPlanningArtifact>
-    ) => {
-      state.planningArtifacts = [...state.planningArtifacts, action.payload];
-    },
-    moveArtifact: (
-      state: PlanningState,
-      action: PayloadAction<{ PA: IPlanningArtifact; prevPAId: string }>
-    ) => {
-      const prevId = action.payload.prevPAId;
-      state.planningArtifacts = state.planningArtifacts.map((PA) =>
-        PA.id === prevId ? action.payload.PA : PA
-      );
-    },
     setArtifactIsDragged: (
       state: PlanningState,
       action: PayloadAction<EArtifact | null>
     ) => {
       state.artifactIsDragged = action.payload;
     },
-    deleteArtifactFromPlanning: (
+    addArtifactPlanning: (
       state: PlanningState,
-      action: PayloadAction<string>
+      action: PayloadAction<IPlanningArtifact>
     ) => {
-      state.planningArtifacts = state.planningArtifacts.filter(
-        (PA) => PA.id !== action.payload
+      state.planningArtifacts.push(action.payload);
+    },
+    moveArtifactPlanning: (
+      state: PlanningState,
+      action: PayloadAction<IPlanningArtifact>
+    ) => {
+      const updatedPlanningArtifact = action.payload;
+
+      state.planningArtifacts = state.planningArtifacts.map((PA) =>
+        PA.id === updatedPlanningArtifact.id ? updatedPlanningArtifact : PA
       );
     },
   },
   extraReducers(builder) {
     builder
-      .addCase(getAllPlanning.fulfilled, (state, action) => {
+      .addCase(getAllPlannings.fulfilled, (state, action) => {
         state.plannings = action.payload;
         state.selectedPlanningId = action.payload[0].id;
       })
@@ -118,38 +149,28 @@ export const planningSlice = createSlice({
         state.plannings = state.plannings.map((planning) =>
           planning.id === updatedPlanning.id ? updatedPlanning : planning
         );
+      })
+      //Planning Artifact
+      .addCase(getAllArtifactsPlanning.fulfilled, (state, action) => {
+        state.planningArtifacts = action.payload;
+      })
+      .addCase(deleteArtifactPlanning.fulfilled, (state, action) => {
+        state.planningArtifacts = state.planningArtifacts.filter(
+          (PA) => PA.id !== action.payload
+        );
+      })
+      .addCase(insertArtifactPlanning.fulfilled, (state, action) => {
+        const newlyAddedPA = state.planningArtifacts.find((PA) => PA.id === 0)!;
+        newlyAddedPA.id = action.payload;
       });
-    /*
-      .addCase(insertPlanning.rejected, (state, action) => {
-        state.snackbarStatus = {
-          message:
-            "Erreur lors de la création du voyage: " + action.error.message!,
-          snackBarSeverity: "error",
-        };
-      })
-      .addCase(updatePlanning.rejected, (state, action) => {
-        state.snackbarStatus = {
-          message: "Erreur lors de la MAJ du voyage: " + action.error.message!,
-          snackBarSeverity: "error",
-        };
-      })
-      
-      .addCase(deletePlanning.rejected, (state, action) => {
-        state.snackbarStatus = {
-          message:
-            "Erreur lors de la supression du voyage: " + action.error.message!,
-          snackBarSeverity: "error",
-        };
-      }); */
   },
 });
 
 export const {
-  addArtifact,
-  moveArtifact,
   setArtifactIsDragged,
-  deleteArtifactFromPlanning,
   selectPlanning,
+  addArtifactPlanning,
+  moveArtifactPlanning,
 } = planningSlice.actions;
 
 export const selectAllPlannings = (state: RootState) =>

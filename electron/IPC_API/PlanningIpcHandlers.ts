@@ -1,6 +1,8 @@
 import { ipcMain } from "electron";
 import { Database } from "better-sqlite3";
-import { IPlanning } from "../../src/Models/IPlanningArtifact";
+import IPlanningArtifact, {
+  IPlanning,
+} from "../../src/Models/IPlanningArtifact";
 import DatabaseAPI from "../DatabaseClass";
 import PlanningsManager from "../Managers/PlanningsManager";
 import { EIpcChanels } from "./EIpcChannels";
@@ -41,6 +43,33 @@ export default class PlanningIpcHandlers {
       EIpcChanels.deletePlanning,
       async (_event, planningId: number) => {
         await this.planningsManager.deletePlanning(planningId);
+      }
+    );
+
+    ipcMain.handle(
+      EIpcChanels.getAllArtifactsPlanning,
+      async (_event, planningId: number) => {
+        return await this.planningsManager.getAllArtifactsPlanning(planningId);
+      }
+    );
+    ipcMain.handle(
+      EIpcChanels.insertArtifactPlanning,
+      async (_event, planningArtifact: IPlanningArtifact) => {
+        return await this.planningsManager.insertArtifactPlanning(
+          planningArtifact
+        );
+      }
+    );
+    ipcMain.handle(
+      EIpcChanels.updateArtifactPlanning,
+      async (_event, planningArtifact: IPlanningArtifact) => {
+        await this.planningsManager.updateArtifactPlanning(planningArtifact);
+      }
+    );
+    ipcMain.handle(
+      EIpcChanels.deleteArtifactPlanning,
+      async (_event, planningArtifactId: number) => {
+        await this.planningsManager.deleteArtifactPlanning(planningArtifactId);
       }
     );
   };

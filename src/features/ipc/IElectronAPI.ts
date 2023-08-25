@@ -30,5 +30,15 @@ export interface IElectronAPI {
   getAllPlannings: (tripId: number) => Promise<IPlanning[]>;
   insertPlanning: (planning: IPlanning) => Promise<number>;
   updatePlanning: (planning: IPlanning) => Promise<void>;
-  deletePlanning: (tripId: number) => Promise<void>;
+  deletePlanning: (planningId: number) => Promise<void>;
+
+  //Planning Artifacts
+  getAllArtifactsPlanning: (planningId: number) => Promise<IPlanningArtifact[]>;
+  insertArtifactPlanning: (
+    planningArtifact: IPlanningArtifact
+  ) => Promise<number>;
+  updateArtifactPlanning: (
+    planningArtifact: IPlanningArtifact
+  ) => Promise<void>;
+  deleteArtifactPlanning: (planningArtifactId: number) => Promise<void>;
 }

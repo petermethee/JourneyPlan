@@ -11,8 +11,10 @@ import { selectCurrentTrip } from "../../features/Redux/tripSlice";
 import dayjs from "dayjs";
 import IActivity from "../../Models/IActivity";
 import {
-  getAllPlanning,
+  getAllArtifactsPlanning,
+  getAllPlannings,
   selectPlanningArtifacts,
+  selectPlanningId,
 } from "../../features/Redux/planningSlice";
 import SideData from "./SideData/SideData";
 import IAccomodation from "../../Models/IAccomodation";
@@ -29,13 +31,13 @@ import {
 import { Backdrop } from "@mui/material";
 import AddArtifacts from "../AddArtifacts/AddArtifacts";
 
-type TDayActivity = { id: string; timeIndex: number; activity: IActivity };
+type TDayActivity = { id: number; timeIndex: number; activity: IActivity };
 type TDayAccomodation = {
-  id: string;
+  id: number;
   timeIndex: number;
   accomodation: IAccomodation;
 };
-type TDayTransport = { id: string; timeIndex: number; transport: ITransport };
+type TDayTransport = { id: number; timeIndex: number; transport: ITransport };
 
 export type TDayCol = {
   dateId: string;
@@ -56,6 +58,7 @@ export default function Planning() {
   const accomodations = useAppSelector(selectAccomodations);
   const selectedTrip = useAppSelector(selectCurrentTrip);
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
+  const planningId = useAppSelector(selectPlanningId);
   const dispatch = useAppDispatch();
 
   const [openModal, setOpenModal] = useState(false);
@@ -131,8 +134,14 @@ export default function Planning() {
     dispatch(getAllActivities(parseInt(tripId)));
     dispatch(getAllTransports(parseInt(tripId)));
     dispatch(getAllAccomodations(parseInt(tripId)));
-    dispatch(getAllPlanning(parseInt(tripId)));
+    dispatch(getAllPlannings(parseInt(tripId)));
   }, [dispatch, tripId]);
+
+  useEffect(() => {
+    if (planningId) {
+      dispatch(getAllArtifactsPlanning(planningId));
+    }
+  }, [planningId, dispatch]);
 
   return (
     <div className={styles.mainContainer}>

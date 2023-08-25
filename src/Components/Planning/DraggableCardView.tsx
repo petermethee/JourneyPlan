@@ -14,11 +14,14 @@ import {
   setUsedActivities,
 } from "../../features/Redux/activitiesSlice";
 import {
-  addArtifact,
-  deleteArtifactFromPlanning,
-  moveArtifact,
+  addArtifactPlanning,
+  deleteArtifactPlanning,
+  insertArtifactPlanning,
+  moveArtifactPlanning,
   selectPlanningArtifacts,
+  selectPlanningId,
   setArtifactIsDragged,
+  updateArtifactPlanning,
 } from "../../features/Redux/planningSlice";
 import { SIDE_DATA_COL_ID } from "./SideData/SideData";
 import { EArtifact } from "../../Models/EArtifacts";
@@ -35,7 +38,6 @@ import { defaultWhite } from "../../style/cssGlobalStyle";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
-  artifactId: number;
   source: TDroppableInfo;
   destination: TDroppableInfo;
 };
@@ -46,7 +48,7 @@ type TDraggableProps = {
     onDelete: () => void,
     isDragged?: boolean
   ) => JSX.Element | JSX.Element[];
-  planningId?: string;
+  PAId?: number;
   artifactId: number;
   duration: number;
   containerStyle: CSSProperties;
@@ -69,7 +71,7 @@ type TDraggableProps = {
   editArtifact: () => void;
 };
 export default function DraggableCardView({
-  planningId,
+  PAId,
   children,
   artifactId,
   duration,
@@ -83,6 +85,7 @@ export default function DraggableCardView({
   editArtifact,
 }: TDraggableProps) {
   const dispatch = useAppDispatch();
+  const planningId = useAppSelector(selectPlanningId)!;
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
@@ -122,54 +125,50 @@ export default function DraggableCardView({
 
   const onDragEnd = useCallback(
     (event: TDnDEvent) => {
-      const { artifactId, source, destination } = event;
+      const { source, destination } = event;
       if (
         source.colId !== destination.colId ||
         source.timeIndex !== destination.timeIndex
       ) {
-        if (planningId) {
+        if (PAId) {
           const date = destination.colId;
           const timeIndex = destination.timeIndex;
-          const newPlanningId = `${artifactId}_${date}_${timeIndex}`;
-
-          dispatch(
-            moveArtifact({
-              PA: {
-                id: newPlanningId,
-                artifactId: artifactId,
-                date,
-                timeIndex,
-                artifactType,
-              },
-              prevPAId: planningId,
-            })
-          );
+          const updatedPA = {
+            id: PAId,
+            id_planning: planningId,
+            artifactId,
+            date,
+            timeIndex,
+            artifactType,
+          };
+          dispatch(moveArtifactPlanning(updatedPA));
+          dispatch(updateArtifactPlanning(updatedPA));
         } else {
           const date = destination.colId;
           const timeIndex = destination.timeIndex;
-          const newPlanningId = `${artifactId}_${date}_${timeIndex}`;
 
-          dispatch(
-            addArtifact({
-              artifactId: artifactId,
-              date,
-              timeIndex,
-              id: newPlanningId,
-              artifactType,
-            })
-          );
+          const newPA = {
+            id: 0,
+            id_planning: planningId,
+            artifactId,
+            date,
+            timeIndex,
+            artifactType,
+          };
+          dispatch(addArtifactPlanning(newPA));
+          dispatch(insertArtifactPlanning(newPA));
         }
         setUsedWillDisappear(false);
         setStyle({ top: 0, left: 0, transition: "0s" });
       }
     },
-    [artifactType, planningId, dispatch]
+    [artifactType, PAId, artifactId, planningId, dispatch]
   );
 
   const checkCollision = useCallback(
     (colId: string, timeIndex: number) => {
       return planningArtifacts.some((PA) => {
-        if (PA.id === planningId) {
+        if (PA.id === PAId) {
           return false;
         }
         if (artifactType === EArtifact.Accomodation) {
@@ -206,14 +205,7 @@ export default function DraggableCardView({
         }
       });
     },
-    [
-      planningArtifacts,
-      activities,
-      transports,
-      artifactType,
-      duration,
-      planningId,
-    ]
+    [planningArtifacts, activities, transports, artifactType, duration, PAId]
   );
 
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
@@ -333,8 +325,7 @@ export default function DraggableCardView({
         }
       }
       onDragEnd({
-        artifactId: artifactId,
-        destination: destination,
+        destination,
         source,
       });
     }
@@ -342,8 +333,8 @@ export default function DraggableCardView({
 
   const onDeleteAnimationEnd = (event: React.AnimationEvent) => {
     if (event.animationName === styles.ghostDisappearAnim) {
-      if (planningId) {
-        dispatch(deleteArtifactFromPlanning(planningId!));
+      if (PAId) {
+        dispatch(deleteArtifactPlanning(PAId));
         if (
           planningArtifacts.filter((PA) => PA.artifactId === artifactId)
             .length === 1
