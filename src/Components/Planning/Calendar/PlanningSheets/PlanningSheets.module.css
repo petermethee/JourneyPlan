@@ -3,9 +3,11 @@
     display: flex;
     overflow: hidden;
     align-items: center;
+    height: 35px;
 }
 
 .sheetContainer {
     display: flex;
     overflow-x: hidden;
+    height: 100%;
 }

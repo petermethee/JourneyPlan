@@ -35,6 +35,7 @@ import {
   setUsedAccomodations,
 } from "../../features/Redux/accomodationsSlice";
 import { defaultWhite } from "../../style/cssGlobalStyle";
+import { GRID_CONTAINER } from "./Calendar/CalendarView";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
@@ -70,6 +71,9 @@ type TDraggableProps = {
   ): [string, number];
   editArtifact: () => void;
 };
+
+let scrollInterval: NodeJS.Timeout | null = null;
+
 export default function DraggableCardView({
   PAId,
   children,
@@ -122,6 +126,32 @@ export default function DraggableCardView({
       return "none";
     }
   }, [usedWillDisappear, willDisappear]);
+
+  const handleAutomaticScroll = useCallback(
+    (mouseY: number) => {
+      const gridContainer = document.getElementById(GRID_CONTAINER)!;
+      const { top, bottom } = gridContainer.getBoundingClientRect();
+      if (
+        artifactType !== EArtifact.Accomodation &&
+        disappearAnim === styles.calendarDisappear &&
+        !scrollInterval
+      ) {
+        if (mouseY - top <= 20) {
+          scrollInterval = setInterval(() => {
+            gridContainer.scrollTop -= 10;
+          }, 10);
+        } else if (mouseY >= bottom - 20) {
+          scrollInterval = setInterval(() => {
+            gridContainer.scrollTop += 10;
+          }, 10);
+        }
+      } else if (scrollInterval && mouseY - top > 20 && mouseY < bottom - 20) {
+        clearInterval(scrollInterval);
+        scrollInterval = null;
+      }
+    },
+    [artifactType, disappearAnim]
+  );
 
   const onDragEnd = useCallback(
     (event: TDnDEvent) => {
@@ -235,6 +265,7 @@ export default function DraggableCardView({
           duration
         );
         setStyle(currentStyle);
+        handleAutomaticScroll(event.clientY);
       }
     },
     [
@@ -244,6 +275,7 @@ export default function DraggableCardView({
       getDraggableStyle,
       artifactType,
       dispatch,
+      handleAutomaticScroll,
     ]
   );
 
@@ -282,6 +314,11 @@ export default function DraggableCardView({
         } else {
           setStyle({ top: 0, left: 0 });
         }
+
+        clearInterval(scrollInterval!);
+        console.log("clearInterval");
+
+        scrollInterval = null;
       }
       if (mouseDown) {
         setMouseDown(false);

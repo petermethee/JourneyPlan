@@ -20,13 +20,12 @@
   overflow: hidden;
 }
 
-.calendarShowcase {
+.calendarShowcase, .showcaseSideData {
   border-radius: 5px;
 }
 
 .showcaseSideData {
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.652);
-  border-radius: 5px;
 }
 
 .showcaseSideData:hover {
@@ -36,6 +35,7 @@
 
 .showcase:hover {
   background-color: var(--defaultSecWhite);
+  box-shadow: 0px 0px 16px #4343433e;
 }
 
 .shadowPosition {
@@ -75,7 +75,7 @@
 
   100% {
     opacity: 0;
-    transform: scale(0.2);
+    /* transform: scale(0.2); */
   }
 }
 

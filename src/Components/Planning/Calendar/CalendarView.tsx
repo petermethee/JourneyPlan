@@ -50,6 +50,7 @@ export const getHours = (): string[] => {
 };
 
 export const RELATIVE_CALENDAR = "RELATIVE_CALENDAR";
+export const GRID_CONTAINER = "GRID_CONTAINER";
 
 function CalendarView({
   dayCols,
@@ -119,11 +120,10 @@ function CalendarView({
         setDaysIndex={setDaysIndex}
       />
       <div
+        id={GRID_CONTAINER}
         className={styles.gridContainer}
         onScroll={(_event) =>
-          setCalendarBoundary(
-            document.getElementById(RELATIVE_CALENDAR)!.getBoundingClientRect()
-          )
+          setCalendarBoundary(calendarRef.current!.getBoundingClientRect())
         }
       >
         <HoursLabel />

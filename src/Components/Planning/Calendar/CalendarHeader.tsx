@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import styles from "./CalendarHeader.module.css";
 import DayHeader from "./DayHeader";
 import dayjs from "dayjs";
