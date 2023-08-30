@@ -7,7 +7,7 @@ import {
 } from "./DraggableCSS";
 
 export const minColWidth = 200;
-export const cellHeight = 90;
+export const cellHeight = 70;
 export const accomodationDropZoneHeight = 100;
 export const expandedAccomodationDropZoneHeight = 200;
 

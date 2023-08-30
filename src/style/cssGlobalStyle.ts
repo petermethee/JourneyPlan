@@ -1,7 +1,7 @@
 //first line not a color for the color picker extension to work
 export const primaryColor = "#103e57";
 export const goldenColor = "#bd9741";
-export const defaultWhite = "#efefef";
+export const defaultWhite = "#ffffff";
 export const defaultSecWhite = "#d5d5d5";
 export const primErrorColor = "#df4848";
 export const secErrorColor = "#862929";
