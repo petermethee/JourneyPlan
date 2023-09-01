@@ -58,6 +58,7 @@ export default function App() {
           />
         </Routes>
       </Router>
+      {/* <LocationSearchInput address="" setAddress={() => {}} /> */}
     </>
   );
 }

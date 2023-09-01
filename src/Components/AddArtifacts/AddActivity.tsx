@@ -22,6 +22,7 @@ import {
 import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
+import LocationSearchInput from "./LocationSearchInput";
 
 export const AddActivity = forwardRef(
   (
@@ -223,7 +224,7 @@ export const AddActivity = forwardRef(
           />
 
           <Grid container spacing={4} padding={4}>
-            <Grid item xs={9}>
+            <Grid item xs={8}>
               <TextField
                 required
                 name={ActivitiesTable.name}
@@ -236,7 +237,7 @@ export const AddActivity = forwardRef(
               />
             </Grid>
 
-            <Grid item xs={3}>
+            <Grid item xs={4}>
               <TextField
                 name={ActivitiesTable.price}
                 fullWidth
@@ -248,18 +249,22 @@ export const AddActivity = forwardRef(
                 InputProps={{ inputProps: { min: 0 } }}
               />
             </Grid>
-            <Grid item xs={9}>
-              <TextField
+            <Grid item xs={8}>
+              <LocationSearchInput
                 required
                 name={ActivitiesTable.location}
                 fullWidth
                 variant="standard"
                 label="Localisation"
-                value={formValues.location}
-                onChange={updateForm}
+                address={formValues.location}
+                setAddress={(address) =>
+                  updateForm({
+                    target: { value: address, name: ActivitiesTable.location },
+                  } as unknown as any)
+                }
               />
             </Grid>
-            <Grid item xs={3} flexWrap="nowrap" display="flex" gap={1}>
+            <Grid item xs={4} flexWrap="nowrap" display="flex" gap={1}>
               <TextField
                 fullWidth
                 variant="standard"
@@ -278,6 +283,7 @@ export const AddActivity = forwardRef(
                 value={minutes}
                 onChange={(event) => setMinutes(parseInt(event.target.value))}
                 error={!isHourValid}
+                sx={{ "& .MuiSelect-select": { fontSize: "1.3rem" } }}
               >
                 {["00", 15, 30, 45].map((minute, index) => (
                   <MenuItem key={minute} value={index}>

@@ -29,6 +29,10 @@
     resize: both;
 }
 
+.insidePopUp input, .insidePopUp textarea {
+    font-size: 1.3rem;
+}
+
 .dragHandle {
     display: flex;
     justify-content: space-between;

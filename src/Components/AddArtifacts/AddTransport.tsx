@@ -24,6 +24,7 @@ import EastRoundedIcon from "@mui/icons-material/EastRounded";
 import { transportSecColor } from "../../style/cssGlobalStyle";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
+import LocationSearchInput from "./LocationSearchInput";
 
 export const AddTransport = forwardRef(
   (
@@ -224,7 +225,7 @@ export const AddTransport = forwardRef(
           />
 
           <Grid container spacing={4} padding={4}>
-            <Grid item xs={6}>
+            <Grid item xs={8}>
               <TextField
                 required
                 name={TransportsTable.name}
@@ -235,18 +236,8 @@ export const AddTransport = forwardRef(
                 onChange={updateForm}
               />
             </Grid>
-            <Grid item xs={3}>
-              <TextField
-                required
-                name={TransportsTable.vehicule}
-                fullWidth
-                variant="standard"
-                label="Véhicule"
-                value={formValues.vehicule}
-                onChange={updateForm}
-              />
-            </Grid>
-            <Grid item xs={3}>
+
+            <Grid item xs={4}>
               <TextField
                 name={TransportsTable.price}
                 fullWidth
@@ -258,20 +249,24 @@ export const AddTransport = forwardRef(
                 InputProps={{ inputProps: { min: 0 } }}
               />
             </Grid>
-            <Grid item xs={4}>
-              <TextField
+            <Grid item xs={5}>
+              <LocationSearchInput
                 required
                 name={TransportsTable.from}
                 fullWidth
                 variant="standard"
                 label="De"
-                value={formValues.departure}
-                onChange={updateForm}
+                address={formValues.departure}
+                setAddress={(address) =>
+                  updateForm({
+                    target: { value: address, name: TransportsTable.from },
+                  } as unknown as any)
+                }
               />
             </Grid>
             <Grid
               item
-              xs={1}
+              xs={2}
               display="flex"
               alignItems="center"
               justifyContent="center"
@@ -281,18 +276,33 @@ export const AddTransport = forwardRef(
                 sx={{ color: transportSecColor }}
               />
             </Grid>
-            <Grid item xs={4}>
-              <TextField
+            <Grid item xs={5}>
+              <LocationSearchInput
                 required
                 name={TransportsTable.to}
                 fullWidth
                 variant="standard"
                 label="Vers"
-                value={formValues.destination}
+                address={formValues.destination}
+                setAddress={(address) =>
+                  updateForm({
+                    target: { value: address, name: TransportsTable.to },
+                  } as unknown as any)
+                }
+              />
+            </Grid>
+            <Grid item xs={8}>
+              <TextField
+                required
+                name={TransportsTable.vehicule}
+                fullWidth
+                variant="standard"
+                label="Véhicule"
+                value={formValues.vehicule}
                 onChange={updateForm}
               />
             </Grid>
-            <Grid item xs={3} flexWrap="nowrap" display="flex" gap={1}>
+            <Grid item xs={4} flexWrap="nowrap" display="flex" gap={1}>
               <TextField
                 fullWidth
                 variant="standard"
@@ -310,6 +320,7 @@ export const AddTransport = forwardRef(
                 label="MIN"
                 value={minutes}
                 onChange={(event) => setMinutes(parseInt(event.target.value))}
+                sx={{ "& .MuiSelect-select": { fontSize: "1.3rem" } }}
               >
                 {["00", 15, 30, 45].map((minute, index) => (
                   <MenuItem key={minute} value={index}>
