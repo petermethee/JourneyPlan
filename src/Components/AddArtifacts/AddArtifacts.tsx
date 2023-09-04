@@ -151,7 +151,12 @@ export default function AddArtifacts({
                   setOpen(false);
                 }}
                 size="small"
-                sx={{ color: defaultWhite }}
+                sx={{
+                  color: defaultWhite,
+                  margin: "2px",
+                  backgroundColor: " #1a1a1a35",
+                  "&:hover": { backgroundColor: "#00000048" },
+                }}
               >
                 <CloseIcon />
               </IconButton>
