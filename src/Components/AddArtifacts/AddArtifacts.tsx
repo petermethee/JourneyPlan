@@ -28,6 +28,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DragIndicator from "@mui/icons-material/DragIndicator";
 import { useResizeDetector } from "react-resize-detector";
 import { CSSTransition } from "react-transition-group";
+import "./TransitionPopup.css";
 
 export enum ESavingStatus {
   enabled = 0,
@@ -79,8 +80,16 @@ export default function AddArtifacts({
 
   const bounds = useMemo(() => {
     return {
-      right: window.innerWidth - (popupWidth ?? 0),
-      bottom: window.innerHeight - (popupHeight ?? 0),
+      top: -((window.innerHeight - (popupHeight ?? 0)) / 2),
+      bottom:
+        window.innerHeight -
+        (window.innerHeight - (popupHeight ?? 0)) / 2 -
+        (popupHeight ?? 0),
+      left: -((window.innerWidth - (popupWidth ?? 0)) / 2),
+      right:
+        window.innerWidth -
+        (window.innerWidth - (popupWidth ?? 0)) / 2 -
+        (popupWidth ?? 0),
     };
   }, [popupWidth, popupHeight]);
 
@@ -110,18 +119,18 @@ export default function AddArtifacts({
   }, [setOpen]);
 
   return (
-    <div className={styles.containerPopup}>
+    <div className={styles.containerPopup} ref={popupRef}>
       <CSSTransition
         in={openModal}
-        timeout={10000}
+        timeout={100}
         classNames={"popupTransitionContent"}
         unmountOnExit
       >
-        <Draggable
-          bounds={{ left: 0, top: 0, ...bounds }}
-          handle={`.${styles.dragHandle}`}
-        >
-          <div className={styles.insidePopUp} ref={popupRef}>
+        <Draggable bounds={bounds} handle={`.${styles.dragHandle}`}>
+          <div
+            className={styles.insidePopUp}
+            style={{ opacity: opacity / 100 }}
+          >
             <div
               className={styles.dragHandle}
               style={{ backgroundColor: tabColor }}

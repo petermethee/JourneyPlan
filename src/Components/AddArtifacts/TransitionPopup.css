@@ -1,0 +1,21 @@
+.popupTransitionContent-enter {
+    transform: scale(0);
+    opacity: 0;
+}
+
+.popupTransitionContent-enter-active {
+    transition: all 100ms ease;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.popupTransitionContent-exit {
+    transition: all 100ms ease;
+    transform: scale(1);
+    opacity: 1;
+}
+
+.popupTransitionContent-exit-active {
+    transform: scale(0);
+    opacity: 0;
+}

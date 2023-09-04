@@ -29,7 +29,6 @@ import {
   selectAccomodations,
 } from "../../features/Redux/accomodationsSlice";
 import AddArtifacts from "../AddArtifacts/AddArtifacts";
-import "./TransitionPopup.css";
 
 type TDayActivity = { id: number; timeIndex: number; activity: IActivity };
 type TDayAccomodation = {
