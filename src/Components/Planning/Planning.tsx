@@ -29,7 +29,7 @@ import {
   selectAccomodations,
 } from "../../features/Redux/accomodationsSlice";
 import AddArtifacts from "../AddArtifacts/AddArtifacts";
-import { CSSTransition } from "react-transition-group";
+import "./TransitionPopup.css";
 
 type TDayActivity = { id: number; timeIndex: number; activity: IActivity };
 type TDayAccomodation = {
@@ -160,14 +160,12 @@ export default function Planning() {
         }}
       />
       {/* <Backdrop open={openModal} sx={{ zIndex: 10 }} /> */}
-      <CSSTransition
-        in={openModal}
-        timeout={300}
-        classNames={"popupTransitionContent"}
-        unmountOnExit
-      >
-        <AddArtifacts setOpen={setOpenModal} artifactToEdit={artifactToEdit} />
-      </CSSTransition>
+
+      <AddArtifacts
+        setOpen={setOpenModal}
+        artifactToEdit={artifactToEdit}
+        openModal={openModal}
+      />
     </div>
   );
 }

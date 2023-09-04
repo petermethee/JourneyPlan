@@ -316,8 +316,6 @@ export default function DraggableCardView({
         }
 
         clearInterval(scrollInterval!);
-        console.log("clearInterval");
-
         scrollInterval = null;
       }
       if (mouseDown) {

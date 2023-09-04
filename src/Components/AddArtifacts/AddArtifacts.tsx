@@ -14,8 +14,6 @@ import { EArtifact } from "../../Models/EArtifacts";
 import SwipeableViews from "react-swipeable-views";
 import { LoadingButton } from "@mui/lab";
 import SaveIcon from "@mui/icons-material/Save";
-
-import "./TransitionPopup.css";
 import { AddActivity } from "./AddActivity";
 import { AddTransport } from "./AddTransport";
 import { AddAccomodation } from "./AddAccomodation";
@@ -28,6 +26,8 @@ import { TArtifactEditor } from "../Planning/Planning";
 import Draggable from "react-draggable";
 import CloseIcon from "@mui/icons-material/Close";
 import DragIndicator from "@mui/icons-material/DragIndicator";
+import { useResizeDetector } from "react-resize-detector";
+import { CSSTransition } from "react-transition-group";
 
 export enum ESavingStatus {
   enabled = 0,
@@ -37,9 +37,11 @@ export enum ESavingStatus {
 export default function AddArtifacts({
   setOpen,
   artifactToEdit,
+  openModal,
 }: {
   artifactToEdit: TArtifactEditor;
   setOpen: (open: boolean) => void;
+  openModal: boolean;
 }) {
   const addActivityRef = useRef<{
     edit: (artifactType: EArtifact) => void;
@@ -53,7 +55,6 @@ export default function AddArtifacts({
     edit: (artifactType: EArtifact) => void;
     save: (artifactType: EArtifact) => void;
   }>();
-  const popupRef = useRef<HTMLDivElement>(null);
 
   const id_trip = useAppSelector(selectCurrentTrip)?.id;
 
@@ -70,6 +71,18 @@ export default function AddArtifacts({
         : transportSecColor,
     [tab]
   );
+  const {
+    width: popupWidth,
+    height: popupHeight,
+    ref: popupRef,
+  } = useResizeDetector();
+
+  const bounds = useMemo(() => {
+    return {
+      right: window.innerWidth - (popupWidth ?? 0),
+      bottom: window.innerHeight - (popupHeight ?? 0),
+    };
+  }, [popupWidth, popupHeight]);
 
   const handleSave = (edit: boolean) => {
     setSaving(ESavingStatus.loading);
@@ -88,140 +101,160 @@ export default function AddArtifacts({
     setTab(artifactToEdit.type);
   }, [artifactToEdit.type]);
 
+  useEffect(() => {
+    const onResize = () => setOpen(false);
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, [setOpen]);
+
   return (
-    <Draggable handle={`.${styles.dragHandle}`}>
-      <div className={styles.insidePopUp} ref={popupRef}>
-        <div
-          className={styles.dragHandle}
-          style={{ backgroundColor: tabColor }}
+    <div className={styles.containerPopup}>
+      <CSSTransition
+        in={openModal}
+        timeout={10000}
+        classNames={"popupTransitionContent"}
+        unmountOnExit
+      >
+        <Draggable
+          bounds={{ left: 0, top: 0, ...bounds }}
+          handle={`.${styles.dragHandle}`}
         >
-          <DragIndicator sx={{ color: defaultWhite }} />
-          <Slider
-            size="small"
-            value={opacity}
-            max={100}
-            min={20}
-            onMouseDown={(e) => e.stopPropagation()}
-            color="secondary"
-            onChange={(e, value) => setOpacity(value as number)}
-            sx={{ width: "35%" }}
-          />
-          <IconButton
-            onClick={() => {
-              setOpen(false);
-            }}
-            size="small"
-            sx={{ color: defaultWhite }}
-          >
-            <CloseIcon />
-          </IconButton>
-        </div>
-        <Tabs
-          value={tab}
-          onChange={(_event, newValue) => setTab(newValue)}
-          indicatorColor="secondary"
-          textColor="inherit"
-          variant="fullWidth"
-          sx={{
-            backgroundColor: tabColor,
-            color: "white",
-            boxShadow: "0px 0px 10px 0px #000000ff",
-            transition: "300ms",
-          }}
-        >
-          <Tab
-            icon={<ActivityIcon color="white" />}
-            value={EArtifact.Activity}
-            label="Activité"
-            sx={{ minHeight: "50px" }}
-          />
-          <Tab
-            icon={<TransportIcon color="white" />}
-            value={EArtifact.Transport}
-            label="Transport"
-            sx={{ minHeight: "50px" }}
-          />
-          <Tab
-            icon={<AccomodationIcon color="white" />}
-            value={EArtifact.Accomodation}
-            label="Logement"
-            sx={{ minHeight: "50px" }}
-          />
-        </Tabs>
-        <SwipeableViews
-          index={Object.values(EArtifact).indexOf(tab)}
-          onChangeIndex={(index) => setTab(Object.values(EArtifact)[index])}
-          containerStyle={{
-            flex: "100%",
-            willChange: "auto !important",
-          }}
-          style={{ flex: 1 }}
-          slideStyle={{
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          {id_trip
-            ? [
-                <AddActivity
-                  key="activity"
-                  id_trip={id_trip}
-                  setSaving={setSaving}
-                  ref={addActivityRef}
-                  activity={
-                    artifactToEdit.type === EArtifact.Activity &&
-                    artifactToEdit.artifact
-                      ? (artifactToEdit.artifact as IActivity)
-                      : undefined
-                  }
-                />,
-                <AddTransport
-                  key="transport"
-                  id_trip={id_trip}
-                  setSaving={setSaving}
-                  ref={addTransportRef}
-                  transport={
-                    artifactToEdit.type === EArtifact.Transport &&
-                    artifactToEdit.artifact
-                      ? (artifactToEdit.artifact as ITransport)
-                      : undefined
-                  }
-                />,
-                <AddAccomodation
-                  key="accomodation"
-                  id_trip={id_trip}
-                  setSaving={setSaving}
-                  ref={addAccomodationRef}
-                  accomodation={
-                    artifactToEdit.type === EArtifact.Accomodation &&
-                    artifactToEdit.artifact
-                      ? (artifactToEdit.artifact as IAccomodation)
-                      : undefined
-                  }
-                />,
-              ]
-            : []}
-        </SwipeableViews>
-        <div className={styles.windowBottom}>
-          <LoadingButton
-            disabled={saving === ESavingStatus.disabled}
-            onClick={() =>
-              handleSave(
-                artifactToEdit.type === tab && !!artifactToEdit.artifact
-              )
-            }
-            loading={saving === ESavingStatus.loading}
-            loadingPosition="start"
-            startIcon={<SaveIcon />}
-            variant="contained"
-          >
-            {artifactToEdit.type === tab && artifactToEdit.artifact
-              ? "Mettre à jour"
-              : "Ajouter"}
-          </LoadingButton>
-        </div>
-      </div>
-    </Draggable>
+          <div className={styles.insidePopUp} ref={popupRef}>
+            <div
+              className={styles.dragHandle}
+              style={{ backgroundColor: tabColor }}
+            >
+              <DragIndicator sx={{ color: defaultWhite }} />
+              <Slider
+                size="small"
+                value={opacity}
+                max={100}
+                min={20}
+                onMouseDown={(e) => e.stopPropagation()}
+                color="secondary"
+                onChange={(e, value) => setOpacity(value as number)}
+                sx={{ width: "35%" }}
+              />
+              <IconButton
+                onClick={() => {
+                  setOpen(false);
+                }}
+                size="small"
+                sx={{ color: defaultWhite }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </div>
+            <Tabs
+              value={tab}
+              onChange={(_event, newValue) => setTab(newValue)}
+              indicatorColor="secondary"
+              textColor="inherit"
+              variant="fullWidth"
+              sx={{
+                backgroundColor: tabColor,
+                color: "white",
+                boxShadow: "0px 0px 10px 0px #000000ff",
+                transition: "300ms",
+              }}
+            >
+              <Tab
+                icon={<ActivityIcon color="white" />}
+                value={EArtifact.Activity}
+                label="Activité"
+                sx={{ minHeight: "50px" }}
+              />
+              <Tab
+                icon={<TransportIcon color="white" />}
+                value={EArtifact.Transport}
+                label="Transport"
+                sx={{ minHeight: "50px" }}
+              />
+              <Tab
+                icon={<AccomodationIcon color="white" />}
+                value={EArtifact.Accomodation}
+                label="Logement"
+                sx={{ minHeight: "50px" }}
+              />
+            </Tabs>
+            <SwipeableViews
+              index={Object.values(EArtifact).indexOf(tab)}
+              onChangeIndex={(index) => setTab(Object.values(EArtifact)[index])}
+              containerStyle={{
+                flex: "100%",
+                willChange: "auto !important",
+              }}
+              style={{ flex: 1 }}
+              slideStyle={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              {id_trip
+                ? [
+                    <AddActivity
+                      key="activity"
+                      id_trip={id_trip}
+                      setSaving={setSaving}
+                      ref={addActivityRef}
+                      activity={
+                        artifactToEdit.type === EArtifact.Activity &&
+                        artifactToEdit.artifact
+                          ? (artifactToEdit.artifact as IActivity)
+                          : undefined
+                      }
+                    />,
+                    <AddTransport
+                      key="transport"
+                      id_trip={id_trip}
+                      setSaving={setSaving}
+                      ref={addTransportRef}
+                      transport={
+                        artifactToEdit.type === EArtifact.Transport &&
+                        artifactToEdit.artifact
+                          ? (artifactToEdit.artifact as ITransport)
+                          : undefined
+                      }
+                    />,
+                    <AddAccomodation
+                      key="accomodation"
+                      id_trip={id_trip}
+                      setSaving={setSaving}
+                      ref={addAccomodationRef}
+                      accomodation={
+                        artifactToEdit.type === EArtifact.Accomodation &&
+                        artifactToEdit.artifact
+                          ? (artifactToEdit.artifact as IAccomodation)
+                          : undefined
+                      }
+                    />,
+                  ]
+                : []}
+            </SwipeableViews>
+            <div className={styles.windowBottom}>
+              <LoadingButton
+                disabled={saving === ESavingStatus.disabled}
+                onClick={() =>
+                  handleSave(
+                    artifactToEdit.type === tab && !!artifactToEdit.artifact
+                  )
+                }
+                loading={saving === ESavingStatus.loading}
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+                variant="contained"
+              >
+                {artifactToEdit.type === tab && artifactToEdit.artifact
+                  ? "Mettre à jour"
+                  : "Ajouter"}
+              </LoadingButton>
+            </div>
+          </div>
+        </Draggable>
+      </CSSTransition>
+    </div>
   );
 }
