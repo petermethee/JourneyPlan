@@ -1,9 +1,9 @@
-import styles from "./CommonArtifactStyle.module.css";
 import { Grid, IconButton } from "@mui/material";
 import { secErrorColor } from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { useMemo } from "react";
 import CustomCloseIcon from "../../Shared/CustomCloseIcon";
+import styles from "./CommonArtifactStyle.module.css";
 import cstmCloseIconStyle from "../../Shared/CustomCloseIcon.module.css";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { IItem } from "../../../Models/IItem";

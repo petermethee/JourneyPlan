@@ -34,8 +34,9 @@ import {
   deleteAccomodation,
   setUsedAccomodations,
 } from "../../features/Redux/accomodationsSlice";
-import { defaultWhite } from "../../style/cssGlobalStyle";
+import { defaultWhite, primaryColor } from "../../style/cssGlobalStyle";
 import { GRID_CONTAINER } from "./Calendar/CalendarView";
+import { ButtonBase } from "@mui/material";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
@@ -437,7 +438,6 @@ export default function DraggableCardView({
             isDragged || willDisappear || usedWillDisappear ? "" : "none",
           animation: ghostAnimation,
         }}
-        onMouseDown={onMouseDown}
       >
         {children(
           () => {},
@@ -460,9 +460,19 @@ export default function DraggableCardView({
         className={`${styles.showcase} ${shwoCaseClass} ${
           (willBeDeletedFromPlanning || willBeDeleted) && styles.deleteAnim
         }`}
-        onMouseDown={onMouseDown}
         onAnimationEnd={onDeleteAnimationEnd}
       >
+        <ButtonBase
+          sx={{
+            position: "absolute",
+            top: "0",
+            left: "0",
+            height: "100%",
+            width: "100%",
+            color: primaryColor,
+          }}
+          onMouseDown={onMouseDown}
+        />
         {children(
           () => setWillBeDeletedFromPlanning(true),
           () => setWillBeDeleted(true),

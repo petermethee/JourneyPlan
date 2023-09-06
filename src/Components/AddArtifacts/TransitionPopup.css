@@ -4,13 +4,13 @@
 }
 
 .popupTransitionContent-enter-active {
-    transition: all 100ms ease;
+    transition: all 200ms ease;
     transform: scale(1);
     opacity: 1;
 }
 
 .popupTransitionContent-exit {
-    transition: all 100ms ease;
+    transition: all 200ms ease;
     transform: scale(1);
     opacity: 1;
 }

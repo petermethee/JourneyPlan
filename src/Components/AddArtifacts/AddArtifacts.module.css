@@ -4,6 +4,7 @@
     left: 50%;
     top: 50%;
     z-index: 1;
+    pointer-events: none;
 }
 
 .insidePopUp {
@@ -21,6 +22,7 @@
     max-width: 90vw;
     max-height: 90vh;
     resize: both;
+    pointer-events: all;
 }
 
 .insidePopUp input, .insidePopUp textarea {

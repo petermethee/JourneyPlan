@@ -183,6 +183,14 @@ export const AddAccomodation = forwardRef(
       setSaving,
     ]);
 
+    useEffect(() => {
+      setFormValues(initialFormValues);
+    }, [initialFormValues]);
+
+    useEffect(() => {
+      setAttachment(initialAttachment);
+    }, [initialAttachment]);
+
     return (
       <>
         <div

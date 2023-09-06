@@ -207,6 +207,21 @@ export const AddTransport = forwardRef(
       setSaving,
     ]);
 
+    useEffect(() => {
+      setFormValues(initialFormValues);
+    }, [initialFormValues]);
+
+    useEffect(() => {
+      setAttachment(initialAttachment);
+    }, [initialAttachment]);
+    useEffect(() => {
+      setHours(initialHours);
+    }, [initialHours]);
+
+    useEffect(() => {
+      setMinutes(initMinute);
+    }, [initMinute]);
+
     return (
       <>
         <div
