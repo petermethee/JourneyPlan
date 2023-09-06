@@ -8,6 +8,7 @@ import {
 } from "../ipc/ipcGenericFunctions";
 import { RootState } from "../../app/store";
 import { EArtifactTableName } from "../../Models/EArtifacts";
+import IPlanningArtifact from "../../Models/IPlanningArtifact";
 
 interface ActivitiesState {
   activities: IActivity[];
@@ -91,6 +92,18 @@ export const activitiesSlice = createSlice({
           : activity
       );
     },
+    updateUsedActivities: (
+      state: ActivitiesState,
+      action: PayloadAction<IPlanningArtifact[]>
+    ) => {
+      state.activities.forEach((activity) => {
+        activity.used = action.payload.some(
+          (PA) => PA.artifactId === activity.id
+        )
+          ? 1
+          : 0;
+      });
+    },
   },
   extraReducers(builder) {
     builder
@@ -109,7 +122,8 @@ export const activitiesSlice = createSlice({
   },
 });
 
-export const { setUsedActivities } = activitiesSlice.actions;
+export const { setUsedActivities, updateUsedActivities } =
+  activitiesSlice.actions;
 
 export const selectActivities = (state: RootState) =>
   state.activitiesReducer.activities;

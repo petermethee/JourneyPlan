@@ -8,6 +8,7 @@ import {
 } from "../ipc/ipcGenericFunctions";
 import { RootState } from "../../app/store";
 import { EArtifactTableName } from "../../Models/EArtifacts";
+import IPlanningArtifact from "../../Models/IPlanningArtifact";
 
 interface TransportsState {
   transports: ITransport[];
@@ -94,6 +95,18 @@ export const transportsSlice = createSlice({
           : transport
       );
     },
+    updateUsedTransports: (
+      state: TransportsState,
+      action: PayloadAction<IPlanningArtifact[]>
+    ) => {
+      state.transports.forEach((transport) => {
+        transport.used = action.payload.some(
+          (PA) => PA.artifactId === transport.id
+        )
+          ? 1
+          : 0;
+      });
+    },
   },
   extraReducers(builder) {
     builder
@@ -112,7 +125,8 @@ export const transportsSlice = createSlice({
   },
 });
 
-export const { setUsedTransports } = transportsSlice.actions;
+export const { setUsedTransports, updateUsedTransports } =
+  transportsSlice.actions;
 
 export const selectTransports = (state: RootState) =>
   state.transportsReducer.transports;

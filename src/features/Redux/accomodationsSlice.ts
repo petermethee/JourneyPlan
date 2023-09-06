@@ -8,6 +8,7 @@ import {
 } from "../ipc/ipcGenericFunctions";
 import { RootState } from "../../app/store";
 import { EArtifactTableName } from "../../Models/EArtifacts";
+import IPlanningArtifact from "../../Models/IPlanningArtifact";
 
 interface AccomodationsState {
   accomodations: IAccomodation[];
@@ -103,6 +104,18 @@ export const accomodationsSlice = createSlice({
           : accomodation
       );
     },
+    updateUsedAccomodations: (
+      state: AccomodationsState,
+      action: PayloadAction<IPlanningArtifact[]>
+    ) => {
+      state.accomodations.forEach((accomodation) => {
+        accomodation.used = action.payload.some(
+          (PA) => PA.artifactId === accomodation.id
+        )
+          ? 1
+          : 0;
+      });
+    },
   },
   extraReducers(builder) {
     builder
@@ -121,7 +134,8 @@ export const accomodationsSlice = createSlice({
   },
 });
 
-export const { setUsedAccomodations } = accomodationsSlice.actions;
+export const { setUsedAccomodations, updateUsedAccomodations } =
+  accomodationsSlice.actions;
 
 export const selectAccomodations = (state: RootState) =>
   state.accomodationsReducer.accomodations;

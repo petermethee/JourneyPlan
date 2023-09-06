@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   getAllActivities,
   selectActivities,
+  updateUsedActivities,
 } from "../../features/Redux/activitiesSlice";
 import { useParams } from "react-router-dom";
 import CalendarView from "./Calendar/CalendarView";
@@ -23,10 +24,12 @@ import { EArtifact } from "../../Models/EArtifacts";
 import {
   getAllTransports,
   selectTransports,
+  updateUsedTransports,
 } from "../../features/Redux/transportsSlice";
 import {
   getAllAccomodations,
   selectAccomodations,
+  updateUsedAccomodations,
 } from "../../features/Redux/accomodationsSlice";
 import AddArtifacts from "../AddArtifacts/AddArtifacts";
 
@@ -130,15 +133,33 @@ export default function Planning() {
   }, [selectedTrip, planningArtifacts, activities, accomodations, transports]);
 
   useEffect(() => {
+    dispatch(getAllPlannings(parseInt(tripId)));
     dispatch(getAllActivities(parseInt(tripId)));
     dispatch(getAllTransports(parseInt(tripId)));
     dispatch(getAllAccomodations(parseInt(tripId)));
-    dispatch(getAllPlannings(parseInt(tripId)));
   }, [dispatch, tripId]);
 
   useEffect(() => {
     if (planningId) {
-      dispatch(getAllArtifactsPlanning(planningId));
+      dispatch(getAllArtifactsPlanning(planningId))
+        .unwrap()
+        .then((PA) => {
+          dispatch(
+            updateUsedActivities(
+              PA.filter((item) => item.artifactType === EArtifact.Activity)
+            )
+          );
+          dispatch(
+            updateUsedAccomodations(
+              PA.filter((item) => item.artifactType === EArtifact.Accomodation)
+            )
+          );
+          dispatch(
+            updateUsedTransports(
+              PA.filter((item) => item.artifactType === EArtifact.Transport)
+            )
+          );
+        });
     }
   }, [planningId, dispatch]);
 

@@ -11,7 +11,7 @@ export default interface IActivity {
   [ActivitiesTable.pleasure]?: number;
   [ActivitiesTable.location]: string;
   [ActivitiesTable.contraint]?: string;
-  [ActivitiesTable.used]: number;
+  [ActivitiesTable.used]: 0 | 1;
   attachment: IAttachment[];
 }
 
