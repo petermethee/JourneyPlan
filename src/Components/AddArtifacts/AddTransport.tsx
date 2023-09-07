@@ -41,7 +41,7 @@ export const AddTransport = forwardRef(
   ) => {
     const dispatch = useAppDispatch();
 
-    const initialFormValues = useMemo(() => {
+    const initialFormValues: TFormTransport = useMemo(() => {
       if (transport) {
         return {
           [TransportsTable.name]: transport.name,
@@ -50,6 +50,10 @@ export const AddTransport = forwardRef(
           [TransportsTable.from]: transport.departure,
           [TransportsTable.to]: transport.destination,
           [TransportsTable.vehicule]: transport.vehicule,
+          [TransportsTable.lat_from]: transport.lat_from,
+          [TransportsTable.lat_to]: transport.lat_to,
+          [TransportsTable.lng_from]: transport.lng_from,
+          [TransportsTable.lng_to]: transport.lng_to,
         };
       }
       return {
@@ -59,6 +63,10 @@ export const AddTransport = forwardRef(
         [TransportsTable.from]: "",
         [TransportsTable.to]: "",
         [TransportsTable.vehicule]: "",
+        [TransportsTable.lat_from]: null,
+        [TransportsTable.lat_to]: null,
+        [TransportsTable.lng_from]: null,
+        [TransportsTable.lng_to]: null,
       };
     }, [transport]);
 
@@ -277,6 +285,9 @@ export const AddTransport = forwardRef(
                     target: { value: address, name: TransportsTable.from },
                   } as unknown as any)
                 }
+                isLocalisationOk={
+                  formValues.lat_from !== null && formValues.lng_from !== null
+                }
               />
             </Grid>
             <Grid
@@ -303,6 +314,9 @@ export const AddTransport = forwardRef(
                   updateForm({
                     target: { value: address, name: TransportsTable.to },
                   } as unknown as any)
+                }
+                isLocalisationOk={
+                  formValues.lat_to !== null && formValues.lng_to !== null
                 }
               />
             </Grid>

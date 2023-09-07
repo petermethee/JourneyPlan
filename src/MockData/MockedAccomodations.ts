@@ -12,6 +12,8 @@ export const mockedAccomodations: IAccomodation[] = [
     used: 0,
     checkin: "17h00",
     checkout: "10h00",
+    lat: 0,
+    lng: 0,
   },
   {
     id: 2,
@@ -24,6 +26,8 @@ export const mockedAccomodations: IAccomodation[] = [
     used: 0,
     checkin: "17h00",
     checkout: "10h00",
+    lat: 0,
+    lng: 0,
   },
   {
     id: 3,
@@ -36,5 +40,7 @@ export const mockedAccomodations: IAccomodation[] = [
     used: 0,
     checkin: "17h00",
     checkout: "10h00",
+    lat: 0,
+    lng: 0,
   },
 ];

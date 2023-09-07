@@ -11,6 +11,8 @@ export default interface IAccomodation {
   [AccomodationsTable.checkin]: string;
   [AccomodationsTable.checkout]: string;
   [AccomodationsTable.used]: number;
+  [AccomodationsTable.lat]: number | null;
+  [AccomodationsTable.lng]: number | null;
   attachment: IAttachment[];
 }
 
@@ -21,4 +23,6 @@ export type TFormAccomodation = {
   [AccomodationsTable.location]: string;
   [AccomodationsTable.checkin]: string;
   [AccomodationsTable.checkout]: string;
+  [AccomodationsTable.lat]: number | null;
+  [AccomodationsTable.lng]: number | null;
 };

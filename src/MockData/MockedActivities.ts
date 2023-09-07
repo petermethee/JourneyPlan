@@ -13,6 +13,8 @@ export const mockedActivities: IActivity[] = [
     attachment: [],
     contraint: "contraint",
     used: 0,
+    lat: 0,
+    lng: 0,
   },
   {
     id: 2,
@@ -26,6 +28,8 @@ export const mockedActivities: IActivity[] = [
     attachment: [],
     contraint: "contraint",
     used: 0,
+    lat: 0,
+    lng: 0,
   },
   {
     id: 3,
@@ -39,6 +43,8 @@ export const mockedActivities: IActivity[] = [
     attachment: [],
     contraint: "contraint",
     used: 0,
+    lat: 0,
+    lng: 0,
   },
   {
     id: 4,
@@ -52,6 +58,8 @@ export const mockedActivities: IActivity[] = [
     attachment: [],
     contraint: "contraint",
     used: 0,
+    lat: 0,
+    lng: 0,
   },
   {
     id: 5,
@@ -65,6 +73,8 @@ export const mockedActivities: IActivity[] = [
     attachment: [],
     contraint: "contraint",
     used: 0,
+    lat: 0,
+    lng: 0,
   },
   {
     id: 6,
@@ -78,6 +88,8 @@ export const mockedActivities: IActivity[] = [
     attachment: [],
     contraint: "contraint",
     used: 0,
+    lat: 0,
+    lng: 0,
   },
   {
     id: 7,
@@ -91,6 +103,8 @@ export const mockedActivities: IActivity[] = [
     attachment: [],
     contraint: "contraint",
     used: 0,
+    lat: 0,
+    lng: 0,
   },
   {
     id: 8,
@@ -104,5 +118,7 @@ export const mockedActivities: IActivity[] = [
     attachment: [],
     contraint: "contraint",
     used: 0,
+    lat: 0,
+    lng: 0,
   },
 ];

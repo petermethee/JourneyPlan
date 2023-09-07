@@ -42,7 +42,7 @@ export const AddAccomodation = forwardRef(
   ) => {
     const dispatch = useAppDispatch();
 
-    const initialFormValues = useMemo(() => {
+    const initialFormValues: TFormAccomodation = useMemo(() => {
       if (accomodation) {
         return {
           [AccomodationsTable.name]: accomodation.name,
@@ -51,6 +51,8 @@ export const AddAccomodation = forwardRef(
           [AccomodationsTable.location]: accomodation.location,
           [AccomodationsTable.checkin]: accomodation.checkin,
           [AccomodationsTable.checkout]: accomodation.checkout,
+          [AccomodationsTable.lat]: accomodation.lat,
+          [AccomodationsTable.lng]: accomodation.lng,
         };
       }
       return {
@@ -60,6 +62,8 @@ export const AddAccomodation = forwardRef(
         [AccomodationsTable.location]: "",
         [AccomodationsTable.checkin]: "18:0",
         [AccomodationsTable.checkout]: "10:0",
+        [AccomodationsTable.lat]: null,
+        [AccomodationsTable.lng]: null,
       };
     }, [accomodation]);
 

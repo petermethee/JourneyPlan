@@ -1,22 +1,34 @@
-import { TextField, TextFieldProps } from "@mui/material";
+import { useRef, useState } from "react";
+import { InputAdornment, TextField, TextFieldProps } from "@mui/material";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
 import styles from "./LocationSearchInput.module.css";
-import { useRef } from "react";
-
+import FmdBadRoundedIcon from "@mui/icons-material/FmdBadRounded";
+import WhereToVoteRoundedIcon from "@mui/icons-material/WhereToVoteRounded";
 export default function LocationSearchInput({
   setAddress,
   address,
+  isLocalisationOk,
   ...textFieldProps
-}: { setAddress: (adress: string) => void; address: string } & TextFieldProps) {
+}: {
+  setAddress: (
+    adress: string,
+    { lat, lng }: { lat: number | null; lng: number | null }
+  ) => void;
+  address: string;
+  isLocalisationOk: boolean;
+} & TextFieldProps) {
   const ref = useRef<HTMLInputElement>(null);
+  const [localisationOk, setLocalisationOk] = useState(isLocalisationOk);
+
   const handleSelect = (address: string) => {
     geocodeByAddress(address)
       .then((results) => getLatLng(results[0]))
       .then((latLng) => {
-        setAddress(address);
+        setAddress(address, latLng);
+        setLocalisationOk(true);
         console.log("latlng", latLng);
       });
     // .catch((error) => console.error("Error", error));
@@ -25,12 +37,30 @@ export default function LocationSearchInput({
   return (
     <PlacesAutocomplete
       value={address}
-      onChange={(newAddress) => setAddress(newAddress)}
+      onChange={(newAddress) => {
+        setAddress(newAddress, { lat: null, lng: null });
+        setLocalisationOk(false);
+      }}
       onSelect={handleSelect}
     >
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <div className={styles.container}>
-          <TextField inputRef={ref} {...textFieldProps} {...getInputProps()} />
+          <TextField
+            inputRef={ref}
+            {...textFieldProps}
+            {...getInputProps()}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  {localisationOk ? (
+                    <WhereToVoteRoundedIcon color="primary" />
+                  ) : (
+                    <FmdBadRoundedIcon color="error" />
+                  )}
+                </InputAdornment>
+              ),
+            }}
+          />
           <div className={styles.dropdownContainer}>
             {loading && <div>Chargement...</div>}
             {suggestions.map((suggestion, index) => {

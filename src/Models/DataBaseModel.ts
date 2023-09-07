@@ -28,6 +28,8 @@ export enum ActivitiesTable {
   location = "location",
   contraint = "contraint",
   used = "used",
+  lat = "lat",
+  lng = "lng",
 }
 
 export enum TransportsTable {
@@ -41,6 +43,10 @@ export enum TransportsTable {
   vehicule = "vehicule",
   price = "price",
   used = "used",
+  lat_from = "lat_from",
+  lat_to = "lat_to",
+  lng_from = "lng_from",
+  lng_to = "lng_to",
 }
 
 export enum AccomodationsTable {
@@ -53,6 +59,8 @@ export enum AccomodationsTable {
   checkin = "checkin",
   checkout = "checkout",
   used = "used",
+  lat = "lat",
+  lng = "lng",
 }
 
 export enum PlanningArtifactTable {

@@ -39,7 +39,7 @@ export const AddActivity = forwardRef(
   ) => {
     const dispatch = useAppDispatch();
 
-    const initialFormValues = useMemo(() => {
+    const initialFormValues: TFormActivity = useMemo(() => {
       if (activity) {
         return {
           [ActivitiesTable.name]: activity.name,
@@ -47,6 +47,8 @@ export const AddActivity = forwardRef(
           [ActivitiesTable.price]: activity.price,
           [ActivitiesTable.pleasure]: activity.pleasure,
           [ActivitiesTable.location]: activity.location,
+          [ActivitiesTable.lat]: activity.lat,
+          [ActivitiesTable.lng]: activity.lng,
         };
       }
       return {
@@ -55,6 +57,8 @@ export const AddActivity = forwardRef(
         [ActivitiesTable.price]: 0,
         [ActivitiesTable.pleasure]: 0,
         [ActivitiesTable.location]: "",
+        [ActivitiesTable.lat]: null,
+        [ActivitiesTable.lng]: null,
       };
     }, [activity]);
 
@@ -272,10 +276,13 @@ export const AddActivity = forwardRef(
                 variant="standard"
                 label="Localisation"
                 address={formValues.location}
-                setAddress={(address) =>
-                  updateForm({
-                    target: { value: address, name: ActivitiesTable.location },
-                  } as unknown as any)
+                setAddress={(address, { lat, lng }) =>
+                  setFormValues((prevState) => {
+                    return { ...prevState, location: address, lng, lat };
+                  })
+                }
+                isLocalisationOk={
+                  formValues.lat !== null && formValues.lng !== null
                 }
               />
             </Grid>
