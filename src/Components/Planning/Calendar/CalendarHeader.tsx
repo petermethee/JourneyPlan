@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import { IconButton } from "@mui/material";
+import { ButtonBase, IconButton } from "@mui/material";
 
 export default function CalendarHeader({
   dayCols,
@@ -17,36 +17,38 @@ export default function CalendarHeader({
   setDaysIndex: Dispatch<SetStateAction<number[]>>;
 }) {
   return (
-    <div className={styles.daysHeader}>
+    <div style={{ display: "flex" }}>
       <div className={styles.settingsIcon}>
         <IconButton>
           <SettingsSuggestRoundedIcon />
         </IconButton>
       </div>
-      <div className={styles.arrowButtonL}>
-        <IconButton
+      <div className={styles.daysHeader}>
+        <ButtonBase
+          sx={{ position: "absolute" }}
+          className={styles.arrowButtonL}
           onClick={() =>
             setDaysIndex((prevState) => [prevState[0] - 1, prevState[1] - 1])
           }
           disabled={daysIndex[0] === 0}
         >
           <ArrowBackIosRoundedIcon />
-        </IconButton>
-      </div>
-      <div className={styles.arrowButtonR}>
-        <IconButton
+        </ButtonBase>
+        <ButtonBase
+          sx={{ position: "absolute" }}
           onClick={() =>
             setDaysIndex((prevState) => [prevState[0] + 1, prevState[1] + 1])
           }
           disabled={dayCols.length === daysIndex[1]}
+          className={styles.arrowButtonR}
         >
           <ArrowForwardIosRoundedIcon />
-        </IconButton>
-      </div>
+        </ButtonBase>
 
-      {dayCols.map((date) => (
-        <DayHeader key={date} date={dayjs(date)} />
-      ))}
+        {dayCols.map((date) => (
+          <DayHeader key={date} date={dayjs(date)} />
+        ))}
+      </div>
     </div>
   );
 }

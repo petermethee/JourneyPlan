@@ -40,16 +40,3 @@
     border-bottom: 1px dashed #dadce0;
     width: 100%;
 }
-
-.arrowButtonR, .arrowButtonL {
-    position: absolute;
-    top: 15px;
-}
-
-.arrowButtonR {
-    right: 10px;
-}
-
-.arrowButtonL {
-    left: calc(var(--hoursLabelWidth) + 10px);
-}

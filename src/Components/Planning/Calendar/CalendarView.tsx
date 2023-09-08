@@ -173,7 +173,7 @@ function CalendarView({
                       })
                     }
                   >
-                    {(onDeleteFromPlanning, onDelete, isDragged) => (
+                    {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
                       <ArtifactTemplate
                         artifact={PA.activity}
                         isDragged={isDragged}
@@ -183,6 +183,7 @@ function CalendarView({
                         artifactColor={activityColor}
                         artifactSecColor={activitySecColor}
                         artifactIcon={<ActivityIcon color={defaultWhite} />}
+                        isHovered={isHovered}
                         insideCalendar
                       >
                         <ActivityDataCard activity={PA.activity} />
@@ -214,7 +215,7 @@ function CalendarView({
                       })
                     }
                   >
-                    {(onDeleteFromPlanning, onDelete, isDragged) => (
+                    {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
                       <ArtifactTemplate
                         artifact={PT.transport}
                         isDragged={isDragged}
@@ -224,6 +225,7 @@ function CalendarView({
                         artifactColor={transportColor}
                         artifactSecColor={transportSecColor}
                         artifactIcon={<TransportIcon color={defaultWhite} />}
+                        isHovered={isHovered}
                         insideCalendar
                       >
                         <TransportDataCard transport={PT.transport} />
@@ -268,7 +270,7 @@ function CalendarView({
                     })
                   }
                 >
-                  {(onDeleteFromPlanning, onDelete, isDragged) => (
+                  {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
                     <ArtifactTemplate
                       artifact={PA.accomodation}
                       isDragged={isDragged}
@@ -277,6 +279,7 @@ function CalendarView({
                       artifactColor={accomodationColor}
                       artifactSecColor={accomodationSecColor}
                       artifactIcon={<AccomodationIcon color={defaultWhite} />}
+                      isHovered={isHovered}
                       insideCalendar
                     >
                       <AccomodationDataCard accomodation={PA.accomodation} />

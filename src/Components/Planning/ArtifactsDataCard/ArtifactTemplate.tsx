@@ -19,6 +19,7 @@ export default function ArtifactTemplate({
   artifactColor,
   artifactSecColor,
   artifactIcon,
+  isHovered,
 }: {
   artifact: IItem;
   duration?: number;
@@ -30,6 +31,7 @@ export default function ArtifactTemplate({
   artifactColor: string;
   artifactSecColor: string;
   artifactIcon: JSX.Element;
+  isHovered: boolean;
 }) {
   const minimalView = useMemo(
     () => (insideCalendar || isDragged) && duration && duration < 1,
@@ -49,6 +51,7 @@ export default function ArtifactTemplate({
             center
             onDelete={onDeleteFromPlanning}
             size={duration === 0.25 ? "13px" : "20px"}
+            sx={{ opacity: isHovered ? 1 : 0 }}
           />
         )}
         {!insideCalendar && !isDragged && !artifact.used && (
@@ -60,6 +63,8 @@ export default function ArtifactTemplate({
               top: "2px",
               padding: "2px",
               backgroundColor: " #5453539f",
+              opacity: isHovered ? 1 : 0,
+              zIndex: 1,
               "&:hover": { backgroundColor: "#303030dd" },
             }}
             onClick={onDelete}

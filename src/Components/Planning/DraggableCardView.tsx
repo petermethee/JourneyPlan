@@ -48,6 +48,7 @@ type TDraggableProps = {
   children: (
     onDeleteFromPlanning: () => void,
     onDelete: () => void,
+    isHovered: boolean,
     isDragged?: boolean
   ) => JSX.Element | JSX.Element[];
   PAId?: number;
@@ -107,7 +108,7 @@ export default function DraggableCardView({
   const [willBeDeleted, setWillBeDeleted] = useState(false);
 
   const [destination, setDestination] = useState<TDroppableInfo>(source);
-
+  const [isHovered, setIsHovered] = useState(false);
   const containerAnimation = useMemo(() => {
     if (willDisappear || willBeDeleted) {
       return `${disappearAnim} 300ms ease-out forwards`;
@@ -464,19 +465,22 @@ export default function DraggableCardView({
       >
         <ButtonBase
           sx={{
-            fontFamily: "auto",
+            position: "absolute",
             height: "100%",
             width: "100%",
             color: primaryColor,
+            zIndex: 1,
           }}
           onMouseDown={onMouseDown}
-        >
-          {children(
-            () => setWillBeDeletedFromPlanning(true),
-            () => setWillBeDeleted(true),
-            isDragged || willDisappear || usedWillDisappear
-          )}
-        </ButtonBase>
+          onMouseLeave={() => setIsHovered(false)}
+          onMouseEnter={() => setIsHovered(true)}
+        />
+        {children(
+          () => setWillBeDeletedFromPlanning(true),
+          () => setWillBeDeleted(true),
+          isHovered,
+          isDragged || willDisappear || usedWillDisappear
+        )}
       </div>
     </div>
   );

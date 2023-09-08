@@ -97,7 +97,7 @@ export default function SideData({
               })
             }
           >
-            {(onDeleteFromPlanning, onDelete, isDragged) => (
+            {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
               <ArtifactTemplate
                 artifact={activity}
                 isDragged={isDragged}
@@ -107,6 +107,7 @@ export default function SideData({
                 artifactColor={activityColor}
                 artifactSecColor={activitySecColor}
                 artifactIcon={<ActivityIcon color={defaultWhite} />}
+                isHovered={isHovered}
               >
                 <ActivityDataCard activity={activity} />
               </ArtifactTemplate>
@@ -135,7 +136,7 @@ export default function SideData({
               })
             }
           >
-            {(onDeleteFromPlanning, onDelete, isDragged) => (
+            {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
               <ArtifactTemplate
                 artifact={transport}
                 isDragged={isDragged}
@@ -145,6 +146,7 @@ export default function SideData({
                 artifactColor={transportColor}
                 artifactSecColor={transportSecColor}
                 artifactIcon={<TransportIcon color={defaultWhite} />}
+                isHovered={isHovered}
               >
                 <TransportDataCard transport={transport} />
               </ArtifactTemplate>
@@ -174,7 +176,7 @@ export default function SideData({
               })
             }
           >
-            {(onDeleteFromPlanning, onDelete, isDragged) => (
+            {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
               <ArtifactTemplate
                 artifact={accomodation}
                 isDragged={isDragged}
@@ -183,6 +185,7 @@ export default function SideData({
                 artifactColor={accomodationColor}
                 artifactSecColor={accomodationSecColor}
                 artifactIcon={<AccomodationIcon color={defaultWhite} />}
+                isHovered={isHovered}
               >
                 <AccomodationDataCard accomodation={accomodation} />
               </ArtifactTemplate>

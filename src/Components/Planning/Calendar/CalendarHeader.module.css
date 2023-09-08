@@ -8,3 +8,15 @@
     justify-content: center;
     align-items: center;
 }
+
+.arrowButtonR, .arrowButtonL {
+    top: 15px;
+}
+
+.arrowButtonR {
+    right: 10px;
+}
+
+.arrowButtonL {
+    left: calc(var(--hoursLabelWidth) + 10px);
+}

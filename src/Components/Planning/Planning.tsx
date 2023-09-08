@@ -179,7 +179,6 @@ export default function Planning() {
           setOpenModal(true);
         }}
       />
-      {/* <Backdrop open={openModal} sx={{ zIndex: 10 }} /> */}
 
       <AddArtifacts
         setOpen={setOpenModal}

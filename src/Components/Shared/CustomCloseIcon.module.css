@@ -1,6 +1,7 @@
 .deleteIcon {
     transition: 300ms;
     opacity: 0;
+    z-index: 1;
 }
 
 .container:hover .deleteIcon {
