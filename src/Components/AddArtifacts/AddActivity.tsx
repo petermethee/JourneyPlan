@@ -81,7 +81,7 @@ export const AddActivity = forwardRef(
     const initMinute = useMemo(() => {
       const min = activity?.duration.toString().split(".");
       if (min && min.length > 1) {
-        return (parseInt(min[1]) / 10) * 4;
+        return (parseInt(min[1]) / 100) * 4;
       }
       return 0;
     }, [activity?.duration]);

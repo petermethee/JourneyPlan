@@ -88,7 +88,7 @@ export const AddTransport = forwardRef(
     const initMinute = useMemo(() => {
       const min = transport?.duration.toString().split(".");
       if (min && min.length > 1) {
-        return (parseInt(min[1]) / 10) * 4;
+        return (parseInt(min[1]) / 100) * 4;
       }
       return 0;
     }, [transport?.duration]);

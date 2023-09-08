@@ -464,20 +464,19 @@ export default function DraggableCardView({
       >
         <ButtonBase
           sx={{
-            position: "absolute",
-            top: "0",
-            left: "0",
+            fontFamily: "auto",
             height: "100%",
             width: "100%",
             color: primaryColor,
           }}
           onMouseDown={onMouseDown}
-        />
-        {children(
-          () => setWillBeDeletedFromPlanning(true),
-          () => setWillBeDeleted(true),
-          isDragged || willDisappear || usedWillDisappear
-        )}
+        >
+          {children(
+            () => setWillBeDeletedFromPlanning(true),
+            () => setWillBeDeleted(true),
+            isDragged || willDisappear || usedWillDisappear
+          )}
+        </ButtonBase>
       </div>
     </div>
   );

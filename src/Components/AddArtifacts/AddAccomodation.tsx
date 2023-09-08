@@ -26,6 +26,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
+import LocationSearchInput from "./LocationSearchInput";
 
 export const AddAccomodation = forwardRef(
   (
@@ -238,14 +239,21 @@ export const AddAccomodation = forwardRef(
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField
+              <LocationSearchInput
                 required
                 name={AccomodationsTable.location}
                 fullWidth
                 variant="standard"
                 label="Localisation"
-                value={formValues.location}
-                onChange={updateForm}
+                address={formValues.location}
+                setAddress={(address, { lat, lng }) =>
+                  setFormValues((prevState) => {
+                    return { ...prevState, location: address, lng, lat };
+                  })
+                }
+                isLocalisationOk={
+                  formValues.lat !== null && formValues.lng !== null
+                }
               />
             </Grid>
             <Grid item xs={3} display="flex" justifyContent="center">
