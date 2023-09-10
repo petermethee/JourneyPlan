@@ -141,7 +141,14 @@ export default class ArtifactsDbManager {
         (attachment) => attachment.path === oldPJ.path
       );
       if (newAttachIndex === -1) {
-        fs.unlinkSync(oldPJ.path);
+        try {
+          fs.unlinkSync(oldPJ.path);
+        } catch (error) {
+          console.log(
+            `Error while deleting attachment related to ${artifactType} ${artifactId}: `,
+            error
+          );
+        }
         const sql = `DELETE FROM ${TablesName.attachments} WHERE id = ${oldPJ.id}`;
         const stmt = this.db.prepare(sql);
         stmt.run();
@@ -164,8 +171,15 @@ export default class ArtifactsDbManager {
     const query = `SELECT ${AttachmentsTable.path} FROM ${TablesName.attachments} WHERE ${artifactColumn} = ${artifactId}`;
     const stmt = this.db.prepare(query);
     const pathes = stmt.all() as { path: string }[];
-    for (const pathObj of pathes) {
-      fs.unlinkSync(pathObj.path);
+    try {
+      for (const pathObj of pathes) {
+        fs.unlinkSync(pathObj.path);
+      }
+    } catch (error) {
+      console.log(
+        `Error while deleting attachments related to ${artifactType} ${artifactId}: `,
+        error
+      );
     }
   };
 }

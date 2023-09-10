@@ -1,7 +1,11 @@
 import { Database } from "better-sqlite3";
 import {
+  AccomodationsTable,
+  ActivitiesTable,
+  AttachmentsTable,
   PlanningsTable,
   TablesName,
+  TransportsTable,
   TripsTable,
 } from "../../src/Models/DataBaseModel";
 import ITrip from "../../src/Models/ITrip";
@@ -80,6 +84,44 @@ export default class TripsManager {
   };
 
   deleteTrip = async (tripId: number) => {
+    let attachmentQuery = `SELECT att.${AttachmentsTable.path} FROM ${TablesName.activities} act JOIN ${TablesName.attachments} att ON act.${ActivitiesTable.id} = att.${AttachmentsTable.id_activity} WHERE act.${ActivitiesTable.id_trip} = ${tripId}`;
+    const activitesPathes = this.db.prepare(attachmentQuery).all() as {
+      path: string;
+    }[];
+    attachmentQuery = `SELECT att.${AttachmentsTable.path} FROM ${TablesName.transports} act JOIN ${TablesName.attachments} att ON act.${TransportsTable.id} = att.${AttachmentsTable.id_transport} WHERE act.${TransportsTable.id_trip} = ${tripId}`;
+    const transportsPathes = this.db.prepare(attachmentQuery).all() as {
+      path: string;
+    }[];
+    attachmentQuery = `SELECT att.${AttachmentsTable.path} FROM ${TablesName.accomodations} act JOIN ${TablesName.attachments} att ON act.${AccomodationsTable.id} = att.${AttachmentsTable.id_accomodation} WHERE act.${AccomodationsTable.id_trip} = ${tripId}`;
+    const accomodationsPathes = this.db.prepare(attachmentQuery).all() as {
+      path: string;
+    }[];
+
+    const pathes = [
+      ...activitesPathes,
+      ...transportsPathes,
+      ...accomodationsPathes,
+    ];
+
+    const imagePathQuery = `SELECT ${TripsTable.imagePath} from ${TablesName.trips} WHERE ${TripsTable.id} = ${tripId}`;
+    const imagePath = this.db.prepare(imagePathQuery).all() as {
+      image_path: string;
+    }[];
+
+    try {
+      for (const pathObj of pathes) {
+        fs.unlinkSync(pathObj.path);
+      }
+      for (const pathObj of imagePath) {
+        fs.unlinkSync(pathObj.image_path);
+      }
+    } catch (error) {
+      console.log(
+        "Error while deleting attachments related to trip: " + tripId,
+        error
+      );
+    }
+
     const sql = `DELETE FROM ${TablesName.trips} WHERE ${TripsTable.id} = ${tripId}`;
     const stmt = this.db.prepare(sql);
     stmt.run();
