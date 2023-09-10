@@ -79,12 +79,12 @@ export const AddActivity = forwardRef(
     const [hours, setHours] = useState(initialHours);
 
     const initMinute = useMemo(() => {
-      const min = activity?.duration.toString().split(".");
+      const min = activity?.duration.toFixed(2).split(".");
       if (min && min.length > 1) {
         return (parseInt(min[1]) / 100) * 4;
       }
       return 0;
-    }, [activity?.duration]);
+    }, [activity]);
 
     const [minutes, setMinutes] = useState(initMinute);
     const [dragActive, setDragActive] = useState(false);
@@ -211,6 +211,8 @@ export const AddActivity = forwardRef(
     ]);
 
     useEffect(() => {
+      console.log("initFormValues chnaged");
+
       setFormValues(initialFormValues);
     }, [initialFormValues]);
 
@@ -219,11 +221,13 @@ export const AddActivity = forwardRef(
     }, [initialAttachment]);
     useEffect(() => {
       setHours(initialHours);
-    }, [initialHours]);
+    }, [initialHours, activity]);
 
     useEffect(() => {
+      console.log("initMinute", initMinute);
+
       setMinutes(initMinute);
-    }, [initMinute]);
+    }, [initMinute, activity]);
 
     return (
       <>
