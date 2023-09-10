@@ -6,11 +6,12 @@ import {
   selectAllPlannings,
   updatePlanning,
 } from "../../../../features/Redux/planningSlice";
-import { IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { selectCurrentTrip } from "../../../../features/Redux/tripSlice";
 import { IPlanning } from "../../../../Models/IPlanningArtifact";
 import SheetItem from "./SheetItem";
+import MapIcon from "@mui/icons-material/Map";
 
 export default function PlanningSheets() {
   const dispatch = useAppDispatch();
@@ -41,22 +42,37 @@ export default function PlanningSheets() {
   };
 
   return (
-    <div className={styles.planningSheets}>
-      <div className={styles.sheetContainer}>
-        {plannings.map((planning) => (
-          <SheetItem
-            key={planning.id}
-            planning={planning}
-            editPlanning={editPlanning}
-            setEditPlanning={setEditPlanning}
-            disableClose={plannings.length === 1}
-            handleBlur={handleBlur}
-          />
-        ))}
+    <div className={styles.container}>
+      <div className={styles.planningSheets}>
+        <div className={styles.sheetContainer}>
+          {plannings.map((planning) => (
+            <SheetItem
+              key={planning.id}
+              planning={planning}
+              editPlanning={editPlanning}
+              setEditPlanning={setEditPlanning}
+              disableClose={plannings.length === 1}
+              handleBlur={handleBlur}
+            />
+          ))}
+        </div>
+        <IconButton
+          onClick={addPlanning}
+          size="small"
+          sx={{ margin: "0px 8px" }}
+        >
+          <AddIcon fontSize="inherit" />
+        </IconButton>
       </div>
-      <IconButton onClick={addPlanning} size="small" sx={{ margin: "0px 8px" }}>
-        <AddIcon fontSize="inherit" />
-      </IconButton>
+
+      <Button
+        variant="contained"
+        startIcon={<MapIcon />}
+        // sx={{ color: "#fff" }}
+        size="small"
+      >
+        Map
+      </Button>
     </div>
   );
 }

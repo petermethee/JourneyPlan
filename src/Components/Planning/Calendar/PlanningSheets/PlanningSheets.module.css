@@ -1,10 +1,16 @@
-.planningSheets {
+.container {
+    display: flex;
+    justify-content: space-between;
     background-color: var(--darkSecondaryBlue);
+    height: 35px;
+    z-index: 2;
+}
+
+.planningSheets {
     display: flex;
     overflow: hidden;
     align-items: center;
-    height: 35px;
-    z-index: 2;
+
 }
 
 .sheetContainer {
