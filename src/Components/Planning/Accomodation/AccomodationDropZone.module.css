@@ -10,6 +10,7 @@
     transition: 300ms;
     margin-left: var(--hoursLabelWidth);
     height: var(--accomodationDropZoneHeight);
+    z-index: 1;
 }
 
 .expand {

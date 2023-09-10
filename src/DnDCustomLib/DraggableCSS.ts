@@ -27,7 +27,7 @@ export const onDragOverCalendarStyle = (
     boxShadow: "0px 0px 8px 0px #000000bb",
     borderRadius: "5px",
     transform: "scale(0.9)",
-    zIndex: 1,
+    zIndex: 2,
   };
 };
 

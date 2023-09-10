@@ -254,7 +254,6 @@ export default function DraggableCardView({
   const mouseMoveListener = useCallback(
     (event: MouseEvent) => {
       if (mouseDown) {
-        draggableRef.current!.style.cursor = "grabbing ";
         setIsDragged(true);
 
         dispatch(setArtifactIsDragged(artifactType));
@@ -472,6 +471,7 @@ export default function DraggableCardView({
             width: "100%",
             color: primaryColor,
             zIndex: 1,
+            cursor: isDragged ? "grabbing" : "pointer",
           }}
           onMouseDown={onMouseDown}
           onMouseLeave={() => setIsHovered(false)}

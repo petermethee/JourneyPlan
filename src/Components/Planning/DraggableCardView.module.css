@@ -1,6 +1,5 @@
 .draggableContainer {
   transition: 300ms;
-  cursor: pointer;
 }
 
 .showcase, .ghost {
