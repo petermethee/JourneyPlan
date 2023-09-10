@@ -1,6 +1,7 @@
 .daysHeader {
     display: flex;
     position: relative;
+    box-shadow: 0 0 16px 0 #00000070;
 }
 
 .settingsIcon {
@@ -8,6 +9,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
+    background-color: #fff;
+    box-shadow: 0 0 16px 0 #00000070;
 }
 
 .arrowButtonR, .arrowButtonL {

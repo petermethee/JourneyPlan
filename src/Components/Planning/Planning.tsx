@@ -62,7 +62,6 @@ export default function Planning() {
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const planningId = useAppSelector(selectPlanningId);
   const dispatch = useAppDispatch();
-
   const [openModal, setOpenModal] = useState(false);
   const [artifactToEdit, setArtifactToEdit] = useState<TArtifactEditor>({
     type: EArtifact.Activity,
@@ -78,7 +77,7 @@ export default function Planning() {
       let currentDay = dateRange[0];
       const columns: TDayCol[] = [];
 
-      while (currentDay < dateRange[1]) {
+      while (currentDay <= dateRange[1]) {
         const dateId = currentDay.format("YYYY-MM-DD");
         const currentDayPlanningActivity = planningArtifacts.filter(
           (p) => p.date === dateId

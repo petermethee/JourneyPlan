@@ -203,7 +203,7 @@ export default function AddArtifacts({
                   flex: "100%",
                   willChange: "auto !important",
                 }}
-                style={{ flex: 1 }}
+                style={{ flex: 1, display: "flex", flexDirection: "column" }}
                 slideStyle={{
                   height: "100%",
                   display: "flex",

@@ -4,6 +4,7 @@
     overflow: hidden;
     align-items: center;
     height: 35px;
+    z-index: 2;
 }
 
 .sheetContainer {

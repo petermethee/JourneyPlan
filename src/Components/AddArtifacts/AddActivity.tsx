@@ -211,8 +211,6 @@ export const AddActivity = forwardRef(
     ]);
 
     useEffect(() => {
-      console.log("initFormValues chnaged");
-
       setFormValues(initialFormValues);
     }, [initialFormValues]);
 
@@ -224,8 +222,6 @@ export const AddActivity = forwardRef(
     }, [initialHours, activity]);
 
     useEffect(() => {
-      console.log("initMinute", initMinute);
-
       setMinutes(initMinute);
     }, [initMinute, activity]);
 
@@ -239,7 +235,13 @@ export const AddActivity = forwardRef(
           Lâcher le document ici
         </div>
 
-        <div style={{ position: "relative", width: "100%", flex: 1 }}>
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            flex: 1,
+          }}
+        >
           <AttachmentDZ
             setDragActive={setDragActive}
             dragActive={dragActive}
