@@ -49,7 +49,6 @@ export const AddTransport = forwardRef(
           [TransportsTable.price]: transport.price,
           [TransportsTable.from]: transport.departure,
           [TransportsTable.to]: transport.destination,
-          [TransportsTable.vehicule]: transport.vehicule,
           [TransportsTable.lat_from]: transport.lat_from,
           [TransportsTable.lat_to]: transport.lat_to,
           [TransportsTable.lng_from]: transport.lng_from,
@@ -62,7 +61,6 @@ export const AddTransport = forwardRef(
         [TransportsTable.price]: 0,
         [TransportsTable.from]: "",
         [TransportsTable.to]: "",
-        [TransportsTable.vehicule]: "",
         [TransportsTable.lat_from]: null,
         [TransportsTable.lat_to]: null,
         [TransportsTable.lng_from]: null,
@@ -190,7 +188,6 @@ export const AddTransport = forwardRef(
       if (
         isHourValid &&
         formValues.name !== "" &&
-        formValues.vehicule !== "" &&
         formValues.destination !== "" &&
         formValues.departure !== "" &&
         (JSON.stringify(formValues) !== JSON.stringify(initialFormValues) ||
@@ -248,19 +245,18 @@ export const AddTransport = forwardRef(
           />
 
           <Grid container spacing={4} padding={4}>
-            <Grid item xs={8}>
+            <Grid item xs={5}>
               <TextField
                 required
                 name={TransportsTable.name}
                 fullWidth
                 variant="standard"
-                label="Titre"
+                label="Véhicule"
                 value={formValues.name}
                 onChange={updateForm}
               />
             </Grid>
-
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <TextField
                 name={TransportsTable.price}
                 fullWidth
@@ -272,6 +268,34 @@ export const AddTransport = forwardRef(
                 InputProps={{ inputProps: { min: 0 } }}
               />
             </Grid>
+            <Grid item xs={4} flexWrap="nowrap" display="flex" gap={1}>
+              <TextField
+                fullWidth
+                variant="standard"
+                label="H"
+                value={hours}
+                type="number"
+                InputProps={{ inputProps: { min: 0, max: 23 } }}
+                onChange={(event) => setHours(event.target.value)}
+                error={!isHourValid}
+              />
+              <TextField
+                select
+                fullWidth
+                variant="standard"
+                label="MIN"
+                value={minutes}
+                onChange={(event) => setMinutes(parseInt(event.target.value))}
+                sx={{ "& .MuiSelect-select": { fontSize: "1.3rem" } }}
+              >
+                {["00", 15, 30, 45].map((minute, index) => (
+                  <MenuItem key={minute} value={index}>
+                    {minute}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
             <Grid item xs={5}>
               <LocationSearchInput
                 required
@@ -320,44 +344,7 @@ export const AddTransport = forwardRef(
                 }
               />
             </Grid>
-            <Grid item xs={8}>
-              <TextField
-                required
-                name={TransportsTable.vehicule}
-                fullWidth
-                variant="standard"
-                label="Véhicule"
-                value={formValues.vehicule}
-                onChange={updateForm}
-              />
-            </Grid>
-            <Grid item xs={4} flexWrap="nowrap" display="flex" gap={1}>
-              <TextField
-                fullWidth
-                variant="standard"
-                label="H"
-                value={hours}
-                type="number"
-                InputProps={{ inputProps: { min: 0, max: 23 } }}
-                onChange={(event) => setHours(event.target.value)}
-                error={!isHourValid}
-              />
-              <TextField
-                select
-                fullWidth
-                variant="standard"
-                label="MIN"
-                value={minutes}
-                onChange={(event) => setMinutes(parseInt(event.target.value))}
-                sx={{ "& .MuiSelect-select": { fontSize: "1.3rem" } }}
-              >
-                {["00", 15, 30, 45].map((minute, index) => (
-                  <MenuItem key={minute} value={index}>
-                    {minute}
-                  </MenuItem>
-                ))}
-              </TextField>
-            </Grid>
+
             <Grid item xs={12}>
               <TextField
                 name={TransportsTable.description}

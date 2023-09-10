@@ -40,7 +40,6 @@ export enum TransportsTable {
   duration = "duration",
   from = "departure",
   to = "destination",
-  vehicule = "vehicule",
   price = "price",
   used = "used",
   lat_from = "lat_from",

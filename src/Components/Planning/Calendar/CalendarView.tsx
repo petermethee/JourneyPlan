@@ -75,10 +75,9 @@ function CalendarView({
       return [prevState[0], prevState[0] + nCol];
     });
 
-    const initColWidth = totalWidth / nCol - 1; //1 pour 1px épaisseur de bordure droite
+    const initColWidth = totalWidth / nCol;
     initPlanningDimensions(
-      initColWidth + 1, //1 pour 1px de bordure droite
-
+      initColWidth,
       calendarRef.current!.getBoundingClientRect()
     );
     setDropZoneBoundary(dropZoneRef.current!.getBoundingClientRect());
@@ -118,6 +117,7 @@ function CalendarView({
           .map((dayCol) => dayCol.dateId)}
         daysIndex={daysIndex}
         setDaysIndex={setDaysIndex}
+        nbDays={dayCols.length}
       />
       <div
         id={GRID_CONTAINER}

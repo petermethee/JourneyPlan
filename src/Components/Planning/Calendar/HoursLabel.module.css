@@ -5,6 +5,8 @@
     height: var(--totalHeight);
     justify-content: space-between;
     min-width: var(--hoursLabelWidth);
+    box-shadow: 0 0 16px 0 #00000070;
+    z-index: 1;
 }
 
 .hourLabel:first-child {

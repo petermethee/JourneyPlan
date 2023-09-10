@@ -11,10 +11,12 @@ export default function CalendarHeader({
   dayCols,
   daysIndex,
   setDaysIndex,
+  nbDays,
 }: {
   dayCols: string[];
   daysIndex: number[];
   setDaysIndex: Dispatch<SetStateAction<number[]>>;
+  nbDays: number;
 }) {
   return (
     <div style={{ display: "flex" }}>
@@ -25,8 +27,13 @@ export default function CalendarHeader({
       </div>
       <div className={styles.daysHeader}>
         <ButtonBase
-          sx={{ position: "absolute" }}
           className={styles.arrowButtonL}
+          sx={{
+            position: "absolute",
+            borderRadius: "0 50% 50% 0",
+            backgroundColor: "#ffffff1f",
+            opacity: daysIndex[0] === 0 ? 0 : 1,
+          }}
           onClick={() =>
             setDaysIndex((prevState) => [prevState[0] - 1, prevState[1] - 1])
           }
@@ -35,12 +42,17 @@ export default function CalendarHeader({
           <ArrowBackIosRoundedIcon />
         </ButtonBase>
         <ButtonBase
-          sx={{ position: "absolute" }}
+          className={styles.arrowButtonR}
+          sx={{
+            position: "absolute",
+            borderRadius: "50% 0 0 50%",
+            backgroundColor: "#ffffff1f",
+            opacity: nbDays === daysIndex[1] ? 0 : 1,
+          }}
           onClick={() =>
             setDaysIndex((prevState) => [prevState[0] + 1, prevState[1] + 1])
           }
-          disabled={dayCols.length === daysIndex[1]}
-          className={styles.arrowButtonR}
+          disabled={nbDays === daysIndex[1]}
         >
           <ArrowForwardIosRoundedIcon />
         </ButtonBase>

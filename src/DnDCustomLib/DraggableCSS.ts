@@ -63,7 +63,7 @@ export const calendarDragContainerStyle = (
 ): CSSProperties => {
   return {
     position: "absolute",
-    width,
+    width: width - 1,
     height: height - 4,
     top: top + 2,
   };

@@ -199,43 +199,45 @@ export default function DraggableCardView({
 
   const checkCollision = useCallback(
     (colId: string, timeIndex: number) => {
-      return planningArtifacts.some((PA) => {
-        if (PA.id === PAId) {
-          return false;
-        }
-        if (artifactType === EArtifact.Accomodation) {
-          return (
-            PA.date === colId && PA.artifactType === EArtifact.Accomodation
-          );
-        } else {
-          let currentDuration = 1;
-
-          if (PA.artifactType === EArtifact.Activity) {
-            currentDuration = activities.find(
-              (activity) => activity.id === PA.artifactId
-            )!.duration;
-          } else {
-            currentDuration = transports.find(
-              (transport) => transport.id === PA.artifactId
-            )!.duration;
-          }
-          if (PA.date === colId) {
-            //SAME DAY
-            if (
-              PA.timeIndex <= timeIndex &&
-              PA.timeIndex + currentDuration > timeIndex
-            ) {
-              return true;
-            } else if (
-              timeIndex <= PA.timeIndex &&
-              timeIndex + duration > PA.timeIndex
-            ) {
-              return true;
+      if (artifactType === EArtifact.Accomodation) {
+        return planningArtifacts
+          .filter((PA) => PA.artifactType === EArtifact.Accomodation)
+          .some((PA) => PA.id !== PAId && PA.date === colId);
+      } else {
+        return planningArtifacts
+          .filter((PA) => PA.artifactType !== EArtifact.Accomodation)
+          .some((PA) => {
+            if (PA.id === PAId) {
+              return false;
             }
-          }
-          return false;
-        }
-      });
+            let currentDuration = 1;
+
+            if (PA.artifactType === EArtifact.Activity) {
+              currentDuration = activities.find(
+                (activity) => activity.id === PA.artifactId
+              )!.duration;
+            } else {
+              currentDuration = transports.find(
+                (transport) => transport.id === PA.artifactId
+              )!.duration;
+            }
+            if (PA.date === colId) {
+              //SAME DAY
+              if (
+                PA.timeIndex <= timeIndex &&
+                PA.timeIndex + currentDuration > timeIndex
+              ) {
+                return true;
+              } else if (
+                timeIndex <= PA.timeIndex &&
+                timeIndex + duration > PA.timeIndex
+              ) {
+                return true;
+              }
+            }
+            return false;
+          });
+      }
     },
     [planningArtifacts, activities, transports, artifactType, duration, PAId]
   );

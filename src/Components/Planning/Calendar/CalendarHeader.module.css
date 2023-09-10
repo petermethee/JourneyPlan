@@ -1,5 +1,6 @@
 .daysHeader {
     display: flex;
+    position: relative;
 }
 
 .settingsIcon {
@@ -10,13 +11,15 @@
 }
 
 .arrowButtonR, .arrowButtonL {
-    top: 15px;
+    height: 100%;
+    width: 30px;
+    transition: 300ms;
 }
 
 .arrowButtonR {
-    right: 10px;
+    right: 0;
 }
 
-.arrowButtonL {
-    left: calc(var(--hoursLabelWidth) + 10px);
+.arrowButtonR:hover, .arrowButtonL:hover {
+    background-color: #c8c8c860;
 }
