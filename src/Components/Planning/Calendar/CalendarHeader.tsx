@@ -39,7 +39,7 @@ export default function CalendarHeader({
           }
           disabled={daysIndex[0] === 0}
         >
-          <ArrowBackIosRoundedIcon />
+          <ArrowBackIosRoundedIcon sx={{ color: "white" }} />
         </ButtonBase>
         <ButtonBase
           className={styles.arrowButtonR}
@@ -54,11 +54,15 @@ export default function CalendarHeader({
           }
           disabled={nbDays === daysIndex[1]}
         >
-          <ArrowForwardIosRoundedIcon />
+          <ArrowForwardIosRoundedIcon sx={{ color: "white" }} />
         </ButtonBase>
 
-        {dayCols.map((date) => (
-          <DayHeader key={date} date={dayjs(date)} />
+        {dayCols.map((date, index) => (
+          <DayHeader
+            key={date}
+            date={dayjs(date)}
+            isEven={(daysIndex[0] + index) % 2 === 0}
+          />
         ))}
       </div>
     </div>

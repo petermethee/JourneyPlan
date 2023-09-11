@@ -3,9 +3,21 @@ import styles from "./DayHeader.module.css";
 import { Dayjs } from "dayjs";
 import { getColumnWidth } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 
-export default function DayHeader({ date }: { date: Dayjs }) {
+export default function DayHeader({
+  date,
+  isEven,
+}: {
+  date: Dayjs;
+  isEven: boolean;
+}) {
   return (
-    <div className={styles.container} style={{ width: getColumnWidth() }}>
+    <div
+      className={styles.container}
+      style={{
+        width: getColumnWidth(),
+        backgroundColor: isEven ? "#2a2a2a" : "#1e2b38db",
+      }}
+    >
       <span className={styles.dayLabel}>
         {date.locale("fr").format("ddd").toUpperCase()}
       </span>

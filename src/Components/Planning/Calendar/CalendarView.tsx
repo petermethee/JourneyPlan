@@ -112,7 +112,7 @@ function CalendarView({
       <CalendarHeader
         dayCols={dayCols
           .filter(
-            (dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
+            (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
           )
           .map((dayCol) => dayCol.dateId)}
         daysIndex={daysIndex}

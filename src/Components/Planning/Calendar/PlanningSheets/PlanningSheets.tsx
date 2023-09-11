@@ -59,7 +59,7 @@ export default function PlanningSheets() {
         <IconButton
           onClick={addPlanning}
           size="small"
-          sx={{ margin: "0px 8px" }}
+          sx={{ margin: "0px 8px", color: "white" }}
         >
           <AddIcon fontSize="inherit" />
         </IconButton>
