@@ -2,7 +2,7 @@ import styles from "./SideData.module.css";
 import draggableStyle from "../DraggableCardView.module.css";
 
 import draggableStyles from "../../Planning/DraggableCardView.module.css";
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   getDraggableAccomodationSideDataStyle,
   getDraggableSideDataStyle,
@@ -18,7 +18,7 @@ import SideDataHeader from "./SideDataHeader";
 import { selectTransports } from "../../../features/Redux/transportsSlice";
 import { selectAccomodations } from "../../../features/Redux/accomodationsSlice";
 
-import { Fab } from "@mui/material";
+import { Button, Fab, Radio } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
@@ -201,6 +201,45 @@ export default function SideData({
     openArtifactEditor,
   ]);
 
+  const [usedNumber, setUsedNumber] = useState(0);
+  const [unusedNumber, setUnusedNumber] = useState(0);
+
+  useEffect(() => {
+    let remainingArtifacts = 0;
+    let filteredArtifacts = 0;
+    switch (currentArtifactType) {
+      case EArtifact.Activity:
+        remainingArtifacts = activities.length - filteredActivities.length;
+        filteredArtifacts = filteredActivities.length;
+        break;
+      case EArtifact.Accomodation:
+        remainingArtifacts =
+          accomodations.length - filteredAccomodations.length;
+        filteredArtifacts = filteredAccomodations.length;
+        break;
+      default:
+        remainingArtifacts = transports.length - filteredTransports.length;
+        filteredArtifacts = filteredTransports.length;
+        break;
+    }
+    if (usedFilter === 0) {
+      setUsedNumber(remainingArtifacts);
+      setUnusedNumber(filteredArtifacts);
+    } else {
+      setUsedNumber(filteredArtifacts);
+      setUnusedNumber(remainingArtifacts);
+    }
+  }, [
+    activities.length,
+    transports.length,
+    accomodations.length,
+    filteredActivities.length,
+    filteredAccomodations.length,
+    filteredTransports.length,
+    currentArtifactType,
+    usedFilter,
+  ]);
+
   const onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     if (!isEditorOpen) {
       setMarginTop((prevState) => {
@@ -221,9 +260,13 @@ export default function SideData({
   return (
     <div className={styles.sideDataContainer} onWheel={onWheel}>
       <SideDataHeader
+        unusedNumber={unusedNumber}
+        usedNumber={usedNumber}
         onChange={(menu) => setCurrentArtifactType(menu)}
         setUsedFilter={(used) => setUsedFilter(used)}
+        usedFilter={usedFilter === 0}
       />
+
       <div className={styles.scrollContainer} style={{ marginTop: marginTop }}>
         <div ref={sideDataRef} className={styles.subContainer}>
           {currentArtifacts}

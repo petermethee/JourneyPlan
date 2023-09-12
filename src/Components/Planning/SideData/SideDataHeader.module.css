@@ -1,8 +1,6 @@
 .container {
-    background-color: aliceblue;
     position: relative;
     z-index: 2;
-
 }
 
 .topToolContainer {
@@ -13,4 +11,28 @@
     align-items: center;
     justify-content: space-around;
     padding: 10px 0px;
+}
+
+.tabs {
+    background-color: #c3c6d5a6;
+    backdrop-filter: blur(40px);
+
+}
+
+.radioContainer {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background-color: #c3c6d5a6;
+    backdrop-filter: blur(2px);
+}
+
+.radioContainer div {
+    font-size: 12px;
+    flex: 1;
+}
+
+.radioContent {
+    flex: 1;
+    height: 40px
 }

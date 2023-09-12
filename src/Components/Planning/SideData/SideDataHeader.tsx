@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./SideDataHeader.module.css";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { Button, Switch } from "@mui/material";
+import { Button, Radio } from "@mui/material";
 import { ERouterPathes } from "../../../Helper/ERouterPathes";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { useNavigate } from "react-router-dom";
@@ -13,11 +13,18 @@ import ActivityIcon from "../../Shared/ActivityIcon";
 import { primaryColor } from "../../../style/cssGlobalStyle";
 import TransportIcon from "../../Shared/TransportIcon";
 import AccomodationIcon from "../../Shared/AccomodationIcon";
+import NotificationBadge from "../../Shared/NotificationBadge";
 
 export default function SideDataHeader({
   onChange,
+  usedNumber,
+  unusedNumber,
   setUsedFilter,
+  usedFilter,
 }: {
+  usedFilter: boolean;
+  usedNumber: number;
+  unusedNumber: number;
   onChange: (menu: EArtifact) => void;
   setUsedFilter: (used: 0 | 1) => void;
 }) {
@@ -44,17 +51,13 @@ export default function SideDataHeader({
         >
           Home
         </Button>
-        <span>
-          Utilisés
-          <Switch
-            size="small"
-            onClick={(event: any) =>
-              setUsedFilter(event.target.checked ? 1 : 0)
-            }
-          />
-        </span>
       </div>
-      <Tabs value={value} onChange={handleChange} sx={{ width: "100%" }}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        sx={{ width: "100%" }}
+        className={styles.tabs}
+      >
         <Tab
           sx={{
             minWidth: "0px",
@@ -80,6 +83,44 @@ export default function SideDataHeader({
           value={EArtifact.Accomodation}
         />
       </Tabs>
+      <div className={styles.radioContainer}>
+        <Button
+          size="small"
+          variant={usedFilter ? "contained" : "outlined"}
+          className={styles.radioContent}
+          onClick={() => setUsedFilter(0)}
+          sx={{ backgroundColor: !usedFilter ? "white" : "" }}
+        >
+          <NotificationBadge number={unusedNumber} />
+
+          <Radio
+            size="small"
+            color="secondary"
+            disableRipple
+            checked={usedFilter}
+            sx={{ padding: 0 }}
+          />
+          <div>Non Utilisés</div>
+        </Button>
+        <Button
+          size="small"
+          variant={usedFilter ? "outlined" : "contained"}
+          className={styles.radioContent}
+          onClick={() => setUsedFilter(1)}
+          disabled={usedNumber === 0}
+          sx={{ backgroundColor: usedFilter ? "white" : "" }}
+        >
+          <NotificationBadge number={usedNumber} />
+          <Radio
+            size="small"
+            color="secondary"
+            disableRipple
+            checked={!usedFilter}
+            sx={{ padding: 0 }}
+          />
+          <div>Utilisés</div>
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,25 @@
+.badge {
+  transform: scale(0);
+  position: absolute;
+  top: -0.31rem;
+  left: -0.31rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  background: var(--primaryColor);
+  color: white;
+}
+
+.badgeAppear {
+  transform: scale(1);
+  transition: 200ms cubic-bezier(0.41, 1.52, 0.51, 1.83) 0.2s;
+}
+
+.badgeDisappear {
+  transform: scale(0);
+  transition: 300ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
