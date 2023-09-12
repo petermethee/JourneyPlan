@@ -52,6 +52,7 @@ export const AddActivity = forwardRef(
           [ActivitiesTable.location]: activity.location,
           [ActivitiesTable.lat]: activity.lat,
           [ActivitiesTable.lng]: activity.lng,
+          [ActivitiesTable.city]: activity.city,
         };
       }
       return {
@@ -62,6 +63,7 @@ export const AddActivity = forwardRef(
         [ActivitiesTable.location]: "",
         [ActivitiesTable.lat]: null,
         [ActivitiesTable.lng]: null,
+        [ActivitiesTable.city]: null,
       };
     }, [activity]);
 
@@ -286,9 +288,15 @@ export const AddActivity = forwardRef(
                 variant="standard"
                 label="Localisation"
                 address={formValues.location}
-                setAddress={(address, { lat, lng }) =>
+                setAddress={(address, { lat, lng }, city) =>
                   setFormValues((prevState) => {
-                    return { ...prevState, location: address, lng, lat };
+                    return {
+                      ...prevState,
+                      location: address,
+                      lng,
+                      lat,
+                      city: city ?? null,
+                    };
                   })
                 }
                 isLocalisationOk={

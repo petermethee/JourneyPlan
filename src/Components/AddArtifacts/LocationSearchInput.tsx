@@ -15,7 +15,8 @@ export default function LocationSearchInput({
 }: {
   setAddress: (
     adress: string,
-    { lat, lng }: { lat: number | null; lng: number | null }
+    { lat, lng }: { lat: number | null; lng: number | null },
+    city?: string
   ) => void;
   address: string;
   isLocalisationOk: boolean;
@@ -24,12 +25,16 @@ export default function LocationSearchInput({
   const [localisationOk, setLocalisationOk] = useState(isLocalisationOk);
 
   const handleSelect = (address: string) => {
-    geocodeByAddress(address)
-      .then((results) => getLatLng(results[0]))
-      .then((latLng) => {
-        setAddress(address, latLng);
-        setLocalisationOk(true);
-      });
+    geocodeByAddress(address).then(async (results) => {
+      const selectedCity = results[0].address_components.find((component) =>
+        component.types.includes("locality")
+      );
+      console.log("selected city", selectedCity);
+
+      const latLng = await getLatLng(results[0]);
+      setAddress(address, latLng, selectedCity?.short_name);
+      setLocalisationOk(true);
+    });
     // .catch((error) => console.error("Error", error));
   };
 

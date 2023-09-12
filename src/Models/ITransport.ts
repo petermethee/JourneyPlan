@@ -15,6 +15,9 @@ export default interface ITransport {
   [TransportsTable.lat_to]: number | null;
   [TransportsTable.lng_from]: number | null;
   [TransportsTable.lng_to]: number | null;
+  [TransportsTable.city_from]: string | null;
+  [TransportsTable.city_to]: string | null;
+
   attachment: IAttachment[];
 }
 
@@ -28,4 +31,6 @@ export type TFormTransport = {
   [TransportsTable.lat_to]: number | null;
   [TransportsTable.lng_from]: number | null;
   [TransportsTable.lng_to]: number | null;
+  [TransportsTable.city_from]: string | null;
+  [TransportsTable.city_to]: string | null;
 };

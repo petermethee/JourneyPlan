@@ -14,6 +14,8 @@ export default interface IActivity {
   [ActivitiesTable.used]: 0 | 1;
   [ActivitiesTable.lat]: number | null;
   [ActivitiesTable.lng]: number | null;
+  [ActivitiesTable.city]: string | null;
+
   attachment: IAttachment[];
 }
 
@@ -25,4 +27,5 @@ export type TFormActivity = {
   [ActivitiesTable.location]: string;
   [ActivitiesTable.lat]: number | null;
   [ActivitiesTable.lng]: number | null;
+  [ActivitiesTable.city]: string | null;
 };

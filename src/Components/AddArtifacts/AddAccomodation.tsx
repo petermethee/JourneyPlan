@@ -57,6 +57,7 @@ export const AddAccomodation = forwardRef(
           [AccomodationsTable.checkout]: accomodation.checkout,
           [AccomodationsTable.lat]: accomodation.lat,
           [AccomodationsTable.lng]: accomodation.lng,
+          [AccomodationsTable.city]: accomodation.city,
         };
       }
       return {
@@ -68,6 +69,7 @@ export const AddAccomodation = forwardRef(
         [AccomodationsTable.checkout]: "10:0",
         [AccomodationsTable.lat]: null,
         [AccomodationsTable.lng]: null,
+        [AccomodationsTable.city]: null,
       };
     }, [accomodation]);
 
@@ -250,9 +252,15 @@ export const AddAccomodation = forwardRef(
                 variant="standard"
                 label="Localisation"
                 address={formValues.location}
-                setAddress={(address, { lat, lng }) =>
+                setAddress={(address, { lat, lng }, city) =>
                   setFormValues((prevState) => {
-                    return { ...prevState, location: address, lng, lat };
+                    return {
+                      ...prevState,
+                      location: address,
+                      lng,
+                      lat,
+                      city: city ?? null,
+                    };
                   })
                 }
                 isLocalisationOk={

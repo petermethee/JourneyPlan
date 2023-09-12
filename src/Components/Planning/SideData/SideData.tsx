@@ -38,20 +38,20 @@ import ActivityIcon from "../../Shared/ActivityIcon";
 import TransportIcon from "../../Shared/TransportIcon";
 import AccomodationIcon from "../../Shared/AccomodationIcon";
 import { TArtifactEditor } from "../Planning";
+import { selectArtifactIsDragged } from "../../../features/Redux/planningSlice";
 
 export const SIDE_DATA_COL_ID = "sideDataDropId";
 
 export default function SideData({
   openArtifactEditor,
-  isEditorOpen,
 }: {
   openArtifactEditor: (artifactEditor: TArtifactEditor) => void;
-  isEditorOpen: boolean;
 }) {
   const sideDataRef = useRef<HTMLDivElement>(null);
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
   const accomodations = useAppSelector(selectAccomodations);
+  const isDragged = useAppSelector(selectArtifactIsDragged);
 
   const [usedFilter, setUsedFilter] = useState<0 | 1>(0);
   const [marginTop, setMarginTop] = useState(0);
@@ -241,24 +241,26 @@ export default function SideData({
   ]);
 
   const onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
-    if (!isEditorOpen) {
-      setMarginTop((prevState) => {
-        const marginMax = Math.max(
-          0,
-          sideDataRef.current!.clientHeight -
-            sideDataRef.current!.parentElement!.parentElement!.clientHeight +
-            sideDataTop
-        );
-        const tempValue = prevState - 150 * Math.sign(event.deltaY); //150 is the arbitrary choosen step
-        const newMarginTop = Math.max(-marginMax, Math.min(0, tempValue));
+    setMarginTop((prevState) => {
+      const marginMax = Math.max(
+        0,
+        sideDataRef.current!.clientHeight -
+          sideDataRef.current!.parentElement!.parentElement!.clientHeight +
+          sideDataTop
+      );
+      const tempValue = prevState - 150 * Math.sign(event.deltaY); //150 is the arbitrary choosen step
+      const newMarginTop = Math.max(-marginMax, Math.min(0, tempValue));
 
-        return newMarginTop;
-      });
-    }
+      return newMarginTop;
+    });
   };
 
   return (
-    <div className={styles.sideDataContainer} onWheel={onWheel}>
+    <div
+      className={styles.sideDataContainer}
+      style={{ pointerEvents: isDragged ? "none" : "auto" }}
+      onWheel={onWheel}
+    >
       <SideDataHeader
         unusedNumber={unusedNumber}
         usedNumber={usedNumber}

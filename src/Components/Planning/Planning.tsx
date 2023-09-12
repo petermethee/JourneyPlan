@@ -165,7 +165,6 @@ export default function Planning() {
   return (
     <div className={styles.mainContainer}>
       <SideData
-        isEditorOpen={openModal}
         openArtifactEditor={(artifactEditor: TArtifactEditor) => {
           setArtifactToEdit(artifactEditor);
           setOpenModal(true);

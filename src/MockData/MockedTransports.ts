@@ -16,6 +16,8 @@ export const mockedTransports: ITransport[] = [
     lat_to: 0,
     lng_from: 0,
     lng_to: 0,
+    city_from: null,
+    city_to: null,
   },
   {
     id: 2,
@@ -32,6 +34,8 @@ export const mockedTransports: ITransport[] = [
     lat_to: 0,
     lng_from: 0,
     lng_to: 0,
+    city_from: null,
+    city_to: null,
   },
   {
     id: 3,
@@ -48,6 +52,8 @@ export const mockedTransports: ITransport[] = [
     lat_to: 0,
     lng_from: 0,
     lng_to: 0,
+    city_from: null,
+    city_to: null,
   },
   {
     id: 4,
@@ -64,6 +70,8 @@ export const mockedTransports: ITransport[] = [
     lat_to: 0,
     lng_from: 0,
     lng_to: 0,
+    city_from: null,
+    city_to: null,
   },
   {
     id: 5,
@@ -80,6 +88,8 @@ export const mockedTransports: ITransport[] = [
     lat_to: 0,
     lng_from: 0,
     lng_to: 0,
+    city_from: null,
+    city_to: null,
   },
   {
     id: 6,
@@ -96,6 +106,8 @@ export const mockedTransports: ITransport[] = [
     lat_to: 0,
     lng_from: 0,
     lng_to: 0,
+    city_from: null,
+    city_to: null,
   },
   {
     id: 7,
@@ -112,6 +124,8 @@ export const mockedTransports: ITransport[] = [
     lat_to: 0,
     lng_from: 0,
     lng_to: 0,
+    city_from: null,
+    city_to: null,
   },
   {
     id: 8,
@@ -128,5 +142,7 @@ export const mockedTransports: ITransport[] = [
     lat_to: 0,
     lng_from: 0,
     lng_to: 0,
+    city_from: null,
+    city_to: null,
   },
 ];

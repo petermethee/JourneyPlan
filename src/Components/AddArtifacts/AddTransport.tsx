@@ -56,6 +56,8 @@ export const AddTransport = forwardRef(
           [TransportsTable.lat_to]: transport.lat_to,
           [TransportsTable.lng_from]: transport.lng_from,
           [TransportsTable.lng_to]: transport.lng_to,
+          [TransportsTable.city_from]: transport.city_from,
+          [TransportsTable.city_to]: transport.city_to,
         };
       }
       return {
@@ -68,6 +70,8 @@ export const AddTransport = forwardRef(
         [TransportsTable.lat_to]: null,
         [TransportsTable.lng_from]: null,
         [TransportsTable.lng_to]: null,
+        [TransportsTable.city_from]: null,
+        [TransportsTable.city_to]: null,
       };
     }, [transport]);
 
@@ -308,10 +312,16 @@ export const AddTransport = forwardRef(
                 variant="standard"
                 label="De"
                 address={formValues.departure}
-                setAddress={(address) =>
-                  updateForm({
-                    target: { value: address, name: TransportsTable.from },
-                  } as unknown as any)
+                setAddress={(address, { lng, lat }, city) =>
+                  setFormValues((prevState) => {
+                    return {
+                      ...prevState,
+                      departure: address,
+                      lng_from: lng,
+                      lat_from: lat,
+                      city_from: city ?? null,
+                    };
+                  })
                 }
                 isLocalisationOk={
                   formValues.lat_from !== null && formValues.lng_from !== null
@@ -338,10 +348,16 @@ export const AddTransport = forwardRef(
                 variant="standard"
                 label="Vers"
                 address={formValues.destination}
-                setAddress={(address) =>
-                  updateForm({
-                    target: { value: address, name: TransportsTable.to },
-                  } as unknown as any)
+                setAddress={(address, { lat, lng }, city) =>
+                  setFormValues((prevState) => {
+                    return {
+                      ...prevState,
+                      destination: address,
+                      city_to: city ?? null,
+                      lat_to: lat,
+                      lng_to: lng,
+                    };
+                  })
                 }
                 isLocalisationOk={
                   formValues.lat_to !== null && formValues.lng_to !== null

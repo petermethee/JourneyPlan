@@ -11,15 +11,11 @@ export default function ActivityDataCard({
 }) {
   return (
     <>
-      <Grid
-        display="flex"
-        item
-        alignItems="center"
-        flexWrap="nowrap"
-        marginTop="auto"
-      >
+      <Grid display="flex" item flexWrap="nowrap" marginTop="auto">
         <PlaceIcon fontSize="small" />
-        <span className={styles.textContainer}>{activity.location}</span>
+        <span className={styles.textContainer}>
+          {activity.city ?? activity.location}
+        </span>
       </Grid>
       <Grid
         display="flex"

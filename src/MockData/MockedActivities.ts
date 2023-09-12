@@ -15,6 +15,7 @@ export const mockedActivities: IActivity[] = [
     used: 0,
     lat: 0,
     lng: 0,
+    city: null,
   },
   {
     id: 2,
@@ -30,6 +31,7 @@ export const mockedActivities: IActivity[] = [
     used: 0,
     lat: 0,
     lng: 0,
+    city: null,
   },
   {
     id: 3,
@@ -45,6 +47,7 @@ export const mockedActivities: IActivity[] = [
     used: 0,
     lat: 0,
     lng: 0,
+    city: null,
   },
   {
     id: 4,
@@ -60,6 +63,7 @@ export const mockedActivities: IActivity[] = [
     used: 0,
     lat: 0,
     lng: 0,
+    city: null,
   },
   {
     id: 5,
@@ -75,6 +79,7 @@ export const mockedActivities: IActivity[] = [
     used: 0,
     lat: 0,
     lng: 0,
+    city: null,
   },
   {
     id: 6,
@@ -90,6 +95,7 @@ export const mockedActivities: IActivity[] = [
     used: 0,
     lat: 0,
     lng: 0,
+    city: null,
   },
   {
     id: 7,
@@ -105,6 +111,7 @@ export const mockedActivities: IActivity[] = [
     used: 0,
     lat: 0,
     lng: 0,
+    city: null,
   },
   {
     id: 8,
@@ -120,5 +127,6 @@ export const mockedActivities: IActivity[] = [
     used: 0,
     lat: 0,
     lng: 0,
+    city: null,
   },
 ];
