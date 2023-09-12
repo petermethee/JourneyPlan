@@ -14,6 +14,7 @@ import { primaryColor } from "../../../style/cssGlobalStyle";
 import TransportIcon from "../../Shared/TransportIcon";
 import AccomodationIcon from "../../Shared/AccomodationIcon";
 import NotificationBadge from "../../Shared/NotificationBadge";
+import MapIcon from "@mui/icons-material/Map";
 
 export default function SideDataHeader({
   onChange,
@@ -50,6 +51,9 @@ export default function SideDataHeader({
           variant="outlined"
         >
           Home
+        </Button>
+        <Button variant="contained" startIcon={<MapIcon />}>
+          Map
         </Button>
       </div>
       <Tabs

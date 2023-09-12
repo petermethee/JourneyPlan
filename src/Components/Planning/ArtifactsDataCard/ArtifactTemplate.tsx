@@ -7,6 +7,7 @@ import styles from "./CommonArtifactStyle.module.css";
 import cstmCloseIconStyle from "../../Shared/CustomCloseIcon.module.css";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { IItem } from "../../../Models/IItem";
+import GenericTooltips from "./GenericTooltips";
 
 export default function ArtifactTemplate({
   artifact,
@@ -20,6 +21,7 @@ export default function ArtifactTemplate({
   artifactSecColor,
   artifactIcon,
   isHovered,
+  timeIndex,
 }: {
   artifact: IItem;
   duration?: number;
@@ -32,11 +34,40 @@ export default function ArtifactTemplate({
   artifactSecColor: string;
   artifactIcon: JSX.Element;
   isHovered: boolean;
+  timeIndex?: number;
 }) {
   const minimalView = useMemo(
     () => (insideCalendar || isDragged) && duration && duration < 1,
     [insideCalendar, isDragged, duration]
   );
+
+  const startTime = useMemo(() => {
+    if (timeIndex) {
+      let integerPart = Math.floor(timeIndex);
+      let decimalPart = timeIndex - integerPart;
+      const hours = integerPart;
+      const minutes = 60 * decimalPart;
+      return `${hours < 10 ? "0" : ""}${hours}:${
+        minutes === 0 ? "00" : minutes
+      }`;
+    }
+    return "";
+  }, [timeIndex]);
+
+  const endTime = useMemo(() => {
+    if (timeIndex && duration) {
+      const endTimeIndex = timeIndex + duration;
+      let integerPart = Math.floor(endTimeIndex);
+      let decimalPart = endTimeIndex - integerPart;
+      const hours = integerPart;
+      const minutes = 60 * decimalPart;
+
+      return `${hours < 10 ? "0" : ""}${hours}:${
+        minutes === 0 ? "00" : minutes
+      }`;
+    }
+    return "";
+  }, [timeIndex, duration]);
 
   return (
     <div className={`${styles.container} ${cstmCloseIconStyle.container}`}>
@@ -111,6 +142,13 @@ export default function ArtifactTemplate({
           {children}
         </Grid>
       </Grid>
+      <GenericTooltips
+        startTime={startTime}
+        endTime={endTime}
+        description={artifact.description}
+        pj={[]}
+        visible={false}
+      />
     </div>
   );
 }

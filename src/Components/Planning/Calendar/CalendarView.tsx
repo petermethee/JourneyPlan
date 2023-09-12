@@ -185,6 +185,7 @@ function CalendarView({
                         artifactIcon={<ActivityIcon color={defaultWhite} />}
                         isHovered={isHovered}
                         insideCalendar
+                        timeIndex={PA.timeIndex}
                       >
                         <ActivityDataCard activity={PA.activity} />
                       </ArtifactTemplate>
@@ -227,6 +228,7 @@ function CalendarView({
                         artifactIcon={<TransportIcon color={defaultWhite} />}
                         isHovered={isHovered}
                         insideCalendar
+                        timeIndex={PT.timeIndex}
                       >
                         <TransportDataCard transport={PT.transport} />
                       </ArtifactTemplate>
@@ -281,6 +283,7 @@ function CalendarView({
                       artifactIcon={<AccomodationIcon color={defaultWhite} />}
                       isHovered={isHovered}
                       insideCalendar
+                      timeIndex={PA.timeIndex}
                     >
                       <AccomodationDataCard accomodation={PA.accomodation} />
                     </ArtifactTemplate>

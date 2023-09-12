@@ -29,7 +29,6 @@ export default function LocationSearchInput({
       const selectedCity = results[0].address_components.find((component) =>
         component.types.includes("locality")
       );
-      console.log("selected city", selectedCity);
 
       const latLng = await getLatLng(results[0]);
       setAddress(address, latLng, selectedCity?.short_name);

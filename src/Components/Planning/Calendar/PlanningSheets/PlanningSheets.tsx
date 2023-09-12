@@ -6,12 +6,11 @@ import {
   selectAllPlannings,
   updatePlanning,
 } from "../../../../features/Redux/planningSlice";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { selectCurrentTrip } from "../../../../features/Redux/tripSlice";
 import { IPlanning } from "../../../../Models/IPlanningArtifact";
 import SheetItem from "./SheetItem";
-import MapIcon from "@mui/icons-material/Map";
 
 export default function PlanningSheets() {
   const dispatch = useAppDispatch();
@@ -64,15 +63,6 @@ export default function PlanningSheets() {
           <AddIcon fontSize="inherit" />
         </IconButton>
       </div>
-
-      <Button
-        variant="contained"
-        startIcon={<MapIcon />}
-        // sx={{ color: "#fff" }}
-        size="small"
-      >
-        Map
-      </Button>
     </div>
   );
 }

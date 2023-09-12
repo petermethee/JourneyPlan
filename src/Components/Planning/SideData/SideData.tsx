@@ -2,7 +2,7 @@ import styles from "./SideData.module.css";
 import draggableStyle from "../DraggableCardView.module.css";
 
 import draggableStyles from "../../Planning/DraggableCardView.module.css";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   getDraggableAccomodationSideDataStyle,
   getDraggableSideDataStyle,
@@ -18,7 +18,7 @@ import SideDataHeader from "./SideDataHeader";
 import { selectTransports } from "../../../features/Redux/transportsSlice";
 import { selectAccomodations } from "../../../features/Redux/accomodationsSlice";
 
-import { Button, Fab, Radio } from "@mui/material";
+import { Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
