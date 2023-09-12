@@ -10,8 +10,8 @@ import {
   getArtifactTableEnum,
 } from "../../src/Models/EArtifacts";
 import path = require("path");
-import { IMAGE_FOLDER_PATH } from "./TripsManager";
 import IAttachment from "../../src/Models/IAttachment";
+import { publicFolder } from "../main";
 
 export default class ArtifactsDbManager {
   db: Database;
@@ -24,7 +24,7 @@ export default class ArtifactsDbManager {
     } = ${tripId}`;
     const stmt = this.db.prepare(sql);
     const res = stmt.all() as IActivity[] | ITransport[] | IAccomodation[];
-    const artifactColumn = getAttachmentCorrectColumn(tableName);
+    const artifactColumn = this.getAttachmentCorrectColumn(tableName);
     res.forEach((artifact) => {
       const sql = `SELECT ${AttachmentsTable.name},${AttachmentsTable.path} FROM ${TablesName.attachments} WHERE ${artifactColumn} = ${artifact.id}`;
       const stmt = this.db.prepare(sql);
@@ -98,7 +98,7 @@ export default class ArtifactsDbManager {
     attachments: IAttachment[]
   ) => {
     const newAttachments: IAttachment[] = [];
-    const artifactColumn = getAttachmentCorrectColumn(artifactType);
+    const artifactColumn = this.getAttachmentCorrectColumn(artifactType);
 
     const query = `INSERT INTO ${TablesName.attachments} (${AttachmentsTable.name},${AttachmentsTable.path},${artifactColumn}) VALUES(@${AttachmentsTable.name},@${AttachmentsTable.path},@${artifactColumn})`;
     const insert = this.db.prepare(query);
@@ -108,11 +108,13 @@ export default class ArtifactsDbManager {
         const splitted = pj.path.split(".");
         const extension = splitted[splitted.length - 1];
         const fileName = new Date().getTime() + "." + extension;
-        const newPath = path.join(IMAGE_FOLDER_PATH, fileName);
+        const newPath = this.getAttachmentPath(fileName);
 
-        fs.copyFile(pj.path, newPath, (err) => {
-          if (err) console.log("Copy of attachment error: ", err);
-        });
+        try {
+          fs.copyFileSync(pj.path, newPath);
+        } catch (error) {
+          console.log("Copy of attachment error: ", error);
+        }
 
         insert.run({ ...pj, [artifactColumn]: artifactId, path: newPath });
         newAttachments.push({ name: pj.name, path: newPath });
@@ -128,7 +130,7 @@ export default class ArtifactsDbManager {
     attachments: IAttachment[]
   ) => {
     const newAttachments: IAttachment[] = [];
-    const artifactColumn = getAttachmentCorrectColumn(artifactType);
+    const artifactColumn = this.getAttachmentCorrectColumn(artifactType);
     const query = `SELECT ${AttachmentsTable.path}, ${AttachmentsTable.id}, ${AttachmentsTable.name} FROM ${TablesName.attachments} WHERE ${artifactColumn} = ${artifactId}`;
     const stmt = this.db.prepare(query);
     const oldAttachments = stmt.all() as {
@@ -167,7 +169,7 @@ export default class ArtifactsDbManager {
     artifactId: number | bigint,
     artifactType: EArtifactTableName
   ) => {
-    const artifactColumn = getAttachmentCorrectColumn(artifactType);
+    const artifactColumn = this.getAttachmentCorrectColumn(artifactType);
     const query = `SELECT ${AttachmentsTable.path} FROM ${TablesName.attachments} WHERE ${artifactColumn} = ${artifactId}`;
     const stmt = this.db.prepare(query);
     const pathes = stmt.all() as { path: string }[];
@@ -182,12 +184,16 @@ export default class ArtifactsDbManager {
       );
     }
   };
-}
 
-const getAttachmentCorrectColumn = (artifactType: EArtifactTableName) => {
-  return artifactType === EArtifactTableName.Activity
-    ? AttachmentsTable.id_activity
-    : artifactType === EArtifactTableName.Transport
-    ? AttachmentsTable.id_transport
-    : AttachmentsTable.id_accomodation;
-};
+  private getAttachmentPath = (name: string) => {
+    return path.join(publicFolder, process.env.REACT_APP_ATTACHEMENTS!, name);
+  };
+
+  private getAttachmentCorrectColumn = (artifactType: EArtifactTableName) => {
+    return artifactType === EArtifactTableName.Activity
+      ? AttachmentsTable.id_activity
+      : artifactType === EArtifactTableName.Transport
+      ? AttachmentsTable.id_transport
+      : AttachmentsTable.id_accomodation;
+  };
+}

@@ -6,12 +6,10 @@ import TripsManager from "../Managers/TripsManager";
 import { EIpcChanels } from "./EIpcChannels";
 
 export default class TripIpcHandlers {
-  db: Database;
   tripsManager: TripsManager;
 
   constructor(dataBaseAPI: DatabaseAPI) {
-    this.db = dataBaseAPI.getDataBase();
-    this.tripsManager = new TripsManager(this.db);
+    this.tripsManager = new TripsManager(dataBaseAPI.db);
   }
 
   initIPCHandlers = () => {

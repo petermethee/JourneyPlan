@@ -6,6 +6,10 @@ import ArtifactIpcHandlers from "./IPC_API/ArtifactIpcHandlers";
 import installExtension, { REDUX_DEVTOOLS } from "electron-devtools-installer";
 import DatabaseAPI from "./DatabaseClass";
 import PlanningIpcHandlers from "./IPC_API/PlanningIpcHandlers";
+require("dotenv").config();
+
+export const publicFolder = path.join(__dirname, "../../public");
+console.log("tag", publicFolder);
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -25,11 +29,9 @@ function createWindow() {
     win.loadURL(`file://${path.join(__dirname, "../index.html")}`);
   } else {
     win.loadURL("http://localhost:3000");
-  }
-
-  if (!app.isPackaged) {
     win.webContents.openDevTools({ mode: "detach" });
   }
+
   const dataBaseAPI = new DatabaseAPI();
   const ipcAPITrip = new TripIpcHandlers(dataBaseAPI);
   const ipcAPIPlanning = new PlanningIpcHandlers(dataBaseAPI);

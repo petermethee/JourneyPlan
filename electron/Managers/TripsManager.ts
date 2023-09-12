@@ -11,8 +11,7 @@ import {
 import ITrip from "../../src/Models/ITrip";
 import fs = require("fs");
 import path = require("path");
-
-export const IMAGE_FOLDER_PATH = path.join(__dirname, "../../../src/image");
+import { publicFolder } from "../main";
 
 export default class TripsManager {
   db: Database;
@@ -29,13 +28,13 @@ export default class TripsManager {
     if (trip.image_path) {
       const extension = trip.image_path.split(".")[1];
       const fileName = new Date().getTime() + "." + extension;
-      const newPath = path.join(IMAGE_FOLDER_PATH, fileName);
+      const newPath = this.getTripPicturePath(fileName);
+
       try {
-        fs.copyFile(trip.image_path, newPath, (err) => {
-          if (err) console.log("Copy Error", err);
-        });
+        fs.copyFileSync(trip.image_path, newPath);
         trip.image_path = fileName;
       } catch (error) {
+        console.log("Copy Error", error);
         trip.image_path = null;
       }
     }
@@ -62,16 +61,21 @@ export default class TripsManager {
     if (trip.image_path) {
       const extension = trip.image_path.split(".")[1];
       const fileName = new Date().getTime() + "." + extension;
-      const newPath = path.join(IMAGE_FOLDER_PATH, fileName);
+      const newPath = this.getTripPicturePath(fileName);
 
-      fs.copyFile(trip.image_path, newPath, (err) => {
-        //err not undefined is possible if user update trip but not the image
-        //=> path is only file name so source of copy is wrong.
-        //No problem here, this mecanism is wanted and perfectly handled.
-        if (!err) {
-          trip.image_path = fileName;
-        }
-      });
+      try {
+        fs.copyFileSync(trip.image_path, newPath);
+        trip.image_path = fileName;
+        const sql = `SELECT ${TripsTable.imagePath} from ${TablesName.trips} WHERE ${TripsTable.id} = ${trip.id}`;
+        const imagePath = this.db.prepare(sql).all()[0] as {
+          image_path: string;
+        };
+        console.log("deleteing image at", imagePath);
+        fs.unlinkSync(this.getTripPicturePath(imagePath.image_path));
+      } catch (error) {
+        // console.log("warning", error);
+        //mecanism wanted
+      }
     }
     const columns = Object.keys(trip)
       .map((key) => `${key} = ? `)
@@ -113,7 +117,7 @@ export default class TripsManager {
         fs.unlinkSync(pathObj.path);
       }
       for (const pathObj of imagePath) {
-        fs.unlinkSync(pathObj.image_path);
+        fs.unlinkSync(this.getTripPicturePath(pathObj.image_path));
       }
     } catch (error) {
       console.log(
@@ -125,5 +129,9 @@ export default class TripsManager {
     const sql = `DELETE FROM ${TablesName.trips} WHERE ${TripsTable.id} = ${tripId}`;
     const stmt = this.db.prepare(sql);
     stmt.run();
+  };
+
+  private getTripPicturePath = (name: string) => {
+    return path.join(publicFolder, process.env.REACT_APP_TRIP_PICTURE!, name);
   };
 }

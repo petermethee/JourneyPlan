@@ -2,7 +2,6 @@ import IconButton from "@mui/material/IconButton";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import styles from "./TripsTile.module.css";
 import { ButtonBase } from "@mui/material";
-import trip_bg from "../../image/trip_bg.jpg";
 import { primaryColor } from "../../style/cssGlobalStyle";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +15,7 @@ import {
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 import { CSSProperties } from "react";
 require("dayjs/locale/fr");
+
 type TTileProps = {
   title: string;
   id: number;
@@ -34,12 +34,6 @@ export default function TripTile({
   index,
   onClick,
 }: TTileProps) {
-  let background: string;
-  try {
-    background = require(`../../image/${imagePath}`);
-  } catch (error) {
-    background = trip_bg;
-  }
   const navigate = useNavigate();
 
   const getStyle = (
@@ -75,8 +69,12 @@ export default function TripTile({
               sx={{ position: "absolute", color: "white", zIndex: 1 }}
             />
             <img
-              src={background}
-              alt={`url(${trip_bg})`}
+              src={
+                process.env.REACT_APP_TRIP_PICTURE +
+                "/" +
+                (imagePath ?? "trip_bg.jpg")
+              }
+              alt={`Trip`}
               className={styles.cardBg}
             />
 
