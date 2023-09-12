@@ -25,6 +25,7 @@ import { transportSecColor } from "../../style/cssGlobalStyle";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./LocationSearchInput";
+import { TArtifactEditor } from "../Planning/Planning";
 
 export const AddTransport = forwardRef(
   (
@@ -32,10 +33,12 @@ export const AddTransport = forwardRef(
       setSaving,
       id_trip,
       transport,
+      setArtifactToEdit,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
       id_trip: number;
       transport?: ITransport;
+      setArtifactToEdit: (artifactEditor: TArtifactEditor) => void;
     },
     ref
   ) => {
@@ -153,6 +156,7 @@ export const AddTransport = forwardRef(
                   snackBarSeverity: "success",
                 })
               );
+              setArtifactToEdit({ type: EArtifact.Transport });
               setSaving(ESavingStatus.disabled);
             } else if (result.meta.requestStatus === "rejected") {
               //no need to set snackbar in case of rejection, handled in globalSlice

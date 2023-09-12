@@ -183,6 +183,7 @@ export default function Planning() {
         setOpen={setOpenModal}
         artifactToEdit={artifactToEdit}
         openModal={openModal}
+        setArtifactToEdit={setArtifactToEdit}
       />
     </div>
   );

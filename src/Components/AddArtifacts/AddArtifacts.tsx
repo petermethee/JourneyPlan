@@ -39,10 +39,12 @@ export default function AddArtifacts({
   setOpen,
   artifactToEdit,
   openModal,
+  setArtifactToEdit,
 }: {
   artifactToEdit: TArtifactEditor;
   setOpen: (open: boolean) => void;
   openModal: boolean;
+  setArtifactToEdit: (artifactEditor: TArtifactEditor) => void;
 }) {
   const addActivityRef = useRef<{
     edit: (artifactType: EArtifact) => void;
@@ -223,6 +225,7 @@ export default function AddArtifacts({
                             ? (artifactToEdit.artifact as IActivity)
                             : undefined
                         }
+                        setArtifactToEdit={setArtifactToEdit}
                       />,
                       <AddTransport
                         key="transport"
@@ -235,6 +238,7 @@ export default function AddArtifacts({
                             ? (artifactToEdit.artifact as ITransport)
                             : undefined
                         }
+                        setArtifactToEdit={setArtifactToEdit}
                       />,
                       <AddAccomodation
                         key="accomodation"
@@ -247,13 +251,14 @@ export default function AddArtifacts({
                             ? (artifactToEdit.artifact as IAccomodation)
                             : undefined
                         }
+                        setArtifactToEdit={setArtifactToEdit}
                       />,
                     ]
                   : []}
               </SwipeableViews>
               <div className={styles.windowBottom}>
                 <LoadingButton
-                  disabled={saving === ESavingStatus.disabled}
+                  disabled={saving !== ESavingStatus.enabled}
                   onClick={() =>
                     handleSave(
                       artifactToEdit.type === tab && !!artifactToEdit.artifact

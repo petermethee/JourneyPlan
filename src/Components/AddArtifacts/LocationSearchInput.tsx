@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { InputAdornment, TextField, TextFieldProps } from "@mui/material";
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -29,10 +29,13 @@ export default function LocationSearchInput({
       .then((latLng) => {
         setAddress(address, latLng);
         setLocalisationOk(true);
-        console.log("latlng", latLng);
       });
     // .catch((error) => console.error("Error", error));
   };
+
+  useEffect(() => {
+    setLocalisationOk(isLocalisationOk);
+  }, [isLocalisationOk]);
 
   return (
     <PlacesAutocomplete

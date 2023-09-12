@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./LocationSearchInput";
+import { TArtifactEditor } from "../Planning/Planning";
 
 export const AddAccomodation = forwardRef(
   (
@@ -34,10 +35,12 @@ export const AddAccomodation = forwardRef(
       setSaving,
       id_trip,
       accomodation,
+      setArtifactToEdit,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
       id_trip: number;
       accomodation?: IAccomodation;
+      setArtifactToEdit: (artifactEditor: TArtifactEditor) => void;
     },
     ref
   ) => {
@@ -130,6 +133,7 @@ export const AddAccomodation = forwardRef(
                 })
               );
               setSaving(ESavingStatus.disabled);
+              setArtifactToEdit({ type: EArtifact.Accomodation });
             } else if (result.meta.requestStatus === "rejected") {
               //no need to set snackbar in case of rejection, handled in globalSlice
               setSaving(ESavingStatus.enabled);

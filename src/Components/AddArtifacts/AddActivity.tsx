@@ -23,6 +23,7 @@ import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./LocationSearchInput";
+import { TArtifactEditor } from "../Planning/Planning";
 
 export const AddActivity = forwardRef(
   (
@@ -30,10 +31,12 @@ export const AddActivity = forwardRef(
       setSaving,
       id_trip,
       activity,
+      setArtifactToEdit,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
       id_trip: number;
       activity?: IActivity;
+      setArtifactToEdit: (artifactEditor: TArtifactEditor) => void;
     },
     ref
   ) => {
@@ -148,6 +151,7 @@ export const AddActivity = forwardRef(
                   snackBarSeverity: "success",
                 })
               );
+              setArtifactToEdit({ type: EArtifact.Activity });
               setSaving(ESavingStatus.disabled);
             } else if (result.meta.requestStatus === "rejected") {
               //no need to set snackbar in case of rejection, handled in globalSlice
