@@ -143,7 +143,7 @@ function CalendarView({
             .filter(
               (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
             )
-            .map((dayCol) => (
+            .map((dayCol, index) => (
               <div
                 key={dayCol.dateId}
                 className={styles.dayContainer}
@@ -186,6 +186,7 @@ function CalendarView({
                         isHovered={isHovered}
                         insideCalendar
                         timeIndex={PA.timeIndex}
+                        isInFirstCol={index === 0}
                       >
                         <ActivityDataCard activity={PA.activity} />
                       </ArtifactTemplate>
@@ -229,6 +230,7 @@ function CalendarView({
                         isHovered={isHovered}
                         insideCalendar
                         timeIndex={PT.timeIndex}
+                        isInFirstCol={index === 0}
                       >
                         <TransportDataCard transport={PT.transport} />
                       </ArtifactTemplate>
@@ -244,7 +246,7 @@ function CalendarView({
           .filter(
             (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
           )
-          .map((dayCol) => (
+          .map((dayCol, index) => (
             <div
               key={dayCol.dateId}
               className={styles.dayAccomodationDZ}
@@ -284,6 +286,7 @@ function CalendarView({
                       isHovered={isHovered}
                       insideCalendar
                       timeIndex={PA.timeIndex}
+                      isInFirstCol={index === 0}
                     >
                       <AccomodationDataCard accomodation={PA.accomodation} />
                     </ArtifactTemplate>

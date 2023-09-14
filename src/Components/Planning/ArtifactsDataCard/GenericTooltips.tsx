@@ -6,12 +6,14 @@ export default function GenericTooltips({
   description,
   pj,
   visible,
+  isInFirstCol,
 }: {
   startTime: string;
   endTime: string;
   description?: string;
   pj: string[];
   visible: boolean;
+  isInFirstCol: boolean;
 }) {
   return (
     <>
@@ -25,8 +27,13 @@ export default function GenericTooltips({
       </div>
       {description !== "" && (
         <div
-          className={`${styles.description} ${
-            visible && styles.appearDescription
+          className={`${
+            isInFirstCol ? styles.descriptionR : styles.descriptionL
+          } ${
+            visible &&
+            (isInFirstCol
+              ? styles.appearDescriptionR
+              : styles.appearDescriptionL)
           }`}
         >
           {description}

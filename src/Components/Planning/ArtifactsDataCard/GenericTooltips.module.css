@@ -1,4 +1,4 @@
-.startTime, .endTime, .description {
+.startTime, .endTime, .descriptionR, .descriptionL {
     position: absolute;
     background-color: #464646d1;
     border-radius: 10px;
@@ -24,21 +24,34 @@
     transform: translateX(-50%) translateY(100%) scale(0);
 }
 
-.description {
+.descriptionL, .descriptionR {
     top: 1px;
-    left: -5px;
-    transform: translateX(-100%) scale(0);
     opacity: 0;
     white-space: break-spaces;
 }
 
-.appearDescription, .appearEndTime, .appearStartTime {
+.descriptionL {
+    left: -5px;
+    transform: translateX(-100%) scale(0);
+}
+
+.descriptionR {
+    right: -5px;
+    transform: translateX(100%) scale(0);
+}
+
+.appearDescriptionL, .appearDescriptionR, .appearEndTime, .appearStartTime {
     opacity: 1;
 }
 
-.appearDescription {
+.appearDescriptionL {
     transform: translateX(-100%) scale(1);
 }
+
+.appearDescriptionR {
+    transform: translateX(100%) scale(1);
+}
+
 
 .appearStartTime {
     transform: translateX(-50%) translateY(-100%) scale(1);

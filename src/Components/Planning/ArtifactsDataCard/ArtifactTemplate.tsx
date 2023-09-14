@@ -22,6 +22,7 @@ export default function ArtifactTemplate({
   artifactIcon,
   isHovered,
   timeIndex,
+  isInFirstCol,
 }: {
   artifact: IItem;
   duration?: number;
@@ -35,6 +36,7 @@ export default function ArtifactTemplate({
   artifactIcon: JSX.Element;
   isHovered: boolean;
   timeIndex?: number;
+  isInFirstCol?: boolean;
 }) {
   const minimalView = useMemo(
     () => (insideCalendar || isDragged) && duration && duration < 1,
@@ -147,13 +149,14 @@ export default function ArtifactTemplate({
           </Grid>
         </Grid>
       </div>
-      {insideCalendar && (
+      {insideCalendar && !isDragged && (
         <GenericTooltips
           startTime={startTime}
           endTime={endTime}
           description={artifact.description}
           pj={[]}
           visible={isHovered}
+          isInFirstCol={isInFirstCol ?? false}
         />
       )}
     </>
