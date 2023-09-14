@@ -70,85 +70,92 @@ export default function ArtifactTemplate({
   }, [timeIndex, duration]);
 
   return (
-    <div className={`${styles.container} ${cstmCloseIconStyle.container}`}>
-      <div
-        className={styles.iconContainer}
-        style={{
-          backgroundColor: artifactColor,
-        }}
-      >
-        {insideCalendar && !isDragged && (
-          <CustomCloseIcon
-            center
-            onDelete={onDeleteFromPlanning}
-            size={duration === 0.25 ? "13px" : "20px"}
-            sx={{ opacity: isHovered ? 1 : 0 }}
-          />
-        )}
-        {!insideCalendar && !isDragged && !artifact.used && (
-          <IconButton
-            className={styles.deleteArtifact}
-            sx={{
-              transition: "300ms",
-              position: "absolute",
-              top: "2px",
-              padding: "2px",
-              backgroundColor: " #5453539f",
-              opacity: isHovered ? 1 : 0,
-              zIndex: 1,
-              "&:hover": { backgroundColor: "#303030dd" },
-            }}
-            onClick={onDelete}
-            onMouseDown={(e) => e.stopPropagation()} //stop propagation to prevent edit mode
-          >
-            <DeleteRoundedIcon fontSize="small" sx={{ color: secErrorColor }} />
-          </IconButton>
-        )}
-        {artifactIcon}
-      </div>
-      <Grid
-        container
-        padding="5px"
-        direction="column"
-        flexWrap="nowrap"
-        overflow="hidden"
-        justifyContent={duration && duration < 1 ? "center" : "top"}
-        sx={{ transition: "300ms" }}
-      >
-        <Grid
-          item
-          container
-          width="100%"
-          justifyContent="space-between"
-          borderBottom={"1px solid " + artifactColor}
-        >
-          <span className={styles.title} style={{ color: artifactSecColor }}>
-            {artifact.name}
-          </span>
-          <span>{artifact.price} €</span>
-        </Grid>
-        <Grid
-          container
-          item
-          flexDirection="column"
-          flexWrap={"nowrap"}
-          flex={1}
-          maxHeight={minimalView ? 0 : cellHeight}
-          sx={{
-            opacity: minimalView ? 0 : 1,
+    <>
+      <div className={`${styles.container} ${cstmCloseIconStyle.container}`}>
+        <div
+          className={styles.iconContainer}
+          style={{
+            backgroundColor: artifactColor,
           }}
-          className={styles.infoContainer}
         >
-          {children}
+          {insideCalendar && !isDragged && (
+            <CustomCloseIcon
+              center
+              onDelete={onDeleteFromPlanning}
+              size={duration === 0.25 ? "13px" : "20px"}
+              sx={{ opacity: isHovered ? 1 : 0 }}
+            />
+          )}
+          {!insideCalendar && !isDragged && !artifact.used && (
+            <IconButton
+              className={styles.deleteArtifact}
+              sx={{
+                transition: "300ms",
+                position: "absolute",
+                top: "2px",
+                padding: "2px",
+                backgroundColor: " #5453539f",
+                opacity: isHovered ? 1 : 0,
+                zIndex: 1,
+                "&:hover": { backgroundColor: "#303030dd" },
+              }}
+              onClick={onDelete}
+              onMouseDown={(e) => e.stopPropagation()} //stop propagation to prevent edit mode
+            >
+              <DeleteRoundedIcon
+                fontSize="small"
+                sx={{ color: secErrorColor }}
+              />
+            </IconButton>
+          )}
+          {artifactIcon}
+        </div>
+        <Grid
+          container
+          padding="5px"
+          direction="column"
+          flexWrap="nowrap"
+          overflow="hidden"
+          justifyContent={duration && duration < 1 ? "center" : "top"}
+          sx={{ transition: "300ms" }}
+        >
+          <Grid
+            item
+            container
+            width="100%"
+            justifyContent="space-between"
+            borderBottom={"1px solid " + artifactColor}
+          >
+            <span className={styles.title} style={{ color: artifactSecColor }}>
+              {artifact.name}
+            </span>
+            <span>{artifact.price} €</span>
+          </Grid>
+          <Grid
+            container
+            item
+            flexDirection="column"
+            flexWrap={"nowrap"}
+            flex={1}
+            maxHeight={minimalView ? 0 : cellHeight}
+            sx={{
+              opacity: minimalView ? 0 : 1,
+            }}
+            className={styles.infoContainer}
+          >
+            {children}
+          </Grid>
         </Grid>
-      </Grid>
-      <GenericTooltips
-        startTime={startTime}
-        endTime={endTime}
-        description={artifact.description}
-        pj={[]}
-        visible={false}
-      />
-    </div>
+      </div>
+      {insideCalendar && (
+        <GenericTooltips
+          startTime={startTime}
+          endTime={endTime}
+          description={artifact.description}
+          pj={[]}
+          visible={isHovered}
+        />
+      )}
+    </>
   );
 }

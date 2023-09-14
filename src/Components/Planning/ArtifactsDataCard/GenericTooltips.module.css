@@ -1,0 +1,49 @@
+.startTime, .endTime, .description {
+    position: absolute;
+    background-color: #464646d1;
+    border-radius: 10px;
+    color: white;
+    border: 1px solid #5b5b5b;
+    opacity: 0;
+    transition: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-size: 0.8rem;
+    padding: 2px 5px;
+    box-shadow: 0px 0px 6px #0000005e;
+    z-index: 1;
+}
+
+.startTime {
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%) scale(0);
+}
+
+.endTime {
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100%) scale(0);
+}
+
+.description {
+    top: 1px;
+    left: -5px;
+    transform: translateX(-100%) scale(0);
+    opacity: 0;
+    white-space: break-spaces;
+}
+
+.appearDescription, .appearEndTime, .appearStartTime {
+    opacity: 1;
+}
+
+.appearDescription {
+    transform: translateX(-100%) scale(1);
+}
+
+.appearStartTime {
+    transform: translateX(-50%) translateY(-100%) scale(1);
+}
+
+.appearEndTime {
+    transform: translateX(-50%) translateY(100%) scale(1);
+}

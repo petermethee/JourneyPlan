@@ -472,6 +472,7 @@ export default function DraggableCardView({
             color: primaryColor,
             zIndex: 1,
             cursor: isDragged ? "grabbing" : "pointer",
+            borderRadius: "5px",
           }}
           onMouseDown={onMouseDown}
           onMouseLeave={() => setIsHovered(false)}

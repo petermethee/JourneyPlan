@@ -16,7 +16,7 @@
 
 .badgeAppear {
   transform: scale(1);
-  transition: 200ms cubic-bezier(0.41, 1.52, 0.51, 1.83) 0.2s;
+  transition: 200ms cubic-bezier(0.41, 1.52, 0.51, 1.83);
 }
 
 .badgeDisappear {

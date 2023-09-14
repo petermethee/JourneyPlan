@@ -30,11 +30,13 @@ export default function App() {
   };
 
   useEffect(() => {
-    setSnackbarState({
-      open: true,
-      severity: snackbarStatus.snackBarSeverity,
-      message: snackbarStatus.message,
-    });
+    if (snackbarStatus.message !== "") {
+      setSnackbarState({
+        open: true,
+        severity: snackbarStatus.snackBarSeverity,
+        message: snackbarStatus.message,
+      });
+    }
   }, [snackbarStatus]);
 
   return (

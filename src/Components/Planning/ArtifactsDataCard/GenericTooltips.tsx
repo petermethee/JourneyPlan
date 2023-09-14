@@ -15,9 +15,23 @@ export default function GenericTooltips({
 }) {
   return (
     <>
-      <div className={styles.startTime}>{startTime}</div>
-      <div className={styles.startTime}>{endTime}</div>
-      <div className={styles.startTime}>{description}</div>
+      <div
+        className={`${styles.startTime} ${visible && styles.appearStartTime}`}
+      >
+        {startTime}
+      </div>
+      <div className={`${styles.endTime} ${visible && styles.appearEndTime}`}>
+        {endTime}
+      </div>
+      {description !== "" && (
+        <div
+          className={`${styles.description} ${
+            visible && styles.appearDescription
+          }`}
+        >
+          {description}
+        </div>
+      )}
     </>
   );
 }

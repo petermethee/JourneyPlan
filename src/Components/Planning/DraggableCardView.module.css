@@ -11,7 +11,7 @@
   height: 100%;
   background-color: var(--defaultWhite);
   color: #2c2c2c;
-  overflow: hidden;
+  /* overflow: hidden; */
   box-shadow: 0 0 0 1px #e3e3e3
 }
 
@@ -25,11 +25,11 @@
 }
 
 .showcaseSideData {
-  box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.652);
+  box-shadow: 0px 0px 6px 0px #000000a6;
 }
 
 .showcaseSideData:hover {
-  box-shadow: 0px 0px 16px 4px rgba(0, 0, 0, 0.696);
+  box-shadow: 0px 0px 16px 4px #000000b1;
   ;
 }
 
