@@ -52,7 +52,11 @@ export default function SideDataHeader({
         >
           Home
         </Button>
-        <Button variant="contained" startIcon={<MapIcon />}>
+        <Button
+          variant="contained"
+          startIcon={<MapIcon />}
+          onClick={() => navigate(ERouterPathes.map)}
+        >
           Map
         </Button>
       </div>

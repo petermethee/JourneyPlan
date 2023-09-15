@@ -4,6 +4,7 @@
     background-color: var(--darkSecondaryBlue);
     height: 35px;
     z-index: 2;
+    box-shadow: 0 0 16px 0 #00000070;
 }
 
 .planningSheets {

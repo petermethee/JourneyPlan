@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { AlertColor } from "@mui/material";
 import Planning from "./Components/Planning/Planning";
 import AddTrip from "./Components/Home/AddTrip";
+import MapSummary from "./Components/Map/MapSummary";
 
 const initialSnackState: {
   open: boolean;
@@ -58,9 +59,13 @@ export default function App() {
             path={ERouterPathes.addTrip + "/:tripId?"}
             element={<AddTrip />}
           />
+          <Route
+            path={ERouterPathes.addTrip + "/:tripId?"}
+            element={<AddTrip />}
+          />
+          <Route path={ERouterPathes.map} element={<MapSummary />} />
         </Routes>
       </Router>
-      {/* <LocationSearchInput address="" setAddress={() => {}} /> */}
     </>
   );
 }
