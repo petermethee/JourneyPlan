@@ -1,31 +1,26 @@
 import React from "react";
-import styles from "./GenericTooltips.module.css";
-export default function GenericTooltips({
-  startTime,
-  endTime,
+import styles from "./AccomodationTooltips.module.css";
+export default function AccomodationTooltips({
   description,
   pj,
   visible,
   isInFirstCol,
-  isAfter8,
+  checkin,
+  checkout,
 }: {
-  startTime: string;
-  endTime: string;
+  checkin: string;
+  checkout: string;
   description?: string;
   pj: string[];
   visible: boolean;
   isInFirstCol: boolean;
-  isAfter8: boolean;
 }) {
   return (
     <>
-      <div
-        className={`${styles.startTime} ${visible && styles.appearStartTime}`}
-      >
-        {startTime}
-      </div>
-      <div className={`${styles.endTime} ${visible && styles.appearEndTime}`}>
-        {endTime}
+      <div className={`${styles.times} ${visible && styles.appear}`}>
+        {checkin}
+
+        {checkout}
       </div>
       {description !== "" && (
         <div
@@ -37,7 +32,6 @@ export default function GenericTooltips({
               ? styles.appearDescriptionR
               : styles.appearDescriptionL)
           }`}
-          style={isAfter8 ? { bottom: "1px" } : { top: "1px" }}
         >
           {description}
           <br />

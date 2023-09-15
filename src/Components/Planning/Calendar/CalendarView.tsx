@@ -89,7 +89,6 @@ function CalendarView({
     calculTimeOut && clearTimeout(calculTimeOut);
     setCalculTimeOut(setTimeout(calculColWidth, 500));
   }, [calculColWidth, calculTimeOut]);
-  window.onresize = onResize;
 
   useEffect(() => {
     calculColWidth();
@@ -100,6 +99,7 @@ function CalendarView({
   }, [dayCols]);
 
   useEffect(() => {
+    window.addEventListener("resize", onResize);
     return () => {
       window.removeEventListener("resize", onResize);
     };
@@ -287,6 +287,7 @@ function CalendarView({
                       insideCalendar
                       timeIndex={PA.timeIndex}
                       isInFirstCol={index === 0}
+                      isAccomodation={true}
                     >
                       <AccomodationDataCard accomodation={PA.accomodation} />
                     </ArtifactTemplate>

@@ -1,12 +1,12 @@
 import { EArtifactTableName } from "../../Models/EArtifacts";
 import IAttachment from "../../Models/IAttachment";
-import { IItem } from "../../Models/IItem";
+import { IArtifact } from "../../Models/IArtifact";
 
 export const getAllItemsAPI = (
   tableName: EArtifactTableName,
   tripId: number
 ) => {
-  return new Promise<IItem[]>(async (resolve, reject) => {
+  return new Promise<IArtifact[]>(async (resolve, reject) => {
     try {
       const activities = await window.electronAPI.getAllItems(
         tableName,
@@ -19,7 +19,10 @@ export const getAllItemsAPI = (
   });
 };
 
-export const insertItemAPI = (tableName: EArtifactTableName, item: IItem) => {
+export const insertItemAPI = (
+  tableName: EArtifactTableName,
+  item: IArtifact
+) => {
   return new Promise<{
     id: number;
     newAttachments: IAttachment[];
@@ -33,7 +36,10 @@ export const insertItemAPI = (tableName: EArtifactTableName, item: IItem) => {
   });
 };
 
-export const updateItemAPI = (tableName: EArtifactTableName, item: IItem) => {
+export const updateItemAPI = (
+  tableName: EArtifactTableName,
+  item: IArtifact
+) => {
   return new Promise<IAttachment[]>(async (resolve, reject) => {
     try {
       const newAttachments = await window.electronAPI.updateItem(

@@ -6,8 +6,10 @@ import CustomCloseIcon from "../../Shared/CustomCloseIcon";
 import styles from "./CommonArtifactStyle.module.css";
 import cstmCloseIconStyle from "../../Shared/CustomCloseIcon.module.css";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
-import { IItem } from "../../../Models/IItem";
+import { IArtifact } from "../../../Models/IArtifact";
 import GenericTooltips from "./GenericTooltips";
+import IAccomodation from "../../../Models/IAccomodation";
+import AccomodationTooltips from "./AccomodationTooltips";
 
 export default function ArtifactTemplate({
   artifact,
@@ -23,8 +25,9 @@ export default function ArtifactTemplate({
   isHovered,
   timeIndex,
   isInFirstCol,
+  isAccomodation,
 }: {
-  artifact: IItem;
+  artifact: IArtifact;
   duration?: number;
   insideCalendar?: boolean;
   isDragged?: boolean;
@@ -37,6 +40,7 @@ export default function ArtifactTemplate({
   isHovered: boolean;
   timeIndex?: number;
   isInFirstCol?: boolean;
+  isAccomodation?: boolean;
 }) {
   const minimalView = useMemo(
     () => (insideCalendar || isDragged) && duration && duration < 1,
@@ -71,6 +75,40 @@ export default function ArtifactTemplate({
     return "";
   }, [timeIndex, duration]);
 
+  const Tooltips = useMemo(() => {
+    if (isAccomodation) {
+      return (
+        <AccomodationTooltips
+          description={artifact.description}
+          pj={artifact.attachment.map((pj) => pj.name)}
+          visible={isHovered}
+          isInFirstCol={isInFirstCol ?? false}
+          checkin={(artifact as IAccomodation).checkin}
+          checkout={(artifact as IAccomodation).checkout}
+        />
+      );
+    } else {
+      return (
+        <GenericTooltips
+          startTime={startTime}
+          endTime={endTime}
+          description={artifact.description}
+          pj={artifact.attachment.map((pj) => pj.name)}
+          visible={isHovered}
+          isInFirstCol={isInFirstCol ?? false}
+          isAfter8={timeIndex! >= 20}
+        />
+      );
+    }
+  }, [
+    artifact,
+    endTime,
+    isAccomodation,
+    isHovered,
+    isInFirstCol,
+    startTime,
+    timeIndex,
+  ]);
   return (
     <>
       <div className={`${styles.container} ${cstmCloseIconStyle.container}`}>
@@ -149,16 +187,7 @@ export default function ArtifactTemplate({
           </Grid>
         </Grid>
       </div>
-      {insideCalendar && !isDragged && (
-        <GenericTooltips
-          startTime={startTime}
-          endTime={endTime}
-          description={artifact.description}
-          pj={[]}
-          visible={isHovered}
-          isInFirstCol={isInFirstCol ?? false}
-        />
-      )}
+      {insideCalendar && !isDragged && Tooltips}
     </>
   );
 }
