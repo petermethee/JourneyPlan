@@ -1,4 +1,4 @@
-.startTime, .endTime, .descriptionR, .descriptionL {
+.startTime, .endTime, .descriptionR, .descriptionL, .checkinOut {
     position: absolute;
     background-color: #464646d1;
     border-radius: 10px;
@@ -12,7 +12,7 @@
     z-index: 1;
 }
 
-.startTime {
+.startTime, .checkinOut {
     top: -5px;
     left: 50%;
     transform: translateX(-50%) translateY(-100%) scale(0);
@@ -39,7 +39,7 @@
     transform: translateX(100%) scale(0);
 }
 
-.appearDescriptionL, .appearDescriptionR, .appearEndTime, .appearStartTime {
+.appearDescriptionL, .appearDescriptionR, .appearEndTime, .appearStartTime, .appearCheckinOut {
     opacity: 1;
 }
 
@@ -58,4 +58,18 @@
 
 .appearEndTime {
     transform: translateX(-50%) translateY(100%) scale(1);
+}
+
+.appearCheckinOut {
+    transform: translateX(-50%) translateY(-100%) scale(1);
+}
+
+.checkinOut {
+    display: flex;
+    gap: 15px;
+}
+
+.checkinOut span {
+    font-size: 0.85rem;
+    white-space: nowrap;
 }

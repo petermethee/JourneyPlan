@@ -279,8 +279,10 @@ export const AddAccomodation = forwardRef(
                       return {
                         ...prevState,
                         checkin: newValue
-                          ? newValue.hour() + ":" + newValue.minute()
-                          : "18:0",
+                          ? `${newValue.hour()}:${
+                              newValue.minute() < 10 ? "0" : ""
+                            }${newValue.minute()}`
+                          : "18:00",
                       };
                     })
                   }
@@ -298,8 +300,10 @@ export const AddAccomodation = forwardRef(
                       return {
                         ...prevState,
                         checkout: newValue
-                          ? newValue.hour() + ":" + newValue.minute()
-                          : "10:0",
+                          ? `${newValue.hour()}:${
+                              newValue.minute() < 10 ? "0" : ""
+                            }${newValue.minute()}`
+                          : "10:00",
                       };
                     })
                   }

@@ -1,5 +1,6 @@
 import React from "react";
-import styles from "./AccomodationTooltips.module.css";
+import styles from "./GenericTooltips.module.css";
+
 export default function AccomodationTooltips({
   description,
   pj,
@@ -17,10 +18,11 @@ export default function AccomodationTooltips({
 }) {
   return (
     <>
-      <div className={`${styles.times} ${visible && styles.appear}`}>
-        {checkin}
-
-        {checkout}
+      <div
+        className={`${styles.checkinOut} ${visible && styles.appearCheckinOut}`}
+      >
+        <span>Checkin: {checkin}</span>
+        <span>Checkout: {checkout}</span>
       </div>
       {description !== "" && (
         <div
@@ -32,6 +34,7 @@ export default function AccomodationTooltips({
               ? styles.appearDescriptionR
               : styles.appearDescriptionL)
           }`}
+          style={{ bottom: "1px" }}
         >
           {description}
           <br />

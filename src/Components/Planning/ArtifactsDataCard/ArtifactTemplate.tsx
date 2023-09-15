@@ -53,9 +53,7 @@ export default function ArtifactTemplate({
       let decimalPart = timeIndex - integerPart;
       const hours = integerPart;
       const minutes = 60 * decimalPart;
-      return `${hours < 10 ? "0" : ""}${hours}:${
-        minutes === 0 ? "00" : minutes
-      }`;
+      return `${hours}:${minutes === 0 ? "00" : minutes}`;
     }
     return "";
   }, [timeIndex]);
@@ -68,9 +66,7 @@ export default function ArtifactTemplate({
       const hours = integerPart;
       const minutes = 60 * decimalPart;
 
-      return `${hours < 10 ? "0" : ""}${hours}:${
-        minutes === 0 ? "00" : minutes
-      }`;
+      return `${hours}:${minutes === 0 ? "00" : minutes}`;
     }
     return "";
   }, [timeIndex, duration]);
@@ -81,7 +77,7 @@ export default function ArtifactTemplate({
         <AccomodationTooltips
           description={artifact.description}
           pj={artifact.attachment.map((pj) => pj.name)}
-          visible={isHovered}
+          visible={isHovered && !isDragged}
           isInFirstCol={isInFirstCol ?? false}
           checkin={(artifact as IAccomodation).checkin}
           checkout={(artifact as IAccomodation).checkout}
@@ -94,7 +90,7 @@ export default function ArtifactTemplate({
           endTime={endTime}
           description={artifact.description}
           pj={artifact.attachment.map((pj) => pj.name)}
-          visible={isHovered}
+          visible={isHovered && !isDragged}
           isInFirstCol={isInFirstCol ?? false}
           isAfter8={timeIndex! >= 20}
         />
@@ -108,6 +104,7 @@ export default function ArtifactTemplate({
     isInFirstCol,
     startTime,
     timeIndex,
+    isDragged,
   ]);
   return (
     <>
@@ -187,7 +184,7 @@ export default function ArtifactTemplate({
           </Grid>
         </Grid>
       </div>
-      {insideCalendar && !isDragged && Tooltips}
+      {insideCalendar && Tooltips}
     </>
   );
 }
