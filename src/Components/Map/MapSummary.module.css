@@ -7,9 +7,18 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-
 }
 
 .mapWrapper {
-    flex: 1
+    flex: 1;
+    position: relative;
+}
+
+.providerContainer {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    z-index: 1000;
+    right: 10px;
+    top: 10px;
 }

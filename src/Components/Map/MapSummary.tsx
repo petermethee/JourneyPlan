@@ -3,8 +3,10 @@ import styles from "./MapSummary.module.css";
 import PlanningSheets from "../Planning/Calendar/PlanningSheets/PlanningSheets";
 import TimeLineSummary from "./TimeLineSummary";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { MenuItem, TextField } from "@mui/material";
+import { InputAdornment, MenuItem, Select } from "@mui/material";
 import { useResizeDetector } from "react-resize-detector";
+import LayersRoundedIcon from "@mui/icons-material/LayersRounded";
+import DynamicFeedRoundedIcon from "@mui/icons-material/DynamicFeedRounded";
 
 let timeout: NodeJS.Timeout;
 export default function MapSummary() {
@@ -65,10 +67,6 @@ export default function MapSummary() {
   ];
   const layers = [
     {
-      name: "Aucun",
-      url: "",
-    },
-    {
       name: "Train",
       url: "https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png",
     },
@@ -82,7 +80,7 @@ export default function MapSummary() {
     },
   ];
   const [urlProvider, setUrlProvider] = useState(tileProviders[0].url);
-  const [layerUrl, setLayerUrl] = useState(layers[0].url);
+  const [layerUrl, setLayerUrl] = useState("");
   const [drawMap, setDrawMap] = useState(false);
 
   useEffect(() => {
@@ -98,31 +96,48 @@ export default function MapSummary() {
       <TimeLineSummary />
       <div className={styles.rightPart}>
         <PlanningSheets />
-        <TextField
-          select
-          onChange={(e) => setUrlProvider(e.target.value)}
-          value={urlProvider}
-        >
-          {tileProviders.map((provider) => (
-            <MenuItem key={provider.name} value={provider.url}>
-              {provider.name}
-            </MenuItem>
-          ))}
-        </TextField>
-
-        <TextField
-          select
-          onChange={(e) => setLayerUrl(e.target.value)}
-          value={layerUrl}
-        >
-          {layers.map((provider) => (
-            <MenuItem key={provider.name} value={provider.url}>
-              {provider.name}
-            </MenuItem>
-          ))}
-        </TextField>
 
         <div className={styles.mapWrapper} ref={mapWrapperRef}>
+          <div className={styles.providerContainer}>
+            <Select
+              displayEmpty
+              onChange={(e) => setUrlProvider(e.target.value)}
+              value={urlProvider}
+              fullWidth
+              sx={{ backgroundColor: "white", width: "200px" }}
+              startAdornment={
+                <InputAdornment position="start">
+                  <LayersRoundedIcon />
+                </InputAdornment>
+              }
+            >
+              {tileProviders.map((provider) => (
+                <MenuItem key={provider.name} value={provider.url}>
+                  {provider.name}
+                </MenuItem>
+              ))}
+            </Select>
+
+            <Select
+              startAdornment={
+                <InputAdornment position="start">
+                  <DynamicFeedRoundedIcon />
+                </InputAdornment>
+              }
+              displayEmpty
+              onChange={(e) => setLayerUrl(e.target.value)}
+              value={layerUrl}
+              sx={{ backgroundColor: "white", width: "200px" }}
+              margin="dense"
+            >
+              <MenuItem value="">Aucun</MenuItem>
+              {layers.map((provider) => (
+                <MenuItem key={provider.name} value={provider.url}>
+                  {provider.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
           {drawMap && (
             <MapContainer
               center={[51.505, -0.09]}
