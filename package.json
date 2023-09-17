@@ -34,9 +34,7 @@
     "react-resize-detector": "^9.1.0",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
-    "react-swipeable-views": "^0.14.0",
-    "sequelize": "^6.32.1",
-    "sqlite3": "^5.1.6"
+    "react-swipeable-views": "^0.14.0"
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-app-rewired start",
@@ -70,6 +68,7 @@
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.4",
     "@types/leaflet": "^1.9.4",
+    "@types/leaflet-providers": "^1.2.2",
     "@types/node": "^16.18.21",
     "@types/react": "^18.0.29",
     "@types/react-beautiful-dnd": "^13.1.4",
