@@ -3,10 +3,9 @@ import styles from "./MapSummary.module.css";
 import PlanningSheets from "../Planning/Calendar/PlanningSheets/PlanningSheets";
 import TimeLineSummary from "./TimeLineSummary";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { InputAdornment, MenuItem, Select } from "@mui/material";
 import { useResizeDetector } from "react-resize-detector";
-import LayersRoundedIcon from "@mui/icons-material/LayersRounded";
-import DynamicFeedRoundedIcon from "@mui/icons-material/DynamicFeedRounded";
+import { MapDetails, MapTypes } from "./TileProviders";
+import Layers from "./Layers";
 
 let timeout: NodeJS.Timeout;
 export default function MapSummary() {
@@ -16,71 +15,8 @@ export default function MapSummary() {
     ref: mapWrapperRef,
   } = useResizeDetector();
 
-  const tileProviders = [
-    {
-      name: "Sobre",
-      maxZomm: 19,
-      url: "https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
-    },
-    {
-      name: "Détaillé niveau 1",
-      maxZomm: 20,
-      url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-    },
-    {
-      name: "Détaillé niveau 2",
-      maxZomm: 20,
-      url: "https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",
-    },
-    {
-      name: "Détaillées niveau 3",
-      maxZomm: 20,
-      url: "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png",
-    },
-    /*    {
-      name: "Old school",
-      maxZomm: 20,
-      url: "https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}",
-    }, */
-
-    {
-      name: "Satellite",
-      maxZomm: 20,
-      url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-    },
-
-    {
-      name: "OpenStreetMap",
-      maxZomm: 19,
-      url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-    },
-    {
-      name: "Aéroport",
-      maxZomm: 18,
-      url: "https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png",
-    },
-    /*     {
-      name: "terrain",
-      maxZomm: 20,
-      url: "https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png",
-    }, */
-  ];
-  const layers = [
-    {
-      name: "Train",
-      url: "https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png",
-    },
-    {
-      name: "Vélo",
-      url: "https://tile.waymarkedtrails.org/cycling/{z}/{x}/{y}.png",
-    },
-    {
-      name: "Randonnées",
-      url: "https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png",
-    },
-  ];
-  const [urlProvider, setUrlProvider] = useState(tileProviders[0].url);
-  const [layerUrl, setLayerUrl] = useState("");
+  const [mapTypeIndex, setMapTypeIndex] = useState(0);
+  const [mapDetailIndex, setMapDetailIndex] = useState(0);
   const [drawMap, setDrawMap] = useState(false);
 
   useEffect(() => {
@@ -98,58 +34,25 @@ export default function MapSummary() {
         <PlanningSheets />
 
         <div className={styles.mapWrapper} ref={mapWrapperRef}>
-          <div className={styles.providerContainer}>
-            <Select
-              displayEmpty
-              onChange={(e) => setUrlProvider(e.target.value)}
-              value={urlProvider}
-              fullWidth
-              sx={{ backgroundColor: "white", width: "200px" }}
-              startAdornment={
-                <InputAdornment position="start">
-                  <LayersRoundedIcon />
-                </InputAdornment>
-              }
-            >
-              {tileProviders.map((provider) => (
-                <MenuItem key={provider.name} value={provider.url}>
-                  {provider.name}
-                </MenuItem>
-              ))}
-            </Select>
-
-            <Select
-              startAdornment={
-                <InputAdornment position="start">
-                  <DynamicFeedRoundedIcon />
-                </InputAdornment>
-              }
-              displayEmpty
-              onChange={(e) => setLayerUrl(e.target.value)}
-              value={layerUrl}
-              sx={{ backgroundColor: "white", width: "200px" }}
-              margin="dense"
-            >
-              <MenuItem value="">Aucun</MenuItem>
-              {layers.map((provider) => (
-                <MenuItem key={provider.name} value={provider.url}>
-                  {provider.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
           {drawMap && (
             <MapContainer
               center={[51.505, -0.09]}
               zoom={13}
-              scrollWheelZoom={true}
+              scrollWheelZoom
               style={{
                 height: mapHeight ?? "50px",
                 width: mapWidth ?? "100px",
               }}
+              attributionControl={false}
             >
-              <TileLayer url={urlProvider} />
-              <TileLayer url={layerUrl} />
+              <TileLayer
+                url={MapTypes[mapTypeIndex].url}
+                maxZoom={MapTypes[mapTypeIndex].maxZoom}
+              />
+              <TileLayer
+                url={MapDetails[mapDetailIndex].url}
+                maxZoom={MapDetails[mapDetailIndex].maxZoom}
+              />
               <Marker position={[51.505, -0.09]}>
                 <Popup>
                   A pretty CSS3 popup. <br /> Easily customizable.
@@ -157,6 +60,12 @@ export default function MapSummary() {
               </Marker>
             </MapContainer>
           )}
+          <Layers
+            mapDetailIndex={mapDetailIndex}
+            mapTypeIndex={mapTypeIndex}
+            setMapDetailIndex={(id) => setMapDetailIndex(id)}
+            setMapTypeIndex={(id) => setMapTypeIndex(id)}
+          />
         </div>
       </div>
     </div>
