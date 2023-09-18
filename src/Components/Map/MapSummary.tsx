@@ -4,10 +4,11 @@ import PlanningSheets from "../Planning/Calendar/PlanningSheets/PlanningSheets";
 import TimeLineSummary from "./TimeLineSummary";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { useResizeDetector } from "react-resize-detector";
-import { MapDetails, MapTypes } from "./TileProviders";
+import { MapDetails, MapTypes, SatelliteExtansions } from "./TileProviders";
 import Layers from "./Layers";
 
 let timeout: NodeJS.Timeout;
+export const ParisCoord: [number, number] = [48.8566, 2.3522];
 export default function MapSummary() {
   const {
     width: mapWidth,
@@ -36,7 +37,7 @@ export default function MapSummary() {
         <div className={styles.mapWrapper} ref={mapWrapperRef}>
           {drawMap && (
             <MapContainer
-              center={[51.505, -0.09]}
+              center={ParisCoord}
               zoom={13}
               scrollWheelZoom
               style={{
@@ -49,11 +50,17 @@ export default function MapSummary() {
                 url={MapTypes[mapTypeIndex].url}
                 maxZoom={MapTypes[mapTypeIndex].maxZoom}
               />
-              <TileLayer
-                url={MapDetails[mapDetailIndex].url}
-                maxZoom={MapDetails[mapDetailIndex].maxZoom}
-              />
-              <Marker position={[51.505, -0.09]}>
+              {mapDetailIndex !== 0 && (
+                <TileLayer
+                  url={MapDetails[mapDetailIndex].url}
+                  maxZoom={MapDetails[mapDetailIndex].maxZoom}
+                />
+              )}
+              {mapTypeIndex === 4 &&
+                SatelliteExtansions.map((extansion) => (
+                  <TileLayer url={extansion.url} maxZoom={extansion.maxZoom} />
+                ))}
+              <Marker position={ParisCoord}>
                 <Popup>
                   A pretty CSS3 popup. <br /> Easily customizable.
                 </Popup>

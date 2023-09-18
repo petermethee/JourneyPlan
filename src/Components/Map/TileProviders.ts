@@ -49,6 +49,11 @@ export const MapTypes = [
 ];
 export const MapDetails = [
   {
+    name: "Aucun",
+    url: "",
+    maxZoom: 1,
+  },
+  {
     name: "Train",
     url: "https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png",
     maxZoom: 20,
@@ -62,5 +67,16 @@ export const MapDetails = [
     name: "Randonnées",
     url: "https://tile.waymarkedtrails.org/hiking/{z}/{x}/{y}.png",
     maxZoom: 20,
+  },
+];
+
+export const SatelliteExtansions = [
+  /*   {
+    url: "https://tiles.stadiamaps.com/tiles/stamen_toner_lines/{z}/{x}/{y}{r}.png",
+    maxZoom: 20,
+  }, */
+  {
+    url: "https://tiles.stadiamaps.com/tiles/stamen_terrain_labels/{z}/{x}/{y}{r}.png",
+    maxZoom: 18,
   },
 ];
