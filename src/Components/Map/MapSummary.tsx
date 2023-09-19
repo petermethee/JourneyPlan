@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import styles from "./MapSummary.module.css";
 import PlanningSheets from "../Planning/Calendar/PlanningSheets/PlanningSheets";
 import TimeLineSummary from "./TimeLineSummary";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import { useResizeDetector } from "react-resize-detector";
 import { MapDetails, MapTypes, SatelliteExtansions } from "./TileProviders";
 import Layers from "./Layers";
+import Markers from "./Markers";
+import { Map } from "leaflet";
 
 let timeout: NodeJS.Timeout;
 export const ParisCoord: [number, number] = [48.8566, 2.3522];
@@ -19,6 +21,7 @@ export default function MapSummary() {
   const [mapTypeIndex, setMapTypeIndex] = useState(0);
   const [mapDetailIndex, setMapDetailIndex] = useState(0);
   const [drawMap, setDrawMap] = useState(false);
+  const [map, setMap] = useState<Map | null>(null);
 
   useEffect(() => {
     setDrawMap(false);
@@ -45,6 +48,7 @@ export default function MapSummary() {
                 width: mapWidth ?? "100px",
               }}
               attributionControl={false}
+              ref={setMap as any}
             >
               <TileLayer
                 url={MapTypes[mapTypeIndex].url}
@@ -58,21 +62,24 @@ export default function MapSummary() {
               )}
               {mapTypeIndex === 4 &&
                 SatelliteExtansions.map((extansion) => (
-                  <TileLayer url={extansion.url} maxZoom={extansion.maxZoom} />
+                  <TileLayer
+                    key={extansion.url}
+                    url={extansion.url}
+                    maxZoom={extansion.maxZoom}
+                  />
                 ))}
-              <Marker position={ParisCoord}>
-                <Popup>
-                  A pretty CSS3 popup. <br /> Easily customizable.
-                </Popup>
-              </Marker>
+              <Markers />
             </MapContainer>
           )}
-          <Layers
-            mapDetailIndex={mapDetailIndex}
-            mapTypeIndex={mapTypeIndex}
-            setMapDetailIndex={(id) => setMapDetailIndex(id)}
-            setMapTypeIndex={(id) => setMapTypeIndex(id)}
-          />
+          {map && (
+            <Layers
+              mapDetailIndex={mapDetailIndex}
+              mapTypeIndex={mapTypeIndex}
+              setMapDetailIndex={(id) => setMapDetailIndex(id)}
+              setMapTypeIndex={(id) => setMapTypeIndex(id)}
+              map={map}
+            />
+          )}
         </div>
       </div>
     </div>

@@ -1,26 +1,53 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { MapDetails, MapTypes } from "./TileProviders";
-import { MapContainer, TileLayer } from "react-leaflet";
 import styles from "./Layers.module.css";
 import LayersRoundedIcon from "@mui/icons-material/LayersRounded";
 import DynamicFeedRoundedIcon from "@mui/icons-material/DynamicFeedRounded";
-import { ButtonBase, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { ParisCoord } from "./MapSummary";
+import { Map } from "leaflet";
+import MapButtonLayer from "./MapButtonLayer";
 
 export default function Layers({
   setMapTypeIndex,
   setMapDetailIndex,
   mapTypeIndex,
   mapDetailIndex,
+  map,
 }: {
   setMapTypeIndex: (id: number) => void;
   setMapDetailIndex: (id: number) => void;
   mapTypeIndex: number;
   mapDetailIndex: number;
+  map: Map;
 }) {
+  const [position, setPosition] = useState(() => map.getCenter());
+  const [zoom, setZoom] = useState(() => map.getZoom());
+
   const [showMapTypesSuggestions, setShowMapTypesSuggestions] = useState(false);
   const [showMapDetailsSuggestions, setShowMapDetailsSuggestions] =
     useState(false);
+
+  const onClick = useCallback(() => {
+    map.setView(ParisCoord, 13);
+  }, [map]);
+
+  const onMove = useCallback(() => {
+    setPosition(map.getCenter());
+  }, [map]);
+
+  const onZoom = useCallback(() => {
+    setZoom(map.getZoom());
+  }, [map]);
+
+  useEffect(() => {
+    map.on("move", onMove);
+    map.on("zoomend", onZoom);
+    return () => {
+      map.off("move", onMove);
+      map.off("zoomend", onZoom);
+    };
+  }, [map, onMove, onZoom]);
 
   return (
     <>
@@ -32,40 +59,16 @@ export default function Layers({
         }}
       >
         {MapTypes.map((mapType, index) => (
-          <div
-            className={`${styles.mapButton} ${
-              mapTypeIndex === index && styles.selectedMap
-            } `}
-            style={{
-              right: showMapTypesSuggestions ? 50 + index * 110 : -125,
-              opacity: showMapTypesSuggestions ? 1 : 0,
-              transition: `all 100ms ease 0ms, right 200ms ease ${
-                index * 40
-              }ms, opacity 200ms ease ${index * 40}ms `,
-            }}
-          >
-            <ButtonBase
-              sx={{
-                position: "absolute",
-                height: "100%",
-                width: "100%",
-                zIndex: "1000 ",
-              }}
-              onClick={() => setMapTypeIndex(index)}
-            />
-
-            <MapContainer
-              center={ParisCoord}
-              zoom={5}
-              scrollWheelZoom={false}
-              className={styles.mapContainer}
-              zoomControl={false}
-              attributionControl={false}
-            >
-              <TileLayer url={mapType.url} maxZoom={mapType.maxZoom} />
-            </MapContainer>
-            <span className={styles.mapName}>{MapTypes[index].name}</span>
-          </div>
+          <MapButtonLayer
+            index={index}
+            mapItem={mapType}
+            mapSelectedIndex={mapTypeIndex}
+            setSelectedIndex={() => setMapTypeIndex(index)}
+            showSuggestions={showMapTypesSuggestions}
+            position={position}
+            zoom={zoom}
+            key={mapType.name}
+          />
         ))}
 
         <IconButton
@@ -89,39 +92,16 @@ export default function Layers({
         }}
       >
         {MapDetails.map((mapDetails, index) => (
-          <div
-            className={`${styles.mapButton} ${
-              mapDetailIndex === index && styles.selectedMap
-            } `}
-            style={{
-              right: showMapDetailsSuggestions ? 50 + index * 110 : -125,
-              opacity: showMapDetailsSuggestions ? 1 : 0,
-              transition: `all 100ms ease 0ms, right 200ms ease ${
-                index * 40
-              }ms, opacity 200ms ease ${index * 40}ms `,
-            }}
-          >
-            <ButtonBase
-              sx={{
-                position: "absolute",
-                height: "100%",
-                width: "100%",
-                zIndex: "1000 ",
-              }}
-              onClick={() => setMapDetailIndex(index)}
-            />
-            <MapContainer
-              center={ParisCoord}
-              zoom={5}
-              scrollWheelZoom={false}
-              className={styles.mapContainer}
-              zoomControl={false}
-              attributionControl={false}
-            >
-              <TileLayer url={mapDetails.url} maxZoom={mapDetails.maxZoom} />
-            </MapContainer>
-            <span className={styles.mapName}>{MapDetails[index].name}</span>
-          </div>
+          <MapButtonLayer
+            index={index}
+            mapItem={mapDetails}
+            mapSelectedIndex={mapDetailIndex}
+            setSelectedIndex={() => setMapDetailIndex(index)}
+            showSuggestions={showMapDetailsSuggestions}
+            position={position}
+            zoom={zoom}
+            key={mapDetails.name}
+          />
         ))}
 
         <IconButton
