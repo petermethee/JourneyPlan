@@ -1,0 +1,9 @@
+.marker {
+    transform: scale(1);
+    transition: 200ms;
+
+}
+
+.marker:hover {
+    transform: scale(1.2);
+}
