@@ -1,0 +1,27 @@
+.timeLineContainer {
+    display: flex;
+    flex-direction: column;
+    min-width: 255px;
+    width: 20%;
+    max-width: 350px;
+    background-color: var(--defaultWhite);
+    box-shadow: 1px 0px 8px 0px #000000b8;
+    z-index: 500;
+    padding: 10px 0px;
+
+
+}
+
+.topToolContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.timeLineCardsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    overflow-y: scroll;
+}

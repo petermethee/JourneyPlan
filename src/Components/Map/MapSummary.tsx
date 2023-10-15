@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import styles from "./MapSummary.module.css";
 import PlanningSheets from "../Planning/Calendar/PlanningSheets/PlanningSheets";
-import TimeLineSummary from "./TimeLineSummary";
+import TimeLineSummary from "./Timeline/TimeLineSummary";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { useResizeDetector } from "react-resize-detector";
-import { MapDetails, MapTypes, SatelliteExtansions } from "./TileProviders";
-import Layers from "./Layers";
-import Markers from "./Markers";
+import {
+  MapDetails,
+  MapTypes,
+  SatelliteExtansions,
+} from "./Tiles/TileProviders";
+import Layers from "./Tiles/Layers";
+import Markers from "./Tiles/Markers";
 import { Map } from "leaflet";
 import { useAppSelector } from "../../app/hooks";
 import { selectPlanningArtifacts } from "../../features/Redux/planningSlice";
 import { PlanningArtifactTable } from "../../Models/DataBaseModel";
+import IPlanningArtifact from "../../Models/IPlanningArtifact";
 
 let timeout: NodeJS.Timeout;
 export const ParisCoord: [number, number] = [48.8566, 2.3522];
@@ -23,6 +28,9 @@ export default function MapSummary() {
 
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
 
+  const [sortedArtifacts, setSortedArtifacts] = useState<IPlanningArtifact[]>(
+    []
+  );
   const [mapTypeIndex, setMapTypeIndex] = useState(0);
   const [mapDetailIndex, setMapDetailIndex] = useState(0);
   const [drawMap, setDrawMap] = useState(false);
@@ -37,7 +45,7 @@ export default function MapSummary() {
   }, [mapWidth, mapHeight]);
 
   useEffect(() => {
-    let sortedArtifacts = planningArtifacts.slice().sort((a, b) => {
+    let newSortedArtifacts = planningArtifacts.slice().sort((a, b) => {
       let dateA = new Date(a.date);
       let dateB = new Date(b.date);
 
@@ -56,12 +64,12 @@ export default function MapSummary() {
         }
       }
     });
-    console.log("tag", sortedArtifacts);
+    setSortedArtifacts(newSortedArtifacts);
   }, [planningArtifacts]);
 
   return (
     <div className={styles.container}>
-      <TimeLineSummary />
+      <TimeLineSummary sortedPlanningArtifacts={sortedArtifacts} />
       <div className={styles.rightPart}>
         <PlanningSheets />
 

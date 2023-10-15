@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ButtonBase } from "@mui/material";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { LatLng, Map } from "leaflet";
-import { ParisCoord } from "./MapSummary";
+import { ParisCoord } from "../MapSummary";
 import styles from "./MapButtonLayer.module.css";
 
 export default function MapButtonLayer({

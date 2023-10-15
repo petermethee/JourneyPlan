@@ -6,8 +6,8 @@ import {
   Popup,
   SVGOverlay,
 } from "react-leaflet";
-import { ParisCoord } from "./MapSummary";
-import { AccomodationMarker } from "../../assets/AccomodationMarker";
+import { ParisCoord } from "../MapSummary";
+import { AccomodationMarker } from "../../../assets/AccomodationMarker";
 
 export default function Markers() {
   return (

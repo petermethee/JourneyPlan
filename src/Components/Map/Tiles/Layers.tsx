@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import { MapDetails, MapTypes } from "./TileProviders";
-import styles from "./Layers.module.css";
 import LayersRoundedIcon from "@mui/icons-material/LayersRounded";
 import DynamicFeedRoundedIcon from "@mui/icons-material/DynamicFeedRounded";
 import { IconButton } from "@mui/material";
-import { ParisCoord } from "./MapSummary";
+import { ParisCoord } from "../MapSummary";
 import { Map } from "leaflet";
 import MapButtonLayer from "./MapButtonLayer";
+import styles from "./Layers.module.css";
 
 export default function Layers({
   setMapTypeIndex,

@@ -48,7 +48,7 @@ export default function SideDataHeader({
         <Button
           onClick={() => navigate(ERouterPathes.home)}
           startIcon={<HomeRoundedIcon />}
-          variant="outlined"
+          variant="contained"
         >
           Home
         </Button>
