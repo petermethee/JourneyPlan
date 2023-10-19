@@ -1,8 +1,7 @@
-import { Button, Pagination } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import { Button, Pagination, ThemeProvider, createTheme } from "@mui/material";
+import React, { useMemo, useRef, useState } from "react";
 import { ERouterPathes } from "../../../Helper/ERouterPathes";
 import styles from "./TimeLineSummary.module.css";
-
 import { useNavigate } from "react-router-dom";
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import MapIcon from "@mui/icons-material/Map";
@@ -16,6 +15,7 @@ import dayjs from "dayjs";
 import { EArtifact } from "../../../Models/EArtifacts";
 import TimeLineCard from "./TimeLineCard";
 import { IArtifact } from "../../../Models/IArtifact";
+import AnimateOnScroll from "../../Shared/AnimateOnScroll";
 
 export default function TimeLineSummary({
   sortedPlanningArtifacts,
@@ -35,22 +35,35 @@ export default function TimeLineSummary({
 
   const [dayIndex, setDayIndex] = useState(0);
 
-  const timeLineCards: { artifact: IArtifact; type: EArtifact }[] =
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  });
+
+  const currentDateLabel = useMemo(() => {
+    console.log("dayIndex", dayIndex);
+
+    return dayjs(trip?.start_date).add(dayIndex, "day").format("dddd D MMMM");
+  }, [dayIndex, trip]);
+
+  const timeLineCards: { artifact: IArtifact; type: EArtifact; id: number }[] =
     useMemo(() => {
-      return sortedPlanningArtifacts
-        .filter((PA) => {
-          return dayjs(PA.date).isSame(
-            dayjs(trip?.start_date).add(dayIndex, "day")
-          );
-        })
-        .map((PA) => {
+      const tempTimeLineCards: {
+        artifact: IArtifact;
+        type: EArtifact;
+        id: number;
+      }[] = [];
+      sortedPlanningArtifacts.forEach((PA, id) => {
+        if (
+          dayjs(PA.date).isSame(dayjs(trip?.start_date).add(dayIndex, "day"))
+        ) {
           let artifact: IArtifact | undefined;
           switch (PA.artifactType) {
             case EArtifact.Activity:
               artifact = activities.find(
                 (activity) => activity.id === PA.artifactId
               )!;
-
               break;
             case EArtifact.Transport:
               artifact = transports.find(
@@ -64,8 +77,10 @@ export default function TimeLineSummary({
               )!;
               break;
           }
-          return { artifact, type: PA.artifactType };
-        });
+          tempTimeLineCards.push({ artifact, type: PA.artifactType, id });
+        }
+      });
+      return tempTimeLineCards;
     }, [
       activities,
       transports,
@@ -74,43 +89,85 @@ export default function TimeLineSummary({
       sortedPlanningArtifacts,
       dayIndex,
     ]);
-
   return (
-    <div className={styles.timeLineContainer}>
-      <div className={styles.topToolContainer}>
-        <Button
-          onClick={() => navigate(ERouterPathes.home)}
-          startIcon={<HomeRoundedIcon />}
-          variant="contained"
-        >
-          Home
-        </Button>
-        <Button
-          variant="contained"
-          startIcon={<MapIcon />}
-          onClick={() => navigate(ERouterPathes.planning + "/" + trip?.id)}
-        >
-          Planning
-        </Button>
-      </div>
-      <div className={styles.dayLabel}>
-        {dayjs(trip?.start_date).add(dayIndex).toString()}
-      </div>
+    <ThemeProvider theme={darkTheme}>
+      <div className={styles.timeLineContainer}>
+        <div className={styles.topToolContainer}>
+          <Button
+            onClick={() => navigate(ERouterPathes.home)}
+            startIcon={<HomeRoundedIcon />}
+            variant="contained"
+          >
+            Home
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<MapIcon />}
+            onClick={() => navigate(ERouterPathes.planning + "/" + trip?.id)}
+          >
+            Planning
+          </Button>
+        </div>
+        <div className={styles.dayLabel}>{currentDateLabel}</div>
 
-      <div className={styles.timeLineCardsContainer}>
-        {/* {timeLineCards.map((item) => (
-          <TimeLineCard key={item.artifact.id} text={item.artifact.name} />
-        ))} */}
-        {["test", "test"].map((text, index) => (
-          <TimeLineCard key={index} text={text} />
-        ))}
-      </div>
+        <div className={styles.scrollContainer}>
+          <div className={styles.timeLineCardsContainer}>
+            {timeLineCards.map((item) => (
+              <div key={item.id} style={{ display: "contents" }}>
+                <div className={styles.linkContainer}>
+                  <AnimateOnScroll
+                    reappear
+                    visibleClass={styles.finalLine}
+                    hiddenClass={styles.initialLine}
+                  >
+                    <div className={styles.link} />
+                  </AnimateOnScroll>
+                </div>
+                <TimeLineCard
+                  key={item.artifact.id}
+                  text={item.artifact.name}
+                  id={item.id}
+                />
+              </div>
+            ))}
+            {[
+              "test",
+              "test",
+              "test",
+              "test",
+              "test",
+              "test",
+              "test",
+              "test",
+              "test",
+            ].map((text, index) => (
+              <>
+                <div className={styles.linkContainer}>
+                  <AnimateOnScroll
+                    reappear
+                    visibleClass={styles.finalLine}
+                    hiddenClass={styles.initialLine}
+                  >
+                    <div className={styles.link} />
+                  </AnimateOnScroll>
+                </div>
+                <TimeLineCard key={index} text={text} id={100} />
+              </>
+            ))}
+          </div>
+        </div>
 
-      <Pagination
-        count={dayCount}
-        size="small"
-        onChange={(e, page) => setDayIndex(page - 1)}
-      />
-    </div>
+        <Pagination
+          count={dayCount}
+          size="small"
+          onChange={(e, page) => setDayIndex(page - 1)}
+          sx={{
+            color: "white",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        />
+      </div>
+    </ThemeProvider>
   );
 }

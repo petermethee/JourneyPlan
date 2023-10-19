@@ -33,7 +33,7 @@ export default function AccomodationDropZone({
       ref={dropZoneRef}
       className={`${styles.container} ${currentStyle}`}
       style={{
-        transitionDelay: artifactDragged ? "0ms" : "300ms",
+        transitionDuration: artifactDragged ? "0ms" : "300ms",
       }}
     >
       {children}

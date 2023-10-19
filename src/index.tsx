@@ -12,6 +12,9 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
+import dayjs from "dayjs";
+
+dayjs.locale("fr");
 
 function Index() {
   const theme = useMemo(() => {

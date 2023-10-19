@@ -17,6 +17,15 @@ export const transportSecColor = "#342f3c";
 export const accomodationColor = "#475c66";
 export const accomodationSecColor = "#475c66";
 
+export const darkColor1 = "#1a1a1a";
+export const darkColor2 = "#2a2a2a";
+export const darkColor3 = "#3a3a3a";
+export const darkColor4 = "#4a4a4a";
+export const darkColor5 = "#5a5a5a";
+export const darkColor6 = "#6a6a6a";
+export const darkColor9 = "#9a9a9a";
+export const darkColorc = "#cacaca";
+
 export const colorArray = {
   primaryColor,
   goldenColor,
@@ -34,4 +43,12 @@ export const colorArray = {
   transportSecColor,
   accomodationColor,
   accomodationSecColor,
+  darkColor1,
+  darkColor2,
+  darkColor3,
+  darkColor4,
+  darkColor5,
+  darkColor6,
+  darkColor9,
+  darkColorc,
 };

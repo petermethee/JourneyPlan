@@ -4,12 +4,12 @@
     min-width: 255px;
     width: 20%;
     max-width: 350px;
-    background-color: var(--defaultWhite);
+    background-color: var(--darkColor1);
     box-shadow: 1px 0px 8px 0px #000000b8;
     z-index: 500;
     padding: 10px 0px;
-
-
+    color: white;
+    overflow: hidden;
 }
 
 .topToolContainer {
@@ -18,10 +18,46 @@
     justify-content: space-around;
 }
 
+.scrollContainer {
+    flex: 1;
+    overflow-y: scroll;
+}
+
+.scrollContainer::-webkit-scrollbar {
+    display: none;
+}
+
 .timeLineCardsContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1;
-    overflow-y: scroll;
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.linkContainer {
+    height: 35px;
+    width: 85%;
+    z-index: -1;
+}
+
+.link {
+    position: absolute;
+    left: 17px;
+    height: 100%;
+    width: 2px;
+    /* background-color: var(--darkColor9); */
+    background: linear-gradient(#ffffff00, var(--darkColor6), #fff);
+}
+
+.initialLine {
+    position: relative;
+    height: 0;
+    width: 100%;
+}
+
+.finalLine {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }

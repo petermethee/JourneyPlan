@@ -1,5 +1,5 @@
 .homeContainer {
-    background-color: #141414;
+    background-color: var(--darkColor1);
     height: 100%;
     overflow: auto;
 }
