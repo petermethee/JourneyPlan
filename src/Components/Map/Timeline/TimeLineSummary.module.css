@@ -35,6 +35,20 @@
     padding-bottom: 10px;
 }
 
+.dayLabel {
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: var(--goldenColor);
+    border-radius: 5px;
+    padding: 10px;
+    width: 80%;
+    align-self: center;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid var(--darkColorc);
+}
+
 .linkContainer {
     height: 35px;
     width: 85%;
@@ -46,8 +60,7 @@
     left: 17px;
     height: 100%;
     width: 2px;
-    /* background-color: var(--darkColor9); */
-    background: linear-gradient(#ffffff00, var(--darkColor6), #fff);
+    background: linear-gradient(#ffffff00, var(--darkColor6), var(--darkColorc));
 }
 
 .initialLine {

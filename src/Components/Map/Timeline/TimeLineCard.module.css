@@ -15,7 +15,7 @@
 .cardContainer {
     --borderWidth: 1px;
     position: relative;
-    width: 100%;
+    width: calc(100% - 50px);
     height: 100%;
     font-weight: bold;
     border-radius: 5px;
@@ -48,18 +48,26 @@
     transform: translateY(-50%);
 }
 
-.light, .light2 {
+.light, .light2, .lightBubble, .lightBubble2 {
     position: absolute;
     width: 100%;
     height: 100%;
+}
+
+.light, .light2 {
     animation: spin 4s linear infinite;
 }
 
-.cardContainer:hover .light {
+.lightBubble, .lightBubble2 {
+    animation: spin 2s linear infinite;
+
+}
+
+.timeLineCard:hover .light {
     background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, transparent, transparent, var(--darkColorc));
 }
 
-.cardContainer:hover .light2 {
+.timeLineCard:hover .light2 {
     background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, transparent, transparent, var(--darkColorc));
 }
 
@@ -74,9 +82,21 @@
     color: var(--darkColor1);
     font-weight: bold;
     font-size: larger;
+    overflow: hidden;
+    /* box-shadow: 0 0 16px 2px #000; */
 }
 
 .idBubble::before {
+    content: '';
+    position: absolute;
+    width: calc(100% - 3px);
+    height: calc(100% - 3px);
+    background-color: var(--darkColor1);
+    border-radius: 100%;
+    z-index: 1;
+}
+
+.idBubble::after {
     --offset: 5px;
     content: '';
     position: absolute;
@@ -86,22 +106,38 @@
     height: calc(var(--height) - 2 * var(--offset));
     border-radius: 100%;
     background-color: var(--darkColorc);
-    z-index: -1;
-    box-shadow: 0 0 16px 2px #000;
+    transition: 200ms;
+    z-index: 1;
+}
+
+.idBubble span {
+    z-index: 2;
+}
+
+.timeLineCard:hover .lightBubble {
+    background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, var(--darkColorc));
+}
+
+.timeLineCard:hover .lightBubble2 {
+    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, var(--darkColorc));
 }
 
 .initialStyle {
     filter: blur(20px);
     opacity: 0;
-    width: calc(100% - 50px);
     transform: translateX(-10%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .finalStyle {
     filter: blur(0px);
     opacity: 1;
-    width: calc(100% - 50px);
     transform: translateX(0%);
+    display: flex;
+    width: 100%;
+    justify-content: center;
 
 }
 

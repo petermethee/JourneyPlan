@@ -51,7 +51,7 @@ const useElementOnScreen = (
 export default function AnimateOnScroll({
   children,
   reappear,
-  threshold = 1,
+  threshold = 0.5,
   visibleClass,
   hiddenClass,
   duration = "1s",

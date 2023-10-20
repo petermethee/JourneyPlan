@@ -1,5 +1,5 @@
 import { Button, Pagination, ThemeProvider, createTheme } from "@mui/material";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ERouterPathes } from "../../../Helper/ERouterPathes";
 import styles from "./TimeLineSummary.module.css";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,11 @@ import { EArtifact } from "../../../Models/EArtifacts";
 import TimeLineCard from "./TimeLineCard";
 import { IArtifact } from "../../../Models/IArtifact";
 import AnimateOnScroll from "../../Shared/AnimateOnScroll";
+import {
+  darkColorc,
+  defaultWhite,
+  primaryColor,
+} from "../../../style/cssGlobalStyle";
 
 export default function TimeLineSummary({
   sortedPlanningArtifacts,
@@ -90,73 +95,59 @@ export default function TimeLineSummary({
       dayIndex,
     ]);
   return (
-    <ThemeProvider theme={darkTheme}>
-      <div className={styles.timeLineContainer}>
-        <div className={styles.topToolContainer}>
-          <Button
-            onClick={() => navigate(ERouterPathes.home)}
-            startIcon={<HomeRoundedIcon />}
-            variant="contained"
-          >
-            Home
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<MapIcon />}
-            onClick={() => navigate(ERouterPathes.planning + "/" + trip?.id)}
-          >
-            Planning
-          </Button>
-        </div>
-        <div className={styles.dayLabel}>{currentDateLabel}</div>
+    <div className={styles.timeLineContainer}>
+      <div className={styles.topToolContainer}>
+        <Button
+          onClick={() => navigate(ERouterPathes.home)}
+          startIcon={<HomeRoundedIcon />}
+          variant="contained"
+          sx={{
+            backgroundColor: defaultWhite,
+            color: primaryColor,
+            "&:hover": { backgroundColor: darkColorc },
+          }}
+        >
+          Home
+        </Button>
+        <Button
+          variant="contained"
+          startIcon={<MapIcon />}
+          onClick={() => navigate(ERouterPathes.planning + "/" + trip?.id)}
+          sx={{
+            backgroundColor: defaultWhite,
+            color: primaryColor,
+            "&:hover": { backgroundColor: darkColorc },
+          }}
+        >
+          Planning
+        </Button>
+      </div>
+      <div className={styles.dayLabel}>{currentDateLabel}</div>
 
-        <div className={styles.scrollContainer}>
-          <div className={styles.timeLineCardsContainer}>
-            {timeLineCards.map((item) => (
-              <div key={item.id} style={{ display: "contents" }}>
-                <div className={styles.linkContainer}>
-                  <AnimateOnScroll
-                    reappear
-                    visibleClass={styles.finalLine}
-                    hiddenClass={styles.initialLine}
-                  >
-                    <div className={styles.link} />
-                  </AnimateOnScroll>
-                </div>
-                <TimeLineCard
-                  key={item.artifact.id}
-                  text={item.artifact.name}
-                  id={item.id}
-                />
+      <div className={styles.scrollContainer}>
+        <div className={styles.timeLineCardsContainer}>
+          {timeLineCards.map((item) => (
+            <div key={item.id} style={{ display: "contents" }}>
+              <div className={styles.linkContainer}>
+                <AnimateOnScroll
+                  reappear
+                  visibleClass={styles.finalLine}
+                  hiddenClass={styles.initialLine}
+                  duration="500ms"
+                >
+                  <div className={styles.link} />
+                </AnimateOnScroll>
               </div>
-            ))}
-            {[
-              "test",
-              "test",
-              "test",
-              "test",
-              "test",
-              "test",
-              "test",
-              "test",
-              "test",
-            ].map((text, index) => (
-              <>
-                <div className={styles.linkContainer}>
-                  <AnimateOnScroll
-                    reappear
-                    visibleClass={styles.finalLine}
-                    hiddenClass={styles.initialLine}
-                  >
-                    <div className={styles.link} />
-                  </AnimateOnScroll>
-                </div>
-                <TimeLineCard key={index} text={text} id={100} />
-              </>
-            ))}
-          </div>
+              <TimeLineCard
+                key={item.artifact.id}
+                text={item.artifact.name}
+                id={item.id}
+              />
+            </div>
+          ))}
         </div>
-
+      </div>
+      <ThemeProvider theme={darkTheme}>
         <Pagination
           count={dayCount}
           size="small"
@@ -167,7 +158,7 @@ export default function TimeLineSummary({
             justifyContent: "center",
           }}
         />
-      </div>
-    </ThemeProvider>
+      </ThemeProvider>
+    </div>
   );
 }
