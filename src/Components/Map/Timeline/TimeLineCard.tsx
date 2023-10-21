@@ -4,12 +4,22 @@ import AnimateOnScroll from "../../Shared/AnimateOnScroll";
 export default function TimeLineCard({
   text,
   id,
+  hovered,
+  selecetd,
 }: {
   text: string;
   id: number;
+  hovered: boolean;
+  selecetd: boolean;
 }) {
   return (
-    <div className={styles.timeLineCard}>
+    <div
+      className={`${styles.timeLineCard} ${
+        selecetd
+          ? styles.selectedTimeLineCard
+          : hovered && styles.hoveredTimeLineCard
+      }`}
+    >
       <AnimateOnScroll
         reappear
         visibleClass={styles.finalBubbleStyle}

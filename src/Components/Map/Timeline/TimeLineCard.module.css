@@ -10,6 +10,7 @@
     width: 85%;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
 }
 
 .cardContainer {
@@ -33,6 +34,12 @@
     height: calc(var(--height) - var(--borderWidth) * 2);
     background-color: var(--darkColor2);
     border-radius: 5px;
+}
+
+.selectedTimeLineCard .cardContainer {
+    --borderWidth: 2px;
+    background-color: var(--darkColor6);
+    transform: scale(1.1);
 }
 
 .cardContainer:hover {
@@ -60,16 +67,9 @@
 
 .lightBubble, .lightBubble2 {
     animation: spin 2s linear infinite;
-
 }
 
-.timeLineCard:hover .light {
-    background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, transparent, transparent, var(--darkColorc));
-}
 
-.timeLineCard:hover .light2 {
-    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, transparent, transparent, var(--darkColorc));
-}
 
 .idBubble {
     display: flex;
@@ -114,12 +114,37 @@
     z-index: 2;
 }
 
-.timeLineCard:hover .lightBubble {
+.hoveredTimeLineCard .light {
+    background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, transparent, transparent, var(--darkColorc));
+}
+
+.hoveredTimeLineCard .light2 {
+    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, transparent, transparent, var(--darkColorc));
+}
+
+.hoveredTimeLineCard .lightBubble {
     background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, var(--darkColorc));
 }
 
-.timeLineCard:hover .lightBubble2 {
+.hoveredTimeLineCard .lightBubble2 {
     background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, var(--darkColorc));
+}
+
+/* style of the lights if the card is the selected one */
+.selectedTimeLineCard .light {
+    background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, #fa426d);
+}
+
+.selectedTimeLineCard .light2 {
+    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, #32ffff);
+}
+
+.selectedTimeLineCard .lightBubble {
+    background-image: conic-gradient(from var(--rotate), transparent, transparent, #fa426d);
+}
+
+.selectedTimeLineCard .lightBubble2 {
+    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, #32ffff);
 }
 
 .initialStyle {

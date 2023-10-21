@@ -3,7 +3,6 @@ import { MapDetails, MapTypes } from "./TileProviders";
 import LayersRoundedIcon from "@mui/icons-material/LayersRounded";
 import DynamicFeedRoundedIcon from "@mui/icons-material/DynamicFeedRounded";
 import { IconButton } from "@mui/material";
-import { ParisCoord } from "../MapSummary";
 import { Map } from "leaflet";
 import MapButtonLayer from "./MapButtonLayer";
 import styles from "./Layers.module.css";
@@ -28,9 +27,9 @@ export default function Layers({
   const [showMapDetailsSuggestions, setShowMapDetailsSuggestions] =
     useState(false);
 
-  const onClick = useCallback(() => {
+  /*   const onClick = useCallback(() => {
     map.setView(ParisCoord, 13);
-  }, [map]);
+  }, [map]); */
 
   const onMove = useCallback(() => {
     setPosition(map.getCenter());

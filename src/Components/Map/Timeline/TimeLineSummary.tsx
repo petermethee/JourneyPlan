@@ -1,5 +1,5 @@
 import { Button, Pagination, ThemeProvider, createTheme } from "@mui/material";
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ERouterPathes } from "../../../Helper/ERouterPathes";
 import styles from "./TimeLineSummary.module.css";
 import { useNavigate } from "react-router-dom";
@@ -7,31 +7,31 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import MapIcon from "@mui/icons-material/Map";
 import { useAppSelector } from "../../../app/hooks";
 import { selectCurrentTrip } from "../../../features/Redux/tripSlice";
-import IPlanningArtifact from "../../../Models/IPlanningArtifact";
-import { selectActivities } from "../../../features/Redux/activitiesSlice";
-import { selectTransports } from "../../../features/Redux/transportsSlice";
-import { selectAccomodations } from "../../../features/Redux/accomodationsSlice";
 import dayjs from "dayjs";
-import { EArtifact } from "../../../Models/EArtifacts";
 import TimeLineCard from "./TimeLineCard";
-import { IArtifact } from "../../../Models/IArtifact";
 import AnimateOnScroll from "../../Shared/AnimateOnScroll";
 import {
   darkColorc,
   defaultWhite,
   primaryColor,
 } from "../../../style/cssGlobalStyle";
+import { TTimeLineArtifact } from "../MapSummary";
 
 export default function TimeLineSummary({
   sortedPlanningArtifacts,
+  onSelectArtifact,
+  onHoverArtifact,
+  selectedArtifact,
+  hoveredArtifact,
 }: {
-  sortedPlanningArtifacts: IPlanningArtifact[];
+  sortedPlanningArtifacts: TTimeLineArtifact[];
+  selectedArtifact: number | null;
+  hoveredArtifact: number | null;
+  onSelectArtifact: (id: number) => void;
+  onHoverArtifact: (id: number | null) => void;
 }) {
   const navigate = useNavigate();
   const trip = useAppSelector(selectCurrentTrip);
-  const activities = useAppSelector(selectActivities);
-  const transports = useAppSelector(selectTransports);
-  const accomodations = useAppSelector(selectAccomodations);
   const dayCount = useMemo(() => {
     const end_date = dayjs(trip?.end_date);
     const start_date = dayjs(trip?.start_date);
@@ -50,48 +50,14 @@ export default function TimeLineSummary({
     return dayjs(trip?.start_date).add(dayIndex, "day").format("dddd D MMMM");
   }, [dayIndex, trip]);
 
-  const timeLineCards: { artifact: IArtifact; type: EArtifact; id: number }[] =
-    useMemo(() => {
-      const tempTimeLineCards: {
-        artifact: IArtifact;
-        type: EArtifact;
-        id: number;
-      }[] = [];
-      sortedPlanningArtifacts.forEach((PA, id) => {
-        if (
-          dayjs(PA.date).isSame(dayjs(trip?.start_date).add(dayIndex, "day"))
-        ) {
-          let artifact: IArtifact | undefined;
-          switch (PA.artifactType) {
-            case EArtifact.Activity:
-              artifact = activities.find(
-                (activity) => activity.id === PA.artifactId
-              )!;
-              break;
-            case EArtifact.Transport:
-              artifact = transports.find(
-                (transport) => transport.id === PA.artifactId
-              )!;
-              break;
+  const timeLineCards = useMemo(
+    () =>
+      sortedPlanningArtifacts.filter((PA) =>
+        dayjs(PA.date).isSame(dayjs(trip?.start_date).add(dayIndex, "day"))
+      ),
+    [trip?.start_date, sortedPlanningArtifacts, dayIndex]
+  );
 
-            default:
-              artifact = accomodations.find(
-                (accomodation) => accomodation.id === PA.artifactId
-              )!;
-              break;
-          }
-          tempTimeLineCards.push({ artifact, type: PA.artifactType, id });
-        }
-      });
-      return tempTimeLineCards;
-    }, [
-      activities,
-      transports,
-      accomodations,
-      trip?.start_date,
-      sortedPlanningArtifacts,
-      dayIndex,
-    ]);
   return (
     <div className={styles.timeLineContainer}>
       <div className={styles.topToolContainer}>
@@ -125,7 +91,13 @@ export default function TimeLineSummary({
       <div className={styles.scrollContainer}>
         <div className={styles.timeLineCardsContainer}>
           {timeLineCards.map((item) => (
-            <div key={item.id} style={{ display: "contents" }}>
+            <div
+              onClick={() => onSelectArtifact(item.id)}
+              onMouseEnter={() => onHoverArtifact(item.id)}
+              onMouseLeave={() => onHoverArtifact(null)}
+              key={item.id}
+              style={{ display: "contents" }}
+            >
               <div className={styles.linkContainer}>
                 <AnimateOnScroll
                   reappear
@@ -140,6 +112,8 @@ export default function TimeLineSummary({
                 key={item.artifact.id}
                 text={item.artifact.name}
                 id={item.id}
+                hovered={hoveredArtifact === item.id}
+                selecetd={selectedArtifact === item.id}
               />
             </div>
           ))}

@@ -1,9 +1,35 @@
-.marker {
-    transform: scale(1);
-    transition: 200ms;
-
+.markerContainer {
+    display: flex;
+    position: relative;
 }
 
-.marker:hover {
-    transform: scale(1.2);
+.markerContainer span {
+    position: absolute;
+    /* left: -1px; */
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 6px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 5px #000;
+}
+
+.growAnimation {
+    animation: grow 200ms ease-in-out forwards;
+}
+
+.reduceAnimation {
+    animation: grow 200ms ease-in-out reverse backwards;
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.2);
+    }
 }
