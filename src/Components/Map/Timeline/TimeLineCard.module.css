@@ -15,7 +15,7 @@
 .cardContainer {
     --borderWidth: 1px;
     position: relative;
-    width: calc(100% - 50px);
+    width: 100%;
     height: 100%;
     font-weight: bold;
     border-radius: 5px;
@@ -123,23 +123,33 @@
 }
 
 .initialStyle {
-    filter: blur(20px);
-    opacity: 0;
-    transform: translateX(-10%);
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    filter: blur(10px);
+    opacity: 0.3;
+    transform: translateX(-20%);
+    width: calc(100% - 50px);
+
 }
 
 .finalStyle {
     filter: blur(0px);
     opacity: 1;
     transform: translateX(0%);
-    display: flex;
-    width: 100%;
-    justify-content: center;
+    width: calc(100% - 50px);
 
 }
+
+.initialBubbleStyle {
+    filter: blur(5px);
+    opacity: 0.3;
+    transform: translateY(-50%);
+}
+
+.finalBubbleStyle {
+    filter: blur(0px);
+    opacity: 1;
+    transform: translateY(0%);
+}
+
 
 @keyframes spin {
     0% {

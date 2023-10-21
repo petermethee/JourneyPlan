@@ -47,8 +47,6 @@ export default function TimeLineSummary({
   });
 
   const currentDateLabel = useMemo(() => {
-    console.log("dayIndex", dayIndex);
-
     return dayjs(trip?.start_date).add(dayIndex, "day").format("dddd D MMMM");
   }, [dayIndex, trip]);
 
@@ -133,7 +131,7 @@ export default function TimeLineSummary({
                   reappear
                   visibleClass={styles.finalLine}
                   hiddenClass={styles.initialLine}
-                  duration="500ms"
+                  duration="300ms"
                 >
                   <div className={styles.link} />
                 </AnimateOnScroll>
