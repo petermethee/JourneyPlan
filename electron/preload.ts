@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from "electron";
 import { IElectronAPI } from "../src/features/ipc/IElectronAPI";
 import ITrip from "../src/Models/ITrip";
 import { EIpcChanels } from "./IPC_API/EIpcChannels";
-import { IItem } from "../src/Models/IItem";
+import { IArtifact } from "../src/Models/IArtifact";
 import { EArtifactTableName } from "../src/Models/EArtifacts";
 import IPlanningArtifact, { IPlanning } from "../src/Models/IPlanningArtifact";
 
@@ -18,9 +18,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
   //GENERIC
   getAllItems: (tableName: EArtifactTableName, tripId: number) =>
     ipcRenderer.invoke(EIpcChanels.getAllItems, tableName, tripId),
-  insertItem: (tableName: EArtifactTableName, item: IItem) =>
+  insertItem: (tableName: EArtifactTableName, item: IArtifact) =>
     ipcRenderer.invoke(EIpcChanels.insertItem, tableName, item),
-  updateItem: (tableName: EArtifactTableName, item: IItem) =>
+  updateItem: (tableName: EArtifactTableName, item: IArtifact) =>
     ipcRenderer.invoke(EIpcChanels.updateItem, tableName, item),
   deleteItem: (tableName: EArtifactTableName, itemId: number) =>
     ipcRenderer.invoke(EIpcChanels.deleteItem, tableName, itemId),

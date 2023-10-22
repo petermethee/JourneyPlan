@@ -10,7 +10,7 @@ import {
   SatelliteExtansions,
 } from "./Tiles/TileProviders";
 import Layers from "./Tiles/Layers";
-import CustomMarker from "./Tiles/CustomMarker";
+import CustomMarker from "./Tiles/Markers/CustomMarker";
 import { Map } from "leaflet";
 import { useAppSelector } from "../../app/hooks";
 import { selectPlanningArtifacts } from "../../features/Redux/planningSlice";
@@ -55,7 +55,9 @@ export default function MapSummary() {
     TTimeLineArtifact[]
   >([]);
   const [markers, setMarkers] = useState<TMarker[]>([]);
-  const [selectedArtifact, setSelectedArtifact] = useState<number | null>(null);
+  const [selectedArtifactId, setSelectedArtifactId] = useState<number | null>(
+    null
+  );
   const [hoveredArtifact, setHoveredArtifact] = useState<number | null>(null);
 
   const sortedPlanningArtifacts = useMemo(() => {
@@ -68,14 +70,14 @@ export default function MapSummary() {
       } else if (dateA > dateB) {
         return 1;
       } else {
-        // If the dates are equal, compare the timeIndex
-        if (a.timeIndex < b.timeIndex && a.timeIndex !== -1) {
+        if (b.timeIndex === -1) {
           return -1;
-        } else if (a.timeIndex > b.timeIndex && b.timeIndex !== -1) {
-          return 1;
-        } else {
-          return 0;
         }
+        if (a.timeIndex === -1) {
+          return 1;
+        }
+        // If the dates are equal, compare the timeIndex
+        return a.timeIndex - b.timeIndex;
       }
     });
   }, [planningArtifacts]);
@@ -164,16 +166,11 @@ export default function MapSummary() {
   }, [mapWidth, mapHeight]);
 
   useEffect(() => {
-    console.log(
-      "selected artigfact",
-      markers.find((marker) => marker.id === selectedArtifact)?.position
-    );
-
-    selectedArtifact &&
+    selectedArtifactId &&
       map?.setView(
-        markers.find((marker) => marker.id === selectedArtifact)!.position
+        markers.find((marker) => marker.id === selectedArtifactId)!.position
       );
-  }, [map, markers, selectedArtifact]);
+  }, [map, markers, selectedArtifactId]);
 
   useEffect(() => {
     markers.length && map?.setView(markers[0].position);
@@ -183,10 +180,10 @@ export default function MapSummary() {
     <div className={styles.container}>
       <TimeLineSummary
         sortedPlanningArtifacts={timeLineArtifacts}
-        onSelectArtifact={setSelectedArtifact}
+        onSelectArtifact={setSelectedArtifactId}
         onHoverArtifact={setHoveredArtifact}
         hoveredArtifact={hoveredArtifact}
-        selectedArtifact={selectedArtifact}
+        selectedArtifactId={selectedArtifactId}
       />
       <div className={styles.rightPart}>
         <PlanningSheets />
@@ -230,10 +227,10 @@ export default function MapSummary() {
                   value={marker.id}
                   description={marker.description}
                   selected={
-                    selectedArtifact === marker.id ||
+                    selectedArtifactId === marker.id ||
                     hoveredArtifact === marker.id
                   }
-                  onClick={() => setSelectedArtifact(marker.id)}
+                  onClick={() => setSelectedArtifactId(marker.id)}
                   onHover={(isHovered) =>
                     setHoveredArtifact(isHovered ? marker.id : null)
                   }

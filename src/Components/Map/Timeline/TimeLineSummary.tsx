@@ -1,5 +1,5 @@
 import { Button, Pagination, ThemeProvider, createTheme } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ERouterPathes } from "../../../Helper/ERouterPathes";
 import styles from "./TimeLineSummary.module.css";
 import { useNavigate } from "react-router-dom";
@@ -21,11 +21,11 @@ export default function TimeLineSummary({
   sortedPlanningArtifacts,
   onSelectArtifact,
   onHoverArtifact,
-  selectedArtifact,
+  selectedArtifactId,
   hoveredArtifact,
 }: {
   sortedPlanningArtifacts: TTimeLineArtifact[];
-  selectedArtifact: number | null;
+  selectedArtifactId: number | null;
   hoveredArtifact: number | null;
   onSelectArtifact: (id: number) => void;
   onHoverArtifact: (id: number | null) => void;
@@ -57,6 +57,18 @@ export default function TimeLineSummary({
       ),
     [trip?.start_date, sortedPlanningArtifacts, dayIndex]
   );
+
+  useEffect(() => {
+    if (selectedArtifactId) {
+      const selectedArtifactDate = dayjs(
+        sortedPlanningArtifacts.find((pa) => pa.id === selectedArtifactId)!.date
+      );
+      const newDayIndex = Math.abs(
+        dayjs(trip?.start_date).diff(selectedArtifactDate, "day")
+      );
+      setDayIndex(newDayIndex);
+    }
+  }, [selectedArtifactId, sortedPlanningArtifacts, trip?.start_date]);
 
   return (
     <div className={styles.timeLineContainer}>
@@ -113,7 +125,7 @@ export default function TimeLineSummary({
                 text={item.artifact.name}
                 id={item.id}
                 hovered={hoveredArtifact === item.id}
-                selecetd={selectedArtifact === item.id}
+                selecetd={selectedArtifactId === item.id}
               />
             </div>
           ))}
@@ -129,6 +141,7 @@ export default function TimeLineSummary({
             display: "flex",
             justifyContent: "center",
           }}
+          page={dayIndex + 1}
         />
       </ThemeProvider>
     </div>

@@ -17,6 +17,7 @@
 }
 
 .growAnimation {
+    z-index: 1;
     animation: grow 200ms ease-in-out forwards;
 }
 
