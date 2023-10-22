@@ -1,16 +1,19 @@
 import React from "react";
 import styles from "./TimeLineCard.module.css";
 import AnimateOnScroll from "../../Shared/AnimateOnScroll";
+import { EArtifact } from "../../../Models/EArtifacts";
 export default function TimeLineCard({
   text,
   id,
   hovered,
   selecetd,
+  type,
 }: {
   text: string;
   id: number;
   hovered: boolean;
   selecetd: boolean;
+  type: EArtifact;
 }) {
   return (
     <div
@@ -26,7 +29,15 @@ export default function TimeLineCard({
         duration="300ms"
         hiddenClass={styles.initialBubbleStyle}
       >
-        <div className={styles.idBubble}>
+        <div
+          className={
+            type === EArtifact.Transport
+              ? styles.idTriangle
+              : type === EArtifact.Accomodation
+              ? styles.idSquare
+              : styles.idBubble
+          }
+        >
           <div className={styles.lightBubble} />
           <div className={styles.lightBubble2} />
           <span>{id}</span>

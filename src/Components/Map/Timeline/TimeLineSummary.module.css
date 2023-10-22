@@ -60,7 +60,24 @@
     left: 17px;
     height: 100%;
     width: 2px;
-    background: linear-gradient(#ffffff00, var(--darkColor6), var(--darkColorc));
+    background: linear-gradient(#ffffff00, var(--darkColor6));
+}
+
+.transportLink {
+    position: absolute;
+    left: 17px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.dot {
+    width: 4px;
+    height: 4px;
+    background-color: var(--darkColor6);
+    border-radius: 100%;
+    transform: translateX(-1px);
 }
 
 .initialLine {

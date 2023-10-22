@@ -16,6 +16,7 @@ import {
   primaryColor,
 } from "../../../style/cssGlobalStyle";
 import { TTimeLineArtifact } from "../MapSummary";
+import { EArtifact } from "../../../Models/EArtifacts";
 
 export default function TimeLineSummary({
   sortedPlanningArtifacts,
@@ -50,13 +51,65 @@ export default function TimeLineSummary({
     return dayjs(trip?.start_date).add(dayIndex, "day").format("dddd D MMMM");
   }, [dayIndex, trip]);
 
-  const timeLineCards = useMemo(
+  const filteredArray = useMemo(
     () =>
       sortedPlanningArtifacts.filter((PA) =>
         dayjs(PA.date).isSame(dayjs(trip?.start_date).add(dayIndex, "day"))
       ),
     [trip?.start_date, sortedPlanningArtifacts, dayIndex]
   );
+
+  const timeLineCards = useMemo(() => {
+    const newTimeLineCards: JSX.Element[] = [];
+    filteredArray.forEach((item, index) => {
+      const previousType = filteredArray[index - 1]?.type;
+      const card = (
+        <div
+          onClick={() => onSelectArtifact(item.id)}
+          onMouseEnter={() => onHoverArtifact(item.id)}
+          onMouseLeave={() => onHoverArtifact(null)}
+          key={item.id}
+          style={{ display: "contents" }}
+        >
+          <div className={styles.linkContainer}>
+            <AnimateOnScroll
+              reappear
+              visibleClass={styles.finalLine}
+              hiddenClass={styles.initialLine}
+              duration="300ms"
+            >
+              {previousType === EArtifact.Transport ||
+              item.type === EArtifact.Transport ? (
+                <div className={styles.transportLink}>
+                  <div className={styles.dot} />
+                  <div className={styles.dot} />
+                  <div className={styles.dot} />
+                </div>
+              ) : (
+                <div className={styles.link} />
+              )}
+            </AnimateOnScroll>
+          </div>
+          <TimeLineCard
+            key={item.artifact.id}
+            text={item.artifact.name}
+            id={item.id}
+            hovered={hoveredArtifact === item.id}
+            selecetd={selectedArtifactId === item.id}
+            type={item.type}
+          />
+        </div>
+      );
+      newTimeLineCards.push(card);
+    });
+    return newTimeLineCards;
+  }, [
+    filteredArray,
+    hoveredArtifact,
+    onHoverArtifact,
+    onSelectArtifact,
+    selectedArtifactId,
+  ]);
 
   useEffect(() => {
     if (selectedArtifactId) {
@@ -101,35 +154,7 @@ export default function TimeLineSummary({
       <div className={styles.dayLabel}>{currentDateLabel}</div>
 
       <div className={styles.scrollContainer}>
-        <div className={styles.timeLineCardsContainer}>
-          {timeLineCards.map((item) => (
-            <div
-              onClick={() => onSelectArtifact(item.id)}
-              onMouseEnter={() => onHoverArtifact(item.id)}
-              onMouseLeave={() => onHoverArtifact(null)}
-              key={item.id}
-              style={{ display: "contents" }}
-            >
-              <div className={styles.linkContainer}>
-                <AnimateOnScroll
-                  reappear
-                  visibleClass={styles.finalLine}
-                  hiddenClass={styles.initialLine}
-                  duration="300ms"
-                >
-                  <div className={styles.link} />
-                </AnimateOnScroll>
-              </div>
-              <TimeLineCard
-                key={item.artifact.id}
-                text={item.artifact.name}
-                id={item.id}
-                hovered={hoveredArtifact === item.id}
-                selecetd={selectedArtifactId === item.id}
-              />
-            </div>
-          ))}
-        </div>
+        <div className={styles.timeLineCardsContainer}>{timeLineCards}</div>
       </div>
       <ThemeProvider theme={darkTheme}>
         <Pagination

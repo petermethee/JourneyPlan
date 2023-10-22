@@ -69,9 +69,7 @@
     animation: spin 2s linear infinite;
 }
 
-
-
-.idBubble {
+.idBubble, .idTriangle, .idSquare {
     display: flex;
     position: relative;
     justify-content: center;
@@ -86,7 +84,7 @@
     /* box-shadow: 0 0 16px 2px #000; */
 }
 
-.idBubble::before {
+.idBubble::before, .idTriangle::before, .idSquare::before {
     content: '';
     position: absolute;
     width: calc(100% - 3px);
@@ -110,7 +108,35 @@
     z-index: 1;
 }
 
-.idBubble span {
+.idTriangle::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 6px;
+    z-index: 1;
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 25px solid var(--darkColorc);
+    transform: translateX(2px);
+}
+
+.idSquare::after {
+    --offset: 6px;
+    content: '';
+    position: absolute;
+    top: var(--offset);
+    left: var(--offset);
+    width: calc(var(--height) - 2 * var(--offset));
+    height: calc(var(--height) - 2 * var(--offset));
+    background-color: var(--darkColorc);
+    transition: 200ms;
+    border-radius: 3px;
+    z-index: 1;
+}
+
+.idBubble span, .idTriangle span, .idSquare span {
     z-index: 2;
 }
 
