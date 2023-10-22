@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import styles from "./MapSummary.module.css";
 import PlanningSheets from "../Planning/Calendar/PlanningSheets/PlanningSheets";
 import TimeLineSummary from "./Timeline/TimeLineSummary";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, Polyline, TileLayer } from "react-leaflet";
 import { useResizeDetector } from "react-resize-detector";
 import {
   MapDetails,
@@ -19,6 +19,7 @@ import { IArtifact } from "../../Models/IArtifact";
 import { selectAccomodations } from "../../features/Redux/accomodationsSlice";
 import { selectActivities } from "../../features/Redux/activitiesSlice";
 import { selectTransports } from "../../features/Redux/transportsSlice";
+import { transportColor } from "../../style/cssGlobalStyle";
 export const ParisCoord: [number, number] = [48.8566, 2.3522];
 
 let timeout: NodeJS.Timeout;
@@ -81,6 +82,26 @@ export default function MapSummary() {
       }
     });
   }, [planningArtifacts]);
+
+  const transportLines = useMemo(() => {
+    const newTransportLines: JSX.Element[] = [];
+    const transportMarkers = markers.filter(
+      (marker) => marker.type === EArtifact.Transport
+    );
+    for (let index = 1; index < transportMarkers.length; index++) {
+      const departure = transportMarkers[index - 1].position;
+      const destination = transportMarkers[index].position;
+      const line = (
+        <Polyline
+          key={index}
+          pathOptions={{ color: transportColor, dashArray: "10, 10" }}
+          positions={[departure, destination]}
+        />
+      );
+      newTransportLines.push(line);
+    }
+    return newTransportLines;
+  }, [markers]);
 
   useEffect(() => {
     const tempTimeLineArtifacts: TTimeLineArtifact[] = [];
@@ -236,6 +257,7 @@ export default function MapSummary() {
                   }
                 />
               ))}
+              {transportLines}
             </MapContainer>
           )}
           {map && (

@@ -6,12 +6,14 @@ import ReactDOMServer from "react-dom/server";
 import accomodationMark from "../../../../assets/AccomodationMarkNoIcon.png";
 import activityMark from "../../../../assets/ActivityMarkNoIcon.png";
 import transportMark from "../../../../assets/TransportMarkNoIcon.png";
+import transportTarget from "../../../../assets/transportTarget.png";
 
 import styles from "./Marker.module.css";
 import "./LeafletOverideStyle.css";
 
-const w = 60;
-const h = 51;
+const standardMarkSize = { w: 60, h: 51 };
+const transportdMarkSize = { w: 30, h: 30 };
+
 export default function CustomMarker({
   position,
   artifactType,
@@ -36,13 +38,19 @@ export default function CustomMarker({
         mark = activityMark;
         break;
       case EArtifact.Transport:
-        mark = transportMark;
+        mark = transportTarget;
 
         break;
       default:
         mark = accomodationMark;
         break;
     }
+    const { h, w } =
+      artifactType === EArtifact.Transport
+        ? transportdMarkSize
+        : standardMarkSize;
+    const stdrdAnchor: [number, number] =
+      artifactType === EArtifact.Transport ? [w / 2, h / 2] : [w / 2, h];
     return new DivIcon({
       html: ReactDOMServer.renderToString(
         <div
@@ -54,12 +62,18 @@ export default function CustomMarker({
           }}
         >
           <img src={mark} alt="marker" style={{ width: "100%" }} />
-          <span>{value}</span>
+          <span
+            style={{
+              marginTop: artifactType === EArtifact.Transport ? 0 : "-6px",
+            }}
+          >
+            {value}
+          </span>
         </div>
       ),
       iconSize: [0, 0],
-      popupAnchor: [0, -h],
-      iconAnchor: [w / 2, h],
+      popupAnchor: [0, -stdrdAnchor[1]],
+      iconAnchor: stdrdAnchor,
     });
   }, [value, selected, artifactType]);
 
