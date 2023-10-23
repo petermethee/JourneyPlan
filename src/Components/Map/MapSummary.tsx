@@ -96,6 +96,9 @@ export default function MapSummary() {
           key={index}
           pathOptions={{ color: transportColor, dashArray: "10, 10" }}
           positions={[departure, destination]}
+          eventHandlers={{
+            click: () => setSelectedArtifactId(transportMarkers[index].id),
+          }}
         />
       );
       newTransportLines.push(line);

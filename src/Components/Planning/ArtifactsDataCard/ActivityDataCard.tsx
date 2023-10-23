@@ -13,9 +13,9 @@ export default function ActivityDataCard({
     <>
       <Grid display="flex" item flexWrap="nowrap" marginTop="auto">
         <PlaceIcon fontSize="small" />
-        <span className={styles.textContainer}>
-          {activity.city ?? activity.location}
-        </span>
+        <div className={styles.textContainer}>
+          <span>{activity.city ?? activity.location}</span>
+        </div>
       </Grid>
       <Grid
         display="flex"
@@ -26,9 +26,9 @@ export default function ActivityDataCard({
         marginBottom="auto"
       >
         <AttachFileIcon fontSize="small" />
-        <span className={styles.textContainer}>
-          {activity.attachment.length}
-        </span>
+        <div className={styles.textContainer}>
+          <span>{activity.attachment.length}</span>
+        </div>
       </Grid>
     </>
   );

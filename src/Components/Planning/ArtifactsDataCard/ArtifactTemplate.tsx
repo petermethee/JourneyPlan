@@ -151,7 +151,6 @@ export default function ArtifactTemplate({
           container
           padding="5px"
           direction="column"
-          flexWrap="nowrap"
           overflow="hidden"
           justifyContent={duration && duration < 1 ? "center" : "top"}
           sx={{ transition: "300ms" }}
@@ -162,11 +161,14 @@ export default function ArtifactTemplate({
             width="100%"
             justifyContent="space-between"
             borderBottom={"1px solid " + artifactColor}
+            overflow="hidden"
+            flexWrap="nowrap"
+            gap="10px"
           >
             <span className={styles.title} style={{ color: artifactSecColor }}>
               {artifact.name}
             </span>
-            <span>{artifact.price} €</span>
+            <span className={styles.price}>{artifact.price} €</span>
           </Grid>
           <Grid
             container

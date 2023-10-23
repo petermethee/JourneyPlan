@@ -5,13 +5,12 @@ import { DivIcon } from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import accomodationMark from "../../../../assets/AccomodationMarkNoIcon.png";
 import activityMark from "../../../../assets/ActivityMarkNoIcon.png";
-import transportMark from "../../../../assets/TransportMarkNoIcon.png";
 import transportTarget from "../../../../assets/transportTarget.png";
 
 import styles from "./Marker.module.css";
 import "./LeafletOverideStyle.css";
 
-const standardMarkSize = { w: 60, h: 51 };
+const standardMarkSize = { w: 45, h: 45 };
 const transportdMarkSize = { w: 30, h: 30 };
 
 export default function CustomMarker({

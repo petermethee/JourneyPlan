@@ -28,12 +28,26 @@
     font-size: 1.1rem;
     text-transform: capitalize;
     font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.price {
+    white-space: nowrap;
 }
 
 .textContainer {
     display: flex;
     align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
     font-size: 14px;
+}
+
+.textContainer span {
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .container:hover .deleteArtifact {
