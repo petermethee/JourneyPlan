@@ -10,6 +10,7 @@ import { IArtifact } from "../../../Models/IArtifact";
 import GenericTooltips from "./GenericTooltips";
 import IAccomodation from "../../../Models/IAccomodation";
 import AccomodationTooltips from "./AccomodationTooltips";
+import CardsFlag from "./CardsFlag";
 
 export default function ArtifactTemplate({
   artifact,
@@ -72,29 +73,31 @@ export default function ArtifactTemplate({
   }, [timeIndex, duration]);
 
   const Tooltips = useMemo(() => {
-    if (isAccomodation) {
-      return (
-        <AccomodationTooltips
-          description={artifact.description}
-          pj={artifact.attachment.map((pj) => pj.name)}
-          visible={isHovered && !isDragged}
-          isInFirstCol={isInFirstCol ?? false}
-          checkin={(artifact as IAccomodation).checkin}
-          checkout={(artifact as IAccomodation).checkout}
-        />
-      );
-    } else {
-      return (
-        <GenericTooltips
-          startTime={startTime}
-          endTime={endTime}
-          description={artifact.description}
-          pj={artifact.attachment.map((pj) => pj.name)}
-          visible={isHovered && !isDragged}
-          isInFirstCol={isInFirstCol ?? false}
-          isAfter8={timeIndex! >= 20}
-        />
-      );
+    if (insideCalendar) {
+      if (isAccomodation) {
+        return (
+          <AccomodationTooltips
+            description={artifact.description}
+            pj={artifact.attachment.map((pj) => pj.name)}
+            visible={isHovered && !isDragged}
+            isInFirstCol={isInFirstCol ?? false}
+            checkin={(artifact as IAccomodation).checkin}
+            checkout={(artifact as IAccomodation).checkout}
+          />
+        );
+      } else {
+        return (
+          <GenericTooltips
+            startTime={startTime}
+            endTime={endTime}
+            description={artifact.description}
+            pj={artifact.attachment.map((pj) => pj.name)}
+            visible={isHovered && !isDragged}
+            isInFirstCol={isInFirstCol ?? false}
+            isAfter8={timeIndex! >= 20}
+          />
+        );
+      }
     }
   }, [
     artifact,
@@ -105,6 +108,7 @@ export default function ArtifactTemplate({
     startTime,
     timeIndex,
     isDragged,
+    insideCalendar,
   ]);
   return (
     <>
@@ -161,13 +165,24 @@ export default function ArtifactTemplate({
             width="100%"
             justifyContent="space-between"
             borderBottom={"1px solid " + artifactColor}
-            overflow="hidden"
             flexWrap="nowrap"
-            gap="10px"
+            gap="5px"
           >
-            <span className={styles.title} style={{ color: artifactSecColor }}>
-              {artifact.name}
-            </span>
+            <div className={styles.titleContainer}>
+              <span
+                className={styles.title}
+                style={{ color: artifactSecColor }}
+              >
+                {artifact.name}
+              </span>
+            </div>
+
+            {isAccomodation && (
+              <CardsFlag
+                mealStatus={{ breakfast: true, dinner: true, lunch: true }}
+              />
+            )}
+            <CardsFlag eventStatus="paid" />
             <span className={styles.price}>{artifact.price} €</span>
           </Grid>
           <Grid

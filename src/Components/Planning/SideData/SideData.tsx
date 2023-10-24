@@ -186,6 +186,7 @@ export default function SideData({
                 artifactSecColor={accomodationSecColor}
                 artifactIcon={<AccomodationIcon color={defaultWhite} />}
                 isHovered={isHovered}
+                isAccomodation
               >
                 <AccomodationDataCard accomodation={accomodation} />
               </ArtifactTemplate>

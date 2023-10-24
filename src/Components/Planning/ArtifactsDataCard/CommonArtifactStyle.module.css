@@ -24,6 +24,12 @@
     display: none;
 }
 
+.titleContainer {
+    overflow: hidden;
+    display: flex;
+    flex: 1;
+}
+
 .title {
     font-size: 1.1rem;
     text-transform: capitalize;
