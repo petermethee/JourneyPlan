@@ -25,6 +25,8 @@ import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./LocationSearchInput";
 import { TArtifactEditor } from "../Planning/Planning";
 
+import { EEventStatus, statusOptions } from "../../Models/TEventStatus";
+
 export const AddActivity = forwardRef(
   (
     {
@@ -53,6 +55,7 @@ export const AddActivity = forwardRef(
           [ActivitiesTable.lat]: activity.lat,
           [ActivitiesTable.lng]: activity.lng,
           [ActivitiesTable.city]: activity.city,
+          [ActivitiesTable.status]: activity.status,
         };
       }
       return {
@@ -64,6 +67,7 @@ export const AddActivity = forwardRef(
         [ActivitiesTable.lat]: null,
         [ActivitiesTable.lng]: null,
         [ActivitiesTable.city]: null,
+        [ActivitiesTable.status]: EEventStatus.none,
       };
     }, [activity]);
 
@@ -166,11 +170,16 @@ export const AddActivity = forwardRef(
 
     const updateForm = (event: React.ChangeEvent<HTMLInputElement>) => {
       const name = event.target.name;
-      const value = event.target.value;
+      let value: number | string | null = event.target.value;
+      if (name === ActivitiesTable.status) {
+        value = value === "null" ? null : value;
+      } else if (name === ActivitiesTable.price) {
+        value = parseInt(value);
+      }
       setFormValues((prevState) => {
         return {
           ...prevState,
-          [name]: name === "price" ? parseInt(value) : value,
+          [name]: value,
         };
       });
     };
@@ -332,7 +341,7 @@ export const AddActivity = forwardRef(
                 ))}
               </TextField>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={8}>
               <TextField
                 name={ActivitiesTable.description}
                 fullWidth
@@ -341,7 +350,28 @@ export const AddActivity = forwardRef(
                 value={formValues.description}
                 onChange={updateForm}
                 multiline
+                inputProps={{ style: { backgroundColor: "#00000010" } }}
               />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                select
+                name={ActivitiesTable.status}
+                fullWidth
+                variant="standard"
+                label="Status"
+                value={formValues.status}
+                onChange={updateForm}
+              >
+                {Object.entries(statusOptions).map(([key, val]) => (
+                  <MenuItem value={key}>
+                    <div className={styles.statusContainer}>
+                      {val.icon()}
+                      <span>{val.text}</span>
+                    </div>
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item width="100%" display="flex">
               <ImportAttachmentInput setAttachment={setAttachment} />

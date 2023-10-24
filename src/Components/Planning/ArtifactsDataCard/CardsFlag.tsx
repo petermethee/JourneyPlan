@@ -4,23 +4,26 @@ import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import SoupKitchenRoundedIcon from "@mui/icons-material/SoupKitchenRounded";
 import FreeBreakfastRoundedIcon from "@mui/icons-material/FreeBreakfastRounded";
 import RestaurantRoundedIcon from "@mui/icons-material/RestaurantRounded";
-import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
-import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
-import EventBusyRoundedIcon from "@mui/icons-material/EventBusyRounded";
+
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Grid, Tooltip } from "@mui/material";
+import {
+  EEventStatus,
+  TEventStatus,
+  statusOptions,
+} from "../../../Models/TEventStatus";
 
 export default function CardsFlag({
   eventStatus,
   mealStatus,
 }: {
   mealStatus?: {
-    lunch: boolean;
     breakfast: boolean;
+    lunch: boolean;
     dinner: boolean;
   };
-  eventStatus?: "paid" | "reserved" | null;
+  eventStatus?: TEventStatus;
 }) {
   const icons = useMemo(() => {
     if (mealStatus) {
@@ -31,21 +34,9 @@ export default function CardsFlag({
         />
       );
     } else {
-      return (
-        <>
-          {eventStatus === "paid" ? (
-            <CreditScoreRoundedIcon sx={{ fontSize: "14px", color: "#fff" }} />
-          ) : eventStatus === "reserved" ? (
-            <EventAvailableRoundedIcon
-              sx={{ fontSize: "14px", color: "#fff" }}
-            />
-          ) : (
-            <EventBusyRoundedIcon sx={{ fontSize: "14px", color: "#fff" }} />
-          )}
-        </>
-      );
+      return statusOptions[eventStatus!]?.icon("#ffffff");
     }
-  }, [mealStatus]);
+  }, [mealStatus, eventStatus]);
 
   const tooltip = useMemo(() => {
     if (mealStatus) {
@@ -96,16 +87,22 @@ export default function CardsFlag({
         </Grid>
       );
     } else {
-      return <div style={{ fontSize: "11px" }}> {eventStatus}</div>;
+      return (
+        <div style={{ fontSize: "11px" }}>
+          {statusOptions[eventStatus!]?.text}
+        </div>
+      );
     }
   }, [mealStatus, eventStatus]);
 
   return (
     <div className={styles.cardFlagContainer}>
       <BookmarkRoundedIcon
-        color="secondary"
         fontSize="large"
         className={styles.bookmark}
+        sx={{
+          color: mealStatus ? "#bd9741bd" : statusOptions[eventStatus!]?.color,
+        }}
       />
       <Tooltip title={tooltip}>
         <div className={styles.absoluteContainer}>

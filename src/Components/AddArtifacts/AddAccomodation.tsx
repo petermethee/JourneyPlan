@@ -1,4 +1,12 @@
-import { Grid, TextField } from "@mui/material";
+import {
+  Checkbox,
+  FormControl,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import React, {
   forwardRef,
   useEffect,
@@ -28,6 +36,10 @@ import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./LocationSearchInput";
 import { TArtifactEditor } from "../Planning/Planning";
+import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
+import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
+import EventBusyRoundedIcon from "@mui/icons-material/EventBusyRounded";
+import { EEventStatus, statusOptions } from "../../Models/TEventStatus";
 
 export const AddAccomodation = forwardRef(
   (
@@ -58,6 +70,10 @@ export const AddAccomodation = forwardRef(
           [AccomodationsTable.lat]: accomodation.lat,
           [AccomodationsTable.lng]: accomodation.lng,
           [AccomodationsTable.city]: accomodation.city,
+          [AccomodationsTable.status]: accomodation.status,
+          [AccomodationsTable.breakfast]: accomodation.breakfast,
+          [AccomodationsTable.lunch]: accomodation.lunch,
+          [AccomodationsTable.dinner]: accomodation.dinner,
         };
       }
       return {
@@ -70,6 +86,10 @@ export const AddAccomodation = forwardRef(
         [AccomodationsTable.lat]: null,
         [AccomodationsTable.lng]: null,
         [AccomodationsTable.city]: null,
+        [AccomodationsTable.status]: EEventStatus.none,
+        [AccomodationsTable.breakfast]: false,
+        [AccomodationsTable.lunch]: false,
+        [AccomodationsTable.dinner]: false,
       };
     }, [accomodation]);
 
@@ -220,7 +240,7 @@ export const AddAccomodation = forwardRef(
           />
 
           <Grid container spacing={4} padding={4}>
-            <Grid item xs={9}>
+            <Grid item xs={7}>
               <TextField
                 required
                 name={AccomodationsTable.name}
@@ -232,7 +252,7 @@ export const AddAccomodation = forwardRef(
               />
             </Grid>
 
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <TextField
                 name={AccomodationsTable.price}
                 fullWidth
@@ -243,6 +263,28 @@ export const AddAccomodation = forwardRef(
                 type="number"
                 InputProps={{ inputProps: { min: 0 } }}
               />
+            </Grid>
+            <Grid item xs={3}>
+              <FormControl>
+                <InputLabel id="multi-select-label">
+                  Sélection multiple
+                </InputLabel>
+                <Select
+                  labelId="multi-select-label"
+                  id="multi-select"
+                  multiple
+                  value={selectedValues}
+                  onChange={handleChange}
+                  renderValue={(selected) => (selected as string[]).join(", ")}
+                >
+                  {["Petit Dej", "Dejuner", "Dinner"].map((option) => (
+                    <MenuItem key={option} value={option}>
+                      <Checkbox checked={selectedValues.indexOf(option) > -1} />
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={6}>
               <LocationSearchInput
@@ -310,7 +352,7 @@ export const AddAccomodation = forwardRef(
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={8}>
               <TextField
                 name={AccomodationsTable.description}
                 fullWidth
@@ -319,7 +361,28 @@ export const AddAccomodation = forwardRef(
                 value={formValues.description}
                 onChange={updateForm}
                 multiline
+                inputProps={{ style: { backgroundColor: "#00000010" } }}
               />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                select
+                name={AccomodationsTable.status}
+                fullWidth
+                variant="standard"
+                label="Status"
+                value={formValues.status}
+                onChange={updateForm}
+              >
+                {Object.entries(statusOptions).map(([key, val]) => (
+                  <MenuItem value={key}>
+                    <div className={styles.statusContainer}>
+                      {val.icon()}
+                      <span>{val.text}</span>
+                    </div>
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item width="100%" display="flex">
               <ImportAttachmentInput setAttachment={setAttachment} />

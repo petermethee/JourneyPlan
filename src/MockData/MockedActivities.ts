@@ -1,4 +1,5 @@
 import IActivity from "../Models/IActivity";
+import { EEventStatus } from "../Models/TEventStatus";
 
 export const mockedActivities: IActivity[] = [
   {
@@ -16,6 +17,7 @@ export const mockedActivities: IActivity[] = [
     lat: 0,
     lng: 0,
     city: null,
+    status: EEventStatus.none,
   },
   {
     id: 2,
@@ -32,6 +34,7 @@ export const mockedActivities: IActivity[] = [
     lat: 0,
     lng: 0,
     city: null,
+    status: EEventStatus.none,
   },
   {
     id: 3,
@@ -48,6 +51,7 @@ export const mockedActivities: IActivity[] = [
     lat: 0,
     lng: 0,
     city: null,
+    status: EEventStatus.none,
   },
   {
     id: 4,
@@ -64,6 +68,7 @@ export const mockedActivities: IActivity[] = [
     lat: 0,
     lng: 0,
     city: null,
+    status: EEventStatus.none,
   },
   {
     id: 5,
@@ -80,6 +85,7 @@ export const mockedActivities: IActivity[] = [
     lat: 0,
     lng: 0,
     city: null,
+    status: EEventStatus.none,
   },
   {
     id: 6,
@@ -96,6 +102,7 @@ export const mockedActivities: IActivity[] = [
     lat: 0,
     lng: 0,
     city: null,
+    status: EEventStatus.none,
   },
   {
     id: 7,
@@ -112,6 +119,7 @@ export const mockedActivities: IActivity[] = [
     lat: 0,
     lng: 0,
     city: null,
+    status: EEventStatus.none,
   },
   {
     id: 8,
@@ -128,5 +136,6 @@ export const mockedActivities: IActivity[] = [
     lat: 0,
     lng: 0,
     city: null,
+    status: EEventStatus.none,
   },
 ];

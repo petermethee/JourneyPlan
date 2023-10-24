@@ -1,4 +1,5 @@
 import ITransport from "../Models/ITransport";
+import { EEventStatus } from "../Models/TEventStatus";
 
 export const mockedTransports: ITransport[] = [
   {
@@ -18,6 +19,7 @@ export const mockedTransports: ITransport[] = [
     lng_to: 0,
     city_from: null,
     city_to: null,
+    status: EEventStatus.none,
   },
   {
     id: 2,
@@ -36,6 +38,7 @@ export const mockedTransports: ITransport[] = [
     lng_to: 0,
     city_from: null,
     city_to: null,
+    status: EEventStatus.none,
   },
   {
     id: 3,
@@ -54,6 +57,7 @@ export const mockedTransports: ITransport[] = [
     lng_to: 0,
     city_from: null,
     city_to: null,
+    status: EEventStatus.none,
   },
   {
     id: 4,
@@ -72,6 +76,7 @@ export const mockedTransports: ITransport[] = [
     lng_to: 0,
     city_from: null,
     city_to: null,
+    status: EEventStatus.none,
   },
   {
     id: 5,
@@ -90,6 +95,7 @@ export const mockedTransports: ITransport[] = [
     lng_to: 0,
     city_from: null,
     city_to: null,
+    status: EEventStatus.none,
   },
   {
     id: 6,
@@ -108,6 +114,7 @@ export const mockedTransports: ITransport[] = [
     lng_to: 0,
     city_from: null,
     city_to: null,
+    status: EEventStatus.none,
   },
   {
     id: 7,
@@ -126,6 +133,7 @@ export const mockedTransports: ITransport[] = [
     lng_to: 0,
     city_from: null,
     city_to: null,
+    status: EEventStatus.none,
   },
   {
     id: 8,
@@ -144,5 +152,6 @@ export const mockedTransports: ITransport[] = [
     lng_to: 0,
     city_from: null,
     city_to: null,
+    status: EEventStatus.none,
   },
 ];

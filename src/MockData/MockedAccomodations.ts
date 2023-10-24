@@ -1,4 +1,5 @@
 import IAccomodation from "../Models/IAccomodation";
+import { EEventStatus } from "../Models/TEventStatus";
 
 export const mockedAccomodations: IAccomodation[] = [
   {
@@ -15,6 +16,10 @@ export const mockedAccomodations: IAccomodation[] = [
     lat: 0,
     lng: 0,
     city: null,
+    breakfast: false,
+    lunch: false,
+    dinner: false,
+    status: EEventStatus.none,
   },
   {
     id: 2,
@@ -30,6 +35,10 @@ export const mockedAccomodations: IAccomodation[] = [
     lat: 0,
     lng: 0,
     city: null,
+    breakfast: false,
+    lunch: false,
+    dinner: false,
+    status: EEventStatus.none,
   },
   {
     id: 3,
@@ -45,5 +54,9 @@ export const mockedAccomodations: IAccomodation[] = [
     lat: 0,
     lng: 0,
     city: null,
+    breakfast: false,
+    lunch: false,
+    dinner: false,
+    status: EEventStatus.none,
   },
 ];

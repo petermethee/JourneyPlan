@@ -26,6 +26,10 @@ import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./LocationSearchInput";
 import { TArtifactEditor } from "../Planning/Planning";
+import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
+import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
+import EventBusyRoundedIcon from "@mui/icons-material/EventBusyRounded";
+import { EEventStatus, statusOptions } from "../../Models/TEventStatus";
 
 export const AddTransport = forwardRef(
   (
@@ -58,6 +62,7 @@ export const AddTransport = forwardRef(
           [TransportsTable.lng_to]: transport.lng_to,
           [TransportsTable.city_from]: transport.city_from,
           [TransportsTable.city_to]: transport.city_to,
+          [TransportsTable.status]: transport.status,
         };
       }
       return {
@@ -72,6 +77,7 @@ export const AddTransport = forwardRef(
         [TransportsTable.lng_to]: null,
         [TransportsTable.city_from]: null,
         [TransportsTable.city_to]: null,
+        [TransportsTable.status]: EEventStatus.none,
       };
     }, [transport]);
 
@@ -365,7 +371,7 @@ export const AddTransport = forwardRef(
               />
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={8}>
               <TextField
                 name={TransportsTable.description}
                 fullWidth
@@ -374,7 +380,29 @@ export const AddTransport = forwardRef(
                 value={formValues.description}
                 onChange={updateForm}
                 multiline
+                inputProps={{ style: { backgroundColor: "#00000010" } }}
               />
+            </Grid>
+
+            <Grid item xs={4}>
+              <TextField
+                select
+                name={TransportsTable.status}
+                fullWidth
+                variant="standard"
+                label="Status"
+                value={formValues.status}
+                onChange={updateForm}
+              >
+                {Object.entries(statusOptions).map(([key, val]) => (
+                  <MenuItem value={key}>
+                    <div className={styles.statusContainer}>
+                      {val.icon()}
+                      <span>{val.text}</span>
+                    </div>
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item width="100%" display="flex">
               <ImportAttachmentInput setAttachment={setAttachment} />

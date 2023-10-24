@@ -182,7 +182,7 @@ export default function ArtifactTemplate({
                 mealStatus={{ breakfast: true, dinner: true, lunch: true }}
               />
             )}
-            <CardsFlag eventStatus="paid" />
+            <CardsFlag eventStatus={artifact.status} />
             <span className={styles.price}>{artifact.price} €</span>
           </Grid>
           <Grid

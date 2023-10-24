@@ -31,6 +31,7 @@ export enum ActivitiesTable {
   lat = "lat",
   lng = "lng",
   city = "city",
+  status = "status",
 }
 
 export enum TransportsTable {
@@ -49,6 +50,7 @@ export enum TransportsTable {
   lng_to = "lng_to",
   city_from = "city_from",
   city_to = "city_to",
+  status = "status",
 }
 
 export enum AccomodationsTable {
@@ -64,6 +66,10 @@ export enum AccomodationsTable {
   lat = "lat",
   lng = "lng",
   city = "city",
+  status = "status",
+  breakfast = "breakfast",
+  lunch = "lunch",
+  dinner = "dinner",
 }
 
 export enum PlanningArtifactTable {

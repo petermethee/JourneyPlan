@@ -1,5 +1,6 @@
 import { AccomodationsTable } from "./DataBaseModel";
 import IAttachment from "./IAttachment";
+import { TEventStatus } from "./TEventStatus";
 
 export default interface IAccomodation {
   [AccomodationsTable.id]: number;
@@ -14,6 +15,10 @@ export default interface IAccomodation {
   [AccomodationsTable.lat]: number | null;
   [AccomodationsTable.lng]: number | null;
   [AccomodationsTable.city]: string | null;
+  [AccomodationsTable.status]: TEventStatus;
+  [AccomodationsTable.breakfast]: boolean;
+  [AccomodationsTable.lunch]: boolean;
+  [AccomodationsTable.dinner]: boolean;
 
   attachment: IAttachment[];
 }
@@ -28,4 +33,8 @@ export type TFormAccomodation = {
   [AccomodationsTable.lat]: number | null;
   [AccomodationsTable.lng]: number | null;
   [AccomodationsTable.city]: string | null;
+  [AccomodationsTable.status]: TEventStatus;
+  [AccomodationsTable.breakfast]: boolean;
+  [AccomodationsTable.lunch]: boolean;
+  [AccomodationsTable.dinner]: boolean;
 };
