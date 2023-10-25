@@ -1,6 +1,6 @@
 import { AccomodationsTable } from "./DataBaseModel";
 import IAttachment from "./IAttachment";
-import { TEventStatus } from "./TEventStatus";
+import { EEventStatus } from "./EEventStatus";
 
 export default interface IAccomodation {
   [AccomodationsTable.id]: number;
@@ -11,14 +11,14 @@ export default interface IAccomodation {
   [AccomodationsTable.location]: string;
   [AccomodationsTable.checkin]: string;
   [AccomodationsTable.checkout]: string;
-  [AccomodationsTable.used]: number;
+  [AccomodationsTable.used]: 0 | 1;
   [AccomodationsTable.lat]: number | null;
   [AccomodationsTable.lng]: number | null;
   [AccomodationsTable.city]: string | null;
-  [AccomodationsTable.status]: TEventStatus;
-  [AccomodationsTable.breakfast]: boolean;
-  [AccomodationsTable.lunch]: boolean;
-  [AccomodationsTable.dinner]: boolean;
+  [AccomodationsTable.status]: EEventStatus;
+  [AccomodationsTable.breakfast]: 0 | 1;
+  [AccomodationsTable.lunch]: 0 | 1;
+  [AccomodationsTable.dinner]: 0 | 1;
 
   attachment: IAttachment[];
 }
@@ -33,8 +33,8 @@ export type TFormAccomodation = {
   [AccomodationsTable.lat]: number | null;
   [AccomodationsTable.lng]: number | null;
   [AccomodationsTable.city]: string | null;
-  [AccomodationsTable.status]: TEventStatus;
-  [AccomodationsTable.breakfast]: boolean;
-  [AccomodationsTable.lunch]: boolean;
-  [AccomodationsTable.dinner]: boolean;
+  [AccomodationsTable.status]: EEventStatus;
+  [AccomodationsTable.breakfast]: 0 | 1;
+  [AccomodationsTable.lunch]: 0 | 1;
+  [AccomodationsTable.dinner]: 0 | 1;
 };

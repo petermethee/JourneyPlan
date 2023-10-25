@@ -1,38 +1,27 @@
 import React, { useMemo } from "react";
 import styles from "./CardsFlag.module.css";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
-import SoupKitchenRoundedIcon from "@mui/icons-material/SoupKitchenRounded";
-import FreeBreakfastRoundedIcon from "@mui/icons-material/FreeBreakfastRounded";
-import RestaurantRoundedIcon from "@mui/icons-material/RestaurantRounded";
-
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Grid, Tooltip } from "@mui/material";
-import {
-  EEventStatus,
-  TEventStatus,
-  statusOptions,
-} from "../../../Models/TEventStatus";
+import { EEventStatus, statusOptions } from "../../../Models/EEventStatus";
+import { meals } from "../../../Helper/MealsHelper";
 
 export default function CardsFlag({
   eventStatus,
   mealStatus,
 }: {
   mealStatus?: {
-    breakfast: boolean;
-    lunch: boolean;
-    dinner: boolean;
+    breakfast: 0 | 1;
+    lunch: 0 | 1;
+    dinner: 0 | 1;
   };
-  eventStatus?: TEventStatus;
+  eventStatus?: EEventStatus;
 }) {
   const icons = useMemo(() => {
     if (mealStatus) {
       const oneMeal = Object.values(mealStatus!).some((val) => val);
-      return (
-        <RestaurantRoundedIcon
-          sx={{ fontSize: "14px", color: oneMeal ? "#fff" : "#ffffff69" }}
-        />
-      );
+      return meals.lunch.icon(oneMeal ? "#ffffff" : "#ffffff70");
     } else {
       return statusOptions[eventStatus!]?.icon("#ffffff");
     }
@@ -49,8 +38,8 @@ export default function CardsFlag({
             justifyContent="center"
             alignItems="center"
           >
-            <FreeBreakfastRoundedIcon sx={{ fontSize: "14px" }} />
-            {mealStatus?.breakfast ? (
+            {meals.breakfast.icon()}
+            {mealStatus?.breakfast === 1 ? (
               <CheckRoundedIcon sx={{ fontSize: "10px" }} />
             ) : (
               <CloseRoundedIcon sx={{ fontSize: "10px" }} />
@@ -63,7 +52,8 @@ export default function CardsFlag({
             justifyContent="center"
             alignItems="center"
           >
-            <RestaurantRoundedIcon sx={{ fontSize: "14px" }} />
+            {meals.lunch.icon()}
+
             {mealStatus?.lunch ? (
               <CheckRoundedIcon sx={{ fontSize: "10px" }} />
             ) : (
@@ -77,7 +67,7 @@ export default function CardsFlag({
             justifyContent="center"
             alignItems="center"
           >
-            <SoupKitchenRoundedIcon sx={{ fontSize: "14px" }} />
+            {meals.dinner.icon()}
             {mealStatus?.dinner ? (
               <CheckRoundedIcon sx={{ fontSize: "10px" }} />
             ) : (
@@ -98,10 +88,10 @@ export default function CardsFlag({
   return (
     <div className={styles.cardFlagContainer}>
       <BookmarkRoundedIcon
-        fontSize="large"
         className={styles.bookmark}
         sx={{
           color: mealStatus ? "#bd9741bd" : statusOptions[eventStatus!]?.color,
+          fontSize: "28px",
         }}
       />
       <Tooltip title={tooltip}>

@@ -20,6 +20,18 @@ import {
   insertPlanning,
   updatePlanning,
 } from "./planningSlice";
+import {
+  deleteTransport,
+  getAllTransports,
+  insertTransport,
+  updateTransport,
+} from "./transportsSlice";
+import {
+  deleteAccomodation,
+  getAllAccomodations,
+  insertAccomodation,
+  updateAccomodation,
+} from "./accomodationsSlice";
 
 interface TripState {
   trips: ITrip[];
@@ -121,6 +133,7 @@ export const tripSlice = createSlice({
       })
 
       //Reducers from other slice
+      //Activities
       .addCase(getAllActivities.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
@@ -147,6 +160,70 @@ export const tripSlice = createSlice({
         state.snackbarStatus = {
           message:
             "Erreur lors de la supression de l'activité: " +
+            action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+
+      //Transports
+      .addCase(getAllTransports.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la lecture des transports: " +
+            action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(insertTransport.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la création du transport: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(updateTransport.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la MAJ du transport: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(deleteTransport.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la supression du transport: " +
+            action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      //Accomodations
+      .addCase(getAllAccomodations.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la lecture des hébergements: " +
+            action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(insertAccomodation.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la création de l'hébergement: " +
+            action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(updateAccomodation.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la MAJ de l'hébergement: " + action.error.message!,
+          snackBarSeverity: "error",
+        };
+      })
+      .addCase(deleteAccomodation.rejected, (state, action) => {
+        state.snackbarStatus = {
+          message:
+            "Erreur lors de la supression de l'hébergement: " +
             action.error.message!,
           snackBarSeverity: "error",
         };

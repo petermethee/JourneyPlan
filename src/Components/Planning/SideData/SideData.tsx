@@ -265,7 +265,10 @@ export default function SideData({
       <SideDataHeader
         unusedNumber={unusedNumber}
         usedNumber={usedNumber}
-        onChange={(menu) => setCurrentArtifactType(menu)}
+        onChange={(menu) => {
+          setMarginTop(0);
+          setCurrentArtifactType(menu);
+        }}
         setUsedFilter={(used) => setUsedFilter(used)}
         usedFilter={usedFilter === 0}
       />

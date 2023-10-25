@@ -1,6 +1,6 @@
 import { ActivitiesTable } from "./DataBaseModel";
 import IAttachment from "./IAttachment";
-import { TEventStatus } from "./TEventStatus";
+import { EEventStatus } from "./EEventStatus";
 
 export default interface IActivity {
   [ActivitiesTable.id]: number;
@@ -16,7 +16,7 @@ export default interface IActivity {
   [ActivitiesTable.lat]: number | null;
   [ActivitiesTable.lng]: number | null;
   [ActivitiesTable.city]: string | null;
-  [ActivitiesTable.status]: TEventStatus;
+  [ActivitiesTable.status]: EEventStatus;
 
   attachment: IAttachment[];
 }
@@ -30,5 +30,5 @@ export type TFormActivity = {
   [ActivitiesTable.lat]: number | null;
   [ActivitiesTable.lng]: number | null;
   [ActivitiesTable.city]: string | null;
-  [ActivitiesTable.status]: TEventStatus;
+  [ActivitiesTable.status]: EEventStatus;
 };

@@ -2,8 +2,6 @@ import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
 import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
 import EventBusyRoundedIcon from "@mui/icons-material/EventBusyRounded";
 
-export type TEventStatus = EEventStatus;
-
 export enum EEventStatus {
   paid = "Paid",
   reserved = "Reserved",
@@ -16,8 +14,7 @@ export const statusOptions = {
     text: "Non réservé",
     icon: (color?: string) => (
       <EventBusyRoundedIcon
-        fontSize="small"
-        sx={{ color: color ?? "#801717bd" }}
+        sx={{ fontSize: "15px", color: color ?? "#801717bd" }}
       />
     ),
   },
@@ -26,8 +23,7 @@ export const statusOptions = {
     text: "Réservé",
     icon: (color?: string) => (
       <EventAvailableRoundedIcon
-        fontSize="small"
-        sx={{ color: color ?? "#146ab9bd" }}
+        sx={{ fontSize: "15px", color: color ?? "#146ab9bd" }}
       />
     ),
   },
@@ -36,8 +32,7 @@ export const statusOptions = {
     text: "Payé",
     icon: (color?: string) => (
       <CreditScoreRoundedIcon
-        fontSize="small"
-        sx={{ color: color ?? "#39a43dbd" }}
+        sx={{ fontSize: "15px", color: color ?? "#39a43dbd" }}
       />
     ),
   },

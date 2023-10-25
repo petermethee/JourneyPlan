@@ -179,7 +179,11 @@ export default function ArtifactTemplate({
 
             {isAccomodation && (
               <CardsFlag
-                mealStatus={{ breakfast: true, dinner: true, lunch: true }}
+                mealStatus={{
+                  breakfast: (artifact as IAccomodation).breakfast,
+                  dinner: (artifact as IAccomodation).dinner,
+                  lunch: (artifact as IAccomodation).lunch,
+                }}
               />
             )}
             <CardsFlag eventStatus={artifact.status} />

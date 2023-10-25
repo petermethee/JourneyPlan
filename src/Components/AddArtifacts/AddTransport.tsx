@@ -26,10 +26,7 @@ import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./LocationSearchInput";
 import { TArtifactEditor } from "../Planning/Planning";
-import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
-import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
-import EventBusyRoundedIcon from "@mui/icons-material/EventBusyRounded";
-import { EEventStatus, statusOptions } from "../../Models/TEventStatus";
+import { EEventStatus, statusOptions } from "../../Models/EEventStatus";
 
 export const AddTransport = forwardRef(
   (
@@ -395,7 +392,7 @@ export const AddTransport = forwardRef(
                 onChange={updateForm}
               >
                 {Object.entries(statusOptions).map(([key, val]) => (
-                  <MenuItem value={key}>
+                  <MenuItem key={key} value={key}>
                     <div className={styles.statusContainer}>
                       {val.icon()}
                       <span>{val.text}</span>

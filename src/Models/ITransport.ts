@@ -1,6 +1,6 @@
 import { TransportsTable } from "./DataBaseModel";
 import IAttachment from "./IAttachment";
-import { TEventStatus } from "./TEventStatus";
+import { EEventStatus } from "./EEventStatus";
 
 export default interface ITransport {
   [TransportsTable.id]: number;
@@ -18,7 +18,7 @@ export default interface ITransport {
   [TransportsTable.lng_to]: number | null;
   [TransportsTable.city_from]: string | null;
   [TransportsTable.city_to]: string | null;
-  [TransportsTable.status]: TEventStatus;
+  [TransportsTable.status]: EEventStatus;
 
   attachment: IAttachment[];
 }
@@ -35,5 +35,5 @@ export type TFormTransport = {
   [TransportsTable.lng_to]: number | null;
   [TransportsTable.city_from]: string | null;
   [TransportsTable.city_to]: string | null;
-  [TransportsTable.status]: TEventStatus;
+  [TransportsTable.status]: EEventStatus;
 };

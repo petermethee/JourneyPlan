@@ -1,10 +1,8 @@
 import {
-  Checkbox,
-  FormControl,
+  Chip,
   Grid,
-  InputLabel,
   MenuItem,
-  Select,
+  SelectChangeEvent,
   TextField,
 } from "@mui/material";
 import React, {
@@ -36,10 +34,8 @@ import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./LocationSearchInput";
 import { TArtifactEditor } from "../Planning/Planning";
-import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
-import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
-import EventBusyRoundedIcon from "@mui/icons-material/EventBusyRounded";
-import { EEventStatus, statusOptions } from "../../Models/TEventStatus";
+import { EEventStatus, statusOptions } from "../../Models/EEventStatus";
+import { meals } from "../../Helper/MealsHelper";
 
 export const AddAccomodation = forwardRef(
   (
@@ -87,9 +83,9 @@ export const AddAccomodation = forwardRef(
         [AccomodationsTable.lng]: null,
         [AccomodationsTable.city]: null,
         [AccomodationsTable.status]: EEventStatus.none,
-        [AccomodationsTable.breakfast]: false,
-        [AccomodationsTable.lunch]: false,
-        [AccomodationsTable.dinner]: false,
+        [AccomodationsTable.breakfast]: 0,
+        [AccomodationsTable.lunch]: 0,
+        [AccomodationsTable.dinner]: 0,
       };
     }, [accomodation]);
 
@@ -195,6 +191,10 @@ export const AddAccomodation = forwardRef(
       });
     };
 
+    const handleMealChange = (event: SelectChangeEvent<unknown>) => {
+      console.log("tag", event.target.value);
+    };
+
     useEffect(() => {
       if (
         (formValues.name !== "" &&
@@ -240,7 +240,7 @@ export const AddAccomodation = forwardRef(
           />
 
           <Grid container spacing={4} padding={4}>
-            <Grid item xs={7}>
+            <Grid item xs={9}>
               <TextField
                 required
                 name={AccomodationsTable.name}
@@ -252,7 +252,7 @@ export const AddAccomodation = forwardRef(
               />
             </Grid>
 
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <TextField
                 name={AccomodationsTable.price}
                 fullWidth
@@ -264,28 +264,7 @@ export const AddAccomodation = forwardRef(
                 InputProps={{ inputProps: { min: 0 } }}
               />
             </Grid>
-            <Grid item xs={3}>
-              <FormControl>
-                <InputLabel id="multi-select-label">
-                  Sélection multiple
-                </InputLabel>
-                <Select
-                  labelId="multi-select-label"
-                  id="multi-select"
-                  multiple
-                  value={selectedValues}
-                  onChange={handleChange}
-                  renderValue={(selected) => (selected as string[]).join(", ")}
-                >
-                  {["Petit Dej", "Dejuner", "Dinner"].map((option) => (
-                    <MenuItem key={option} value={option}>
-                      <Checkbox checked={selectedValues.indexOf(option) > -1} />
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+
             <Grid item xs={6}>
               <LocationSearchInput
                 required
@@ -313,6 +292,7 @@ export const AddAccomodation = forwardRef(
             <Grid item xs={3} display="flex" justifyContent="center">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <MobileTimePicker
+                  sx={{ ".MuiInputBase-input": { height: "auto" } }}
                   ampm={false}
                   label="Checkin"
                   value={dayJsCheckin}
@@ -334,6 +314,7 @@ export const AddAccomodation = forwardRef(
             <Grid item xs={3} display="flex" justifyContent="center">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <MobileTimePicker
+                  sx={{ ".MuiInputBase-input": { height: "auto" } }}
                   ampm={false}
                   label="Checkout"
                   value={dayJsCheckout ?? null}
@@ -351,6 +332,43 @@ export const AddAccomodation = forwardRef(
                   }
                 />
               </LocalizationProvider>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <span>Repas inclus:</span>
+              {Object.entries(meals).map(([key, val]) => (
+                <Chip
+                  key={key}
+                  onClick={() => {
+                    setFormValues((prevState) => {
+                      return {
+                        ...prevState,
+                        [key]:
+                          ((prevState[
+                            key as keyof TFormAccomodation
+                          ] as number) +
+                            1) %
+                          2,
+                      };
+                    });
+                  }}
+                  size="small"
+                  icon={val.icon()}
+                  label={val.text}
+                  color="primary"
+                  variant={
+                    formValues[key as keyof TFormAccomodation]
+                      ? "filled"
+                      : "outlined"
+                  }
+                  sx={{ width: "100px" }}
+                />
+              ))}
             </Grid>
             <Grid item xs={8}>
               <TextField
@@ -375,7 +393,7 @@ export const AddAccomodation = forwardRef(
                 onChange={updateForm}
               >
                 {Object.entries(statusOptions).map(([key, val]) => (
-                  <MenuItem value={key}>
+                  <MenuItem key={key} value={key}>
                     <div className={styles.statusContainer}>
                       {val.icon()}
                       <span>{val.text}</span>
