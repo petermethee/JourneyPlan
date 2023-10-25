@@ -11,12 +11,21 @@ import {
   sideDataTop,
 } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { sideDataDragContainerStyle } from "../../../DnDCustomLib/DraggableCSS";
-import { useAppSelector } from "../../../app/hooks";
-import { selectActivities } from "../../../features/Redux/activitiesSlice";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import {
+  insertActivity,
+  selectActivities,
+} from "../../../features/Redux/activitiesSlice";
 import DraggableCardView from "../DraggableCardView";
 import SideDataHeader from "./SideDataHeader";
-import { selectTransports } from "../../../features/Redux/transportsSlice";
-import { selectAccomodations } from "../../../features/Redux/accomodationsSlice";
+import {
+  insertTransport,
+  selectTransports,
+} from "../../../features/Redux/transportsSlice";
+import {
+  insertAccomodation,
+  selectAccomodations,
+} from "../../../features/Redux/accomodationsSlice";
 
 import { Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -47,6 +56,7 @@ export default function SideData({
 }: {
   openArtifactEditor: (artifactEditor: TArtifactEditor) => void;
 }) {
+  const dispatch = useAppDispatch();
   const sideDataRef = useRef<HTMLDivElement>(null);
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
@@ -96,6 +106,7 @@ export default function SideData({
                 artifact: activity,
               })
             }
+            duplicateArtifact={() => dispatch(insertActivity(activity))}
           >
             {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
               <ArtifactTemplate
@@ -135,6 +146,7 @@ export default function SideData({
                 artifact: transport,
               })
             }
+            duplicateArtifact={() => dispatch(insertTransport(transport))}
           >
             {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
               <ArtifactTemplate
@@ -175,6 +187,7 @@ export default function SideData({
                 artifact: accomodation,
               })
             }
+            duplicateArtifact={() => dispatch(insertAccomodation(accomodation))}
           >
             {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
               <ArtifactTemplate

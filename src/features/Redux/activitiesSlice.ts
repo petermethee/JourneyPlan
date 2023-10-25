@@ -5,7 +5,7 @@ import {
   getAllItemsAPI,
   insertItemAPI,
   updateItemAPI,
-} from "../ipc/ipcGenericFunctions";
+} from "../ipc/ipcArtifactsFunctions";
 import { RootState } from "../../app/store";
 import { EArtifactTableName } from "../../Models/EArtifacts";
 import IPlanningArtifact from "../../Models/IPlanningArtifact";
@@ -31,6 +31,8 @@ export const getAllActivities = createAsyncThunk(
 export const insertActivity = createAsyncThunk(
   "insertActivity",
   async (activity: IActivity) => {
+    console.log("tag", activity);
+
     const result = await insertItemAPI(EArtifactTableName.Activity, activity);
     return { ...activity, id: result.id, attachment: result.newAttachments };
   }

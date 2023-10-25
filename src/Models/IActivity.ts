@@ -11,7 +11,6 @@ export default interface IActivity {
   [ActivitiesTable.price]: number;
   [ActivitiesTable.pleasure]?: number;
   [ActivitiesTable.location]: string;
-  [ActivitiesTable.contraint]?: string;
   [ActivitiesTable.used]: 0 | 1;
   [ActivitiesTable.lat]: number | null;
   [ActivitiesTable.lng]: number | null;

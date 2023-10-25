@@ -43,7 +43,7 @@ export default class ArtifactsDbManager {
     const attachments = item.attachment;
     delete item.attachment;
 
-    item.used = (item.used ? 1 : 0) as any; //sqlite doesn't handle boolean
+    item.used = 0;
     const columns = "(" + Object.keys(item).join(",") + ")";
     const placeholders = "(@" + Object.keys(item).join(",@") + ")";
     const sql = `INSERT INTO ${tableName} ${columns} VALUES ${placeholders}`;

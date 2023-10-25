@@ -13,8 +13,10 @@ export default function ActivityDataCard({
     <>
       <Grid display="flex" item flexWrap="nowrap" marginTop="auto">
         <PlaceIcon fontSize="small" />
-        <div className={styles.textContainer}>
-          <span>{activity.city ?? activity.location}</span>
+        <div className={styles.titleContainer}>
+          <span className={styles.textContainer}>
+            {activity.city ?? activity.location}
+          </span>
         </div>
       </Grid>
       <Grid

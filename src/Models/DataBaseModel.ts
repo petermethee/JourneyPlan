@@ -26,7 +26,6 @@ export enum ActivitiesTable {
   price = "price",
   pleasure = "pleasure",
   location = "location",
-  contraint = "contraint",
   used = "used",
   lat = "lat",
   lng = "lng",

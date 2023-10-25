@@ -18,9 +18,11 @@ export default function AccomodationDataCard({
         marginTop="auto"
       >
         <PlaceIcon fontSize="small" />
-        <span className={styles.textContainer}>
-          {accomodation.city ?? accomodation.location}
-        </span>
+        <div className={styles.titleContainer}>
+          <span className={styles.textContainer}>
+            {accomodation.city ?? accomodation.location}
+          </span>
+        </div>
       </Grid>
       <Grid
         display="flex"

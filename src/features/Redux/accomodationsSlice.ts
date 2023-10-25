@@ -5,7 +5,7 @@ import {
   getAllItemsAPI,
   insertItemAPI,
   updateItemAPI,
-} from "../ipc/ipcGenericFunctions";
+} from "../ipc/ipcArtifactsFunctions";
 import { RootState } from "../../app/store";
 import { EArtifactTableName } from "../../Models/EArtifacts";
 import IPlanningArtifact from "../../Models/IPlanningArtifact";

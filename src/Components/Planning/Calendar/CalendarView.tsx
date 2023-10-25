@@ -40,6 +40,10 @@ import AccomodationIcon from "../../Shared/AccomodationIcon";
 import ActivityIcon from "../../Shared/ActivityIcon";
 import TransportIcon from "../../Shared/TransportIcon";
 import PlanningSheets from "./PlanningSheets/PlanningSheets";
+import { useAppDispatch } from "../../../app/hooks";
+import { insertActivity } from "../../../features/Redux/activitiesSlice";
+import { insertTransport } from "../../../features/Redux/transportsSlice";
+import { insertAccomodation } from "../../../features/Redux/accomodationsSlice";
 
 export const getHours = (): string[] => {
   const hours: string[] = [];
@@ -59,6 +63,7 @@ function CalendarView({
   dayCols: TDayCol[];
   openArtifactEditor: (artifactEditor: TArtifactEditor) => void;
 }) {
+  const dispatch = useAppDispatch();
   const calendarRef = useRef<HTMLDivElement>(null);
   const dropZoneRef = useRef<HTMLDivElement>(null);
 
@@ -172,6 +177,9 @@ function CalendarView({
                         artifact: PA.activity,
                       })
                     }
+                    duplicateArtifact={() =>
+                      dispatch(insertActivity({ ...PA.activity, used: 0 }))
+                    }
                   >
                     {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
                       <ArtifactTemplate
@@ -215,6 +223,9 @@ function CalendarView({
                         type: EArtifact.Transport,
                         artifact: PT.transport,
                       })
+                    }
+                    duplicateArtifact={() =>
+                      dispatch(insertTransport({ ...PT.transport, used: 0 }))
                     }
                   >
                     {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
@@ -272,6 +283,11 @@ function CalendarView({
                       type: EArtifact.Accomodation,
                       artifact: PA.accomodation,
                     })
+                  }
+                  duplicateArtifact={() =>
+                    dispatch(
+                      insertAccomodation({ ...PA.accomodation, used: 0 })
+                    )
                   }
                 >
                   {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (

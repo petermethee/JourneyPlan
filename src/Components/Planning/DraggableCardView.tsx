@@ -36,7 +36,8 @@ import {
 } from "../../features/Redux/accomodationsSlice";
 import { defaultWhite, primaryColor } from "../../style/cssGlobalStyle";
 import { GRID_CONTAINER } from "./Calendar/CalendarView";
-import { ButtonBase } from "@mui/material";
+import { Button, ButtonBase, Popover } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
@@ -72,12 +73,13 @@ type TDraggableProps = {
     allowSideData: boolean
   ): [string, number];
   editArtifact: () => void;
+  duplicateArtifact: () => void;
 };
 
 let scrollInterval: NodeJS.Timeout | null = null;
 
 export default function DraggableCardView({
-  PAId,
+  PAId, //Ce n'est pas écrit paid en anglais, c'est planning artifact id
   children,
   artifactId,
   duration,
@@ -89,6 +91,7 @@ export default function DraggableCardView({
   artifactType,
   getFinalDestination,
   editArtifact,
+  duplicateArtifact,
 }: TDraggableProps) {
   const dispatch = useAppDispatch();
   const planningId = useAppSelector(selectPlanningId)!;
@@ -109,6 +112,10 @@ export default function DraggableCardView({
 
   const [destination, setDestination] = useState<TDroppableInfo>(source);
   const [isHovered, setIsHovered] = useState(false);
+  const [openPopover, setOpenPopover] = useState<
+    undefined | { top: number; left: number }
+  >(undefined);
+
   const containerAnimation = useMemo(() => {
     if (willDisappear || willBeDeleted) {
       return `${disappearAnim} 300ms ease-out forwards`;
@@ -244,11 +251,15 @@ export default function DraggableCardView({
 
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    setMouseDown(true);
-    setDeltaMousePosition({
-      x: event.clientX - draggableRef.current!.getBoundingClientRect().left,
-      y: event.clientY - draggableRef.current!.getBoundingClientRect().top,
-    });
+    if (event.button === 0) {
+      setMouseDown(true);
+      setDeltaMousePosition({
+        x: event.clientX - draggableRef.current!.getBoundingClientRect().left,
+        y: event.clientY - draggableRef.current!.getBoundingClientRect().top,
+      });
+    } else if (event.button === 2) {
+      setOpenPopover({ left: event.clientX, top: event.clientY });
+    }
   };
 
   const mouseMoveListener = useCallback(
@@ -432,6 +443,24 @@ export default function DraggableCardView({
       }}
       onAnimationEnd={onAnimationEnd} //is also triggered when child animation ends
     >
+      <Popover
+        open={openPopover !== undefined}
+        anchorReference="anchorPosition"
+        anchorPosition={openPopover}
+        onClose={() => setOpenPopover(undefined)}
+      >
+        <Button
+          startIcon={<ContentCopyIcon />}
+          size="small"
+          variant="contained"
+          onClick={() => {
+            duplicateArtifact();
+            setOpenPopover(undefined);
+          }}
+        >
+          Dupliquer
+        </Button>
+      </Popover>
       <div
         className={`${styles.ghost} ${shwoCaseClass}`}
         style={{

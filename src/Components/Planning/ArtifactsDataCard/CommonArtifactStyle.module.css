@@ -28,6 +28,7 @@
     overflow: hidden;
     display: flex;
     flex: 1;
+    align-items: center;
 }
 
 .title {
@@ -44,11 +45,10 @@
 }
 
 .textContainer {
-    display: flex;
-    align-items: center;
     overflow: hidden;
     white-space: nowrap;
     font-size: 14px;
+    text-overflow: ellipsis;
 }
 
 .textContainer span {

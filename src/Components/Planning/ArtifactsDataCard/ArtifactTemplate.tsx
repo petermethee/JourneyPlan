@@ -72,7 +72,7 @@ export default function ArtifactTemplate({
     return "";
   }, [timeIndex, duration]);
 
-  const Tooltips = useMemo(() => {
+  const InfoTooltips = useMemo(() => {
     if (insideCalendar) {
       if (isAccomodation) {
         return (
@@ -205,7 +205,7 @@ export default function ArtifactTemplate({
           </Grid>
         </Grid>
       </div>
-      {insideCalendar && Tooltips}
+      {insideCalendar && InfoTooltips}
     </>
   );
 }
