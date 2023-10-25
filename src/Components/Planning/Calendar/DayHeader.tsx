@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./DayHeader.module.css";
 import { Dayjs } from "dayjs";
 import { getColumnWidth } from "../../../DnDCustomLib/CalendarDimensionsHelper";
+import { darkColor2 } from "../../../style/cssGlobalStyle";
 
 export default function DayHeader({
   date,
@@ -15,7 +16,7 @@ export default function DayHeader({
       className={styles.container}
       style={{
         width: getColumnWidth(),
-        backgroundColor: isEven ? "#2a2a2a" : "#1e2b38db",
+        backgroundColor: isEven ? darkColor2 : "#1e2b38db",
       }}
     >
       <span className={styles.dayLabel}>

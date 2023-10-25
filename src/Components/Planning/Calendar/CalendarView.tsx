@@ -62,7 +62,7 @@ function CalendarView({
   const calendarRef = useRef<HTMLDivElement>(null);
   const dropZoneRef = useRef<HTMLDivElement>(null);
 
-  const [colWidth, setColWidth] = useState(100);
+  const [colWidth, setColWidth] = useState(0);
   const [calculTimeOut, setCalculTimeOut] = useState<NodeJS.Timeout>();
 
   const [daysIndex, setDaysIndex] = useState([0, 1]);
@@ -259,7 +259,7 @@ function CalendarView({
                   artifactId={PA.accomodation.id}
                   duration={1}
                   containerStyle={accomodationDropZoneDragContainerStyle(
-                    colWidth
+                    colWidth - 1
                   )}
                   source={{ colId: dayCol.dateId, timeIndex: PA.timeIndex }}
                   getDraggableStyle={getDraggableAccomodationCalendarStyle}
