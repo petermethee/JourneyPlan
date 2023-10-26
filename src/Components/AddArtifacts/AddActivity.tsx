@@ -25,7 +25,8 @@ import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./LocationSearchInput";
 import { TArtifactEditor } from "../Planning/Planning";
 
-import { EEventStatus, statusOptions } from "../../Models/EEventStatus";
+import { EEventStatus } from "../../Models/EEventStatus";
+import { ArtifactStatusOptions } from "../../Models/ArtifactStatusOptions";
 
 export const AddActivity = forwardRef(
   (
@@ -363,7 +364,7 @@ export const AddActivity = forwardRef(
                 value={formValues.status}
                 onChange={updateForm}
               >
-                {Object.entries(statusOptions).map(([key, val]) => (
+                {Object.entries(ArtifactStatusOptions).map(([key, val]) => (
                   <MenuItem key={key} value={key}>
                     <div className={styles.statusContainer}>
                       {val.icon()}

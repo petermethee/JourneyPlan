@@ -1,14 +1,9 @@
 import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
 import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
 import EventBusyRoundedIcon from "@mui/icons-material/EventBusyRounded";
+import { EEventStatus } from "./EEventStatus";
 
-export enum EEventStatus {
-  paid = "Paid",
-  reserved = "Reserved",
-  none = "none",
-}
-
-export const statusOptions = {
+export const ArtifactStatusOptions = {
   [EEventStatus.none]: {
     color: "#801717bd",
     text: "Non réservé",

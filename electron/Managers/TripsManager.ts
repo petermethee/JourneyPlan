@@ -112,18 +112,35 @@ export default class TripsManager {
       image_path: string;
     }[];
 
-    try {
-      for (const pathObj of pathes) {
-        fs.unlinkSync(pathObj.path);
+    for (const pathObj of pathes) {
+      if (pathObj.path) {
+        try {
+          fs.unlinkSync(pathObj.path);
+        } catch (error) {
+          console.log(
+            "Error while deleting attachments related to trip: " +
+              tripId +
+              " with file: " +
+              pathObj.path,
+            error
+          );
+        }
       }
-      for (const pathObj of imagePath) {
-        fs.unlinkSync(this.getTripPicturePath(pathObj.image_path));
+    }
+    for (const pathObj of imagePath) {
+      if (pathObj.image_path) {
+        try {
+          fs.unlinkSync(this.getTripPicturePath(pathObj.image_path));
+        } catch (error) {
+          console.log(
+            "Error while deleting attachments related to trip: " +
+              tripId +
+              " with file: " +
+              pathObj.image_path,
+            error
+          );
+        }
       }
-    } catch (error) {
-      console.log(
-        "Error while deleting attachments related to trip: " + tripId,
-        error
-      );
     }
 
     const sql = `DELETE FROM ${TablesName.trips} WHERE ${TripsTable.id} = ${tripId}`;

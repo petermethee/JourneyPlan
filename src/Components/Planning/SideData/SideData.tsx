@@ -213,6 +213,7 @@ export default function SideData({
     filteredAccomodations,
     filteredTransports,
     openArtifactEditor,
+    dispatch,
   ]);
 
   const [usedNumber, setUsedNumber] = useState(0);

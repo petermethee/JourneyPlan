@@ -12,16 +12,13 @@
     transition: 300ms;
 }
 
-/* .cardContainer:hover {
-    transform: scale(1.2);
-} */
 .deleteItem {
     opacity: 0.5;
     color: var(--primErrorColor);
     border: 2px dashed var(--primErrorColor);
 }
 
-.cardContainer:hover .editIcon {
+.cardContainer:hover .editIcon, .cardContainer:hover .delete {
     opacity: 1;
 }
 
@@ -47,28 +44,20 @@
 
 }
 
-.editIcon {
+.editIcon, .delete {
     position: absolute;
-    right: 6px;
     top: 6px;
     opacity: 0;
     transition: 300ms;
     z-index: 1;
 }
 
-.dragIndicator {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.editIcon {
+    right: 6px;
+}
+
+.delete {
     left: 6px;
-    top: 6px;
-    height: 20px;
-    width: 20px;
-    padding: 2px;
-    border-radius: 100%;
-    background-color: rgba(88, 88, 88, 0.255);
-    z-index: 1;
 }
 
 .cardBg {

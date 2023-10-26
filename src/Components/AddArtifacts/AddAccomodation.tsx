@@ -1,10 +1,4 @@
-import {
-  Chip,
-  Grid,
-  MenuItem,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material";
+import { Chip, Grid, MenuItem, TextField } from "@mui/material";
 import React, {
   forwardRef,
   useEffect,
@@ -34,8 +28,9 @@ import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./LocationSearchInput";
 import { TArtifactEditor } from "../Planning/Planning";
-import { EEventStatus, statusOptions } from "../../Models/EEventStatus";
+import { EEventStatus } from "../../Models/EEventStatus";
 import { meals } from "../../Helper/MealsHelper";
+import { ArtifactStatusOptions } from "../../Models/ArtifactStatusOptions";
 
 export const AddAccomodation = forwardRef(
   (
@@ -189,10 +184,6 @@ export const AddAccomodation = forwardRef(
           [name]: name === "price" ? parseInt(value) : value,
         };
       });
-    };
-
-    const handleMealChange = (event: SelectChangeEvent<unknown>) => {
-      console.log("tag", event.target.value);
     };
 
     useEffect(() => {
@@ -392,7 +383,7 @@ export const AddAccomodation = forwardRef(
                 value={formValues.status}
                 onChange={updateForm}
               >
-                {Object.entries(statusOptions).map(([key, val]) => (
+                {Object.entries(ArtifactStatusOptions).map(([key, val]) => (
                   <MenuItem key={key} value={key}>
                     <div className={styles.statusContainer}>
                       {val.icon()}

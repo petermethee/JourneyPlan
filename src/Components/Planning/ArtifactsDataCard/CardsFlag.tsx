@@ -4,8 +4,9 @@ import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Grid, Tooltip } from "@mui/material";
-import { EEventStatus, statusOptions } from "../../../Models/EEventStatus";
+import { EEventStatus } from "../../../Models/EEventStatus";
 import { meals } from "../../../Helper/MealsHelper";
+import { ArtifactStatusOptions } from "../../../Models/ArtifactStatusOptions";
 
 export default function CardsFlag({
   eventStatus,
@@ -23,7 +24,7 @@ export default function CardsFlag({
       const oneMeal = Object.values(mealStatus!).some((val) => val);
       return meals.lunch.icon(oneMeal ? "#ffffff" : "#ffffff70");
     } else {
-      return statusOptions[eventStatus!]?.icon("#ffffff");
+      return ArtifactStatusOptions[eventStatus!]?.icon("#ffffff");
     }
   }, [mealStatus, eventStatus]);
 
@@ -79,7 +80,7 @@ export default function CardsFlag({
     } else {
       return (
         <div style={{ fontSize: "11px" }}>
-          {statusOptions[eventStatus!]?.text}
+          {ArtifactStatusOptions[eventStatus!]?.text}
         </div>
       );
     }
@@ -90,7 +91,9 @@ export default function CardsFlag({
       <BookmarkRoundedIcon
         className={styles.bookmark}
         sx={{
-          color: mealStatus ? "#bd9741bd" : statusOptions[eventStatus!]?.color,
+          color: mealStatus
+            ? "#bd9741bd"
+            : ArtifactStatusOptions[eventStatus!]?.color,
           fontSize: "28px",
         }}
       />
