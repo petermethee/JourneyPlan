@@ -110,6 +110,10 @@ function CalendarView({
     };
   }, [onResize]);
 
+  useEffect(() => {
+    document.getElementById("7")?.scrollIntoView();
+  }, []);
+
   return (
     <div className={styles.calendarContainer}>
       <PlanningSheets />
@@ -139,6 +143,7 @@ function CalendarView({
         >
           {getHours().map((hour, index) => (
             <div
+              id={index.toString()}
               style={{ top: cellHeight * index }}
               key={hour}
               className={styles.hGridLine}

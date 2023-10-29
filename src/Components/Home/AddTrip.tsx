@@ -124,21 +124,16 @@ export default function AddTrip() {
 
   return (
     <div className={styles.container}>
+      <span className={styles.title}>Créer un voyage</span>
       <Grid
         container
         width="60%"
         direction="column"
         alignItems="center"
         rowSpacing={5}
+        paddingTop="50px"
       >
-        <Grid
-          item
-          height="30vh"
-          marginBottom="50px"
-          display="flex"
-          alignItems="end"
-          width="100%"
-        >
+        <Grid item display="flex" alignItems="end" width="100%">
           <TextField
             fullWidth
             variant="standard"
@@ -150,85 +145,101 @@ export default function AddTrip() {
             value={formValues.name}
           />
         </Grid>
-        <Grid item display="flex" width="60%">
-          <input
-            accept="image/png, image/jpeg"
-            ref={inputRef}
-            type="file"
-            id="input-file-upload"
-            multiple={false}
-            onChange={handleChange}
-            style={{ display: "none" }}
-          />
-          <label
-            htmlFor="input-file-upload"
-            className={`${styles.labelDropZone} ${
-              dragActive && styles.dragActive
-            }`}
-          >
-            <div
-              className={styles.dropHandler}
-              onDragEnter={handleDrag}
-              onDragLeave={handleDrag}
-              onDragOver={handleDrag}
-              onDrop={handleDrop}
-            />
-            {formValues.image_path ? (
-              <>
-                <CheckRoundedIcon sx={{ fontSize: "70px" }} />
-                {formValues.fileName}
-              </>
-            ) : (
-              <>
-                <CloudUploadRoundedIcon sx={{ fontSize: "70px" }} />
-                choisir une image de fond
-              </>
-            )}
-          </label>
-        </Grid>
         <Grid
           item
-          display="flex"
-          width="100%"
-          justifyContent="space-around"
+          container
+          justifyContent="space-between"
           alignItems="center"
+          gap={2}
         >
-          <Calendar
-            style={{ minWidth: "170px" }}
-            dateFormat="dd/mm/yy"
-            placeholder="Durée du voyage"
-            inputClassName="input"
-            value={dateRange}
-            onChange={(newValue) => {
-              setDateRange(newValue.value as Date[] | undefined);
-            }}
-            id="range"
-            selectionMode="range"
-            readOnlyInput
-          />
-
-          <TextField
-            InputProps={{
-              inputProps: {
-                min: 0,
-              },
-            }}
-            variant="standard"
-            type="number"
-            label="Nombre de voyageur"
-            name={TripsTable.nbTravelers}
-            value={formValues.nb_travelers}
-            sx={{
-              height: "100%",
-              "& .MuiInputBase-root": {
-                height: "100%",
-              },
-            }}
-            onChange={handleFormUpdate}
-          />
+          <Grid item xs={6} display="flex">
+            <Calendar
+              inline
+              // style={{ minWidth: "170px", width: "100%", height: "100%" }}
+              // inputStyle={{ fontSize: "25px", width: "100%", height: "100%" }}
+              // readOnlyInput
+              // placeholder="Durée du voyage"
+              dateFormat="dd/mm/yy"
+              inputClassName="input"
+              value={dateRange}
+              onChange={(newValue) => {
+                setDateRange(newValue.value as Date[] | undefined);
+              }}
+              id="range"
+              selectionMode="range"
+            />
+          </Grid>
+          <Grid
+            container
+            item
+            flexDirection="column"
+            flex={1}
+            height="100%"
+            justifyContent="space-evenly"
+          >
+            <Grid item>
+              <TextField
+                InputProps={{
+                  style: { fontSize: "25px" },
+                  inputProps: {
+                    min: 0,
+                  },
+                }}
+                fullWidth
+                InputLabelProps={{ style: { fontSize: "25px" } }}
+                variant="standard"
+                type="number"
+                label="Nombre de voyageur"
+                name={TripsTable.nbTravelers}
+                value={formValues.nb_travelers}
+                sx={{
+                  height: "100%",
+                  "& .MuiInputBase-root": {
+                    height: "100%",
+                  },
+                }}
+                onChange={handleFormUpdate}
+              />
+            </Grid>
+            <Grid item>
+              <input
+                accept="image/png, image/jpeg"
+                ref={inputRef}
+                type="file"
+                id="input-file-upload"
+                multiple={false}
+                onChange={handleChange}
+                style={{ display: "none" }}
+              />
+              <label
+                htmlFor="input-file-upload"
+                className={`${styles.labelDropZone} ${
+                  dragActive && styles.dragActive
+                }`}
+              >
+                <div
+                  className={styles.dropHandler}
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                />
+                {formValues.image_path ? (
+                  <>
+                    <CheckRoundedIcon sx={{ fontSize: "70px" }} />
+                    {formValues.fileName}
+                  </>
+                ) : (
+                  <>
+                    <CloudUploadRoundedIcon sx={{ fontSize: "70px" }} />
+                    choisir une image de fond
+                  </>
+                )}
+              </label>
+            </Grid>
+          </Grid>
         </Grid>
-
-        <Grid item container marginTop="50px" justifyContent="space-between">
+        <Grid item container marginTop="50px" justifyContent="space-evenly">
           <Button
             variant="outlined"
             onClick={() => navigate(ERouterPathes.home)}

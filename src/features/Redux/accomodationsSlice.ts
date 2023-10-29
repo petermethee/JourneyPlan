@@ -104,7 +104,7 @@ export const accomodationsSlice = createSlice({
           : accomodation
       );
     },
-    updateUsedAccomodations: (
+    initUsedAccomodations: (
       state: AccomodationsState,
       action: PayloadAction<IPlanningArtifact[]>
     ) => {
@@ -134,7 +134,7 @@ export const accomodationsSlice = createSlice({
   },
 });
 
-export const { setUsedAccomodations, updateUsedAccomodations } =
+export const { setUsedAccomodations, initUsedAccomodations } =
   accomodationsSlice.actions;
 
 export const selectAccomodations = (state: RootState) =>

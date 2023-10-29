@@ -5,6 +5,12 @@
     flex-direction: column;
 }
 
+.title {
+    font-size: 40px;
+    text-transform: uppercase;
+    margin-top: 50px;
+}
+
 .labelDropZone {
     position: relative;
     height: 8rem;

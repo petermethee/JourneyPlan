@@ -1,5 +1,6 @@
 import React, {
   CSSProperties,
+  memo,
   useCallback,
   useEffect,
   useMemo,
@@ -78,7 +79,7 @@ type TDraggableProps = {
 
 let scrollInterval: NodeJS.Timeout | null = null;
 
-export default function DraggableCardView({
+function DraggableCardView({
   PAId, //Ce n'est pas écrit paid en anglais, c'est planning artifact id
   children,
   artifactId,
@@ -517,3 +518,5 @@ export default function DraggableCardView({
     </div>
   );
 }
+
+export default memo(DraggableCardView);

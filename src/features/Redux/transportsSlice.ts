@@ -95,7 +95,7 @@ export const transportsSlice = createSlice({
           : transport
       );
     },
-    updateUsedTransports: (
+    initUsedTransports: (
       state: TransportsState,
       action: PayloadAction<IPlanningArtifact[]>
     ) => {
@@ -125,7 +125,7 @@ export const transportsSlice = createSlice({
   },
 });
 
-export const { setUsedTransports, updateUsedTransports } =
+export const { setUsedTransports, initUsedTransports } =
   transportsSlice.actions;
 
 export const selectTransports = (state: RootState) =>

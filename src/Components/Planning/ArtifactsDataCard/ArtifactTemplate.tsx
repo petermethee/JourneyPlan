@@ -1,7 +1,7 @@
 import { Grid, IconButton } from "@mui/material";
 import { secErrorColor } from "../../../style/cssGlobalStyle";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import CustomCloseIcon from "../../Shared/CustomCloseIcon";
 import styles from "./CommonArtifactStyle.module.css";
 import cstmCloseIconStyle from "../../Shared/CustomCloseIcon.module.css";
@@ -12,7 +12,7 @@ import IAccomodation from "../../../Models/IAccomodation";
 import AccomodationTooltips from "./AccomodationTooltips";
 import CardsFlag from "./CardsFlag";
 
-export default function ArtifactTemplate({
+function ArtifactTemplate({
   artifact,
   duration,
   insideCalendar,
@@ -209,3 +209,5 @@ export default function ArtifactTemplate({
     </>
   );
 }
+
+export default memo(ArtifactTemplate);

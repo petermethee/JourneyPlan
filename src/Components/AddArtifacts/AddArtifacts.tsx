@@ -1,5 +1,11 @@
 import { IconButton, Slider, Tab, Tabs } from "@mui/material";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import ActivityIcon from "../Shared/ActivityIcon";
 import TransportIcon from "../Shared/TransportIcon";
 import AccomodationIcon from "../Shared/AccomodationIcon";
@@ -95,18 +101,30 @@ export default function AddArtifacts({
     };
   }, [popupWidth, popupHeight]);
 
-  const handleSave = (edit: boolean) => {
-    setSaving(ESavingStatus.loading);
-    if (edit) {
-      addActivityRef.current?.edit(tab);
-      addTransportRef.current?.edit(tab);
-      addAccomodationRef.current?.edit(tab);
-    } else {
-      addActivityRef.current?.save(tab);
-      addTransportRef.current?.save(tab);
-      addAccomodationRef.current?.save(tab);
-    }
-  };
+  const handleSave = useCallback(
+    (edit: boolean) => {
+      setSaving(ESavingStatus.loading);
+      if (edit) {
+        addActivityRef.current?.edit(tab);
+        addTransportRef.current?.edit(tab);
+        addAccomodationRef.current?.edit(tab);
+      } else {
+        addActivityRef.current?.save(tab);
+        addTransportRef.current?.save(tab);
+        addAccomodationRef.current?.save(tab);
+      }
+    },
+    [tab]
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "Enter" && saving === ESavingStatus.enabled) {
+        handleSave(artifactToEdit.type === tab && !!artifactToEdit.artifact);
+      }
+    },
+    [artifactToEdit, tab, handleSave, saving]
+  );
 
   useEffect(() => {
     setTab(artifactToEdit.type);
@@ -119,6 +137,13 @@ export default function AddArtifacts({
       window.removeEventListener("resize", onResize);
     };
   }, [setOpen]);
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   return (
     <div className={styles.containerPopup} ref={popupRef}>
@@ -272,6 +297,24 @@ export default function AddArtifacts({
                   {artifactToEdit.type === tab && artifactToEdit.artifact
                     ? "Mettre à jour"
                     : "Ajouter"}
+                </LoadingButton>
+                <LoadingButton
+                  disabled={saving !== ESavingStatus.enabled}
+                  onClick={() => {
+                    handleSave(
+                      artifactToEdit.type === tab && !!artifactToEdit.artifact
+                    );
+                    setOpen(false);
+                  }}
+                  loading={saving === ESavingStatus.loading}
+                  loadingPosition="start"
+                  startIcon={<SaveIcon />}
+                  variant="contained"
+                >
+                  {artifactToEdit.type === tab && artifactToEdit.artifact
+                    ? "Mettre à jour"
+                    : "Ajouter"}{" "}
+                  Et quitter
                 </LoadingButton>
               </div>
             </div>

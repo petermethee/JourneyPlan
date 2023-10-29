@@ -11,6 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { selectCurrentTrip } from "../../../../features/Redux/tripSlice";
 import { IPlanning } from "../../../../Models/IPlanningArtifact";
 import SheetItem from "./SheetItem";
+import TotalPrice from "./TotalPrice";
 
 export default function PlanningSheets() {
   const dispatch = useAppDispatch();
@@ -63,6 +64,7 @@ export default function PlanningSheets() {
           <AddIcon fontSize="inherit" />
         </IconButton>
       </div>
+      <TotalPrice />
     </div>
   );
 }

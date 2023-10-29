@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   getAllActivities,
   selectActivities,
-  updateUsedActivities,
+  initUsedActivities,
 } from "../../features/Redux/activitiesSlice";
 import { useParams } from "react-router-dom";
 import CalendarView from "./Calendar/CalendarView";
@@ -24,12 +24,12 @@ import { EArtifact } from "../../Models/EArtifacts";
 import {
   getAllTransports,
   selectTransports,
-  updateUsedTransports,
+  initUsedTransports,
 } from "../../features/Redux/transportsSlice";
 import {
   getAllAccomodations,
   selectAccomodations,
-  updateUsedAccomodations,
+  initUsedAccomodations,
 } from "../../features/Redux/accomodationsSlice";
 import AddArtifacts from "../AddArtifacts/AddArtifacts";
 
@@ -144,17 +144,17 @@ export default function Planning() {
         .unwrap()
         .then((PA) => {
           dispatch(
-            updateUsedActivities(
+            initUsedActivities(
               PA.filter((item) => item.artifactType === EArtifact.Activity)
             )
           );
           dispatch(
-            updateUsedAccomodations(
+            initUsedAccomodations(
               PA.filter((item) => item.artifactType === EArtifact.Accomodation)
             )
           );
           dispatch(
-            updateUsedTransports(
+            initUsedTransports(
               PA.filter((item) => item.artifactType === EArtifact.Transport)
             )
           );

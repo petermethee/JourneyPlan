@@ -62,18 +62,24 @@ export const activitiesSlice = createSlice({
       state: ActivitiesState,
       action: PayloadAction<IActivity[]>
     ) => {
+      console.log("set activities");
+
       state.activities = action.payload;
     },
     insertActivity: (
       state: ActivitiesState,
       action: PayloadAction<IActivity>
     ) => {
+      console.log("insert activities");
+
       state.activities.push(action.payload);
     },
     updateActivity: (
       state: ActivitiesState,
       action: PayloadAction<IActivity>
     ) => {
+      console.log("update activities");
+
       const updatedActivity = action.payload;
       state.activities = state.activities.map((activity) =>
         activity.id === updatedActivity.id ? updatedActivity : activity
@@ -88,16 +94,20 @@ export const activitiesSlice = createSlice({
       state: ActivitiesState,
       action: PayloadAction<number>
     ) => {
+      console.log("set used activities");
+
       state.activities = state.activities.map((activity) =>
         activity.id === action.payload
           ? { ...activity, used: activity.used === 0 ? 1 : 0 }
           : activity
       );
     },
-    updateUsedActivities: (
+    initUsedActivities: (
       state: ActivitiesState,
       action: PayloadAction<IPlanningArtifact[]>
     ) => {
+      console.log("update used activities");
+
       state.activities.forEach((activity) => {
         activity.used = action.payload.some(
           (PA) => PA.artifactId === activity.id
@@ -124,7 +134,7 @@ export const activitiesSlice = createSlice({
   },
 });
 
-export const { setUsedActivities, updateUsedActivities } =
+export const { setUsedActivities, initUsedActivities } =
   activitiesSlice.actions;
 
 export const selectActivities = (state: RootState) =>
