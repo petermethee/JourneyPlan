@@ -49,7 +49,7 @@ import AccomodationIcon from "../../Shared/AccomodationIcon";
 import { TArtifactEditor } from "../Planning";
 import { selectArtifactIsDragged } from "../../../features/Redux/planningSlice";
 
-export const SIDE_DATA_COL_ID = "sideDataDropId";
+export const SIDE_DATA_COL_ID = "SIDE_DATA_COL_ID";
 
 export default function SideData({
   openArtifactEditor,

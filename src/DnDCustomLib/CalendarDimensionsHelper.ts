@@ -43,6 +43,8 @@ let lastTimeIndex: number;
 
 let dropZoneRect: DOMRect;
 
+let colIndexOffset = 0;
+
 // UI dimensions and parameters
 export const setDropZoneBoundary = (initDropZoneRect: DOMRect) => {
   dropZoneRect = initDropZoneRect;
@@ -51,6 +53,7 @@ export const setDropZoneBoundary = (initDropZoneRect: DOMRect) => {
 export const setColIds = (initColIds: string[]) => {
   colIds = initColIds;
 };
+export const setColOffsetIndex = (offset: number) => (colIndexOffset = offset);
 export const initPlanningDimensions = (
   initColWidth: number,
   initCalendarRect: DOMRect
@@ -240,7 +243,7 @@ export const getFinalDestination = (
     ];
   }
   const colIndex = Math.floor((x - calendarRect.x) / columnWidth);
-  return [colIds[colIndex], lastTimeIndex];
+  return [colIds[colIndex + colIndexOffset], lastTimeIndex];
 };
 
 export const getFinalDestinationInAccomodationDZ = (
@@ -249,7 +252,7 @@ export const getFinalDestinationInAccomodationDZ = (
 ): [string, number] => {
   if (isInsideAccomodationDZ(x, y) || isInsidePlanning(x, y)) {
     const colIndex = Math.floor((x - dropZoneRect.x) / columnWidth);
-    return [colIds[colIndex], -1];
+    return [colIds[colIndex + colIndexOffset], -1];
   }
   return [SIDE_DATA_COL_ID, -1];
 };

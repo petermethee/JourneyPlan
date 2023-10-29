@@ -12,6 +12,7 @@ import {
   minColWidth,
   setCalendarBoundary,
   setColIds,
+  setColOffsetIndex,
   setDropZoneBoundary,
 } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import DraggableCardView from "../DraggableCardView";
@@ -113,6 +114,10 @@ function CalendarView({
   useEffect(() => {
     document.getElementById("7")?.scrollIntoView();
   }, []);
+
+  useEffect(() => {
+    setColOffsetIndex(daysIndex[0]);
+  }, [daysIndex]);
 
   return (
     <div className={styles.calendarContainer}>
