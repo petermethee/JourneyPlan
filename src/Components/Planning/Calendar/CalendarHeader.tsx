@@ -7,6 +7,7 @@ import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { ButtonBase, IconButton } from "@mui/material";
 
+const dayShift = 3;
 export default function CalendarHeader({
   dayCols,
   daysIndex,
@@ -35,7 +36,10 @@ export default function CalendarHeader({
             opacity: daysIndex[0] === 0 ? 0 : 1,
           }}
           onClick={() =>
-            setDaysIndex((prevState) => [prevState[0] - 1, prevState[1] - 1])
+            setDaysIndex((prevState) => {
+              const offset = Math.min(dayShift, prevState[0]);
+              return [prevState[0] - offset, prevState[1] - offset];
+            })
           }
           disabled={daysIndex[0] === 0}
         >
@@ -50,7 +54,10 @@ export default function CalendarHeader({
             opacity: nbDays === daysIndex[1] ? 0 : 1,
           }}
           onClick={() =>
-            setDaysIndex((prevState) => [prevState[0] + 1, prevState[1] + 1])
+            setDaysIndex((prevState) => {
+              const offset = Math.min(dayShift, nbDays - prevState[1]);
+              return [prevState[0] + offset, prevState[1] + offset];
+            })
           }
           disabled={nbDays === daysIndex[1]}
         >

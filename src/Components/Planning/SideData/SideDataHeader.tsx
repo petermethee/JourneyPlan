@@ -97,7 +97,6 @@ export default function SideDataHeader({
           variant={usedFilter ? "outlined" : "contained"}
           className={styles.radioContent}
           onClick={() => setUsedFilter(false)}
-          disabled={usedNumber === 0}
           sx={{ backgroundColor: usedFilter ? "white" : "" }}
         >
           <NotificationBadge number={usedNumber} />
@@ -115,6 +114,7 @@ export default function SideDataHeader({
           variant={usedFilter ? "contained" : "outlined"}
           className={styles.radioContent}
           onClick={() => setUsedFilter(true)}
+          disabled={usedNumber === 0}
           sx={{ backgroundColor: !usedFilter ? "white" : "" }}
         >
           <NotificationBadge number={unusedNumber} />

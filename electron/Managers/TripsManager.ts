@@ -3,6 +3,7 @@ import {
   AccomodationsTable,
   ActivitiesTable,
   AttachmentsTable,
+  PlanningArtifactTable,
   PlanningsTable,
   TablesName,
   TransportsTable,
@@ -80,6 +81,24 @@ export default class TripsManager {
     const columns = Object.keys(trip)
       .map((key) => `${key} = ? `)
       .join(",");
+
+    let updatePlanningArtifact = `UPDATE ${TablesName.planning_artifact} 
+    SET ${PlanningArtifactTable.date} = '${trip.start_date}'
+    WHERE ${PlanningArtifactTable.id_planning} IN 
+    (SELECT ${PlanningsTable.id} 
+      FROM ${TablesName.plannings} 
+      WHERE ${PlanningsTable.id_trip} = ${trip.id}) 
+    AND ${PlanningArtifactTable.date} < '${trip.start_date}'`;
+    this.db.prepare(updatePlanningArtifact).run();
+
+    updatePlanningArtifact = `UPDATE ${TablesName.planning_artifact} 
+    SET ${PlanningArtifactTable.date} = '${trip.end_date}'
+    WHERE ${PlanningArtifactTable.id_planning} IN 
+    (SELECT ${PlanningsTable.id} 
+      FROM ${TablesName.plannings} 
+      WHERE ${PlanningsTable.id_trip} = ${trip.id}) 
+    AND ${PlanningArtifactTable.date} > '${trip.end_date}'`;
+    this.db.prepare(updatePlanningArtifact).run();
 
     const sql = `UPDATE ${TablesName.trips} SET ${columns} WHERE ${TripsTable.id} = ${trip.id}`;
 

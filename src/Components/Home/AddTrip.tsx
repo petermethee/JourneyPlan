@@ -18,6 +18,7 @@ import {
 } from "../../features/Redux/tripSlice";
 import { TFormTrip, transformFormToTrip } from "../../Models/ITrip";
 import IAttachment from "../../Models/IAttachment";
+import dayjs from "dayjs";
 
 export default function AddTrip() {
   const tripId = useParams().tripId;
@@ -27,7 +28,7 @@ export default function AddTrip() {
   const [formValues, setFormValues] = useState<TFormTrip>({
     name: "",
     image_path: null,
-    nb_travelers: 0,
+    nb_travelers: 1,
     fileName: "",
   });
   const [dateRange, setDateRange] = useState<Date[] | undefined>();
@@ -82,7 +83,10 @@ export default function AddTrip() {
     setFormValid(false);
     const newTrip = transformFormToTrip(
       formValues,
-      dateRange as Date[],
+      [
+        dayjs(dateRange![0]).format("YYYY-MM-DD"),
+        dayjs(dateRange![1]).format("YYYY-MM-DD"),
+      ],
       tripId
     );
     if (tripId) {
@@ -155,10 +159,6 @@ export default function AddTrip() {
           <Grid item xs={6} display="flex">
             <Calendar
               inline
-              // style={{ minWidth: "170px", width: "100%", height: "100%" }}
-              // inputStyle={{ fontSize: "25px", width: "100%", height: "100%" }}
-              // readOnlyInput
-              // placeholder="Durée du voyage"
               dateFormat="dd/mm/yy"
               inputClassName="input"
               value={dateRange}
@@ -182,7 +182,7 @@ export default function AddTrip() {
                 InputProps={{
                   style: { fontSize: "25px" },
                   inputProps: {
-                    min: 0,
+                    min: 1,
                   },
                 }}
                 fullWidth

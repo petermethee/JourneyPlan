@@ -17,7 +17,7 @@ export type TFormTrip = {
 
 export const transformFormToTrip = (
   form: TFormTrip,
-  dateRange: Date[],
+  dateRange: [string, string],
   tripId?: string
 ): ITrip => {
   return {
@@ -25,7 +25,7 @@ export const transformFormToTrip = (
     image_path: form.image_path,
     name: form.name,
     nb_travelers: form.nb_travelers,
-    start_date: dateRange[0].toDateString(),
-    end_date: dateRange[1].toDateString(),
+    start_date: dateRange[0],
+    end_date: dateRange[1],
   };
 };
