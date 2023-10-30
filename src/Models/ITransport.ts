@@ -26,7 +26,7 @@ export default interface ITransport {
 export type TFormTransport = {
   [TransportsTable.name]: string;
   [TransportsTable.description]: string;
-  [TransportsTable.price]: number;
+  [TransportsTable.price]: string;
   [TransportsTable.from]: string;
   [TransportsTable.to]: string;
   [TransportsTable.lat_from]: number | null;

@@ -1,5 +1,6 @@
 import { Chip, Grid, MenuItem, TextField } from "@mui/material";
 import React, {
+  ChangeEvent,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -54,7 +55,7 @@ export const AddAccomodation = forwardRef(
         return {
           [AccomodationsTable.name]: accomodation.name,
           [AccomodationsTable.description]: accomodation.description,
-          [AccomodationsTable.price]: accomodation.price,
+          [AccomodationsTable.price]: accomodation.price.toString(),
           [AccomodationsTable.location]: accomodation.location,
           [AccomodationsTable.checkin]: accomodation.checkin,
           [AccomodationsTable.checkout]: accomodation.checkout,
@@ -70,7 +71,7 @@ export const AddAccomodation = forwardRef(
       return {
         [AccomodationsTable.name]: "",
         [AccomodationsTable.description]: "",
-        [AccomodationsTable.price]: 0,
+        [AccomodationsTable.price]: "0",
         [AccomodationsTable.location]: "",
         [AccomodationsTable.checkin]: "18:0",
         [AccomodationsTable.checkout]: "10:0",
@@ -108,6 +109,7 @@ export const AddAccomodation = forwardRef(
             id: 0,
             id_trip,
             ...formValues,
+            price: parseFloat(formValues.price),
             attachment,
             used: false,
           };
@@ -134,6 +136,7 @@ export const AddAccomodation = forwardRef(
             id: accomodation!.id,
             id_trip,
             ...formValues,
+            price: parseFloat(formValues.price),
             attachment,
             used: accomodation!.used,
           };
@@ -181,7 +184,7 @@ export const AddAccomodation = forwardRef(
       setFormValues((prevState) => {
         return {
           ...prevState,
-          [name]: name === "price" ? parseInt(value) : value,
+          [name]: value,
         };
       });
     };
@@ -250,7 +253,11 @@ export const AddAccomodation = forwardRef(
                 variant="standard"
                 label="Prix"
                 value={formValues.price}
-                onChange={updateForm}
+                onChange={(event) => {
+                  const re = /^\d*\.?\d{0,2}$/;
+                  if (event.target.value === "" || re.test(event.target.value))
+                    updateForm(event as ChangeEvent<HTMLInputElement>);
+                }}
                 type="number"
                 InputProps={{ inputProps: { min: 0 } }}
               />

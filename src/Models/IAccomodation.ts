@@ -26,7 +26,7 @@ export default interface IAccomodation {
 export type TFormAccomodation = {
   [AccomodationsTable.name]: string;
   [AccomodationsTable.description]: string;
-  [AccomodationsTable.price]: number;
+  [AccomodationsTable.price]: string;
   [AccomodationsTable.location]: string;
   [AccomodationsTable.checkin]: string;
   [AccomodationsTable.checkout]: string;

@@ -1,5 +1,6 @@
 import { Grid, MenuItem, TextField } from "@mui/material";
 import React, {
+  ChangeEvent,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -50,7 +51,7 @@ export const AddActivity = forwardRef(
         return {
           [ActivitiesTable.name]: activity.name,
           [ActivitiesTable.description]: activity.description,
-          [ActivitiesTable.price]: activity.price,
+          [ActivitiesTable.price]: activity.price.toString(),
           [ActivitiesTable.pleasure]: activity.pleasure,
           [ActivitiesTable.location]: activity.location,
           [ActivitiesTable.lat]: activity.lat,
@@ -62,7 +63,7 @@ export const AddActivity = forwardRef(
       return {
         [ActivitiesTable.name]: "",
         [ActivitiesTable.description]: "",
-        [ActivitiesTable.price]: 0,
+        [ActivitiesTable.price]: "0",
         [ActivitiesTable.pleasure]: 0,
         [ActivitiesTable.location]: "",
         [ActivitiesTable.lat]: null,
@@ -117,6 +118,7 @@ export const AddActivity = forwardRef(
             id_trip,
             duration,
             ...formValues,
+            price: parseFloat(formValues.price),
             attachment,
             used: false,
           };
@@ -147,6 +149,7 @@ export const AddActivity = forwardRef(
             id_trip,
             duration,
             ...formValues,
+            price: parseFloat(formValues.price),
             attachment,
             used: activity!.used,
           };
@@ -174,8 +177,6 @@ export const AddActivity = forwardRef(
       let value: number | string | null = event.target.value;
       if (name === ActivitiesTable.status) {
         value = value === "null" ? null : value;
-      } else if (name === ActivitiesTable.price) {
-        value = parseInt(value);
       }
       setFormValues((prevState) => {
         return {
@@ -285,9 +286,13 @@ export const AddActivity = forwardRef(
                 variant="standard"
                 label="Prix"
                 value={formValues.price}
-                onChange={updateForm}
-                type="number"
+                onChange={(event) => {
+                  const re = /^\d*\.?\d{0,2}$/;
+                  if (event.target.value === "" || re.test(event.target.value))
+                    updateForm(event as ChangeEvent<HTMLInputElement>);
+                }}
                 InputProps={{ inputProps: { min: 0 } }}
+                type="number"
               />
             </Grid>
             <Grid item xs={8}>

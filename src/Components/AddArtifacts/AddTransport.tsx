@@ -1,5 +1,6 @@
 import { Grid, MenuItem, TextField } from "@mui/material";
 import React, {
+  ChangeEvent,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -51,7 +52,7 @@ export const AddTransport = forwardRef(
         return {
           [TransportsTable.name]: transport.name,
           [TransportsTable.description]: transport.description,
-          [TransportsTable.price]: transport.price,
+          [TransportsTable.price]: transport.price.toString(),
           [TransportsTable.from]: transport.departure,
           [TransportsTable.to]: transport.destination,
           [TransportsTable.lat_from]: transport.lat_from,
@@ -66,7 +67,7 @@ export const AddTransport = forwardRef(
       return {
         [TransportsTable.name]: "",
         [TransportsTable.description]: "",
-        [TransportsTable.price]: 0,
+        [TransportsTable.price]: "0",
         [TransportsTable.from]: "",
         [TransportsTable.to]: "",
         [TransportsTable.lat_from]: null,
@@ -123,6 +124,7 @@ export const AddTransport = forwardRef(
             id_trip,
             duration,
             ...formValues,
+            price: parseFloat(formValues.price),
             attachment,
             used: false,
           };
@@ -153,6 +155,7 @@ export const AddTransport = forwardRef(
             id_trip,
             duration,
             ...formValues,
+            price: parseFloat(formValues.price),
             attachment,
             used: transport!.used,
           };
@@ -181,7 +184,7 @@ export const AddTransport = forwardRef(
       setFormValues((prevState) => {
         return {
           ...prevState,
-          [name]: name === "price" ? parseInt(value) : value,
+          [name]: value,
         };
       });
     };
@@ -202,6 +205,7 @@ export const AddTransport = forwardRef(
         formValues.name !== "" &&
         formValues.destination !== "" &&
         formValues.departure !== "" &&
+        formValues.price !== "" &&
         (JSON.stringify(formValues) !== JSON.stringify(initialFormValues) ||
           initialAttachment.join() !== attachment.join() ||
           initialHours !== hours ||
@@ -275,7 +279,11 @@ export const AddTransport = forwardRef(
                 variant="standard"
                 label="Prix"
                 value={formValues.price}
-                onChange={updateForm}
+                onChange={(event) => {
+                  const re = /^\d*\.?\d{0,2}$/;
+                  if (event.target.value === "" || re.test(event.target.value))
+                    updateForm(event as ChangeEvent<HTMLInputElement>);
+                }}
                 type="number"
                 InputProps={{ inputProps: { min: 0 } }}
               />

@@ -35,7 +35,7 @@ export default class TripsManager {
         fs.copyFileSync(trip.image_path, newPath);
         trip.image_path = fileName;
       } catch (error) {
-        console.log("Copy Error", error);
+        console.warn("Copy Error", error);
         trip.image_path = null;
       }
     }
@@ -71,10 +71,9 @@ export default class TripsManager {
         const imagePath = this.db.prepare(sql).all()[0] as {
           image_path: string;
         };
-        console.log("deleteing image at", imagePath);
         fs.unlinkSync(this.getTripPicturePath(imagePath.image_path));
       } catch (error) {
-        // console.log("warning", error);
+        // console.warn("warning", error);
         //mecanism wanted
       }
     }
@@ -136,7 +135,7 @@ export default class TripsManager {
         try {
           fs.unlinkSync(pathObj.path);
         } catch (error) {
-          console.log(
+          console.warn(
             "Error while deleting attachments related to trip: " +
               tripId +
               " with file: " +
@@ -151,7 +150,7 @@ export default class TripsManager {
         try {
           fs.unlinkSync(this.getTripPicturePath(pathObj.image_path));
         } catch (error) {
-          console.log(
+          console.warn(
             "Error while deleting attachments related to trip: " +
               tripId +
               " with file: " +

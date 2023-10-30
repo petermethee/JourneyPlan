@@ -76,6 +76,7 @@ export default class ArtifactsDbManager {
   ) => {
     const attachments = item.attachment;
     delete item.attachment;
+    delete item.used;
     const columns = Object.keys(item)
       .map((key) => `${key} = ? `)
       .join(",");
@@ -123,7 +124,7 @@ export default class ArtifactsDbManager {
         try {
           fs.copyFileSync(pj.path, newPath);
         } catch (error) {
-          console.log("Copy of attachment error: ", error);
+          console.warn("Copy of attachment error: ", error);
         }
 
         insert.run({ ...pj, [artifactColumn]: artifactId, path: newPath });
@@ -156,7 +157,7 @@ export default class ArtifactsDbManager {
         try {
           fs.unlinkSync(oldPJ.path);
         } catch (error) {
-          console.log(
+          console.warn(
             `Error while deleting attachment related to ${artifactType} ${artifactId}: `,
             error
           );
@@ -188,7 +189,7 @@ export default class ArtifactsDbManager {
         fs.unlinkSync(pathObj.path);
       }
     } catch (error) {
-      console.log(
+      console.warn(
         `Error while deleting attachments related to ${artifactType} ${artifactId}: `,
         error
       );

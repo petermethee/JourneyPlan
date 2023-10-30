@@ -23,7 +23,7 @@ export default interface IActivity {
 export type TFormActivity = {
   [ActivitiesTable.name]: string;
   [ActivitiesTable.description]?: string;
-  [ActivitiesTable.price]: number;
+  [ActivitiesTable.price]: string;
   [ActivitiesTable.pleasure]?: number;
   [ActivitiesTable.location]: string;
   [ActivitiesTable.lat]: number | null;

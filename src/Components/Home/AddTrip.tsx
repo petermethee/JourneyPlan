@@ -131,7 +131,7 @@ export default function AddTrip() {
       <span className={styles.title}>Créer un voyage</span>
       <Grid
         container
-        width="60%"
+        width="80%"
         direction="column"
         alignItems="center"
         rowSpacing={5}
@@ -149,14 +149,8 @@ export default function AddTrip() {
             value={formValues.name}
           />
         </Grid>
-        <Grid
-          item
-          container
-          justifyContent="space-between"
-          alignItems="center"
-          gap={2}
-        >
-          <Grid item xs={6} display="flex">
+        <Grid item container justifyContent="space-between" alignItems="center">
+          <Grid item display="flex" xs={6} justifyContent="center">
             <Calendar
               inline
               dateFormat="dd/mm/yy"
@@ -173,9 +167,10 @@ export default function AddTrip() {
             container
             item
             flexDirection="column"
-            flex={1}
+            xs={6}
             height="100%"
             justifyContent="space-evenly"
+            paddingLeft="20px"
           >
             <Grid item>
               <TextField
@@ -239,7 +234,7 @@ export default function AddTrip() {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item container marginTop="50px" justifyContent="space-evenly">
+        <Grid item container marginTop="25px" justifyContent="space-evenly">
           <Button
             variant="outlined"
             onClick={() => navigate(ERouterPathes.home)}

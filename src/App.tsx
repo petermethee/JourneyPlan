@@ -9,7 +9,6 @@ import { AlertColor } from "@mui/material";
 import Planning from "./Components/Planning/Planning";
 import AddTrip from "./Components/Home/AddTrip";
 import MapSummary from "./Components/Map/MapSummary";
-import { selectActivities } from "./features/Redux/activitiesSlice";
 
 const initialSnackState: {
   open: boolean;
@@ -20,12 +19,6 @@ const initialSnackState: {
 export default function App() {
   const snackbarStatus = useAppSelector(selectSnackbarStatus);
   const [snackbarState, setSnackbarState] = useState(initialSnackState);
-
-  const activities = useAppSelector(selectActivities);
-
-  useEffect(() => {
-    console.log("actvities", activities);
-  }, [activities]);
 
   const handleClose = (
     _event?: React.SyntheticEvent | Event,
