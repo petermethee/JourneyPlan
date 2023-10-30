@@ -98,7 +98,7 @@ export const activitiesSlice = createSlice({
 
       state.activities = state.activities.map((activity) =>
         activity.id === action.payload
-          ? { ...activity, used: activity.used === 0 ? 1 : 0 }
+          ? { ...activity, used: !activity.used }
           : activity
       );
     },
@@ -106,16 +106,15 @@ export const activitiesSlice = createSlice({
       state: ActivitiesState,
       action: PayloadAction<IPlanningArtifact[]>
     ) => {
-      console.log("update used activities");
+      console.log("init used activities");
 
       state.activities.forEach((activity) => {
         activity.used = action.payload.some(
           (PA) => PA.artifactId === activity.id
-        )
-          ? 1
-          : 0;
+        );
       });
     },
+    resetActivitiesSlice: () => initialState,
   },
   extraReducers(builder) {
     builder
@@ -134,7 +133,7 @@ export const activitiesSlice = createSlice({
   },
 });
 
-export const { setUsedActivities, initUsedActivities } =
+export const { setUsedActivities, initUsedActivities, resetActivitiesSlice } =
   activitiesSlice.actions;
 
 export const selectActivities = (state: RootState) =>

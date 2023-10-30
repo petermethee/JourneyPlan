@@ -5,6 +5,7 @@ import { selectAccomodations } from "../../../../features/Redux/accomodationsSli
 import { selectActivities } from "../../../../features/Redux/activitiesSlice";
 import { selectPlanningArtifacts } from "../../../../features/Redux/planningSlice";
 import { selectTransports } from "../../../../features/Redux/transportsSlice";
+import PaymentsIcon from "@mui/icons-material/Payments";
 import styles from "./TotalPrice.module.css";
 
 function TotalPrice() {
@@ -40,7 +41,12 @@ function TotalPrice() {
     return finalPrice;
   }, [planningArtifacts, activities, transports, accomodations]);
 
-  return <div className={styles.totalPrice}>{totalPrice}€</div>;
+  return (
+    <div className={styles.totalPrice}>
+      <PaymentsIcon fontSize="small" />
+      {totalPrice}€
+    </div>
+  );
 }
 
 export default memo(TotalPrice);

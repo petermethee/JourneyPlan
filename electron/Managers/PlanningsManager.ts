@@ -8,7 +8,6 @@ import IPlanningArtifact, {
   IDBPlanningArtifact,
   IPlanning,
 } from "../../src/Models/IPlanningArtifact";
-import fs = require("fs");
 import path = require("path");
 import { EArtifact } from "../../src/Models/EArtifacts";
 

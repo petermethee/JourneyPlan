@@ -124,7 +124,7 @@ export const AddTransport = forwardRef(
             duration,
             ...formValues,
             attachment,
-            used: 0,
+            used: false,
           };
           dispatch(insertTransport(newTransport)).then((result) => {
             if (result.meta.requestStatus === "fulfilled") {

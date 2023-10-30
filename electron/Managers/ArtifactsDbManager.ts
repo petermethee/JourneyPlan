@@ -4,7 +4,11 @@ import ITransport from "../../src/Models/ITransport";
 import IAccomodation from "../../src/Models/IAccomodation";
 import fs = require("fs");
 
-import { AttachmentsTable, TablesName } from "../../src/Models/DataBaseModel";
+import {
+  AttachmentsTable,
+  PlanningArtifactTable,
+  TablesName,
+} from "../../src/Models/DataBaseModel";
 import {
   EArtifactTableName,
   getArtifactTableEnum,
@@ -30,6 +34,13 @@ export default class ArtifactsDbManager {
       const stmt = this.db.prepare(sql);
       const attachments = stmt.all() as IAttachment[];
       artifact.attachment = attachments;
+
+      const planningArtifactColumn =
+        this.getPlanningArtifactCorrectColumn(tableName);
+      const usedSQL = `SELECT EXISTS(SELECT id FROM ${TablesName.planning_artifact} WHERE ${planningArtifactColumn} = ${artifact.id})`;
+      const usedStmt = this.db.prepare(usedSQL);
+      const result = usedStmt.get() as { [key: string]: 0 | 1 };
+      artifact.used = Object.values(result)[0] === 1;
     });
 
     return res;
@@ -40,10 +51,9 @@ export default class ArtifactsDbManager {
     item: Partial<IActivity> | Partial<ITransport> | Partial<IAccomodation>
   ) => {
     delete item.id; //item is partial to allow id deletion
-    const attachments = item.attachment;
+    delete item.used;
+    const attachments = item.attachment; //save before deleting
     delete item.attachment;
-
-    item.used = 0;
     const columns = "(" + Object.keys(item).join(",") + ")";
     const placeholders = "(@" + Object.keys(item).join(",@") + ")";
     const sql = `INSERT INTO ${tableName} ${columns} VALUES ${placeholders}`;
@@ -195,5 +205,15 @@ export default class ArtifactsDbManager {
       : artifactType === EArtifactTableName.Transport
       ? AttachmentsTable.id_transport
       : AttachmentsTable.id_accomodation;
+  };
+
+  private getPlanningArtifactCorrectColumn = (
+    artifactType: EArtifactTableName
+  ) => {
+    return artifactType === EArtifactTableName.Activity
+      ? PlanningArtifactTable.id_activity
+      : artifactType === EArtifactTableName.Transport
+      ? PlanningArtifactTable.id_transport
+      : PlanningArtifactTable.id_accomodation;
   };
 }

@@ -12,6 +12,10 @@ import { ERouterPathes } from "../../Helper/ERouterPathes";
 import { useEffect } from "react";
 import AddTripTile from "./AddTripTile";
 import TripTile from "./TripTile";
+import { resetPlanningSlice } from "../../features/Redux/planningSlice";
+import { resetActivitiesSlice } from "../../features/Redux/activitiesSlice";
+import { resetTransportsSlice } from "../../features/Redux/transportsSlice";
+import { resetAccomodationsSlice } from "../../features/Redux/accomodationsSlice";
 
 export default function Home() {
   const trips = useAppSelector(selectTrips);
@@ -25,6 +29,10 @@ export default function Home() {
   };
 
   useEffect(() => {
+    dispatch(resetPlanningSlice());
+    dispatch(resetActivitiesSlice());
+    dispatch(resetTransportsSlice());
+    dispatch(resetAccomodationsSlice());
     dispatch(getAllTrips());
   }, [dispatch]);
 

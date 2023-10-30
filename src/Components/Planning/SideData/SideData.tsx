@@ -63,7 +63,7 @@ export default function SideData({
   const accomodations = useAppSelector(selectAccomodations);
   const isDragged = useAppSelector(selectArtifactIsDragged);
 
-  const [usedFilter, setUsedFilter] = useState<0 | 1>(0);
+  const [usedFilter, setUsedFilter] = useState(false);
   const [marginTop, setMarginTop] = useState(0);
   const [currentArtifactType, setCurrentArtifactType] = useState(
     EArtifact.Activity
@@ -237,7 +237,7 @@ export default function SideData({
         filteredArtifacts = filteredTransports.length;
         break;
     }
-    if (usedFilter === 0) {
+    if (usedFilter) {
       setUsedNumber(remainingArtifacts);
       setUnusedNumber(filteredArtifacts);
     } else {
@@ -283,8 +283,11 @@ export default function SideData({
           setMarginTop(0);
           setCurrentArtifactType(menu);
         }}
-        setUsedFilter={(used) => setUsedFilter(used)}
-        usedFilter={usedFilter === 0}
+        setUsedFilter={(used) => {
+          setMarginTop(0);
+          setUsedFilter(used);
+        }}
+        usedFilter={usedFilter}
       />
 
       <div className={styles.scrollContainer} style={{ marginTop: marginTop }}>

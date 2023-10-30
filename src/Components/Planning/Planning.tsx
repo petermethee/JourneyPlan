@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./Planning.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   getAllActivities,
   selectActivities,
-  initUsedActivities,
 } from "../../features/Redux/activitiesSlice";
 import { useParams } from "react-router-dom";
 import CalendarView from "./Calendar/CalendarView";
@@ -15,7 +14,6 @@ import {
   getAllArtifactsPlanning,
   getAllPlannings,
   selectPlanningArtifacts,
-  selectPlanningId,
 } from "../../features/Redux/planningSlice";
 import SideData from "./SideData/SideData";
 import IAccomodation from "../../Models/IAccomodation";
@@ -24,12 +22,10 @@ import { EArtifact } from "../../Models/EArtifacts";
 import {
   getAllTransports,
   selectTransports,
-  initUsedTransports,
 } from "../../features/Redux/transportsSlice";
 import {
   getAllAccomodations,
   selectAccomodations,
-  initUsedAccomodations,
 } from "../../features/Redux/accomodationsSlice";
 import AddArtifacts from "../AddArtifacts/AddArtifacts";
 
@@ -60,7 +56,6 @@ export default function Planning() {
   const accomodations = useAppSelector(selectAccomodations);
   const selectedTrip = useAppSelector(selectCurrentTrip);
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
-  const planningId = useAppSelector(selectPlanningId);
   const dispatch = useAppDispatch();
   const [openModal, setOpenModal] = useState(false);
   const [artifactToEdit, setArtifactToEdit] = useState<TArtifactEditor>({
@@ -132,35 +127,15 @@ export default function Planning() {
   }, [selectedTrip, planningArtifacts, activities, accomodations, transports]);
 
   useEffect(() => {
-    dispatch(getAllPlannings(parseInt(tripId)));
+    dispatch(getAllPlannings(parseInt(tripId)))
+      .unwrap()
+      .then((plannings) => {
+        dispatch(getAllArtifactsPlanning(plannings[0].id));
+      });
     dispatch(getAllActivities(parseInt(tripId)));
     dispatch(getAllTransports(parseInt(tripId)));
     dispatch(getAllAccomodations(parseInt(tripId)));
   }, [dispatch, tripId]);
-
-  useEffect(() => {
-    if (planningId) {
-      dispatch(getAllArtifactsPlanning(planningId))
-        .unwrap()
-        .then((PA) => {
-          dispatch(
-            initUsedActivities(
-              PA.filter((item) => item.artifactType === EArtifact.Activity)
-            )
-          );
-          dispatch(
-            initUsedAccomodations(
-              PA.filter((item) => item.artifactType === EArtifact.Accomodation)
-            )
-          );
-          dispatch(
-            initUsedTransports(
-              PA.filter((item) => item.artifactType === EArtifact.Transport)
-            )
-          );
-        });
-    }
-  }, [planningId, dispatch]);
 
   return (
     <div className={styles.mainContainer}>

@@ -11,7 +11,6 @@ export default interface ITransport {
   [TransportsTable.price]: number;
   [TransportsTable.from]: string;
   [TransportsTable.to]: string;
-  [TransportsTable.used]: number;
   [TransportsTable.lat_from]: number | null;
   [TransportsTable.lat_to]: number | null;
   [TransportsTable.lng_from]: number | null;
@@ -20,6 +19,7 @@ export default interface ITransport {
   [TransportsTable.city_to]: string | null;
   [TransportsTable.status]: EEventStatus;
 
+  used: boolean;
   attachment: IAttachment[];
 }
 

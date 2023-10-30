@@ -27,7 +27,7 @@ export default function SideDataHeader({
   usedNumber: number;
   unusedNumber: number;
   onChange: (menu: EArtifact) => void;
-  setUsedFilter: (used: 0 | 1) => void;
+  setUsedFilter: (used: boolean) => void;
 }) {
   const navigate = useNavigate();
   const headerRef = useRef<HTMLDivElement>(null);
@@ -94,27 +94,9 @@ export default function SideDataHeader({
       <div className={styles.radioContainer}>
         <Button
           size="small"
-          variant={usedFilter ? "contained" : "outlined"}
-          className={styles.radioContent}
-          onClick={() => setUsedFilter(0)}
-          sx={{ backgroundColor: !usedFilter ? "white" : "" }}
-        >
-          <NotificationBadge number={unusedNumber} />
-
-          <Radio
-            size="small"
-            color="secondary"
-            disableRipple
-            checked={usedFilter}
-            sx={{ padding: 0 }}
-          />
-          <div>Non Utilisés</div>
-        </Button>
-        <Button
-          size="small"
           variant={usedFilter ? "outlined" : "contained"}
           className={styles.radioContent}
-          onClick={() => setUsedFilter(1)}
+          onClick={() => setUsedFilter(false)}
           disabled={usedNumber === 0}
           sx={{ backgroundColor: usedFilter ? "white" : "" }}
         >
@@ -124,6 +106,24 @@ export default function SideDataHeader({
             color="secondary"
             disableRipple
             checked={!usedFilter}
+            sx={{ padding: 0 }}
+          />
+          <div>Non Utilisés</div>
+        </Button>
+        <Button
+          size="small"
+          variant={usedFilter ? "contained" : "outlined"}
+          className={styles.radioContent}
+          onClick={() => setUsedFilter(true)}
+          sx={{ backgroundColor: !usedFilter ? "white" : "" }}
+        >
+          <NotificationBadge number={unusedNumber} />
+
+          <Radio
+            size="small"
+            color="secondary"
+            disableRipple
+            checked={usedFilter}
             sx={{ padding: 0 }}
           />
           <div>Utilisés</div>

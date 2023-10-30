@@ -188,7 +188,7 @@ function CalendarView({
                       })
                     }
                     duplicateArtifact={() =>
-                      dispatch(insertActivity({ ...PA.activity, used: 0 }))
+                      dispatch(insertActivity({ ...PA.activity, used: false }))
                     }
                   >
                     {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
@@ -235,7 +235,9 @@ function CalendarView({
                       })
                     }
                     duplicateArtifact={() =>
-                      dispatch(insertTransport({ ...PT.transport, used: 0 }))
+                      dispatch(
+                        insertTransport({ ...PT.transport, used: false })
+                      )
                     }
                   >
                     {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
@@ -296,7 +298,7 @@ function CalendarView({
                   }
                   duplicateArtifact={() =>
                     dispatch(
-                      insertAccomodation({ ...PA.accomodation, used: 0 })
+                      insertAccomodation({ ...PA.accomodation, used: false })
                     )
                   }
                 >

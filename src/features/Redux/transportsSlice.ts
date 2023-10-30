@@ -91,7 +91,7 @@ export const transportsSlice = createSlice({
     ) => {
       state.transports = state.transports.map((transport) =>
         transport.id === action.payload
-          ? { ...transport, used: transport.used === 0 ? 1 : 0 }
+          ? { ...transport, used: !transport.used }
           : transport
       );
     },
@@ -102,11 +102,10 @@ export const transportsSlice = createSlice({
       state.transports.forEach((transport) => {
         transport.used = action.payload.some(
           (PA) => PA.artifactId === transport.id
-        )
-          ? 1
-          : 0;
+        );
       });
     },
+    resetTransportsSlice: () => initialState,
   },
   extraReducers(builder) {
     builder
@@ -125,7 +124,7 @@ export const transportsSlice = createSlice({
   },
 });
 
-export const { setUsedTransports, initUsedTransports } =
+export const { setUsedTransports, initUsedTransports, resetTransportsSlice } =
   transportsSlice.actions;
 
 export const selectTransports = (state: RootState) =>

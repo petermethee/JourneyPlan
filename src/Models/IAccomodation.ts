@@ -11,7 +11,6 @@ export default interface IAccomodation {
   [AccomodationsTable.location]: string;
   [AccomodationsTable.checkin]: string;
   [AccomodationsTable.checkout]: string;
-  [AccomodationsTable.used]: 0 | 1;
   [AccomodationsTable.lat]: number | null;
   [AccomodationsTable.lng]: number | null;
   [AccomodationsTable.city]: string | null;
@@ -20,6 +19,7 @@ export default interface IAccomodation {
   [AccomodationsTable.lunch]: 0 | 1;
   [AccomodationsTable.dinner]: 0 | 1;
 
+  used: boolean;
   attachment: IAttachment[];
 }
 

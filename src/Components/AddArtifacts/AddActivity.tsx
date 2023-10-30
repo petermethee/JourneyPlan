@@ -118,7 +118,7 @@ export const AddActivity = forwardRef(
             duration,
             ...formValues,
             attachment,
-            used: 0,
+            used: false,
           };
           dispatch(insertActivity(newActivity)).then((result) => {
             if (result.meta.requestStatus === "fulfilled") {

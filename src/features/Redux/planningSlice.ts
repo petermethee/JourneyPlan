@@ -25,6 +25,7 @@ const initialState: PlanningState = {
   plannings: [],
   planningArtifacts: [],
   artifactIsDragged: null,
+  selectedPlanningId: undefined,
 };
 
 export const getAllPlannings = createAsyncThunk(
@@ -122,12 +123,16 @@ export const planningSlice = createSlice({
         PA.id === updatedPlanningArtifact.id ? updatedPlanningArtifact : PA
       );
     },
+    resetPlanningSlice: () => initialState,
   },
   extraReducers(builder) {
     builder
       .addCase(getAllPlannings.fulfilled, (state, action) => {
         state.plannings = action.payload;
-        state.selectedPlanningId = action.payload[0].id;
+        planningSlice.caseReducers.selectPlanning(state, {
+          payload: action.payload[0].id,
+          type: action.type,
+        });
       })
       .addCase(deletePlanning.fulfilled, (state, action) => {
         state.plannings = state.plannings.filter(
@@ -171,6 +176,7 @@ export const {
   selectPlanning,
   addArtifactPlanning,
   moveArtifactPlanning,
+  resetPlanningSlice,
 } = planningSlice.actions;
 
 export const selectAllPlannings = (state: RootState) =>

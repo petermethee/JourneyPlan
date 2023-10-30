@@ -2,10 +2,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
-    background-color: aliceblue;
-    font-size: 30px;
+    background-color: var(--goldenColor);
+    font-size: 20px;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: 3px;
     margin: 5px;
+    padding: 5px;
+    color: var(--defaultWhite);
+    gap: 5px;
 }

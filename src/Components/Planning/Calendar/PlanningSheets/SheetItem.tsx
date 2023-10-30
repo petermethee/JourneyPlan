@@ -4,11 +4,16 @@ import {
   selectPlanning,
   deletePlanning,
   selectPlanningId,
+  getAllArtifactsPlanning,
 } from "../../../../features/Redux/planningSlice";
 import { IPlanning } from "../../../../Models/IPlanningArtifact";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import styles from "./SheetItem.module.css";
 import CloseIcon from "@mui/icons-material/Close";
+import { EArtifact } from "../../../../Models/EArtifacts";
+import { initUsedAccomodations } from "../../../../features/Redux/accomodationsSlice";
+import { initUsedActivities } from "../../../../features/Redux/activitiesSlice";
+import { initUsedTransports } from "../../../../features/Redux/transportsSlice";
 
 export default function SheetItem({
   planning,
@@ -30,6 +35,29 @@ export default function SheetItem({
 
   const [currentName, setCurrentName] = useState(planning.name);
 
+  const handleClick = () => {
+    dispatch(selectPlanning(planning.id));
+    dispatch(getAllArtifactsPlanning(planning.id))
+      .unwrap()
+      .then((PA) => {
+        dispatch(
+          initUsedActivities(
+            PA.filter((item) => item.artifactType === EArtifact.Activity)
+          )
+        );
+        dispatch(
+          initUsedAccomodations(
+            PA.filter((item) => item.artifactType === EArtifact.Accomodation)
+          )
+        );
+        dispatch(
+          initUsedTransports(
+            PA.filter((item) => item.artifactType === EArtifact.Transport)
+          )
+        );
+      });
+  };
+
   useEffect(() => {
     nameRef.current && setInputWidth(nameRef.current.clientWidth);
   }, []);
@@ -40,7 +68,7 @@ export default function SheetItem({
       className={`${styles.sheet} ${
         selectedPlanning === planning.id && styles.selectedSheet
       }`}
-      onClick={() => dispatch(selectPlanning(planning.id))}
+      onClick={handleClick}
       onDoubleClick={() => setEditPlanning(planning.id)}
     >
       {editPlanning === planning.id ? (

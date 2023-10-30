@@ -100,7 +100,7 @@ export const accomodationsSlice = createSlice({
     ) => {
       state.accomodations = state.accomodations.map((accomodation) =>
         accomodation.id === action.payload
-          ? { ...accomodation, used: accomodation.used === 0 ? 1 : 0 }
+          ? { ...accomodation, used: !accomodation.used }
           : accomodation
       );
     },
@@ -111,11 +111,10 @@ export const accomodationsSlice = createSlice({
       state.accomodations.forEach((accomodation) => {
         accomodation.used = action.payload.some(
           (PA) => PA.artifactId === accomodation.id
-        )
-          ? 1
-          : 0;
+        );
       });
     },
+    resetAccomodationsSlice: () => initialState,
   },
   extraReducers(builder) {
     builder
@@ -134,8 +133,11 @@ export const accomodationsSlice = createSlice({
   },
 });
 
-export const { setUsedAccomodations, initUsedAccomodations } =
-  accomodationsSlice.actions;
+export const {
+  setUsedAccomodations,
+  initUsedAccomodations,
+  resetAccomodationsSlice,
+} = accomodationsSlice.actions;
 
 export const selectAccomodations = (state: RootState) =>
   state.accomodationsReducer.accomodations;

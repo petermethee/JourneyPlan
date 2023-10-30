@@ -109,7 +109,7 @@ export const AddAccomodation = forwardRef(
             id_trip,
             ...formValues,
             attachment,
-            used: 0,
+            used: false,
           };
           dispatch(insertAccomodation(newAccomodation)).then((result) => {
             if (result.meta.requestStatus === "fulfilled") {
