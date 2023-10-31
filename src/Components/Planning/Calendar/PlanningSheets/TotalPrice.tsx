@@ -7,33 +7,36 @@ import { selectPlanningArtifacts } from "../../../../features/Redux/planningSlic
 import { selectTransports } from "../../../../features/Redux/transportsSlice";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import styles from "./TotalPrice.module.css";
+import { selectCurrentTrip } from "../../../../features/Redux/tripSlice";
 
 function TotalPrice() {
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
   const accomodations = useAppSelector(selectAccomodations);
+  const trip = useAppSelector(selectCurrentTrip);
 
   const totalPrice = useMemo(() => {
     let finalPrice = 0;
+    let foodPriceIncluded = 0;
     planningArtifacts.forEach((PA) => {
       let price: number;
       switch (PA.artifactType) {
         case EArtifact.Activity:
           price =
             activities.find((activity) => activity.id === PA.artifactId)
-              ?.price ?? -1;
+              ?.price ?? 0;
           break;
         case EArtifact.Transport:
           price =
             transports.find((trasnport) => trasnport.id === PA.artifactId)
-              ?.price ?? -1;
+              ?.price ?? 0;
           break;
         default:
-          price =
-            accomodations.find(
-              (accomodation) => accomodation.id === PA.artifactId
-            )?.price ?? -1;
+          const accomodation = accomodations.find(
+            (accomodation) => accomodation.id === PA.artifactId
+          );
+          price = accomodation?.price ?? 0;
           break;
       }
       finalPrice += price;

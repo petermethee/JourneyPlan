@@ -16,7 +16,7 @@ import {
   selectTrips,
   updateTrip,
 } from "../../features/Redux/tripSlice";
-import { TFormTrip, transformFormToTrip } from "../../Models/ITrip";
+import { TFormTrip, transformFormToTrip } from "../../ITrip";
 import IAttachment from "../../Models/IAttachment";
 import dayjs from "dayjs";
 

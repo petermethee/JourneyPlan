@@ -15,6 +15,10 @@ export enum TripsTable {
   endDate = "end_date",
   nbTravelers = "nb_travelers",
   imagePath = "image_path",
+  breakfast = " breakfast",
+  lunch = " lunch",
+  dinner = " dinner",
+  currency = "currency",
 }
 
 export enum ActivitiesTable {

@@ -2,8 +2,8 @@ import { EArtifactTableName } from "../../Models/EArtifacts";
 import IAttachment from "../../Models/IAttachment";
 import { IArtifact } from "../../Models/IArtifact";
 import IPlanningArtifact, { IPlanning } from "../../Models/IPlanningArtifact";
-import ITrip from "../../Models/ITrip";
-import ITrips from "../../Models/ITrip";
+import ITrip from "../../ITrip";
+import ITrips from "../../ITrip";
 
 export interface IElectronAPI {
   //Trips

@@ -1,4 +1,4 @@
-import { TripsTable } from "./DataBaseModel";
+import { TripsTable } from "./Models/DataBaseModel";
 
 export default interface ITrip {
   [TripsTable.id]: number;
@@ -7,6 +7,10 @@ export default interface ITrip {
   [TripsTable.endDate]: string;
   [TripsTable.nbTravelers]: number;
   [TripsTable.imagePath]: string | null;
+  [TripsTable.breakfast]?: number;
+  [TripsTable.lunch]?: number;
+  [TripsTable.dinner]?: number;
+  [TripsTable.currency]?: string;
 }
 export type TFormTrip = {
   [TripsTable.name]: string;

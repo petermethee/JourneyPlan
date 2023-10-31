@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import ITrip from "../../Models/ITrip";
+import ITrip from "../../ITrip";
 import {
   deleteTripAPI,
   getAllTripsAPI,

@@ -1,4 +1,4 @@
-import ITrip from "../../Models/ITrip";
+import ITrip from "../../ITrip";
 
 export const getAllTripsAPI = () => {
   return new Promise<ITrip[]>(async (resolve, reject) => {
