@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import ITrip from "../../ITrip";
+import ITrip from "../../Models/ITrip";
 import {
   deleteTripAPI,
   getAllTripsAPI,
@@ -61,7 +61,8 @@ export const insertTrip = createAsyncThunk(
 export const updateTrip = createAsyncThunk(
   "updateTrip",
   async (trip: ITrip) => {
-    return await updateTripAPI(trip);
+    await updateTripAPI(trip);
+    return trip;
   }
 );
 
@@ -114,6 +115,9 @@ export const tripSlice = createSlice({
             "Erreur lors de la création du voyage: " + action.error.message!,
           snackBarSeverity: "error",
         };
+      })
+      .addCase(updateTrip.fulfilled, (state, action) => {
+        state.currentTrip = action.payload;
       })
       .addCase(updateTrip.rejected, (state, action) => {
         state.snackbarStatus = {
@@ -272,4 +276,6 @@ export const selectSnackbarStatus = (state: RootState) =>
 export const selectCurrentTrip = (state: RootState) =>
   state.tripsReducer.currentTrip;
 
+export const selectCurrency = (state: RootState) =>
+  state.tripsReducer.currentTrip?.currency;
 export default tripSlice.reducer;

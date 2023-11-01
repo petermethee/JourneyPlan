@@ -11,6 +11,8 @@ import GenericTooltips from "./GenericTooltips";
 import IAccomodation from "../../../Models/IAccomodation";
 import AccomodationTooltips from "./AccomodationTooltips";
 import CardsFlag from "./CardsFlag";
+import { useAppSelector } from "../../../app/hooks";
+import { selectCurrency } from "../../../features/Redux/tripSlice";
 
 function ArtifactTemplate({
   artifact,
@@ -43,6 +45,7 @@ function ArtifactTemplate({
   isInFirstCol?: boolean;
   isAccomodation?: boolean;
 }) {
+  const currency = useAppSelector(selectCurrency);
   const minimalView = useMemo(
     () => (insideCalendar || isDragged) && duration && duration < 1,
     [insideCalendar, isDragged, duration]
@@ -187,7 +190,9 @@ function ArtifactTemplate({
               />
             )}
             <CardsFlag eventStatus={artifact.status} />
-            <span className={styles.price}>{artifact.price} €</span>
+            <span className={styles.price}>
+              {artifact.price} {currency}
+            </span>
           </Grid>
           <Grid
             container

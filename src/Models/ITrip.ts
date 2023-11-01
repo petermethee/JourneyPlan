@@ -1,4 +1,4 @@
-import { TripsTable } from "./Models/DataBaseModel";
+import { TripsTable } from "./DataBaseModel";
 
 export default interface ITrip {
   [TripsTable.id]: number;

@@ -117,7 +117,7 @@ export const AddAccomodation = forwardRef(
             if (result.meta.requestStatus === "fulfilled") {
               dispatch(
                 setSnackbarStatus({
-                  message: "Votre logement a correctement été ajouté",
+                  message: "Votre Hébergement a correctement été ajouté",
                   snackBarSeverity: "success",
                 })
               );
@@ -144,7 +144,7 @@ export const AddAccomodation = forwardRef(
             if (result.meta.requestStatus === "fulfilled") {
               dispatch(
                 setSnackbarStatus({
-                  message: "Le logement a correctement été mis à jour",
+                  message: "Le Hébergement a correctement été mis à jour",
                   snackBarSeverity: "success",
                 })
               );

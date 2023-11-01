@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Button, Grid, TextField } from "@mui/material";
 import styles from "./AddTrip.module.css";
 import { Calendar } from "primereact/calendar";
@@ -16,23 +16,46 @@ import {
   selectTrips,
   updateTrip,
 } from "../../features/Redux/tripSlice";
-import { TFormTrip, transformFormToTrip } from "../../ITrip";
+import { TFormTrip, transformFormToTrip } from "../../Models/ITrip";
 import IAttachment from "../../Models/IAttachment";
 import dayjs from "dayjs";
 
 export default function AddTrip() {
   const tripId = useParams().tripId;
-  const trips = useAppSelector(selectTrips);
+  const trip = useAppSelector(selectTrips).find(
+    (tripItem) => tripItem.id.toString() === tripId
+  );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [formValues, setFormValues] = useState<TFormTrip>({
-    name: "",
-    image_path: null,
-    nb_travelers: 1,
-    fileName: "",
-    currency: "€",
-  });
-  const [dateRange, setDateRange] = useState<Date[] | undefined>();
+  const initialValues = useMemo(() => {
+    if (trip) {
+      return {
+        name: trip.name,
+        nb_travelers: trip.nb_travelers,
+        image_path: trip.image_path,
+        fileName: "Image déjà chargée",
+        currency: trip.currency,
+      };
+    } else {
+      return {
+        name: "",
+        image_path: null,
+        nb_travelers: 1,
+        fileName: "",
+        currency: "€",
+      };
+    }
+  }, [trip]);
+
+  const initDateRange = useMemo(() => {
+    if (trip) {
+      return [new Date(trip.start_date), new Date(trip.end_date)];
+    } else {
+      return undefined;
+    }
+  }, [trip]);
+  const [formValues, setFormValues] = useState<TFormTrip>(initialValues);
+  const [dateRange, setDateRange] = useState<Date[] | undefined>(initDateRange);
   const [formValid, setFormValid] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -115,20 +138,6 @@ export default function AddTrip() {
     }
   }, [formValues, dateRange]);
 
-  useEffect(() => {
-    const trip = trips.find((tripItem) => tripItem.id.toString() === tripId);
-    if (trip) {
-      setFormValues({
-        name: trip.name,
-        nb_travelers: trip.nb_travelers,
-        image_path: trip.image_path,
-        fileName: "Image déjà chargée",
-        currency: trip.currency,
-      });
-      setDateRange([new Date(trip.start_date), new Date(trip.end_date)]);
-    }
-  }, [trips, tripId]);
-
   return (
     <div className={styles.container}>
       <span className={styles.title}>Créer un voyage</span>
@@ -175,21 +184,38 @@ export default function AddTrip() {
             justifyContent="space-evenly"
             paddingLeft="20px"
           >
-            <Grid item>
+            <Grid item display="flex" justifyContent="space-between">
               <TextField
                 InputProps={{
-                  style: { fontSize: "25px" },
+                  style: { fontSize: "20px" },
                   inputProps: {
                     min: 1,
                   },
                 }}
-                fullWidth
-                InputLabelProps={{ style: { fontSize: "25px" } }}
+                InputLabelProps={{ style: { fontSize: "15px" } }}
                 variant="standard"
                 type="number"
                 label="Nombre de voyageur"
                 name={TripsTable.nbTravelers}
                 value={formValues.nb_travelers}
+                sx={{
+                  height: "100%",
+                  "& .MuiInputBase-root": {
+                    height: "100%",
+                  },
+                }}
+                onChange={handleFormUpdate}
+              />
+              <TextField
+                InputProps={{
+                  style: { fontSize: "20px" },
+                }}
+                inputProps={{ maxLength: 3 }}
+                InputLabelProps={{ style: { fontSize: "15px" } }}
+                variant="standard"
+                label="Devise"
+                name={TripsTable.currency}
+                value={formValues.currency}
                 sx={{
                   height: "100%",
                   "& .MuiInputBase-root": {

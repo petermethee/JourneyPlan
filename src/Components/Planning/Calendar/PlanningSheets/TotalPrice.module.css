@@ -1,13 +1,35 @@
-.totalPrice {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--goldenColor);
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 3px;
+.tooltipContainer {
     margin: 5px;
-    padding: 5px;
-    color: var(--defaultWhite);
+    display: flex;
+    flex-direction: column;
     gap: 5px;
+}
+
+.tooltipContainer>div {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.modalContainer {
+    position: absolute;
+    width: 50%;
+    max-width: 400px;
+    padding: 10px 20px 10px 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    top: 50%;
+    left: 50%;
+    border-radius: 5px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px 0px #00000082;
+}
+
+.btContainer {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

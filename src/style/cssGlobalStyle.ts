@@ -1,6 +1,7 @@
 //first line not a color for the color picker extension to work
 export const primaryColor = "#103e57";
 export const goldenColor = "#bd9741";
+export const secGoldenColor = "#8c7131";
 export const defaultWhite = "#ffffff";
 export const defaultSecWhite = "#d5d5d5";
 export const primErrorColor = "#df4848";
@@ -27,22 +28,10 @@ export const darkColor9 = "#9a9a9a";
 export const darkColorc = "#cacaca";
 
 export const colorArray = {
-  primaryColor,
-  goldenColor,
-  defaultWhite,
-  defaultSecWhite,
-  primErrorColor,
-  secErrorColor,
-  primValidColor,
-  secValidColor,
-  lightSecondaryBlue,
-  darkSecondaryBlue,
-  activityColor,
-  activitySecColor,
-  transportColor,
-  transportSecColor,
   accomodationColor,
   accomodationSecColor,
+  activityColor,
+  activitySecColor,
   darkColor1,
   darkColor2,
   darkColor3,
@@ -51,4 +40,17 @@ export const colorArray = {
   darkColor6,
   darkColor9,
   darkColorc,
+  darkSecondaryBlue,
+  defaultSecWhite,
+  defaultWhite,
+  goldenColor,
+  lightSecondaryBlue,
+  primaryColor,
+  primErrorColor,
+  primValidColor,
+  secErrorColor,
+  secGoldenColor,
+  secValidColor,
+  transportColor,
+  transportSecColor,
 };
