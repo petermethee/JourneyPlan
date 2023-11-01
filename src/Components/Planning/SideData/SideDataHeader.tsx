@@ -10,7 +10,11 @@ import { useNavigate } from "react-router-dom";
 import { setSideDataTop } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { EArtifact } from "../../../Models/EArtifacts";
 import ActivityIcon from "../../Shared/ActivityIcon";
-import { primaryColor } from "../../../style/cssGlobalStyle";
+import {
+  darkColorc,
+  defaultWhite,
+  primaryColor,
+} from "../../../style/cssGlobalStyle";
 import TransportIcon from "../../Shared/TransportIcon";
 import AccomodationIcon from "../../Shared/AccomodationIcon";
 import NotificationBadge from "../../Shared/NotificationBadge";
@@ -48,14 +52,24 @@ export default function SideDataHeader({
         <Button
           onClick={() => navigate(ERouterPathes.home)}
           startIcon={<HomeRoundedIcon />}
-          variant="contained"
+          variant="outlined"
+          sx={{
+            "&:hover": { backgroundColor: darkColorc },
+            width: "40%",
+            maxWidth: "40%",
+          }}
         >
           Home
         </Button>
         <Button
-          variant="contained"
+          variant="outlined"
           startIcon={<MapIcon />}
           onClick={() => navigate(ERouterPathes.map)}
+          sx={{
+            "&:hover": { backgroundColor: darkColorc },
+            width: "40%",
+            maxWidth: "40%",
+          }}
         >
           Map
         </Button>

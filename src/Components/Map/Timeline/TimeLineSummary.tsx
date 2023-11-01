@@ -129,11 +129,13 @@ export default function TimeLineSummary({
         <Button
           onClick={() => navigate(ERouterPathes.home)}
           startIcon={<HomeRoundedIcon />}
-          variant="contained"
+          variant="outlined"
           sx={{
             backgroundColor: defaultWhite,
             color: primaryColor,
             "&:hover": { backgroundColor: darkColorc },
+            width: "40%",
+            maxWidth: "40%",
           }}
         >
           Home
@@ -146,6 +148,8 @@ export default function TimeLineSummary({
             backgroundColor: defaultWhite,
             color: primaryColor,
             "&:hover": { backgroundColor: darkColorc },
+            width: "40%",
+            maxWidth: "40%",
           }}
         >
           Planning
