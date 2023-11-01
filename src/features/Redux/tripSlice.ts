@@ -84,7 +84,10 @@ export const tripSlice = createSlice({
     deleteTrip: (state: TripState, action: PayloadAction<number>) => {
       state.trips = state.trips.filter((trip) => trip.id !== action.payload);
     },
-    setCurrentTrip: (state: TripState, action: PayloadAction<ITrip>) => {
+    setCurrentTrip: (
+      state: TripState,
+      action: PayloadAction<ITrip | undefined>
+    ) => {
       state.currentTrip = action.payload;
     },
     setSnackbarStatus: (

@@ -2,12 +2,15 @@ import { Dispatch, SetStateAction } from "react";
 import styles from "./CalendarHeader.module.css";
 import DayHeader from "./DayHeader";
 import dayjs from "dayjs";
-import SettingsSuggestRoundedIcon from "@mui/icons-material/SettingsSuggestRounded";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 import { ButtonBase, IconButton } from "@mui/material";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import { useNavigate } from "react-router-dom";
+import { ERouterPathes } from "../../../Helper/ERouterPathes";
 
 const dayShift = 3;
+
 export default function CalendarHeader({
   dayCols,
   daysIndex,
@@ -19,11 +22,12 @@ export default function CalendarHeader({
   setDaysIndex: Dispatch<SetStateAction<number[]>>;
   nbDays: number;
 }) {
+  const navigate = useNavigate();
   return (
     <div style={{ display: "flex" }}>
       <div className={styles.settingsIcon}>
-        <IconButton>
-          <SettingsSuggestRoundedIcon />
+        <IconButton onClick={() => navigate(ERouterPathes.pdf)}>
+          <PictureAsPdfIcon />
         </IconButton>
       </div>
       <div className={styles.daysHeader}>

@@ -9,6 +9,7 @@ import { AlertColor } from "@mui/material";
 import Planning from "./Components/Planning/Planning";
 import AddTrip from "./Components/Home/AddTrip";
 import MapSummary from "./Components/Map/MapSummary";
+import PdfGenerator from "./Components/PDF/PdfGenerator";
 
 const initialSnackState: {
   open: boolean;
@@ -55,15 +56,10 @@ export default function App() {
             path={ERouterPathes.planning + "/:tripId"}
             element={<Planning />}
           />
-          <Route
-            path={ERouterPathes.addTrip + "/:tripId?"}
-            element={<AddTrip />}
-          />
-          <Route
-            path={ERouterPathes.addTrip + "/:tripId?"}
-            element={<AddTrip />}
-          />
+          <Route path={ERouterPathes.addTrip} element={<AddTrip />} />
+          <Route path={ERouterPathes.addTrip} element={<AddTrip />} />
           <Route path={ERouterPathes.map} element={<MapSummary />} />
+          <Route path={ERouterPathes.pdf} element={<PdfGenerator />} />
         </Routes>
       </Router>
     </>

@@ -7,13 +7,13 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ERouterPathes } from "../../Helper/ERouterPathes";
 import { TripsTable } from "../../Models/DataBaseModel";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   insertTrip,
-  selectTrips,
+  selectCurrentTrip,
   updateTrip,
 } from "../../features/Redux/tripSlice";
 import { TFormTrip, transformFormToTrip } from "../../Models/ITrip";
@@ -21,10 +21,7 @@ import IAttachment from "../../Models/IAttachment";
 import dayjs from "dayjs";
 
 export default function AddTrip() {
-  const tripId = useParams().tripId;
-  const trip = useAppSelector(selectTrips).find(
-    (tripItem) => tripItem.id.toString() === tripId
-  );
+  const trip = useAppSelector(selectCurrentTrip);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const initialValues = useMemo(() => {
@@ -111,9 +108,9 @@ export default function AddTrip() {
         dayjs(dateRange![0]).format("YYYY-MM-DD"),
         dayjs(dateRange![1]).format("YYYY-MM-DD"),
       ],
-      tripId
+      trip?.id
     );
-    if (tripId) {
+    if (trip) {
       dispatch(updateTrip(newTrip))
         .unwrap()
         .then(() => navigate(ERouterPathes.home));
@@ -275,7 +272,7 @@ export default function AddTrip() {
             disabled={!formValid}
             onClick={createTrip}
           >
-            {tripId ? "Modifier le voyage" : "Créer le voyage"}
+            {trip ? "Modifier le voyage" : "Créer le voyage"}
           </Button>
         </Grid>
       </Grid>

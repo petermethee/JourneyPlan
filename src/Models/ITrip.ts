@@ -23,10 +23,10 @@ export type TFormTrip = {
 export const transformFormToTrip = (
   form: TFormTrip,
   dateRange: [string, string],
-  tripId?: string
+  tripId?: number
 ): ITrip => {
   return {
-    id: tripId ? parseInt(tripId) : 0,
+    id: tripId ?? 0,
     image_path: form.image_path,
     name: form.name,
     nb_travelers: form.nb_travelers,

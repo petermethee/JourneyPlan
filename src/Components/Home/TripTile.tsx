@@ -7,31 +7,24 @@ import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { ERouterPathes } from "../../Helper/ERouterPathes";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import ITrip from "../../Models/ITrip";
+import { useAppDispatch } from "../../app/hooks";
+import { deleteTrip, setCurrentTrip } from "../../features/Redux/tripSlice";
 
 require("dayjs/locale/fr");
 
-type TTileProps = {
-  title: string;
-  id: number;
-  startDate: string;
-  endDate: string;
-  imagePath: string | null;
-  onClick: (id: number) => void;
-  onDelete: () => void;
-};
-export default function TripTile({
-  title,
-  id,
-  startDate,
-  endDate,
-  imagePath,
-  onDelete,
-  onClick,
-}: TTileProps) {
+export default function TripTile({ trip }: { trip: ITrip }) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   return (
-    <div className={styles.cardContainer} onClick={() => onClick(id)}>
+    <div
+      className={styles.cardContainer}
+      onClick={() => {
+        dispatch(setCurrentTrip(trip));
+        navigate(ERouterPathes.planning + "/" + trip.id);
+      }}
+    >
       <ButtonBase
         className={styles.rippleEffect}
         sx={{ position: "absolute", color: "white", zIndex: 1 }}
@@ -40,21 +33,21 @@ export default function TripTile({
         src={
           process.env.REACT_APP_TRIP_PICTURE +
           "/" +
-          (imagePath ?? "trip_bg.jpg")
+          (trip.image_path ?? "trip_bg.jpg")
         }
         alt={`Trip`}
         className={styles.cardBg}
       />
 
       <div className={styles.content}>
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title}>{trip.name}</div>
         <div className={styles.delete}>
           <IconButton
             sx={{ backgroundColor: "#ffffff82" }}
             size="small"
             onClick={(event) => {
               event.stopPropagation();
-              onDelete();
+              dispatch(deleteTrip(trip.id));
             }}
           >
             <DeleteRoundedIcon fontSize="small" sx={{ color: secErrorColor }} />
@@ -66,7 +59,8 @@ export default function TripTile({
             size="small"
             onClick={(event) => {
               event.stopPropagation();
-              navigate(`${ERouterPathes.addTrip}/${id}`);
+              dispatch(setCurrentTrip(trip));
+              navigate(`${ERouterPathes.addTrip}`);
             }}
           >
             <EditRoundedIcon sx={{ color: primaryColor }} fontSize="small" />
@@ -74,8 +68,15 @@ export default function TripTile({
         </div>
 
         <div>
-          {dayjs(startDate).locale("fr").format("DD MMM YYYY").toUpperCase()} -{" "}
-          {dayjs(endDate).locale("fr").format("DD MMM YYYY").toUpperCase()}
+          {dayjs(trip.start_date)
+            .locale("fr")
+            .format("DD MMM YYYY")
+            .toUpperCase()}{" "}
+          -{" "}
+          {dayjs(trip.end_date)
+            .locale("fr")
+            .format("DD MMM YYYY")
+            .toUpperCase()}
         </div>
       </div>
     </div>

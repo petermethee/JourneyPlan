@@ -2,7 +2,6 @@ import { Grid } from "@mui/material";
 import styles from "./Home.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
-  deleteTrip,
   getAllTrips,
   selectTrips,
   setCurrentTrip,
@@ -20,15 +19,10 @@ import { resetAccomodationsSlice } from "../../features/Redux/accomodationsSlice
 export default function Home() {
   const trips = useAppSelector(selectTrips);
   const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
 
-  const onClick = (id: number) => {
-    dispatch(setCurrentTrip(trips.find((trip) => trip.id === id)!));
-    navigate(ERouterPathes.planning + "/" + id);
-  };
-
   useEffect(() => {
+    dispatch(setCurrentTrip(undefined));
     dispatch(resetPlanningSlice());
     dispatch(resetActivitiesSlice());
     dispatch(resetTransportsSlice());
@@ -49,17 +43,7 @@ export default function Home() {
       >
         {trips.map((trip) => (
           <Grid item key={trip.id}>
-            <TripTile
-              title={trip.name}
-              endDate={trip.end_date}
-              startDate={trip.start_date}
-              id={trip.id}
-              imagePath={trip.image_path}
-              onClick={onClick}
-              onDelete={() => {
-                dispatch(deleteTrip(trip.id));
-              }}
-            />
+            <TripTile trip={trip} />
           </Grid>
         ))}
         <Grid item>

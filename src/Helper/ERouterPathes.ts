@@ -3,4 +3,5 @@ export enum ERouterPathes {
   planning = "/planning",
   addTrip = "/addTrip",
   map = "/map",
+  pdf = "/pdf",
 }
