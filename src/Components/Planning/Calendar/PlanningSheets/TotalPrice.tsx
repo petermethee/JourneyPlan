@@ -6,7 +6,6 @@ import { selectActivities } from "../../../../features/Redux/activitiesSlice";
 import { selectPlanningArtifacts } from "../../../../features/Redux/planningSlice";
 import { selectTransports } from "../../../../features/Redux/transportsSlice";
 import PaymentsIcon from "@mui/icons-material/Payments";
-import styles from "./TotalPrice.module.css";
 import {
   selectCurrentTrip,
   updateTrip,
@@ -15,26 +14,17 @@ import dayjs from "dayjs";
 import { Button, Modal, TextField, Tooltip, Typography } from "@mui/material";
 import { goldenColor, secGoldenColor } from "../../../../style/cssGlobalStyle";
 import { TripsTable } from "../../../../Models/DataBaseModel";
+import MealsPriceModal from "./MealsPriceModal";
+import styles from "./TotalPrice.module.css";
 
 function TotalPrice() {
-  const dispatch = useAppDispatch();
+  const trip = useAppSelector(selectCurrentTrip);
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
   const accomodations = useAppSelector(selectAccomodations);
-  const trip = useAppSelector(selectCurrentTrip);
 
-  const initialState = useMemo(() => {
-    return {
-      [TripsTable.breakfast]: trip?.breakfast ?? "",
-      [TripsTable.lunch]: trip?.lunch ?? "",
-      [TripsTable.dinner]: trip?.dinner ?? "",
-    };
-  }, [trip]);
-
-  const [open, setOpen] = useState(false);
-  const [formVal, setFormVal] = useState(initialState);
-  const [saveEnabled, setSaveEnabled] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const activitiesPrice = useMemo(() => {
     let finalPrice = 0;
@@ -137,49 +127,11 @@ function TotalPrice() {
     trip?.currency,
   ]);
 
-  const handleFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const newValue = value === "" ? value : parseInt(value);
-    setFormVal((prevState) => {
-      return { ...prevState, [event.target.name]: newValue };
-    });
-  };
-
-  const handleConfirm = useCallback(() => {
-    dispatch(
-      updateTrip({ ...trip!, ...(formVal as { [key: string]: number }) })
-    );
-    setOpen(false);
-  }, [dispatch, formVal, trip, setOpen]);
-
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === "Enter" && saveEnabled) {
-        handleConfirm();
-      }
-    },
-    [saveEnabled, handleConfirm]
-  );
-
-  useEffect(() => {
-    setSaveEnabled(
-      Object.values(formVal).every((val) => val !== "") &&
-        JSON.stringify(initialState) !== JSON.stringify(formVal)
-    );
-  }, [formVal, initialState]);
-
-  useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [handleKeyDown]);
-
   return (
     <>
       <Tooltip title={tooltip}>
         <Button
-          onClick={() => setOpen(true)}
+          onClick={() => setOpenModal(true)}
           startIcon={<PaymentsIcon fontSize="small" />}
           sx={{
             backgroundColor: goldenColor,
@@ -196,50 +148,7 @@ function TotalPrice() {
           {totalPrice} {trip?.currency}
         </Button>
       </Tooltip>
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <div className={styles.modalContainer}>
-          <Typography textAlign="center" variant="h6">
-            Estimation des prix
-          </Typography>
-          <TextField
-            type="number"
-            onChange={handleFormChange}
-            name={TripsTable.breakfast}
-            value={formVal.breakfast}
-            label="Petit Dej"
-            variant="standard"
-          />
-          <TextField
-            type="number"
-            onChange={handleFormChange}
-            name={TripsTable.lunch}
-            value={formVal.lunch}
-            label="Dejeuner"
-            variant="standard"
-          />
-          <TextField
-            type="number"
-            onChange={handleFormChange}
-            name={TripsTable.dinner}
-            value={formVal.dinner}
-            label="Dinner"
-            variant="standard"
-          />
-          <div className={styles.btContainer}>
-            <Button variant="outlined" onClick={() => setOpen(false)}>
-              Annuler
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleConfirm}
-              disabled={!saveEnabled}
-            >
-              Confirmer
-            </Button>
-          </div>
-        </div>
-      </Modal>
+      <MealsPriceModal openModal={openModal} setOpenModal={setOpenModal} />
     </>
   );
 }
