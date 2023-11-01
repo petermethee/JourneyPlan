@@ -30,6 +30,7 @@ export default function AddTrip() {
     image_path: null,
     nb_travelers: 1,
     fileName: "",
+    currency: "€",
   });
   const [dateRange, setDateRange] = useState<Date[] | undefined>();
   const [formValid, setFormValid] = useState(false);
@@ -104,6 +105,7 @@ export default function AddTrip() {
     if (
       formValues.name !== "" &&
       formValues.nb_travelers > 0 &&
+      formValues.currency !== "" &&
       dateRange &&
       dateRange.every((date) => date !== null)
     ) {
@@ -121,6 +123,7 @@ export default function AddTrip() {
         nb_travelers: trip.nb_travelers,
         image_path: trip.image_path,
         fileName: "Image déjà chargée",
+        currency: trip.currency,
       });
       setDateRange([new Date(trip.start_date), new Date(trip.end_date)]);
     }

@@ -7,15 +7,16 @@ export default interface ITrip {
   [TripsTable.endDate]: string;
   [TripsTable.nbTravelers]: number;
   [TripsTable.imagePath]: string | null;
-  [TripsTable.breakfast]?: number;
-  [TripsTable.lunch]?: number;
-  [TripsTable.dinner]?: number;
-  [TripsTable.currency]?: string;
+  [TripsTable.breakfast]: number;
+  [TripsTable.lunch]: number;
+  [TripsTable.dinner]: number;
+  [TripsTable.currency]: string;
 }
 export type TFormTrip = {
   [TripsTable.name]: string;
   [TripsTable.nbTravelers]: number;
   [TripsTable.imagePath]: string | null;
+  [TripsTable.currency]: string;
   fileName: string;
 };
 
@@ -31,5 +32,9 @@ export const transformFormToTrip = (
     nb_travelers: form.nb_travelers,
     start_date: dateRange[0],
     end_date: dateRange[1],
+    breakfast: 5,
+    lunch: 15,
+    dinner: 15,
+    currency: form.currency,
   };
 };
