@@ -10,11 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { setSideDataTop } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { EArtifact } from "../../../Models/EArtifacts";
 import ActivityIcon from "../../Shared/ActivityIcon";
-import {
-  darkColorc,
-  defaultWhite,
-  primaryColor,
-} from "../../../style/cssGlobalStyle";
+import { darkColorc, primaryColor } from "../../../style/cssGlobalStyle";
 import TransportIcon from "../../Shared/TransportIcon";
 import AccomodationIcon from "../../Shared/AccomodationIcon";
 import NotificationBadge from "../../Shared/NotificationBadge";

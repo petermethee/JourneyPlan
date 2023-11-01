@@ -1,19 +1,15 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { EArtifact } from "../../../../Models/EArtifacts";
-import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { useAppSelector } from "../../../../app/hooks";
 import { selectAccomodations } from "../../../../features/Redux/accomodationsSlice";
 import { selectActivities } from "../../../../features/Redux/activitiesSlice";
 import { selectPlanningArtifacts } from "../../../../features/Redux/planningSlice";
 import { selectTransports } from "../../../../features/Redux/transportsSlice";
 import PaymentsIcon from "@mui/icons-material/Payments";
-import {
-  selectCurrentTrip,
-  updateTrip,
-} from "../../../../features/Redux/tripSlice";
+import { selectCurrentTrip } from "../../../../features/Redux/tripSlice";
 import dayjs from "dayjs";
-import { Button, Modal, TextField, Tooltip, Typography } from "@mui/material";
+import { Button, Tooltip } from "@mui/material";
 import { goldenColor, secGoldenColor } from "../../../../style/cssGlobalStyle";
-import { TripsTable } from "../../../../Models/DataBaseModel";
 import MealsPriceModal from "./MealsPriceModal";
 import styles from "./TotalPrice.module.css";
 
