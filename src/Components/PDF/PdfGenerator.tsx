@@ -11,9 +11,14 @@ import { selectActivities } from "../../features/Redux/activitiesSlice";
 import { selectTransports } from "../../features/Redux/transportsSlice";
 import dayjs from "dayjs";
 
+export type TPdfArtifact<T> = T & { timeIndex: number };
+export type TDataPdf = {
+  pdfArtifact: TPdfArtifact<IArtifact>;
+  type: EArtifact;
+};
 export type TDaysArtifacts = {
   date: string;
-  artifacts: IArtifact[];
+  artifacts: TDataPdf[];
 };
 
 export default function PdfGenerator() {
@@ -59,9 +64,10 @@ export default function PdfGenerator() {
         (p) => p.date === dateId
       );
 
-      const artifacts: IArtifact[] = [];
-      currentDayPlanningActivity.forEach((PA, index) => {
+      const artifacts: TDataPdf[] = [];
+      currentDayPlanningActivity.forEach((PA) => {
         let artifact: IArtifact;
+        let type: EArtifact;
         let position: [number, number];
         switch (PA.artifactType) {
           case EArtifact.Activity:
@@ -71,6 +77,7 @@ export default function PdfGenerator() {
             if (artifact.lat && artifact.lng) {
               position = [artifact.lat, artifact.lng];
             }
+            type = EArtifact.Activity;
 
             break;
           case EArtifact.Transport:
@@ -83,6 +90,7 @@ export default function PdfGenerator() {
             if (artifact.lat_to && artifact.lng_to) {
               position = [artifact.lat_to, artifact.lng_to];
             }
+            type = EArtifact.Transport;
 
             break;
 
@@ -93,14 +101,18 @@ export default function PdfGenerator() {
             if (artifact.lat && artifact.lng) {
               position = [artifact.lat, artifact.lng];
             }
+            type = EArtifact.Accomodation;
 
             break;
         }
-        artifacts.push(artifact);
+        artifacts.push({
+          pdfArtifact: { ...artifact, timeIndex: PA.timeIndex },
+          type,
+        });
       });
       tempDaysArtifacts.push({
         artifacts,
-        date: currentDay.format("ddd DD MMM YYYY"),
+        date: currentDay.format("dddd DD MMMM YYYY"),
       });
       currentDay = currentDay.add(1, "day");
     }
