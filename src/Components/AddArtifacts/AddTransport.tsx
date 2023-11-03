@@ -65,6 +65,7 @@ export const AddTransport = forwardRef(
           [TransportsTable.city_from]: transport.city_from,
           [TransportsTable.city_to]: transport.city_to,
           [TransportsTable.status]: transport.status,
+          [TransportsTable.duration]: transport.duration,
         };
       }
       return {
@@ -80,6 +81,7 @@ export const AddTransport = forwardRef(
         [TransportsTable.city_from]: null,
         [TransportsTable.city_to]: null,
         [TransportsTable.status]: EEventStatus.none,
+        [TransportsTable.duration]: 1,
       };
     }, [transport]);
 
@@ -92,40 +94,19 @@ export const AddTransport = forwardRef(
     const [attachment, setAttachment] =
       useState<IAttachment[]>(initialAttachment);
 
-    const initialHours = useMemo(
-      () => (transport ? transport.duration.toString().split(".")[0] : "1"),
-      [transport]
-    );
-    const [hours, setHours] = useState(initialHours);
-
-    const initMinute = useMemo(() => {
-      const min = transport?.duration.toString().split(".");
-      if (min && min.length > 1) {
-        return (parseInt(min[1]) / 100) * 4;
-      }
-      return 0;
-    }, [transport?.duration]);
-
-    const [minutes, setMinutes] = useState(initMinute);
     const [dragActive, setDragActive] = useState(false);
 
     const clearInputs = () => {
       setFormValues(initialFormValues);
       setAttachment([]);
-      setHours("1");
-      setMinutes(0);
     };
 
     useImperativeHandle(ref, () => ({
       save(artifactType: EArtifact) {
         if (artifactType === EArtifact.Transport) {
-          const duration =
-            parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
-
           const newTransport: ITransport = {
             id: 0,
             id_trip,
-            duration,
             ...formValues,
             price: parseFloat(formValues.price),
             attachment,
@@ -150,13 +131,9 @@ export const AddTransport = forwardRef(
       },
       edit(artifactType: EArtifact) {
         if (artifactType === EArtifact.Transport) {
-          const duration =
-            parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
-
           const updatedTransport: ITransport = {
             id: transport!.id,
             id_trip,
-            duration,
             ...formValues,
             price: parseFloat(formValues.price),
             attachment,
@@ -192,27 +169,14 @@ export const AddTransport = forwardRef(
       });
     };
 
-    const isHourValid = useMemo(() => {
-      const hourNum = parseInt(hours);
-      if (isNaN(hourNum)) {
-        return false;
-      } else if (hourNum < 0 || hourNum > 23) {
-        return false;
-      }
-      return true;
-    }, [hours]);
-
     useEffect(() => {
       if (
-        isHourValid &&
         formValues.name !== "" &&
         formValues.destination !== "" &&
         formValues.departure !== "" &&
         formValues.price !== "" &&
         (JSON.stringify(formValues) !== JSON.stringify(initialFormValues) ||
-          initialAttachment.join() !== attachment.join() ||
-          initialHours !== hours ||
-          initMinute !== minutes)
+          initialAttachment.join() !== attachment.join())
       ) {
         setSaving(ESavingStatus.enabled);
       } else {
@@ -223,11 +187,6 @@ export const AddTransport = forwardRef(
       initialFormValues,
       attachment,
       initialAttachment,
-      initMinute,
-      initialHours,
-      minutes,
-      hours,
-      isHourValid,
       setSaving,
     ]);
 
@@ -238,13 +197,6 @@ export const AddTransport = forwardRef(
     useEffect(() => {
       setAttachment(initialAttachment);
     }, [initialAttachment]);
-    useEffect(() => {
-      setHours(initialHours);
-    }, [initialHours]);
-
-    useEffect(() => {
-      setMinutes(initMinute);
-    }, [initMinute]);
 
     return (
       <>
@@ -280,10 +232,12 @@ export const AddTransport = forwardRef(
             </Grid>
             <Grid item xs={4} flexWrap="nowrap" display="flex" gap={1}>
               <TimeInput
-                hours={hours}
-                minutes={minutes}
-                setHours={setHours}
-                setMinutes={setMinutes}
+                duration={formValues.duration}
+                setDuration={(value) =>
+                  setFormValues((prevState) => {
+                    return { ...prevState, duration: value };
+                  })
+                }
               />
             </Grid>
 

@@ -61,6 +61,7 @@ export const AddActivity = forwardRef(
           [ActivitiesTable.lng]: activity.lng,
           [ActivitiesTable.city]: activity.city,
           [ActivitiesTable.status]: activity.status,
+          [ActivitiesTable.duration]: activity.duration,
         };
       }
       return {
@@ -73,6 +74,7 @@ export const AddActivity = forwardRef(
         [ActivitiesTable.lng]: null,
         [ActivitiesTable.city]: null,
         [ActivitiesTable.status]: EEventStatus.none,
+        [ActivitiesTable.duration]: 1,
       };
     }, [activity]);
 
@@ -86,40 +88,19 @@ export const AddActivity = forwardRef(
     const [attachment, setAttachment] =
       useState<IAttachment[]>(initialAttachment);
 
-    const initialHours = useMemo(
-      () => (activity ? activity.duration.toString().split(".")[0] : "1"),
-      [activity]
-    );
-    const [hours, setHours] = useState(initialHours);
-
-    const initMinute = useMemo(() => {
-      const min = activity?.duration.toFixed(2).split(".");
-      if (min && min.length > 1) {
-        return (parseInt(min[1]) / 100) * 4;
-      }
-      return 0;
-    }, [activity]);
-
-    const [minutes, setMinutes] = useState(initMinute);
     const [dragActive, setDragActive] = useState(false);
 
     const clearInputs = () => {
       setFormValues(initialFormValues);
       setAttachment(activity ? activity.attachment : []);
-      setHours(activity ? activity.duration.toString().split(".")[0] : "1");
-      setMinutes(initMinute);
     };
 
     useImperativeHandle(ref, () => ({
       save(artifactType: EArtifact) {
         if (artifactType === EArtifact.Activity) {
-          const duration =
-            parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
-
           const newActivity: IActivity = {
             id: 0,
             id_trip,
-            duration,
             ...formValues,
             price: parseFloat(formValues.price),
             attachment,
@@ -144,13 +125,9 @@ export const AddActivity = forwardRef(
       },
       edit(artifactType: EArtifact) {
         if (artifactType === EArtifact.Activity) {
-          const duration =
-            parseInt(hours) + Math.round((minutes / 4) * 100) / 100;
-
           const updatedActivity: IActivity = {
             id: activity!.id,
             id_trip,
-            duration,
             ...formValues,
             price: parseFloat(formValues.price),
             attachment,
@@ -189,29 +166,12 @@ export const AddActivity = forwardRef(
       });
     };
 
-    const isHourValid = useMemo(() => {
-      const hourNum = parseInt(hours);
-      if (isNaN(hourNum)) {
-        return false;
-      } else if (
-        hourNum < 0 ||
-        hourNum > 23 ||
-        (hourNum === 0 && minutes === 0)
-      ) {
-        return false;
-      }
-      return true;
-    }, [hours, minutes]);
-
     useEffect(() => {
       if (
-        isHourValid &&
         formValues.name !== "" &&
         formValues.location &&
         (JSON.stringify(formValues) !== JSON.stringify(initialFormValues) ||
-          initialAttachment.join() !== attachment.join() ||
-          initialHours !== hours ||
-          initMinute !== minutes)
+          initialAttachment.join() !== attachment.join())
       ) {
         setSaving(ESavingStatus.enabled);
       } else {
@@ -220,13 +180,8 @@ export const AddActivity = forwardRef(
     }, [
       formValues,
       initialFormValues,
-      minutes,
-      hours,
-      initMinute,
-      initialHours,
       attachment,
       initialAttachment,
-      isHourValid,
       setSaving,
     ]);
 
@@ -237,13 +192,6 @@ export const AddActivity = forwardRef(
     useEffect(() => {
       setAttachment(initialAttachment);
     }, [initialAttachment]);
-    useEffect(() => {
-      setHours(initialHours);
-    }, [initialHours, activity]);
-
-    useEffect(() => {
-      setMinutes(initMinute);
-    }, [initMinute, activity]);
 
     return (
       <>
@@ -310,10 +258,12 @@ export const AddActivity = forwardRef(
             </Grid>
             <Grid item xs={4} flexWrap="nowrap" display="flex" gap={1}>
               <TimeInput
-                hours={hours}
-                minutes={minutes}
-                setHours={setHours}
-                setMinutes={setMinutes}
+                duration={formValues.duration}
+                setDuration={(value) =>
+                  setFormValues((prevState) => {
+                    return { ...prevState, duration: value };
+                  })
+                }
               />
             </Grid>
             <Grid item xs={8}>

@@ -1,45 +1,36 @@
-import { TextField, MenuItem } from "@mui/material";
-import React from "react";
-
+import { Slider } from "@mui/material";
+import { useMemo } from "react";
 export default function TimeInput({
-  hours,
-  minutes,
-  setHours,
-  setMinutes,
+  duration,
+  setDuration,
 }: {
-  hours: string;
-  minutes: number;
-  setHours: (hour: string) => void;
-  setMinutes: (hour: number) => void;
+  duration: number;
+  setDuration: (duration: number) => void;
 }) {
+  const hours = useMemo(() => duration.toString().split(".")[0], [duration]);
+  const minutes = useMemo(() => {
+    const min = (duration - parseInt(duration.toString().split(".")[0])) * 60;
+    return min === 0 ? "00" : min;
+  }, [duration]);
+
   return (
-    <>
-      <TextField
-        fullWidth
-        variant="standard"
-        label="H"
-        value={hours}
-        type="number"
-        InputProps={{ inputProps: { min: 0, max: 23 } }}
-        onChange={(event) => setHours(event.target.value)}
-        error={false}
+    <div
+      style={{
+        width: "100%",
+      }}
+    >
+      <div>
+        <span>Durée: </span> {hours}h{minutes}
+      </div>
+      <Slider
+        min={0.25}
+        max={8}
+        step={0.25}
+        marks
+        size="small"
+        value={duration}
+        onChange={(_e, value) => setDuration(value as number)}
       />
-      <TextField
-        select
-        fullWidth
-        variant="standard"
-        label="MIN"
-        value={minutes}
-        onChange={(event) => setMinutes(parseInt(event.target.value))}
-        error={false}
-        sx={{ "& .MuiSelect-select": { fontSize: "1.3rem" } }}
-      >
-        {["00", 15, 30, 45].map((minute, index) => (
-          <MenuItem key={minute} value={index}>
-            {minute}
-          </MenuItem>
-        ))}
-      </TextField>
-    </>
+    </div>
   );
 }

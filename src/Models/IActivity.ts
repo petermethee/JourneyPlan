@@ -30,4 +30,5 @@ export type TFormActivity = {
   [ActivitiesTable.lng]: number | null;
   [ActivitiesTable.city]: string | null;
   [ActivitiesTable.status]: EEventStatus;
+  [ActivitiesTable.duration]: number;
 };

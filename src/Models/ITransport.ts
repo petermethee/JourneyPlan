@@ -36,4 +36,5 @@ export type TFormTransport = {
   [TransportsTable.city_from]: string | null;
   [TransportsTable.city_to]: string | null;
   [TransportsTable.status]: EEventStatus;
+  [TransportsTable.duration]: number;
 };
