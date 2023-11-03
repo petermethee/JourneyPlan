@@ -255,6 +255,7 @@ export default function AddArtifacts({
                             : undefined
                         }
                         setArtifactToEdit={setArtifactToEdit}
+                        isFocused={tab === EArtifact.Activity}
                       />,
                       <AddTransport
                         key="transport"
@@ -268,6 +269,7 @@ export default function AddArtifacts({
                             : undefined
                         }
                         setArtifactToEdit={setArtifactToEdit}
+                        isFocused={tab === EArtifact.Transport}
                       />,
                       <AddAccomodation
                         key="accomodation"
@@ -281,6 +283,7 @@ export default function AddArtifacts({
                             : undefined
                         }
                         setArtifactToEdit={setArtifactToEdit}
+                        isFocused={tab === EArtifact.Accomodation}
                       />,
                     ]
                   : []}

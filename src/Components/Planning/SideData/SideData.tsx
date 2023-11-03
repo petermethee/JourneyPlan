@@ -238,11 +238,11 @@ export default function SideData({
         break;
     }
     if (usedFilter) {
-      setUsedNumber(remainingArtifacts);
-      setUnusedNumber(filteredArtifacts);
-    } else {
       setUsedNumber(filteredArtifacts);
       setUnusedNumber(remainingArtifacts);
+    } else {
+      setUsedNumber(remainingArtifacts);
+      setUnusedNumber(filteredArtifacts);
     }
   }, [
     activities.length,

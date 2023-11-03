@@ -39,11 +39,13 @@ export const AddActivity = forwardRef(
       id_trip,
       activity,
       setArtifactToEdit,
+      isFocused,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
       id_trip: number;
       activity?: IActivity;
       setArtifactToEdit: (artifactEditor: TArtifactEditor) => void;
+      isFocused: boolean;
     },
     ref
   ) => {
@@ -167,15 +169,18 @@ export const AddActivity = forwardRef(
     };
 
     useEffect(() => {
-      if (
-        formValues.name !== "" &&
-        formValues.location &&
-        (JSON.stringify(formValues) !== JSON.stringify(initialFormValues) ||
-          initialAttachment.join() !== attachment.join())
-      ) {
-        setSaving(ESavingStatus.enabled);
-      } else {
-        setSaving(ESavingStatus.disabled);
+      if (isFocused) {
+        if (
+          formValues.price !== "" &&
+          formValues.name !== "" &&
+          formValues.location &&
+          (JSON.stringify(formValues) !== JSON.stringify(initialFormValues) ||
+            initialAttachment.join() !== attachment.join())
+        ) {
+          setSaving(ESavingStatus.enabled);
+        } else {
+          setSaving(ESavingStatus.disabled);
+        }
       }
     }, [
       formValues,
@@ -183,6 +188,7 @@ export const AddActivity = forwardRef(
       attachment,
       initialAttachment,
       setSaving,
+      isFocused,
     ]);
 
     useEffect(() => {

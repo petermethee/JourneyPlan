@@ -42,11 +42,13 @@ export const AddAccomodation = forwardRef(
       id_trip,
       accomodation,
       setArtifactToEdit,
+      isFocused,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
       id_trip: number;
       accomodation?: IAccomodation;
       setArtifactToEdit: (artifactEditor: TArtifactEditor) => void;
+      isFocused: boolean;
     },
     ref
   ) => {
@@ -192,15 +194,18 @@ export const AddAccomodation = forwardRef(
     };
 
     useEffect(() => {
-      if (
-        (formValues.name !== "" &&
-          formValues.location &&
-          JSON.stringify(formValues) !== JSON.stringify(initialFormValues)) ||
-        initialAttachment.join() !== attachment.join()
-      ) {
-        setSaving(ESavingStatus.enabled);
-      } else {
-        setSaving(ESavingStatus.disabled);
+      if (isFocused) {
+        if (
+          (formValues.price !== "" &&
+            formValues.name !== "" &&
+            formValues.location &&
+            JSON.stringify(formValues) !== JSON.stringify(initialFormValues)) ||
+          initialAttachment.join() !== attachment.join()
+        ) {
+          setSaving(ESavingStatus.enabled);
+        } else {
+          setSaving(ESavingStatus.disabled);
+        }
       }
     }, [
       formValues,
@@ -208,6 +213,7 @@ export const AddAccomodation = forwardRef(
       attachment,
       initialAttachment,
       setSaving,
+      isFocused,
     ]);
 
     useEffect(() => {

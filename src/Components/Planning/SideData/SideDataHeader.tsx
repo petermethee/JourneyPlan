@@ -109,7 +109,7 @@ export default function SideDataHeader({
           onClick={() => setUsedFilter(false)}
           sx={{ backgroundColor: usedFilter ? "white" : "" }}
         >
-          <NotificationBadge number={usedNumber} />
+          <NotificationBadge number={unusedNumber} />
           <Radio
             size="small"
             color="secondary"
@@ -127,7 +127,7 @@ export default function SideDataHeader({
           disabled={usedNumber === 0}
           sx={{ backgroundColor: !usedFilter ? "white" : "" }}
         >
-          <NotificationBadge number={unusedNumber} />
+          <NotificationBadge number={usedNumber} />
 
           <Radio
             size="small"
