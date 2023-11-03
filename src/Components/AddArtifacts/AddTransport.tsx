@@ -1,6 +1,5 @@
-import { Grid, MenuItem, TextField } from "@mui/material";
+import { Grid } from "@mui/material";
 import React, {
-  ChangeEvent,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -25,10 +24,14 @@ import EastRoundedIcon from "@mui/icons-material/EastRounded";
 import { transportSecColor } from "../../style/cssGlobalStyle";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
-import LocationSearchInput from "./LocationSearchInput";
+import LocationSearchInput from "./Inputs/LocationSearchInput";
 import { TArtifactEditor } from "../Planning/Planning";
 import { EEventStatus } from "../../Models/EEventStatus";
-import { ArtifactStatusOptions } from "../../Models/ArtifactStatusOptions";
+import DescriptionInput from "./Inputs/DescriptionInput";
+import NameInput from "./Inputs/NameInput";
+import PriceInput from "./Inputs/PriceInput";
+import StatusSelector from "./Inputs/StatusSelector";
+import TimeInput from "./Inputs/TimeInput";
 
 export const AddTransport = forwardRef(
   (
@@ -262,58 +265,26 @@ export const AddTransport = forwardRef(
 
           <Grid container spacing={4} padding={4}>
             <Grid item xs={5}>
-              <TextField
-                required
-                name={TransportsTable.name}
-                fullWidth
-                variant="standard"
-                label="Véhicule"
-                value={formValues.name}
-                onChange={updateForm}
+              <NameInput
+                name={formValues.name}
+                updateForm={updateForm}
+                inputName={TransportsTable.name}
               />
             </Grid>
             <Grid item xs={3}>
-              <TextField
-                name={TransportsTable.price}
-                fullWidth
-                variant="standard"
-                label="Prix"
-                value={formValues.price}
-                onChange={(event) => {
-                  const re = /^\d*\.?\d{0,2}$/;
-                  if (event.target.value === "" || re.test(event.target.value))
-                    updateForm(event as ChangeEvent<HTMLInputElement>);
-                }}
-                type="number"
-                InputProps={{ inputProps: { min: 0 } }}
+              <PriceInput
+                inputName={TransportsTable.price}
+                price={formValues.price}
+                updateForm={updateForm}
               />
             </Grid>
             <Grid item xs={4} flexWrap="nowrap" display="flex" gap={1}>
-              <TextField
-                fullWidth
-                variant="standard"
-                label="H"
-                value={hours}
-                type="number"
-                InputProps={{ inputProps: { min: 0, max: 23 } }}
-                onChange={(event) => setHours(event.target.value)}
-                error={!isHourValid}
+              <TimeInput
+                hours={hours}
+                minutes={minutes}
+                setHours={setHours}
+                setMinutes={setMinutes}
               />
-              <TextField
-                select
-                fullWidth
-                variant="standard"
-                label="MIN"
-                value={minutes}
-                onChange={(event) => setMinutes(parseInt(event.target.value))}
-                sx={{ "& .MuiSelect-select": { fontSize: "1.3rem" } }}
-              >
-                {["00", 15, 30, 45].map((minute, index) => (
-                  <MenuItem key={minute} value={index}>
-                    {minute}
-                  </MenuItem>
-                ))}
-              </TextField>
             </Grid>
 
             <Grid item xs={5}>
@@ -378,37 +349,19 @@ export const AddTransport = forwardRef(
             </Grid>
 
             <Grid item xs={8}>
-              <TextField
-                name={TransportsTable.description}
-                fullWidth
-                variant="standard"
-                label="Notes"
-                value={formValues.description}
-                onChange={updateForm}
-                multiline
-                inputProps={{ style: { backgroundColor: "#00000010" } }}
+              <DescriptionInput
+                description={formValues.description}
+                updateForm={updateForm}
+                inputName={TransportsTable.description}
               />
             </Grid>
 
             <Grid item xs={4}>
-              <TextField
-                select
-                name={TransportsTable.status}
-                fullWidth
-                variant="standard"
-                label="Status"
-                value={formValues.status}
-                onChange={updateForm}
-              >
-                {Object.entries(ArtifactStatusOptions).map(([key, val]) => (
-                  <MenuItem key={key} value={key}>
-                    <div className={styles.statusContainer}>
-                      {val.icon()}
-                      <span>{val.text}</span>
-                    </div>
-                  </MenuItem>
-                ))}
-              </TextField>
+              <StatusSelector
+                inputName={TransportsTable.status}
+                status={formValues.status}
+                updateForm={updateForm}
+              />
             </Grid>
             <Grid item width="100%" display="flex">
               <ImportAttachmentInput setAttachment={setAttachment} />

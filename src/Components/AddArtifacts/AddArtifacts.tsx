@@ -119,7 +119,11 @@ export default function AddArtifacts({
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (event.key === "Enter" && saving === ESavingStatus.enabled) {
+      if (
+        event.key === "Enter" &&
+        saving === ESavingStatus.enabled &&
+        (event.target as any).tagName === "BODY"
+      ) {
         handleSave(artifactToEdit.type === tab && !!artifactToEdit.artifact);
       }
     },

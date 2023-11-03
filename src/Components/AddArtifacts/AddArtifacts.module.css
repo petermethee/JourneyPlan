@@ -67,14 +67,3 @@
     pointer-events: none;
     transition: 300ms;
 }
-
-.statusContainer {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.statusContainer span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}

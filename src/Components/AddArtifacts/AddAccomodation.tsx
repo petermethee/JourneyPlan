@@ -1,6 +1,5 @@
-import { Chip, Grid, MenuItem, TextField } from "@mui/material";
+import { Chip, Grid } from "@mui/material";
 import React, {
-  ChangeEvent,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -27,11 +26,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
-import LocationSearchInput from "./LocationSearchInput";
+import LocationSearchInput from "./Inputs/LocationSearchInput";
 import { TArtifactEditor } from "../Planning/Planning";
 import { EEventStatus } from "../../Models/EEventStatus";
 import { meals } from "../../Helper/MealsHelper";
-import { ArtifactStatusOptions } from "../../Models/ArtifactStatusOptions";
+import DescriptionInput from "./Inputs/DescriptionInput";
+import PriceInput from "./Inputs/PriceInput";
+import StatusSelector from "./Inputs/StatusSelector";
+import NameInput from "./Inputs/NameInput";
 
 export const AddAccomodation = forwardRef(
   (
@@ -235,31 +237,18 @@ export const AddAccomodation = forwardRef(
 
           <Grid container spacing={4} padding={4}>
             <Grid item xs={9}>
-              <TextField
-                required
-                name={AccomodationsTable.name}
-                fullWidth
-                variant="standard"
-                label="Titre"
-                value={formValues.name}
-                onChange={updateForm}
+              <NameInput
+                name={formValues.name}
+                updateForm={updateForm}
+                inputName={AccomodationsTable.name}
               />
             </Grid>
 
             <Grid item xs={3}>
-              <TextField
-                name={AccomodationsTable.price}
-                fullWidth
-                variant="standard"
-                label="Prix"
-                value={formValues.price}
-                onChange={(event) => {
-                  const re = /^\d*\.?\d{0,2}$/;
-                  if (event.target.value === "" || re.test(event.target.value))
-                    updateForm(event as ChangeEvent<HTMLInputElement>);
-                }}
-                type="number"
-                InputProps={{ inputProps: { min: 0 } }}
+              <PriceInput
+                inputName={AccomodationsTable.price}
+                price={formValues.price}
+                updateForm={updateForm}
               />
             </Grid>
 
@@ -369,36 +358,18 @@ export const AddAccomodation = forwardRef(
               ))}
             </Grid>
             <Grid item xs={8}>
-              <TextField
-                name={AccomodationsTable.description}
-                fullWidth
-                variant="standard"
-                label="Notes"
-                value={formValues.description}
-                onChange={updateForm}
-                multiline
-                inputProps={{ style: { backgroundColor: "#00000010" } }}
+              <DescriptionInput
+                description={formValues.description}
+                updateForm={updateForm}
+                inputName={AccomodationsTable.description}
               />
             </Grid>
             <Grid item xs={4}>
-              <TextField
-                select
-                name={AccomodationsTable.status}
-                fullWidth
-                variant="standard"
-                label="Status"
-                value={formValues.status}
-                onChange={updateForm}
-              >
-                {Object.entries(ArtifactStatusOptions).map(([key, val]) => (
-                  <MenuItem key={key} value={key}>
-                    <div className={styles.statusContainer}>
-                      {val.icon()}
-                      <span>{val.text}</span>
-                    </div>
-                  </MenuItem>
-                ))}
-              </TextField>
+              <StatusSelector
+                inputName={AccomodationsTable.status}
+                status={formValues.status}
+                updateForm={updateForm}
+              />
             </Grid>
             <Grid item width="100%" display="flex">
               <ImportAttachmentInput setAttachment={setAttachment} />

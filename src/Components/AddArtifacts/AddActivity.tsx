@@ -1,6 +1,5 @@
-import { Grid, MenuItem, TextField } from "@mui/material";
+import { Grid } from "@mui/material";
 import React, {
-  ChangeEvent,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -23,11 +22,15 @@ import {
 import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
-import LocationSearchInput from "./LocationSearchInput";
+import LocationSearchInput from "./Inputs/LocationSearchInput";
 import { TArtifactEditor } from "../Planning/Planning";
 
 import { EEventStatus } from "../../Models/EEventStatus";
-import { ArtifactStatusOptions } from "../../Models/ArtifactStatusOptions";
+import NameInput from "./Inputs/NameInput";
+import PriceInput from "./Inputs/PriceInput";
+import DescriptionInput from "./Inputs/DescriptionInput";
+import StatusSelector from "./Inputs/StatusSelector";
+import TimeInput from "./Inputs/TimeInput";
 
 export const AddActivity = forwardRef(
   (
@@ -267,32 +270,18 @@ export const AddActivity = forwardRef(
 
           <Grid container spacing={4} padding={4}>
             <Grid item xs={8}>
-              <TextField
-                required
-                name={ActivitiesTable.name}
-                fullWidth
-                variant="standard"
-                label="Titre"
-                value={formValues.name}
-                onChange={updateForm}
-                autoFocus
+              <NameInput
+                name={formValues.name}
+                updateForm={updateForm}
+                inputName={ActivitiesTable.name}
               />
             </Grid>
 
             <Grid item xs={4}>
-              <TextField
-                name={ActivitiesTable.price}
-                fullWidth
-                variant="standard"
-                label="Prix"
-                value={formValues.price}
-                onChange={(event) => {
-                  const re = /^\d*\.?\d{0,2}$/;
-                  if (event.target.value === "" || re.test(event.target.value))
-                    updateForm(event as ChangeEvent<HTMLInputElement>);
-                }}
-                InputProps={{ inputProps: { min: 0 } }}
-                type="number"
+              <PriceInput
+                inputName={ActivitiesTable.price}
+                price={formValues.price}
+                updateForm={updateForm}
               />
             </Grid>
             <Grid item xs={8}>
@@ -320,64 +309,26 @@ export const AddActivity = forwardRef(
               />
             </Grid>
             <Grid item xs={4} flexWrap="nowrap" display="flex" gap={1}>
-              <TextField
-                fullWidth
-                variant="standard"
-                label="H"
-                value={hours}
-                type="number"
-                InputProps={{ inputProps: { min: 0, max: 23 } }}
-                onChange={(event) => setHours(event.target.value)}
-                error={!isHourValid}
+              <TimeInput
+                hours={hours}
+                minutes={minutes}
+                setHours={setHours}
+                setMinutes={setMinutes}
               />
-              <TextField
-                select
-                fullWidth
-                variant="standard"
-                label="MIN"
-                value={minutes}
-                onChange={(event) => setMinutes(parseInt(event.target.value))}
-                error={!isHourValid}
-                sx={{ "& .MuiSelect-select": { fontSize: "1.3rem" } }}
-              >
-                {["00", 15, 30, 45].map((minute, index) => (
-                  <MenuItem key={minute} value={index}>
-                    {minute}
-                  </MenuItem>
-                ))}
-              </TextField>
             </Grid>
             <Grid item xs={8}>
-              <TextField
-                name={ActivitiesTable.description}
-                fullWidth
-                variant="standard"
-                label="Notes"
-                value={formValues.description}
-                onChange={updateForm}
-                multiline
-                inputProps={{ style: { backgroundColor: "#00000010" } }}
+              <DescriptionInput
+                description={formValues.description}
+                updateForm={updateForm}
+                inputName={ActivitiesTable.description}
               />
             </Grid>
             <Grid item xs={4}>
-              <TextField
-                select
-                name={ActivitiesTable.status}
-                fullWidth
-                variant="standard"
-                label="Status"
-                value={formValues.status}
-                onChange={updateForm}
-              >
-                {Object.entries(ArtifactStatusOptions).map(([key, val]) => (
-                  <MenuItem key={key} value={key}>
-                    <div className={styles.statusContainer}>
-                      {val.icon()}
-                      <span>{val.text}</span>
-                    </div>
-                  </MenuItem>
-                ))}
-              </TextField>
+              <StatusSelector
+                inputName={ActivitiesTable.status}
+                status={formValues.status}
+                updateForm={updateForm}
+              />
             </Grid>
             <Grid item width="100%" display="flex">
               <ImportAttachmentInput setAttachment={setAttachment} />
