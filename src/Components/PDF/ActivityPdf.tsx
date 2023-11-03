@@ -11,7 +11,13 @@ export default function ActivityPdf({
 }) {
   return (
     <View>
-      <View>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
         <Text>{activity.timeIndex}</Text>
         <Text>{activity.name}</Text>
         <Text>{activity.price}</Text>

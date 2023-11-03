@@ -112,7 +112,7 @@ export default function PdfGenerator() {
       });
       tempDaysArtifacts.push({
         artifacts,
-        date: currentDay.format("dddd DD MMMM YYYY"),
+        date: currentDay.format("dddd DD MMMM"),
       });
       currentDay = currentDay.add(1, "day");
     }

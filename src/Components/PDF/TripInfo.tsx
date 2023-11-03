@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text } from "@react-pdf/renderer";
+import { darkColor5 } from "../../style/cssGlobalStyle";
 
 export default function TripInfo({
   title,
@@ -20,7 +21,7 @@ export default function TripInfo({
       <Text
         style={{
           textDecoration: "underline",
-          color: "#000",
+          color: darkColor5,
         }}
       >
         {title}

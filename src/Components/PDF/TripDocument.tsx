@@ -2,7 +2,11 @@ import { Page, Text, View, Document } from "@react-pdf/renderer";
 import { TDaysArtifacts, TPdfArtifact } from "./PdfGenerator";
 import ITrip from "../../Models/ITrip";
 import dayjs from "dayjs";
-import { darkColor5 } from "../../style/cssGlobalStyle";
+import {
+  darkColor2,
+  darkColor5,
+  primaryColor,
+} from "../../style/cssGlobalStyle";
 import TripInfo from "./TripInfo";
 import { pageStyle } from "./PdfStyles";
 import ActivityPdf from "./ActivityPdf";
@@ -24,7 +28,7 @@ export default function TripDocument({
     <Document
       style={{
         fontSize: 14,
-        color: darkColor5,
+        color: darkColor2,
       }}
     >
       <Page size="A4" style={pageStyle}>
@@ -50,8 +54,16 @@ export default function TripDocument({
       </Page>
       {daysArtifacts.map((dayArtifacts) => (
         <Page style={pageStyle}>
-          <View style={{ textAlign: "center", margin: 30 }}>
-            <Text>{dayArtifacts.date}</Text>
+          <View style={{ textAlign: "center" }}>
+            <Text
+              style={{
+                fontSize: 18,
+                color: primaryColor,
+                textTransform: "uppercase",
+              }}
+            >
+              {dayArtifacts.date}
+            </Text>
           </View>
           {dayArtifacts.artifacts.map((dataPdf, index) => {
             if (dataPdf.type === EArtifact.Activity) {
