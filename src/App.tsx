@@ -1,7 +1,7 @@
 import { Route, Routes, HashRouter as Router } from "react-router-dom";
 import { ERouterPathes } from "./Helper/ERouterPathes";
 import Home from "./Components/Home/Home";
-import Alert from "./Components/Alert";
+import Alert from "./Components/Shared/Alert";
 import { useAppSelector } from "./app/hooks";
 import { selectSnackbarStatus } from "./features/Redux/tripSlice";
 import { useEffect, useState } from "react";

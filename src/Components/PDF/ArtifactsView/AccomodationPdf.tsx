@@ -1,12 +1,12 @@
 import { View } from "@react-pdf/renderer";
-import TripInfo from "./Views/TripInfo";
-import IAccomodation from "../../Models/IAccomodation";
-import { TPdfArtifact } from "./PdfGenerator";
-import { accomodationColor } from "../../style/cssGlobalStyle";
-import LeftLine from "./Views/LeftLine";
-import ArtifactTitle from "./Views/ArtifactTitle";
+import TripInfo from "../Views/TripInfo";
+import IAccomodation from "../../../Models/IAccomodation";
+import { TPdfArtifact } from "../PdfGenerator";
+import { accomodationColor } from "../../../style/cssGlobalStyle";
+import LeftLine from "../Views/LeftLine";
+import ArtifactTitle from "../Views/ArtifactTitle";
 import { useMemo } from "react";
-import { meals } from "../../Helper/MealsHelper";
+import { meals } from "../../../Helper/MealsHelper";
 
 export default function AccomodationPdf({
   accomodation,
@@ -15,7 +15,7 @@ export default function AccomodationPdf({
   accomodation: TPdfArtifact<IAccomodation>;
   currency?: string;
 }) {
-  const mealsInfo = () => {
+  const mealsInfo = useMemo(() => {
     const finalInfo: { title: string; info: string }[] = [];
     Object.entries(meals).forEach(([meal, data]) => {
       const text =
@@ -24,7 +24,8 @@ export default function AccomodationPdf({
       finalInfo.push({ title: data.text, info: text });
     });
     return finalInfo;
-  };
+  }, [accomodation]);
+
   return (
     <>
       <LeftLine
@@ -50,7 +51,7 @@ export default function AccomodationPdf({
               : undefined
           }
         />
-        {mealsInfo().map((mealInfo) => (
+        {mealsInfo.map((mealInfo) => (
           <TripInfo
             key={mealInfo.title}
             title={mealInfo.title}

@@ -1,18 +1,17 @@
 import { Page, Text, View, Document } from "@react-pdf/renderer";
 import { TDaysArtifacts, TPdfArtifact } from "./PdfGenerator";
 import ITrip from "../../Models/ITrip";
-import dayjs from "dayjs";
 import { darkColor2, primaryColor } from "../../style/cssGlobalStyle";
-import TripInfo from "./Views/TripInfo";
 import { pageStyle } from "./PdfStyles";
-import ActivityPdf from "./ActivityPdf";
+import ActivityPdf from "./ArtifactsView/ActivityPdf";
 import { EArtifact } from "../../Models/EArtifacts";
 import IActivity from "../../Models/IActivity";
-import TransportPdf from "./TransportPdf";
+import TransportPdf from "./ArtifactsView/TransportPdf";
 import ITransport from "../../Models/ITransport";
-import AccomodationPdf from "./AccomodationPdf";
+import AccomodationPdf from "./ArtifactsView/AccomodationPdf";
 import IAccomodation from "../../Models/IAccomodation";
 import { Style } from "@react-pdf/types";
+import FirstPage from "./FirstPage";
 
 const cardStyle: Style = {
   marginTop: 25,
@@ -40,35 +39,7 @@ export default function TripDocument({
       }}
       title={trip?.name}
     >
-      <Page size="A4" style={pageStyle}>
-        <View
-          style={{
-            textAlign: "center",
-            marginBottom: 30,
-            fontSize: 30,
-            fontFamily: "Times-Bold",
-            color: primaryColor,
-          }}
-        >
-          <Text>{trip?.name}</Text>
-        </View>
-        <View>
-          <TripInfo title="Nombre de personnes" info={trip?.nb_travelers} />
-          <TripInfo
-            title="Dates"
-            info={`${dayjs(trip?.start_date).format("DD/MM/YYYY")} au ${dayjs(
-              trip?.end_date
-            ).format("DD/MM/YYYY")}`}
-          />
-          <TripInfo
-            title="Durée"
-            info={`${dayjs(trip?.end_date).diff(
-              dayjs(trip?.start_date),
-              "day"
-            )} jours`}
-          />
-        </View>
-      </Page>
+      <FirstPage trip={trip} daysArtifacts={daysArtifacts} />
       {daysArtifacts.map((dayArtifacts) => (
         <Page key={dayArtifacts.date} style={pageStyle}>
           <View style={{ textAlign: "center" }}>
@@ -79,6 +50,7 @@ export default function TripDocument({
                 textTransform: "uppercase",
                 fontFamily: "Times-Bold",
               }}
+              id={dayArtifacts.date}
             >
               {dayArtifacts.date}
             </Text>

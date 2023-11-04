@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
 import { View } from "@react-pdf/renderer";
-import TripInfo from "./Views/TripInfo";
-import ITransport from "../../Models/ITransport";
-import { TPdfArtifact } from "./PdfGenerator";
-import { transportColor } from "../../style/cssGlobalStyle";
-import LeftLine from "./Views/LeftLine";
-import ArtifactTitle from "./Views/ArtifactTitle";
+import TripInfo from "../Views/TripInfo";
+import ITransport from "../../../Models/ITransport";
+import { TPdfArtifact } from "../PdfGenerator";
+import { transportColor } from "../../../style/cssGlobalStyle";
+import LeftLine from "../Views/LeftLine";
+import ArtifactTitle from "../Views/ArtifactTitle";
 
 export default function TransportPdf({
   transport,
