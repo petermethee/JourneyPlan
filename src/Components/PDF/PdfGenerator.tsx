@@ -68,15 +68,12 @@ export default function PdfGenerator() {
       currentDayPlanningActivity.forEach((PA) => {
         let artifact: IArtifact;
         let type: EArtifact;
-        let position: [number, number];
         switch (PA.artifactType) {
           case EArtifact.Activity:
             artifact = activities.find(
               (activity) => activity.id === PA.artifactId
             )!;
-            if (artifact.lat && artifact.lng) {
-              position = [artifact.lat, artifact.lng];
-            }
+
             type = EArtifact.Activity;
 
             break;
@@ -84,12 +81,7 @@ export default function PdfGenerator() {
             artifact = transports.find(
               (transport) => transport.id === PA.artifactId
             )!;
-            if (artifact.lat_from && artifact.lng_from) {
-              position = [artifact.lat_from, artifact.lng_from];
-            }
-            if (artifact.lat_to && artifact.lng_to) {
-              position = [artifact.lat_to, artifact.lng_to];
-            }
+
             type = EArtifact.Transport;
 
             break;
@@ -98,9 +90,7 @@ export default function PdfGenerator() {
             artifact = accomodations.find(
               (accomodation) => accomodation.id === PA.artifactId
             )!;
-            if (artifact.lat && artifact.lng) {
-              position = [artifact.lat, artifact.lng];
-            }
+
             type = EArtifact.Accomodation;
 
             break;

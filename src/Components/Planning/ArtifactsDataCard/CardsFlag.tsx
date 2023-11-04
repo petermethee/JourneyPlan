@@ -6,7 +6,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Grid, Tooltip } from "@mui/material";
 import { EEventStatus } from "../../../Models/EEventStatus";
 import { meals } from "../../../Helper/MealsHelper";
-import { ArtifactStatusOptions } from "../../../Models/ArtifactStatusOptions";
+import { ArtifactStatusOptions } from "../../../Helper/ArtifactStatusOptions";
 
 export default function CardsFlag({
   eventStatus,

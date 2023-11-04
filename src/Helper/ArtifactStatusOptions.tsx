@@ -1,11 +1,12 @@
 import CreditScoreRoundedIcon from "@mui/icons-material/CreditScoreRounded";
 import EventAvailableRoundedIcon from "@mui/icons-material/EventAvailableRounded";
 import EventBusyRoundedIcon from "@mui/icons-material/EventBusyRounded";
-import { EEventStatus } from "./EEventStatus";
+import { EEventStatus } from "../Models/EEventStatus";
 
 export const ArtifactStatusOptions = {
   [EEventStatus.none]: {
     color: "#801717bd",
+    secColor: "#430c0c",
     text: "Non réservé",
     icon: (color?: string) => (
       <EventBusyRoundedIcon
@@ -15,6 +16,7 @@ export const ArtifactStatusOptions = {
   },
   [EEventStatus.reserved]: {
     color: "#146ab9bd",
+    secColor: "#0c365d",
     text: "Réservé",
     icon: (color?: string) => (
       <EventAvailableRoundedIcon
@@ -24,6 +26,7 @@ export const ArtifactStatusOptions = {
   },
   [EEventStatus.paid]: {
     color: "#39a43dbd",
+    secColor: "#18491a",
     text: "Payé",
     icon: (color?: string) => (
       <CreditScoreRoundedIcon

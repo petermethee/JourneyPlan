@@ -2,12 +2,8 @@ import { Page, Text, View, Document } from "@react-pdf/renderer";
 import { TDaysArtifacts, TPdfArtifact } from "./PdfGenerator";
 import ITrip from "../../Models/ITrip";
 import dayjs from "dayjs";
-import {
-  darkColor2,
-  darkColor5,
-  primaryColor,
-} from "../../style/cssGlobalStyle";
-import TripInfo from "./TripInfo";
+import { darkColor2, primaryColor } from "../../style/cssGlobalStyle";
+import TripInfo from "./Views/TripInfo";
 import { pageStyle } from "./PdfStyles";
 import ActivityPdf from "./ActivityPdf";
 import { EArtifact } from "../../Models/EArtifacts";
@@ -16,6 +12,17 @@ import TransportPdf from "./TransportPdf";
 import ITransport from "../../Models/ITransport";
 import AccomodationPdf from "./AccomodationPdf";
 import IAccomodation from "../../Models/IAccomodation";
+import { Style } from "@react-pdf/types";
+
+const cardStyle: Style = {
+  marginTop: 25,
+  paddingBottom: 25,
+  borderBottom: `1px solid ${primaryColor}`,
+  display: "flex",
+  flexDirection: "row",
+  width: "100%",
+  gap: 10,
+};
 
 export default function TripDocument({
   trip,
@@ -27,12 +34,22 @@ export default function TripDocument({
   return (
     <Document
       style={{
-        fontSize: 14,
+        fontSize: 12,
         color: darkColor2,
+        fontFamily: "Times-Roman",
       }}
+      title={trip?.name}
     >
       <Page size="A4" style={pageStyle}>
-        <View style={{ textAlign: "center", marginBottom: 30, fontSize: 30 }}>
+        <View
+          style={{
+            textAlign: "center",
+            marginBottom: 30,
+            fontSize: 30,
+            fontFamily: "Times-Bold",
+            color: primaryColor,
+          }}
+        >
           <Text>{trip?.name}</Text>
         </View>
         <View>
@@ -53,13 +70,14 @@ export default function TripDocument({
         </View>
       </Page>
       {daysArtifacts.map((dayArtifacts) => (
-        <Page style={pageStyle}>
+        <Page key={dayArtifacts.date} style={pageStyle}>
           <View style={{ textAlign: "center" }}>
             <Text
               style={{
                 fontSize: 18,
                 color: primaryColor,
                 textTransform: "uppercase",
+                fontFamily: "Times-Bold",
               }}
             >
               {dayArtifacts.date}
@@ -68,26 +86,32 @@ export default function TripDocument({
           {dayArtifacts.artifacts.map((dataPdf, index) => {
             if (dataPdf.type === EArtifact.Activity) {
               return (
-                <ActivityPdf
-                  key={index}
-                  activity={dataPdf.pdfArtifact as TPdfArtifact<IActivity>}
-                />
+                <View key={index} style={cardStyle}>
+                  <ActivityPdf
+                    activity={dataPdf.pdfArtifact as TPdfArtifact<IActivity>}
+                    currency={trip?.currency}
+                  />
+                </View>
               );
             } else if (dataPdf.type === EArtifact.Transport) {
               return (
-                <TransportPdf
-                  key={index}
-                  transport={dataPdf.pdfArtifact as TPdfArtifact<ITransport>}
-                />
+                <View key={index} style={cardStyle}>
+                  <TransportPdf
+                    transport={dataPdf.pdfArtifact as TPdfArtifact<ITransport>}
+                    currency={trip?.currency}
+                  />
+                </View>
               );
             } else {
               return (
-                <AccomodationPdf
-                  key={index}
-                  accomodation={
-                    dataPdf.pdfArtifact as TPdfArtifact<IAccomodation>
-                  }
-                />
+                <View key={index} style={cardStyle}>
+                  <AccomodationPdf
+                    accomodation={
+                      dataPdf.pdfArtifact as TPdfArtifact<IAccomodation>
+                    }
+                    currency={trip?.currency}
+                  />
+                </View>
               );
             }
           })}
