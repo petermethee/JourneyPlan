@@ -117,7 +117,9 @@ export default function SideData({
                 duration={activity.duration}
                 artifactColor={activityColor}
                 artifactSecColor={activitySecColor}
-                artifactIcon={<ActivityIcon color={defaultWhite} />}
+                artifactIcon={
+                  <ActivityIcon size="small" color={defaultWhite} />
+                }
                 isHovered={isHovered}
               >
                 <ActivityDataCard activity={activity} />
@@ -157,7 +159,9 @@ export default function SideData({
                 duration={transport.duration}
                 artifactColor={transportColor}
                 artifactSecColor={transportSecColor}
-                artifactIcon={<TransportIcon color={defaultWhite} />}
+                artifactIcon={
+                  <TransportIcon size="small" color={defaultWhite} />
+                }
                 isHovered={isHovered}
               >
                 <TransportDataCard transport={transport} />
@@ -197,7 +201,9 @@ export default function SideData({
                 onDelete={onDelete}
                 artifactColor={accomodationColor}
                 artifactSecColor={accomodationSecColor}
-                artifactIcon={<AccomodationIcon color={defaultWhite} />}
+                artifactIcon={
+                  <AccomodationIcon size="small" color={defaultWhite} />
+                }
                 isHovered={isHovered}
                 isAccomodation
               >

@@ -126,7 +126,7 @@ function ArtifactTemplate({
             <CustomCloseIcon
               center
               onDelete={onDeleteFromPlanning}
-              size={duration === 0.25 ? "13px" : "20px"}
+              size={duration === 0.25 ? "10px" : "13px"}
               sx={{ opacity: isHovered ? 1 : 0 }}
             />
           )}
@@ -147,8 +147,7 @@ function ArtifactTemplate({
               onMouseDown={(e) => e.stopPropagation()} //stop propagation to prevent edit mode
             >
               <DeleteRoundedIcon
-                fontSize="small"
-                sx={{ color: secErrorColor }}
+                sx={{ color: secErrorColor, fontSize: "13px" }}
               />
             </IconButton>
           )}

@@ -19,7 +19,7 @@ export default function FirstPage({
       <View
         style={{
           textAlign: "center",
-          marginBottom: 30,
+          marginBottom: 20,
           fontSize: 30,
           fontFamily: "Times-Bold",
           color: primaryColor,
@@ -47,10 +47,11 @@ export default function FirstPage({
         style={{
           fontSize: 14,
           textAlign: "center",
-          marginTop: 20,
+          margin: 20,
+          fontFamily: "Times-BoldItalic",
         }}
       >
-        Sommaire
+        SOMMAIRE
       </Text>
       <View style={{ width: "100%" }}>
         {daysArtifacts.map((day) => (
@@ -58,11 +59,10 @@ export default function FirstPage({
             key={day.date}
             src={`#${day.date}`}
             style={{
-              fontFamily: "Times-BoldItalic",
               textTransform: "uppercase",
-              marginTop: 15,
               color: darkColor5,
-              textDecoration: "none",
+              // textDecoration: "none",
+              marginTop: 10,
             }}
           >
             {day.date}

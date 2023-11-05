@@ -200,7 +200,9 @@ function CalendarView({
                         duration={PA.activity.duration}
                         artifactColor={activityColor}
                         artifactSecColor={activitySecColor}
-                        artifactIcon={<ActivityIcon color={defaultWhite} />}
+                        artifactIcon={
+                          <ActivityIcon size="small" color={defaultWhite} />
+                        }
                         isHovered={isHovered}
                         insideCalendar
                         timeIndex={PA.timeIndex}
@@ -249,7 +251,9 @@ function CalendarView({
                         duration={PT.transport.duration}
                         artifactColor={transportColor}
                         artifactSecColor={transportSecColor}
-                        artifactIcon={<TransportIcon color={defaultWhite} />}
+                        artifactIcon={
+                          <TransportIcon size="small" color={defaultWhite} />
+                        }
                         isHovered={isHovered}
                         insideCalendar
                         timeIndex={PT.timeIndex}
@@ -310,7 +314,9 @@ function CalendarView({
                       onDelete={onDelete}
                       artifactColor={accomodationColor}
                       artifactSecColor={accomodationSecColor}
-                      artifactIcon={<AccomodationIcon color={defaultWhite} />}
+                      artifactIcon={
+                        <AccomodationIcon size="small" color={defaultWhite} />
+                      }
                       isHovered={isHovered}
                       insideCalendar
                       timeIndex={PA.timeIndex}
