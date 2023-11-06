@@ -1,5 +1,6 @@
 import React from "react";
 import TrainRoundedIcon from "@mui/icons-material/TrainRounded";
+import { Tooltip } from "@mui/material";
 
 export default function TransportIcon({
   color,
@@ -8,5 +9,9 @@ export default function TransportIcon({
   color: string;
   size?: "small" | "large";
 }) {
-  return <TrainRoundedIcon sx={{ color }} fontSize={size} />;
+  return (
+    <Tooltip title="Transport">
+      <TrainRoundedIcon sx={{ color }} fontSize={size} />
+    </Tooltip>
+  );
 }

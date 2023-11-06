@@ -1,5 +1,6 @@
 import React from "react";
 import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
+import { Tooltip } from "@mui/material";
 
 export default function ActivityIcon({
   color,
@@ -8,5 +9,9 @@ export default function ActivityIcon({
   color: string;
   size?: "small" | "large";
 }) {
-  return <LandscapeRoundedIcon sx={{ color }} fontSize={size} />;
+  return (
+    <Tooltip title="Activité">
+      <LandscapeRoundedIcon sx={{ color }} fontSize={size} />
+    </Tooltip>
+  );
 }

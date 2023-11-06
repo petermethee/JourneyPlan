@@ -3,16 +3,6 @@
     z-index: 2;
 }
 
-.topToolContainer {
-    position: relative;
-    background-color: white;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 10px 0px;
-}
-
 .tabs {
     background-color: #c3c6d5a6;
     backdrop-filter: blur(40px);

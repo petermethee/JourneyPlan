@@ -21,3 +21,24 @@
 .hide {
     height: 0;
 }
+
+.textContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: var(--accomodationColor);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 300ms;
+}
+
+.textInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: inset 0 0 20px 4px var(--accomodationColor);
+}
