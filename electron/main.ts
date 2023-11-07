@@ -7,6 +7,7 @@ import installExtension, { REDUX_DEVTOOLS } from "electron-devtools-installer";
 import DatabaseAPI from "./DatabaseClass";
 import PlanningIpcHandlers from "./IPC_API/PlanningIpcHandlers";
 import { createProjectFolders } from "./helpers";
+
 require("dotenv").config();
 
 createProjectFolders();
