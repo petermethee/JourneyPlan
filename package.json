@@ -2,6 +2,10 @@
   "name": "journey_plan",
   "version": "0.1.0",
   "private": true,
+  "author": "Jérôme Procureur",
+  "description": "MoneyTor Electron app",
+  "license": "GG",
+  "homepage": "./",
   "main": "build/electron/main.js",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
@@ -85,6 +89,25 @@
   "electronmon": {
     "patterns": [
       "!journey_plan.db"
+    ]
+  },
+  "build": {
+    "extends": null,
+    "files": [
+      "build/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "productName": "JourneyPlan",
+    "appId": "com.petermethee",
+    "win": {
+      "target": "nsis",
+      "icon": "public/favicon.ico"
+    },
+    "extraFiles": [
+      ".env",
+      "journey_plan.db"
     ]
   }
 }
