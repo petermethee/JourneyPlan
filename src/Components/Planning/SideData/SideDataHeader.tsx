@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./SideDataHeader.module.css";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { Button, Radio } from "@mui/material";
+import { Chip } from "@mui/material";
 import { setSideDataTop } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { EArtifact } from "../../../Models/EArtifacts";
 import ActivityIcon from "../../Shared/ActivityIcon";
@@ -19,11 +19,11 @@ export default function SideDataHeader({
   setUsedFilter,
   usedFilter,
 }: {
-  usedFilter: boolean;
+  usedFilter: boolean | "all";
   usedNumber: number;
   unusedNumber: number;
   onChange: (menu: EArtifact) => void;
-  setUsedFilter: (used: boolean) => void;
+  setUsedFilter: (used: boolean | "all") => void;
 }) {
   const headerRef = useRef<HTMLDivElement>(null);
 
@@ -72,42 +72,25 @@ export default function SideDataHeader({
         />
       </Tabs>
       <div className={styles.radioContainer}>
-        <Button
+        <Chip
           size="small"
-          variant={usedFilter ? "outlined" : "contained"}
+          variant={usedFilter === true ? "outlined" : "filled"}
           className={styles.radioContent}
           onClick={() => setUsedFilter(false)}
-          sx={{ backgroundColor: usedFilter ? "white" : "" }}
-        >
-          <NotificationBadge number={unusedNumber} />
-          <Radio
-            size="small"
-            color="secondary"
-            disableRipple
-            checked={!usedFilter}
-            sx={{ padding: 0 }}
-          />
-          <div>Non Utilisés</div>
-        </Button>
-        <Button
+          label="Non Utilisés"
+          color="primary"
+          icon={<NotificationBadge number={unusedNumber} />}
+        ></Chip>
+        <Chip
           size="small"
-          variant={usedFilter ? "contained" : "outlined"}
+          variant={usedFilter === false ? "outlined" : "filled"}
           className={styles.radioContent}
           onClick={() => setUsedFilter(true)}
           disabled={usedNumber === 0}
-          sx={{ backgroundColor: !usedFilter ? "white" : "" }}
-        >
-          <NotificationBadge number={usedNumber} />
-
-          <Radio
-            size="small"
-            color="secondary"
-            disableRipple
-            checked={usedFilter}
-            sx={{ padding: 0 }}
-          />
-          <div>Utilisés</div>
-        </Button>
+          color="primary"
+          label="Utilisés"
+          icon={<NotificationBadge number={usedNumber} />}
+        />
       </div>
     </div>
   );

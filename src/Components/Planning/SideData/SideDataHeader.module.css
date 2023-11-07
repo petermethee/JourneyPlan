@@ -17,11 +17,6 @@
     backdrop-filter: blur(2px);
 }
 
-.radioContainer div {
-    font-size: 12px;
-    flex: 1;
-}
-
 .radioContent {
     flex: 1;
     height: 40px

@@ -63,24 +63,36 @@ export default function SideData({
   const accomodations = useAppSelector(selectAccomodations);
   const isDragged = useAppSelector(selectArtifactIsDragged);
 
-  const [usedFilter, setUsedFilter] = useState(false);
+  const [usedFilter, setUsedFilter] = useState<boolean | "all">("all");
   const [marginTop, setMarginTop] = useState(0);
   const [currentArtifactType, setCurrentArtifactType] = useState(
     EArtifact.Activity
   );
 
   const filteredActivities = useMemo(() => {
-    return activities.filter((activity) => activity.used === usedFilter);
+    if (usedFilter === "all") {
+      return activities;
+    } else {
+      return activities.filter((activity) => activity.used === usedFilter);
+    }
   }, [activities, usedFilter]);
 
   const filteredTransports = useMemo(() => {
-    return transports.filter((transport) => transport.used === usedFilter);
+    if (usedFilter === "all") {
+      return transports;
+    } else {
+      return transports.filter((transport) => transport.used === usedFilter);
+    }
   }, [transports, usedFilter]);
 
   const filteredAccomodations = useMemo(() => {
-    return accomodations.filter(
-      (accomodation) => accomodation.used === usedFilter
-    );
+    if (usedFilter === "all") {
+      return accomodations;
+    } else {
+      return accomodations.filter(
+        (accomodation) => accomodation.used === usedFilter
+      );
+    }
   }, [accomodations, usedFilter]);
 
   const currentArtifacts = useMemo(() => {
@@ -227,39 +239,24 @@ export default function SideData({
 
   useEffect(() => {
     let remainingArtifacts = 0;
-    let filteredArtifacts = 0;
+    let usedCount = 0;
     switch (currentArtifactType) {
       case EArtifact.Activity:
-        remainingArtifacts = activities.length - filteredActivities.length;
-        filteredArtifacts = filteredActivities.length;
+        usedCount = activities.filter((activity) => activity.used).length;
+        remainingArtifacts = activities.length - usedCount;
         break;
       case EArtifact.Accomodation:
-        remainingArtifacts =
-          accomodations.length - filteredAccomodations.length;
-        filteredArtifacts = filteredAccomodations.length;
+        usedCount = accomodations.filter((activity) => activity.used).length;
+        remainingArtifacts = accomodations.length - usedCount;
         break;
       default:
-        remainingArtifacts = transports.length - filteredTransports.length;
-        filteredArtifacts = filteredTransports.length;
+        usedCount = transports.filter((transport) => transport.used).length;
+        remainingArtifacts = transports.length - usedCount;
         break;
     }
-    if (usedFilter) {
-      setUsedNumber(filteredArtifacts);
-      setUnusedNumber(remainingArtifacts);
-    } else {
-      setUsedNumber(remainingArtifacts);
-      setUnusedNumber(filteredArtifacts);
-    }
-  }, [
-    activities.length,
-    transports.length,
-    accomodations.length,
-    filteredActivities.length,
-    filteredAccomodations.length,
-    filteredTransports.length,
-    currentArtifactType,
-    usedFilter,
-  ]);
+    setUsedNumber(usedCount);
+    setUnusedNumber(remainingArtifacts);
+  }, [activities, transports, accomodations, currentArtifactType]);
 
   const onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     setMarginTop((prevState) => {
@@ -291,7 +288,17 @@ export default function SideData({
         }}
         setUsedFilter={(used) => {
           setMarginTop(0);
-          setUsedFilter(used);
+          setUsedFilter((prevState) => {
+            if (usedNumber === 0) {
+              return false;
+            } else {
+              return prevState === "all"
+                ? !used
+                : prevState === used
+                ? !used
+                : "all";
+            }
+          });
         }}
         usedFilter={usedFilter}
       />
