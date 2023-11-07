@@ -13,6 +13,8 @@ import dayjs from "dayjs";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ERouterPathes } from "../../Helper/ERouterPathes";
+import { goldenColor } from "../../style/cssGlobalStyle";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export type TPdfArtifact<T> = T & { timeIndex: number };
 export type TDataPdf = {
@@ -115,16 +117,26 @@ export default function PdfGenerator() {
   }, [activities, transports, accomodations, sortedPlanningArtifacts, trip]);
 
   return (
-    <div style={{ height: "100%" }}>
-      <Button
-        variant="outlined"
-        onClick={() => navigate(ERouterPathes.planning + "/" + trip?.id)}
-      >
-        Retour
-      </Button>
+    <div style={{ height: "100%", position: "relative", overflow: "hidden" }}>
       <PDFViewer height="100%" width="100%">
         <TripDocument trip={trip} daysArtifacts={daysArtifacts} />
       </PDFViewer>
+      <Button
+        sx={{
+          backgroundColor: goldenColor,
+          position: "absolute",
+          left: "20px",
+          bottom: "20px",
+          "&:hover": {
+            backgroundColor: "#715b26",
+          },
+        }}
+        variant="contained"
+        onClick={() => navigate(ERouterPathes.planning + "/" + trip?.id)}
+        startIcon={<ArrowBackIcon />}
+      >
+        Retour
+      </Button>
     </div>
   );
 }

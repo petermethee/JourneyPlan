@@ -37,7 +37,7 @@ export default function AttachmentDZ({
       setAttachment((prevState) => {
         const invalidFiles: string[] = [];
         images = images.filter((image) => {
-          const extension = image.path.split(".")[1];
+          const extension = image.path.split(".")[1].toLowerCase();
           const isValid =
             (extension === "jpg" ||
               extension === "jpeg" ||
