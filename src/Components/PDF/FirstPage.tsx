@@ -1,7 +1,11 @@
 import dayjs from "dayjs";
 import React from "react";
 import { Link, Page, Text, View } from "@react-pdf/renderer";
-import { darkColor5, primaryColor } from "../../style/cssGlobalStyle";
+import {
+  darkColor1,
+  darkColor5,
+  primaryColor,
+} from "../../style/cssGlobalStyle";
 import { pageStyle } from "./PdfStyles";
 import TripInfo from "./Views/TripInfo";
 import ITrip from "../../Models/ITrip";
@@ -60,8 +64,7 @@ export default function FirstPage({
             src={`#${day.date}`}
             style={{
               textTransform: "uppercase",
-              color: darkColor5,
-              // textDecoration: "none",
+              color: day.artifacts.length ? darkColor1 : darkColor5,
               marginTop: 10,
             }}
           >

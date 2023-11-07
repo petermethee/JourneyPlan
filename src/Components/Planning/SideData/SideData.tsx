@@ -63,7 +63,7 @@ export default function SideData({
   const accomodations = useAppSelector(selectAccomodations);
   const isDragged = useAppSelector(selectArtifactIsDragged);
 
-  const [usedFilter, setUsedFilter] = useState<boolean | "all">("all");
+  const [usedFilter, setUsedFilter] = useState<boolean | "all">(false);
   const [marginTop, setMarginTop] = useState(0);
   const [currentArtifactType, setCurrentArtifactType] = useState(
     EArtifact.Activity
