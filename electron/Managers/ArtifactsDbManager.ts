@@ -2,8 +2,6 @@ import { Database } from "better-sqlite3";
 import IActivity from "../../src/Models/IActivity";
 import ITransport from "../../src/Models/ITransport";
 import IAccomodation from "../../src/Models/IAccomodation";
-import fs = require("fs");
-
 import {
   AttachmentsTable,
   PlanningArtifactTable,
@@ -15,7 +13,8 @@ import {
 } from "../../src/Models/EArtifacts";
 import path = require("path");
 import IAttachment from "../../src/Models/IAttachment";
-import { publicFolder } from "../main";
+import { copyFileSync, unlinkSync } from "fs";
+import { attachmentsPath } from "../helpers";
 
 export default class ArtifactsDbManager {
   db: Database;
@@ -119,10 +118,10 @@ export default class ArtifactsDbManager {
         const splitted = pj.path.split(".");
         const extension = splitted[splitted.length - 1];
         const fileName = new Date().getTime() + "." + extension;
-        const newPath = this.getAttachmentPath(fileName);
+        const newPath = path.join(attachmentsPath, fileName);
 
         try {
-          fs.copyFileSync(pj.path, newPath);
+          copyFileSync(pj.path, newPath);
         } catch (error) {
           console.warn("Copy of attachment error: ", error);
         }
@@ -155,7 +154,7 @@ export default class ArtifactsDbManager {
       );
       if (newAttachIndex === -1) {
         try {
-          fs.unlinkSync(oldPJ.path);
+          unlinkSync(oldPJ.path);
         } catch (error) {
           console.warn(
             `Error while deleting attachment related to ${artifactType} ${artifactId}: `,
@@ -186,7 +185,7 @@ export default class ArtifactsDbManager {
     const pathes = stmt.all() as { path: string }[];
     try {
       for (const pathObj of pathes) {
-        fs.unlinkSync(pathObj.path);
+        unlinkSync(pathObj.path);
       }
     } catch (error) {
       console.warn(
@@ -194,10 +193,6 @@ export default class ArtifactsDbManager {
         error
       );
     }
-  };
-
-  private getAttachmentPath = (name: string) => {
-    return path.join(publicFolder, process.env.REACT_APP_ATTACHEMENTS!, name);
   };
 
   private getAttachmentCorrectColumn = (artifactType: EArtifactTableName) => {

@@ -6,11 +6,10 @@ import ArtifactIpcHandlers from "./IPC_API/ArtifactIpcHandlers";
 import installExtension, { REDUX_DEVTOOLS } from "electron-devtools-installer";
 import DatabaseAPI from "./DatabaseClass";
 import PlanningIpcHandlers from "./IPC_API/PlanningIpcHandlers";
+import { createProjectFolders } from "./helpers";
 require("dotenv").config();
 
-export const publicFolder = path.join(__dirname, "../../public");
-console.log("tag", publicFolder);
-
+createProjectFolders();
 function createWindow() {
   const win = new BrowserWindow({
     webPreferences: {

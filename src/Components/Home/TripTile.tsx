@@ -30,11 +30,7 @@ export default function TripTile({ trip }: { trip: ITrip }) {
         sx={{ position: "absolute", color: "white", zIndex: 1 }}
       />
       <img
-        src={
-          process.env.REACT_APP_TRIP_PICTURE +
-          "/" +
-          (trip.image_path ?? "trip_bg.jpg")
-        }
+        src={trip.image_path ?? "images/trip_picture/trip_bg.jpg"}
         alt={`Trip`}
         className={styles.cardBg}
       />
