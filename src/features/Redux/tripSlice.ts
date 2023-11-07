@@ -16,6 +16,7 @@ import {
 } from "./activitiesSlice";
 import {
   deletePlanning,
+  exportAttachments,
   getAllPlannings,
   insertPlanning,
   updatePlanning,
@@ -40,11 +41,13 @@ interface TripState {
     message: string;
   };
   currentTrip?: ITrip;
+  loading: boolean;
 }
 
 const initialState: TripState = {
   trips: [],
   snackbarStatus: { message: "" },
+  loading: false,
 };
 
 export const getAllTrips = createAsyncThunk("getAllTrips", async () => {
@@ -263,9 +266,27 @@ export const tripSlice = createSlice({
             "Erreur lors de la supression du voyage: " + action.error.message!,
           snackBarSeverity: "error",
         };
+      })
+
+      //Planning Artifact
+      .addCase(exportAttachments.pending, (state, _action) => {
+        state.loading = true;
+      })
+      .addCase(exportAttachments.fulfilled, (state, _action) => {
+        state.snackbarStatus = {
+          message: "Export terminé",
+          snackBarSeverity: "success",
+        };
+        state.loading = false;
+      })
+      .addCase(exportAttachments.rejected, (state, _action) => {
+        state.snackbarStatus = {
+          message: "Erreur lors de l'export",
+          snackBarSeverity: "error",
+        };
+        state.loading = false;
       });
 
-    //Planning Artifact
     //TODO
   },
 });
@@ -273,6 +294,8 @@ export const tripSlice = createSlice({
 export const { setCurrentTrip, setSnackbarStatus } = tripSlice.actions;
 
 export const selectTrips = (state: RootState) => state.tripsReducer.trips;
+export const selectLoading = (state: RootState) => state.tripsReducer.loading;
+
 export const selectSnackbarStatus = (state: RootState) =>
   state.tripsReducer.snackbarStatus;
 

@@ -43,7 +43,10 @@ export default function TripTile({ trip }: { trip: ITrip }) {
         <div className={styles.title}>{trip.name}</div>
         <div className={styles.delete}>
           <IconButton
-            sx={{ backgroundColor: "#ffffff82" }}
+            sx={{
+              backgroundColor: "#ffffff82",
+              "&:hover": { backgroundColor: "#a3a3a3bb" },
+            }}
             size="small"
             onClick={(event) => {
               event.stopPropagation();
@@ -55,7 +58,10 @@ export default function TripTile({ trip }: { trip: ITrip }) {
         </div>
         <div className={styles.editIcon}>
           <IconButton
-            sx={{ backgroundColor: "#ffffff82" }}
+            sx={{
+              backgroundColor: "#ffffff82",
+              "&:hover": { backgroundColor: "#a3a3a3bb" },
+            }}
             size="small"
             onClick={(event) => {
               event.stopPropagation();

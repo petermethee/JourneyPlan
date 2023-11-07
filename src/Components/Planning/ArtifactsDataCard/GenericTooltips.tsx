@@ -39,10 +39,26 @@ export default function GenericTooltips({
           }`}
           style={isAfter8 ? { bottom: "1px" } : { top: "1px" }}
         >
-          {description}
-          <br />
-          Pièces jointes:{"\n"}
-          {pj.join("\n")}
+          <div
+            style={{
+              fontSize: "0.85rem",
+            }}
+          >
+            {description}
+          </div>
+          <div
+            style={{
+              width: "100%",
+              borderTop: "1px dashed #fff",
+              paddingTop: "5px",
+              marginTop: "5px",
+              fontSize: "0.85rem",
+            }}
+          >
+            <span style={{ fontWeight: "bold" }}>Pièces jointes:{"\n"}</span>
+
+            {pj.join("\n")}
+          </div>
         </div>
       )}
     </>

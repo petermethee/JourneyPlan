@@ -4,10 +4,17 @@ import DayHeader from "./DayHeader";
 import dayjs from "dayjs";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import { ButtonBase, IconButton } from "@mui/material";
+import { ButtonBase, CircularProgress, IconButton } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import DownloadIcon from "@mui/icons-material/Download";
 import { useNavigate } from "react-router-dom";
 import { ERouterPathes } from "../../../Helper/ERouterPathes";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import {
+  exportAttachments,
+  selectPlanningId,
+} from "../../../features/Redux/planningSlice";
+import { selectLoading } from "../../../features/Redux/tripSlice";
 
 const dayShift = 3;
 
@@ -23,12 +30,26 @@ export default function CalendarHeader({
   nbDays: number;
 }) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector(selectLoading);
+  const planningId = useAppSelector(selectPlanningId);
+
   return (
     <div style={{ display: "flex" }}>
       <div className={styles.settingsIcon}>
-        <IconButton onClick={() => navigate(ERouterPathes.pdf)}>
+        <IconButton onClick={() => navigate(ERouterPathes.pdf)} size="small">
           <PictureAsPdfIcon />
         </IconButton>
+        {loading ? (
+          <CircularProgress size={24} />
+        ) : (
+          <IconButton
+            onClick={() => dispatch(exportAttachments(planningId!))}
+            size="small"
+          >
+            <DownloadIcon />
+          </IconButton>
+        )}
       </div>
       <div className={styles.daysHeader}>
         <ButtonBase

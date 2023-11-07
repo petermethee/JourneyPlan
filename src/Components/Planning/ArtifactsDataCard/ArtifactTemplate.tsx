@@ -138,10 +138,10 @@ function ArtifactTemplate({
                 position: "absolute",
                 top: "2px",
                 padding: "2px",
-                backgroundColor: " #5453539f",
+                backgroundColor: "#ffffff82",
                 opacity: isHovered ? 1 : 0,
                 zIndex: 1,
-                "&:hover": { backgroundColor: "#303030dd" },
+                "&:hover": { backgroundColor: "#a3a3a3bb" },
               }}
               onClick={onDelete}
               onMouseDown={(e) => e.stopPropagation()} //stop propagation to prevent edit mode

@@ -6,7 +6,6 @@
     border: 1px solid #5b5b5b;
     opacity: 0;
     transition: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
-    font-size: 0.85rem;
     padding: 2px 8px;
     box-shadow: 0px 0px 6px #0000005e;
     z-index: 1;

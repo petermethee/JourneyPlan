@@ -72,5 +72,12 @@ export default class PlanningIpcHandlers {
         await this.planningsManager.deleteArtifactPlanning(planningArtifactId);
       }
     );
+
+    ipcMain.handle(
+      EIpcChanels.exportAttachments,
+      async (_event, planningId: number) => {
+        await this.planningsManager.exportAttachments(planningId);
+      }
+    );
   };
 }
