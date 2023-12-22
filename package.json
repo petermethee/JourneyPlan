@@ -86,5 +86,19 @@
     "patterns": [
       "!journey_plan.db"
     ]
+  },
+  "build": {
+    "extends": null,
+    "files": [
+      "build/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "productName": "JourneyPlan",
+    "appId": "com.petermethee",
+    "win": {
+      "target": "nsis"
+    }
   }
 }

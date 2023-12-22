@@ -3,7 +3,7 @@ export default class DatabaseAPI {
   db: betterSqlite.Database;
 
   constructor() {
-    this.db = new betterSqlite("./journey_plan.db", { verbose: console.log });
+    this.db = new betterSqlite("./journey_plan.db");
   }
 
   getDataBase() {
