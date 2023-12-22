@@ -6,6 +6,7 @@ import { EArtifact } from "../../Models/EArtifacts";
 import {
   deleteArtifactPlanningAPI,
   deletePlanningAPI,
+  exportAttachmentsAPI,
   getAllArtifactsPlanningAPI,
   getAllPlanningsAPI,
   insertArtifactPlanningAPI,
@@ -92,6 +93,12 @@ export const deleteArtifactPlanning = createAsyncThunk(
   }
 );
 
+export const exportAttachments = createAsyncThunk(
+  "exportAttachments",
+  async (planningArtifactId: number) => {
+    await exportAttachmentsAPI(planningArtifactId);
+  }
+);
 //#endregion
 
 export const planningSlice = createSlice({

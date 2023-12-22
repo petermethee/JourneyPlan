@@ -24,7 +24,7 @@ export default function ImportAttachmentInput({
         const duplicatedFiles: string[] = [];
         images = images.filter((image) => {
           const splitedName = image.path.split(".");
-          const extension = splitedName[splitedName.length - 1];
+          const extension = splitedName[splitedName.length - 1].toLowerCase();
           const isValid =
             extension === "jpg" ||
             extension === "jpeg" ||

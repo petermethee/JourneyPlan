@@ -10,7 +10,7 @@
   align-items: center;
   font-size: 0.75rem;
   border-radius: 50%;
-  background: var(--primaryColor);
+  background: var(--darkSecondaryBlue);
   color: white;
 }
 

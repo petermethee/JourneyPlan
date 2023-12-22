@@ -18,4 +18,5 @@ export enum EIpcChanels {
   insertArtifactPlanning = "insertArtifactPlanning",
   updateArtifactPlanning = "updateArtifactPlanning",
   deleteArtifactPlanning = "deleteArtifactPlanning",
+  exportAttachments = "exportAttachments",
 }

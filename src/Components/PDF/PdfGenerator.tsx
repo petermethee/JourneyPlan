@@ -10,6 +10,11 @@ import { selectAccomodations } from "../../features/Redux/accomodationsSlice";
 import { selectActivities } from "../../features/Redux/activitiesSlice";
 import { selectTransports } from "../../features/Redux/transportsSlice";
 import dayjs from "dayjs";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { ERouterPathes } from "../../Helper/ERouterPathes";
+import { goldenColor } from "../../style/cssGlobalStyle";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export type TPdfArtifact<T> = T & { timeIndex: number };
 export type TDataPdf = {
@@ -22,6 +27,7 @@ export type TDaysArtifacts = {
 };
 
 export default function PdfGenerator() {
+  const navigate = useNavigate();
   const trip = useAppSelector(selectCurrentTrip);
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const activities = useAppSelector(selectActivities);
@@ -111,8 +117,26 @@ export default function PdfGenerator() {
   }, [activities, transports, accomodations, sortedPlanningArtifacts, trip]);
 
   return (
-    <PDFViewer height="100%" width="100%">
-      <TripDocument trip={trip} daysArtifacts={daysArtifacts} />
-    </PDFViewer>
+    <div style={{ height: "100%", position: "relative", overflow: "hidden" }}>
+      <PDFViewer height="100%" width="100%">
+        <TripDocument trip={trip} daysArtifacts={daysArtifacts} />
+      </PDFViewer>
+      <Button
+        sx={{
+          backgroundColor: goldenColor,
+          position: "absolute",
+          left: "20px",
+          bottom: "20px",
+          "&:hover": {
+            backgroundColor: "#715b26",
+          },
+        }}
+        variant="contained"
+        onClick={() => navigate(ERouterPathes.planning + "/" + trip?.id)}
+        startIcon={<ArrowBackIcon />}
+      >
+        Retour
+      </Button>
+    </div>
   );
 }

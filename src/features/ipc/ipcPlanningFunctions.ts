@@ -93,3 +93,14 @@ export const deleteArtifactPlanningAPI = (planningArtifactId: number) => {
     }
   });
 };
+
+export const exportAttachmentsAPI = (planningId: number) => {
+  return new Promise<void>(async (resolve, reject) => {
+    try {
+      await window.electronAPI.exportAttachments(planningId);
+      resolve();
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

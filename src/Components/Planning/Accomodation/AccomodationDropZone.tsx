@@ -3,6 +3,7 @@ import styles from "./AccomodationDropZone.module.css";
 import { useAppSelector } from "../../../app/hooks";
 import { selectArtifactIsDragged } from "../../../features/Redux/planningSlice";
 import { EArtifact } from "../../../Models/EArtifacts";
+import AccomodationIcon from "../../Shared/AccomodationIcon";
 
 const animations = {
   expand: styles.expand,
@@ -36,6 +37,18 @@ export default function AccomodationDropZone({
         WebkitTransitionDelay: artifactDragged ? "0ms" : "300ms",
       }}
     >
+      <div
+        className={styles.textContainer}
+        style={{
+          opacity: artifactDragged === EArtifact.Accomodation ? 1 : 0,
+        }}
+      >
+        <div className={styles.textInfo}>
+          <AccomodationIcon />
+          Hébergement
+        </div>
+      </div>
+
       {children}
     </div>
   );

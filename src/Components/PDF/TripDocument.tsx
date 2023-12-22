@@ -40,55 +40,59 @@ export default function TripDocument({
       title={trip?.name}
     >
       <FirstPage trip={trip} daysArtifacts={daysArtifacts} />
-      {daysArtifacts.map((dayArtifacts) => (
-        <Page key={dayArtifacts.date} style={pageStyle}>
-          <View style={{ textAlign: "center" }}>
-            <Text
-              style={{
-                fontSize: 18,
-                color: primaryColor,
-                textTransform: "uppercase",
-                fontFamily: "Times-Bold",
-              }}
-              id={dayArtifacts.date}
-            >
-              {dayArtifacts.date}
-            </Text>
-          </View>
-          {dayArtifacts.artifacts.map((dataPdf, index) => {
-            if (dataPdf.type === EArtifact.Activity) {
-              return (
-                <View key={index} style={cardStyle}>
-                  <ActivityPdf
-                    activity={dataPdf.pdfArtifact as TPdfArtifact<IActivity>}
-                    currency={trip?.currency}
-                  />
-                </View>
-              );
-            } else if (dataPdf.type === EArtifact.Transport) {
-              return (
-                <View key={index} style={cardStyle}>
-                  <TransportPdf
-                    transport={dataPdf.pdfArtifact as TPdfArtifact<ITransport>}
-                    currency={trip?.currency}
-                  />
-                </View>
-              );
-            } else {
-              return (
-                <View key={index} style={cardStyle}>
-                  <AccomodationPdf
-                    accomodation={
-                      dataPdf.pdfArtifact as TPdfArtifact<IAccomodation>
-                    }
-                    currency={trip?.currency}
-                  />
-                </View>
-              );
-            }
-          })}
-        </Page>
-      ))}
+      {daysArtifacts
+        .filter((page) => page.artifacts.length > 0)
+        .map((dayArtifacts) => (
+          <Page key={dayArtifacts.date} style={pageStyle}>
+            <View style={{ textAlign: "center" }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: primaryColor,
+                  textTransform: "uppercase",
+                  fontFamily: "Times-Bold",
+                }}
+                id={dayArtifacts.date}
+              >
+                {dayArtifacts.date}
+              </Text>
+            </View>
+            {dayArtifacts.artifacts.map((dataPdf, index) => {
+              if (dataPdf.type === EArtifact.Activity) {
+                return (
+                  <View key={index} style={cardStyle}>
+                    <ActivityPdf
+                      activity={dataPdf.pdfArtifact as TPdfArtifact<IActivity>}
+                      currency={trip?.currency}
+                    />
+                  </View>
+                );
+              } else if (dataPdf.type === EArtifact.Transport) {
+                return (
+                  <View key={index} style={cardStyle}>
+                    <TransportPdf
+                      transport={
+                        dataPdf.pdfArtifact as TPdfArtifact<ITransport>
+                      }
+                      currency={trip?.currency}
+                    />
+                  </View>
+                );
+              } else {
+                return (
+                  <View key={index} style={cardStyle}>
+                    <AccomodationPdf
+                      accomodation={
+                        dataPdf.pdfArtifact as TPdfArtifact<IAccomodation>
+                      }
+                      currency={trip?.currency}
+                    />
+                  </View>
+                );
+              }
+            })}
+          </Page>
+        ))}
     </Document>
   );
 }

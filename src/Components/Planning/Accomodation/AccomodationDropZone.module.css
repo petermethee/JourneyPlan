@@ -21,3 +21,22 @@
 .hide {
     height: 0;
 }
+
+.textContainer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: var(--accomodationColor);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 300ms;
+}
+
+.textInfo {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}

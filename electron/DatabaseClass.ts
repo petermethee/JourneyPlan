@@ -4,6 +4,7 @@ export default class DatabaseAPI {
 
   constructor() {
     this.db = new betterSqlite("./journey_plan.db");
+    this.db.pragma("busy_timeout = 3000");
   }
 
   getDataBase() {

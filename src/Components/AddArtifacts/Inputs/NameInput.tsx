@@ -19,7 +19,6 @@ export default function NameInput({
       label="Titre"
       value={name}
       onChange={updateForm}
-      autoFocus
     />
   );
 }

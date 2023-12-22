@@ -12,8 +12,7 @@ import {
 import ITrip from "../../src/Models/ITrip";
 import fs = require("fs");
 import path = require("path");
-import { publicFolder } from "../main";
-
+import { tripImagesPath } from "../helpers";
 export default class TripsManager {
   db: Database;
   constructor(db: Database) {
@@ -29,11 +28,11 @@ export default class TripsManager {
     if (trip.image_path) {
       const extension = trip.image_path.split(".")[1];
       const fileName = new Date().getTime() + "." + extension;
-      const newPath = this.getTripPicturePath(fileName);
+      const newPath = path.join(tripImagesPath, fileName);
 
       try {
         fs.copyFileSync(trip.image_path, newPath);
-        trip.image_path = fileName;
+        trip.image_path = newPath;
       } catch (error) {
         console.warn("Copy Error", error);
         trip.image_path = null;
@@ -62,16 +61,16 @@ export default class TripsManager {
     if (trip.image_path) {
       const extension = trip.image_path.split(".")[1];
       const fileName = new Date().getTime() + "." + extension;
-      const newPath = this.getTripPicturePath(fileName);
+      const newPath = path.join(tripImagesPath, fileName);
 
       try {
         fs.copyFileSync(trip.image_path, newPath);
-        trip.image_path = fileName;
+        trip.image_path = newPath;
         const sql = `SELECT ${TripsTable.imagePath} from ${TablesName.trips} WHERE ${TripsTable.id} = ${trip.id}`;
         const imagePath = this.db.prepare(sql).all()[0] as {
           image_path: string;
         };
-        fs.unlinkSync(this.getTripPicturePath(imagePath.image_path));
+        fs.unlinkSync(imagePath.image_path);
       } catch (error) {
         // console.warn("warning", error);
         //mecanism wanted
@@ -148,7 +147,7 @@ export default class TripsManager {
     for (const pathObj of imagePath) {
       if (pathObj.image_path) {
         try {
-          fs.unlinkSync(this.getTripPicturePath(pathObj.image_path));
+          fs.unlinkSync(pathObj.image_path);
         } catch (error) {
           console.warn(
             "Error while deleting attachments related to trip: " +
@@ -164,9 +163,5 @@ export default class TripsManager {
     const sql = `DELETE FROM ${TablesName.trips} WHERE ${TripsTable.id} = ${tripId}`;
     const stmt = this.db.prepare(sql);
     stmt.run();
-  };
-
-  private getTripPicturePath = (name: string) => {
-    return path.join(publicFolder, process.env.REACT_APP_TRIP_PICTURE!, name);
   };
 }

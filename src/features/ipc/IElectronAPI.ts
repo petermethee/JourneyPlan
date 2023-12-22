@@ -41,4 +41,5 @@ export interface IElectronAPI {
     planningArtifact: IPlanningArtifact
   ) => Promise<void>;
   deleteArtifactPlanning: (planningArtifactId: number) => Promise<void>;
+  exportAttachments: (planningArtifactId: number) => Promise<void>;
 }

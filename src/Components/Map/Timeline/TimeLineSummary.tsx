@@ -1,22 +1,14 @@
-import { Button, Pagination, ThemeProvider, createTheme } from "@mui/material";
+import { Pagination, ThemeProvider, createTheme } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
-import { ERouterPathes } from "../../../Helper/ERouterPathes";
 import styles from "./TimeLineSummary.module.css";
-import { useNavigate } from "react-router-dom";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import MapIcon from "@mui/icons-material/Map";
 import { useAppSelector } from "../../../app/hooks";
 import { selectCurrentTrip } from "../../../features/Redux/tripSlice";
 import dayjs from "dayjs";
 import TimeLineCard from "./TimeLineCard";
 import AnimateOnScroll from "../../Shared/AnimateOnScroll";
-import {
-  darkColorc,
-  defaultWhite,
-  primaryColor,
-} from "../../../style/cssGlobalStyle";
 import { TTimeLineArtifact } from "../MapSummary";
 import { EArtifact } from "../../../Models/EArtifacts";
+import MenuBar from "../../Shared/MenuBar";
 
 export default function TimeLineSummary({
   sortedPlanningArtifacts,
@@ -31,7 +23,6 @@ export default function TimeLineSummary({
   onSelectArtifact: (id: number) => void;
   onHoverArtifact: (id: number | null) => void;
 }) {
-  const navigate = useNavigate();
   const trip = useAppSelector(selectCurrentTrip);
   const dayCount = useMemo(() => {
     const end_date = dayjs(trip?.end_date);
@@ -125,36 +116,7 @@ export default function TimeLineSummary({
 
   return (
     <div className={styles.timeLineContainer}>
-      <div className={styles.topToolContainer}>
-        <Button
-          onClick={() => navigate(ERouterPathes.home)}
-          startIcon={<HomeRoundedIcon />}
-          variant="outlined"
-          sx={{
-            backgroundColor: defaultWhite,
-            color: primaryColor,
-            "&:hover": { backgroundColor: darkColorc },
-            width: "40%",
-            maxWidth: "40%",
-          }}
-        >
-          Home
-        </Button>
-        <Button
-          variant="contained"
-          startIcon={<MapIcon />}
-          onClick={() => navigate(ERouterPathes.planning + "/" + trip?.id)}
-          sx={{
-            backgroundColor: defaultWhite,
-            color: primaryColor,
-            "&:hover": { backgroundColor: darkColorc },
-            width: "40%",
-            maxWidth: "40%",
-          }}
-        >
-          Planning
-        </Button>
-      </div>
+      <MenuBar mapMode />
       <div className={styles.dayLabel}>{currentDateLabel}</div>
 
       <div className={styles.scrollContainer}>

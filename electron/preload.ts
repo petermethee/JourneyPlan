@@ -44,4 +44,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ipcRenderer.invoke(EIpcChanels.insertArtifactPlanning, planningArtifact),
   updateArtifactPlanning: (planningArtifact: IPlanningArtifact) =>
     ipcRenderer.invoke(EIpcChanels.updateArtifactPlanning, planningArtifact),
+  exportAttachments: (planningId: number) =>
+    ipcRenderer.invoke(EIpcChanels.exportAttachments, planningId),
 } as SameAPI<IElectronAPI>);

@@ -1,20 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-
 import styles from "./SideDataHeader.module.css";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { Button, Radio } from "@mui/material";
-import { ERouterPathes } from "../../../Helper/ERouterPathes";
-import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
-import { useNavigate } from "react-router-dom";
+import { Chip } from "@mui/material";
 import { setSideDataTop } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { EArtifact } from "../../../Models/EArtifacts";
 import ActivityIcon from "../../Shared/ActivityIcon";
-import { darkColorc, primaryColor } from "../../../style/cssGlobalStyle";
+import { primaryColor } from "../../../style/cssGlobalStyle";
 import TransportIcon from "../../Shared/TransportIcon";
 import AccomodationIcon from "../../Shared/AccomodationIcon";
 import NotificationBadge from "../../Shared/NotificationBadge";
-import MapIcon from "@mui/icons-material/Map";
+import MenuBar from "../../Shared/MenuBar";
 
 export default function SideDataHeader({
   onChange,
@@ -23,13 +19,12 @@ export default function SideDataHeader({
   setUsedFilter,
   usedFilter,
 }: {
-  usedFilter: boolean;
+  usedFilter: boolean | "all";
   usedNumber: number;
   unusedNumber: number;
   onChange: (menu: EArtifact) => void;
-  setUsedFilter: (used: boolean) => void;
+  setUsedFilter: (used: boolean | "all") => void;
 }) {
-  const navigate = useNavigate();
   const headerRef = useRef<HTMLDivElement>(null);
 
   const [value, setValue] = useState<EArtifact>(EArtifact.Activity);
@@ -44,32 +39,7 @@ export default function SideDataHeader({
 
   return (
     <div className={styles.container} ref={headerRef}>
-      <div className={styles.topToolContainer}>
-        <Button
-          onClick={() => navigate(ERouterPathes.home)}
-          startIcon={<HomeRoundedIcon />}
-          variant="outlined"
-          sx={{
-            "&:hover": { backgroundColor: darkColorc },
-            width: "40%",
-            maxWidth: "40%",
-          }}
-        >
-          Home
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<MapIcon />}
-          onClick={() => navigate(ERouterPathes.map)}
-          sx={{
-            "&:hover": { backgroundColor: darkColorc },
-            width: "40%",
-            maxWidth: "40%",
-          }}
-        >
-          Map
-        </Button>
-      </div>
+      <MenuBar />
       <Tabs
         value={value}
         onChange={handleChange}
@@ -102,42 +72,25 @@ export default function SideDataHeader({
         />
       </Tabs>
       <div className={styles.radioContainer}>
-        <Button
+        <Chip
           size="small"
-          variant={usedFilter ? "outlined" : "contained"}
+          variant={usedFilter === true ? "outlined" : "filled"}
           className={styles.radioContent}
           onClick={() => setUsedFilter(false)}
-          sx={{ backgroundColor: usedFilter ? "white" : "" }}
-        >
-          <NotificationBadge number={unusedNumber} />
-          <Radio
-            size="small"
-            color="secondary"
-            disableRipple
-            checked={!usedFilter}
-            sx={{ padding: 0 }}
-          />
-          <div>Non Utilisés</div>
-        </Button>
-        <Button
+          label="Non Utilisés"
+          color="primary"
+          icon={<NotificationBadge number={unusedNumber} />}
+        ></Chip>
+        <Chip
           size="small"
-          variant={usedFilter ? "contained" : "outlined"}
+          variant={usedFilter === false ? "outlined" : "filled"}
           className={styles.radioContent}
           onClick={() => setUsedFilter(true)}
           disabled={usedNumber === 0}
-          sx={{ backgroundColor: !usedFilter ? "white" : "" }}
-        >
-          <NotificationBadge number={usedNumber} />
-
-          <Radio
-            size="small"
-            color="secondary"
-            disableRipple
-            checked={usedFilter}
-            sx={{ padding: 0 }}
-          />
-          <div>Utilisés</div>
-        </Button>
+          color="primary"
+          label="Utilisés"
+          icon={<NotificationBadge number={usedNumber} />}
+        />
       </div>
     </div>
   );

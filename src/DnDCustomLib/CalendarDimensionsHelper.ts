@@ -6,7 +6,7 @@ import {
   onDragOverSideDataStyle,
 } from "./DraggableCSS";
 
-export const minColWidth = 200;
+export const minColWidth = 170;
 export const cellHeight = 70;
 export const accomodationDropZoneHeight = 100;
 export const expandedAccomodationDropZoneHeight = 200;

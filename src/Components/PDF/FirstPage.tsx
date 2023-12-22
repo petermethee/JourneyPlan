@@ -1,7 +1,11 @@
 import dayjs from "dayjs";
 import React from "react";
 import { Link, Page, Text, View } from "@react-pdf/renderer";
-import { darkColor5, primaryColor } from "../../style/cssGlobalStyle";
+import {
+  darkColor1,
+  darkColor5,
+  primaryColor,
+} from "../../style/cssGlobalStyle";
 import { pageStyle } from "./PdfStyles";
 import TripInfo from "./Views/TripInfo";
 import ITrip from "../../Models/ITrip";
@@ -19,7 +23,7 @@ export default function FirstPage({
       <View
         style={{
           textAlign: "center",
-          marginBottom: 30,
+          marginBottom: 20,
           fontSize: 30,
           fontFamily: "Times-Bold",
           color: primaryColor,
@@ -47,10 +51,11 @@ export default function FirstPage({
         style={{
           fontSize: 14,
           textAlign: "center",
-          marginTop: 20,
+          margin: 20,
+          fontFamily: "Times-BoldItalic",
         }}
       >
-        Sommaire
+        SOMMAIRE
       </Text>
       <View style={{ width: "100%" }}>
         {daysArtifacts.map((day) => (
@@ -58,11 +63,9 @@ export default function FirstPage({
             key={day.date}
             src={`#${day.date}`}
             style={{
-              fontFamily: "Times-BoldItalic",
               textTransform: "uppercase",
-              marginTop: 15,
-              color: darkColor5,
-              textDecoration: "none",
+              color: day.artifacts.length ? darkColor1 : darkColor5,
+              marginTop: 10,
             }}
           >
             {day.date}
