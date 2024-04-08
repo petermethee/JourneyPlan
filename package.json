@@ -24,6 +24,7 @@
     "dotenv": "^16.3.1",
     "electron-devtools-installer": "^3.2.0",
     "leaflet": "^1.9.4",
+    "prebuild-install": "^7.1.2",
     "primeicons": "^6.0.1",
     "primereact": "^9.2.2",
     "react": "^18.2.0",
@@ -44,8 +45,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "concurrently \"npm run start\" \"tsc -p electron -w\" \"wait-on http://localhost:3000 && wait-on build/electron/main.js && electronmon .\"",
-    "electron:build": "npm run build && tsc -p electron && electron-builder",
+    "dev": "concurrently \"pnpm run start\" \"tsc -p electron -w\" \"wait-on http://localhost:3000 && wait-on build/electron/main.js && electronmon .\"",
+    "electron:build": "pnpm run build && tsc -p electron && electron-builder",
     "electron:start": "tsc -p electron && electronmon .",
     "postinstall": "electron-builder install-app-deps",
     "rebuild": "electron-rebuild -f -w better-sqlite3"
@@ -81,7 +82,7 @@
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "electron": "^23.2.0",
-    "electron-builder": "^23.6.0",
+    "electron-builder": "^24.13.3",
     "electronmon": "^2.0.2",
     "react-app-rewired": "^2.2.1",
     "wait-on": "^7.0.1"
