@@ -8,7 +8,6 @@
   "homepage": "./",
   "main": "build/electron/main.js",
   "dependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@electron/rebuild": "^3.2.13",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -38,7 +37,8 @@
     "react-resize-detector": "^9.1.0",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
-    "react-swipeable-views": "^0.14.0"
+    "react-swipeable-views-react-18-fix": "^0.14.1",
+    "react-transition-group": "^4.4.5"
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-app-rewired start",
@@ -70,6 +70,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-private-methods": "^7.24.1",
+    "@babel/plugin-transform-private-property-in-object": "^7.24.1",
     "@types/better-sqlite3": "^7.6.4",
     "@types/leaflet": "^1.9.4",
     "@types/leaflet-providers": "^1.2.2",
