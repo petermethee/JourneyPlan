@@ -1,5 +1,6 @@
 .dragActive {
-    background-color: #ffffff9d;
+    background-color: #3434349d;
+    backdrop-filter: blur(3px);
     z-index: 1;
 }
 

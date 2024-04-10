@@ -234,7 +234,7 @@ export const AddAccomodation = forwardRef(
           Lâcher le document ici
         </div>
 
-        <div style={{ position: "relative", width: "100%", flex: 1 }}>
+        <div className={styles.formContainer}>
           <AttachmentDZ
             setDragActive={setDragActive}
             dragActive={dragActive}

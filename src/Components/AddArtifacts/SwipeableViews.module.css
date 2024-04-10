@@ -1,0 +1,15 @@
+.sliderContainer {
+  display: flex;
+  width: 300%;
+  flex: 1;
+  overflow: hidden;
+  transition: 300ms;
+  position: relative;
+}
+
+.sliderContainer>div {
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}

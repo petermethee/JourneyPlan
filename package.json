@@ -8,7 +8,6 @@
   "homepage": "./",
   "main": "build/electron/main.js",
   "dependencies": {
-    "@electron/rebuild": "^3.2.13",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
@@ -21,9 +20,7 @@
     "better-sqlite3": "^8.4.0",
     "dayjs": "^1.11.7",
     "dotenv": "^16.3.1",
-    "electron-devtools-installer": "^3.2.0",
     "leaflet": "^1.9.4",
-    "prebuild-install": "^7.1.2",
     "primeicons": "^6.0.1",
     "primereact": "^9.2.2",
     "react": "^18.2.0",
@@ -37,19 +34,19 @@
     "react-resize-detector": "^9.1.0",
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
-    "react-swipeable-views-react-18-fix": "^0.14.1",
     "react-transition-group": "^4.4.5"
   },
   "scripts": {
-    "start": "cross-env BROWSER=none react-app-rewired start",
+    "start-forge": "electron-forge start",
+    "start": "cross-env BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "concurrently \"pnpm run start\" \"tsc -p electron -w\" \"wait-on http://localhost:3000 && wait-on build/electron/main.js && electronmon .\"",
     "electron:build": "pnpm run build && tsc -p electron && electron-builder",
     "electron:start": "tsc -p electron && electronmon .",
-    "postinstall": "electron-builder install-app-deps",
-    "rebuild": "electron-rebuild -f -w better-sqlite3"
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "eslintConfig": {
     "extends": [
@@ -70,8 +67,10 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-private-methods": "^7.24.1",
     "@babel/plugin-transform-private-property-in-object": "^7.24.1",
+    "@electron-forge/cli": "^7.3.1",
     "@types/better-sqlite3": "^7.6.4",
     "@types/leaflet": "^1.9.4",
     "@types/leaflet-providers": "^1.2.2",
@@ -80,13 +79,11 @@
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-dom": "^18.0.11",
     "@types/react-places-autocomplete": "^7.2.9",
-    "@types/react-swipeable-views": "^0.13.4",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
     "electron": "^23.2.0",
-    "electron-builder": "^24.13.3",
+    "electron-devtools-installer": "^3.2.0",
     "electronmon": "^2.0.2",
-    "react-app-rewired": "^2.2.1",
     "wait-on": "^7.0.1"
   },
   "electronmon": {

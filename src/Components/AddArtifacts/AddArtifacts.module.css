@@ -39,6 +39,13 @@
     transition: 300ms;
 }
 
+.formContainer {
+    position: relative;
+    width: 100%;
+    flex: 1;
+    overflow: auto;
+}
+
 /*Bas de page*/
 .windowBottom {
     z-index: 1;
@@ -66,4 +73,5 @@
     z-index: 2;
     pointer-events: none;
     transition: 300ms;
+    color: white;
 }
