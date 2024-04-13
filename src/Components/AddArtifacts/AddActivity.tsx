@@ -240,7 +240,18 @@ export const AddActivity = forwardRef(
                 variant="standard"
                 label="Localisation"
                 address={formValues.location}
-                setAddress={(address, { lat, lng }, city) =>
+                setLocation={(address, { lat, lng }, city) => {
+                  console.log(
+                    "address",
+                    address,
+                    "lat",
+                    lat,
+                    "lng",
+                    lng,
+                    "city",
+                    city
+                  );
+
                   setFormValues((prevState) => {
                     return {
                       ...prevState,
@@ -249,9 +260,9 @@ export const AddActivity = forwardRef(
                       lat,
                       city: city ?? null,
                     };
-                  })
-                }
-                isLocalisationOk={
+                  });
+                }}
+                isLocationOk={
                   formValues.lat !== null && formValues.lng !== null
                 }
               />

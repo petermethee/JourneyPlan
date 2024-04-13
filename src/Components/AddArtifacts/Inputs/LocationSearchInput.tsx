@@ -1,98 +1,109 @@
-import { useEffect, useRef, useState } from "react";
-import { InputAdornment, TextField, TextFieldProps } from "@mui/material";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from "react-places-autocomplete";
+import { useState } from "react";
+import {
+  Autocomplete,
+  TextField,
+  TextFieldProps,
+  Tooltip,
+} from "@mui/material";
+
 import styles from "./LocationSearchInput.module.css";
 import FmdBadRoundedIcon from "@mui/icons-material/FmdBadRounded";
 import WhereToVoteRoundedIcon from "@mui/icons-material/WhereToVoteRounded";
+
+let timeout: NodeJS.Timeout;
+
+type TLocation = {
+  address_line1: string;
+  address_line2: string;
+  city: string;
+  country: string;
+  county: string;
+  lat: number;
+  lon: number;
+  formatted: string;
+};
 export default function LocationSearchInput({
-  setAddress,
+  setLocation,
   address,
-  isLocalisationOk,
+  isLocationOk,
   ...textFieldProps
 }: {
-  setAddress: (
-    adress: string,
+  setLocation: (
+    address: string,
     { lat, lng }: { lat: number | null; lng: number | null },
     city?: string
   ) => void;
   address: string;
-  isLocalisationOk: boolean;
+  isLocationOk: boolean;
 } & TextFieldProps) {
-  const ref = useRef<HTMLInputElement>(null);
-  const [localisationOk, setLocalisationOk] = useState(isLocalisationOk);
+  const [suggestions, setSuggestions] = useState<TLocation[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleSelect = (address: string) => {
-    geocodeByAddress(address).then(async (results) => {
-      const selectedCity = results[0].address_components.find((component) =>
-        component.types.includes("locality")
+  const handleSelect = (selectedAddress: TLocation | string) => {
+    if (typeof selectedAddress === "string") {
+      setLocation(selectedAddress, { lat: null, lng: null });
+    } else {
+      setLocation(
+        selectedAddress.formatted,
+        { lat: selectedAddress.lat, lng: selectedAddress.lon },
+        selectedAddress.city
       );
-
-      const latLng = await getLatLng(results[0]);
-      setAddress(address, latLng, selectedCity?.short_name);
-      setLocalisationOk(true);
-    });
-    // .catch((error) => console.error("Error", error));
+    }
   };
 
-  useEffect(() => {
-    setLocalisationOk(isLocalisationOk);
-  }, [isLocalisationOk]);
+  const handleInputChange = (newAddress: string) => {
+    setLocation(newAddress, { lat: null, lng: null });
+    setSuggestions([]);
+
+    clearTimeout(timeout);
+    if (newAddress !== "") {
+      setLoading(true);
+      timeout = setTimeout(() => {
+        fetch(
+          `https://api.geoapify.com/v1/geocode/autocomplete?text=${newAddress}&format=json&apiKey=79cc1e4bc4aa4f4cac0f521aa4657a7c`
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            setSuggestions(result.results ?? []);
+          })
+          .catch((error) => console.error("error", error))
+          .finally(() => setLoading(false));
+      }, 300);
+    }
+  };
 
   return (
-    <PlacesAutocomplete
-      value={address}
-      onChange={(newAddress) => {
-        setAddress(newAddress, { lat: null, lng: null });
-        setLocalisationOk(false);
-      }}
-      onSelect={handleSelect}
-    >
-      {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-        <div className={styles.container}>
-          <TextField
-            inputRef={ref}
-            {...textFieldProps}
-            {...getInputProps()}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  {localisationOk ? (
-                    <WhereToVoteRoundedIcon color="primary" />
-                  ) : (
-                    <FmdBadRoundedIcon color="error" />
-                  )}
-                </InputAdornment>
-              ),
-            }}
-          />
-          <div className={styles.dropdownContainer}>
-            {loading && <div>Chargement...</div>}
-            {suggestions.map((suggestion, index) => {
-              const className = `${styles.suggestion} ${
-                suggestion.active && styles.active
-              } ${suggestion.description === address && styles.selected}`;
+    <div className={styles.container}>
+      <Autocomplete
+        fullWidth
+        autoComplete
+        size="small"
+        freeSolo
+        options={suggestions.map((suggestion) => suggestion)}
+        renderInput={(params) => <TextField {...textFieldProps} {...params} />}
+        onInputChange={(e, newInputValue) => handleInputChange(newInputValue)}
+        onChange={(event, newValue) => {
+          handleSelect(newValue ?? "");
+        }}
+        value={address}
+        filterOptions={(x) => x}
+        getOptionLabel={(suggestion) =>
+          (suggestion as TLocation).formatted ?? suggestion
+        }
+        loading={loading}
+      />
 
-              return (
-                <div
-                  {...getSuggestionItemProps(suggestion, {
-                    className,
-                  })}
-                  key={index}
-                  onClick={(e) => {
-                    ref.current!.blur();
-                    handleSelect(suggestion.description);
-                  }}
-                >
-                  {suggestion.description}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-    </PlacesAutocomplete>
+      <div className={styles.iconContainer}>
+        {isLocationOk ? (
+          <Tooltip title={`Localisation : ${address}`}>
+            <WhereToVoteRoundedIcon color="primary" />
+          </Tooltip>
+        ) : (
+          <Tooltip title="Localisation non valide">
+            <FmdBadRoundedIcon color="error" />
+          </Tooltip>
+        )}
+      </div>
+    </div>
   );
 }

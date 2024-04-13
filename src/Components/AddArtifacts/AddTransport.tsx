@@ -255,7 +255,7 @@ export const AddTransport = forwardRef(
                 variant="standard"
                 label="De"
                 address={formValues.departure}
-                setAddress={(address, { lng, lat }, city) =>
+                setLocation={(address, { lng, lat }, city) =>
                   setFormValues((prevState) => {
                     return {
                       ...prevState,
@@ -266,7 +266,7 @@ export const AddTransport = forwardRef(
                     };
                   })
                 }
-                isLocalisationOk={
+                isLocationOk={
                   formValues.lat_from !== null && formValues.lng_from !== null
                 }
               />
@@ -291,7 +291,7 @@ export const AddTransport = forwardRef(
                 variant="standard"
                 label="Vers"
                 address={formValues.destination}
-                setAddress={(address, { lat, lng }, city) =>
+                setLocation={(address, { lat, lng }, city) =>
                   setFormValues((prevState) => {
                     return {
                       ...prevState,
@@ -302,7 +302,7 @@ export const AddTransport = forwardRef(
                     };
                   })
                 }
-                isLocalisationOk={
+                isLocationOk={
                   formValues.lat_to !== null && formValues.lng_to !== null
                 }
               />

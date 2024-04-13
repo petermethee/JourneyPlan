@@ -266,7 +266,7 @@ export const AddAccomodation = forwardRef(
                 variant="standard"
                 label="Localisation"
                 address={formValues.location}
-                setAddress={(address, { lat, lng }, city) =>
+                setLocation={(address, { lat, lng }, city) =>
                   setFormValues((prevState) => {
                     return {
                       ...prevState,
@@ -277,7 +277,7 @@ export const AddAccomodation = forwardRef(
                     };
                   })
                 }
-                isLocalisationOk={
+                isLocationOk={
                   formValues.lat !== null && formValues.lng !== null
                 }
               />
