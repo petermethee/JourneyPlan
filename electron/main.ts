@@ -3,7 +3,6 @@ import { app, BrowserWindow } from "electron";
 import * as path from "path";
 import TripIpcHandlers from "./IPC_API/TripIpcHandlers";
 import ArtifactIpcHandlers from "./IPC_API/ArtifactIpcHandlers";
-import installExtension, { REDUX_DEVTOOLS } from "electron-devtools-installer";
 import DatabaseAPI from "./DatabaseClass";
 import PlanningIpcHandlers from "./IPC_API/PlanningIpcHandlers";
 import { createProjectFolders } from "./helpers";
@@ -32,7 +31,11 @@ function createWindow() {
     win.webContents.openDevTools({ mode: "detach" });
   }
 
-  const dataBaseAPI = new DatabaseAPI();
+  const dbPath = app.isPackaged
+    ? path.join(process.resourcesPath, "journey_plan.db")
+    : "./journey_plan.db:";
+
+  const dataBaseAPI = new DatabaseAPI(dbPath);
   const ipcAPITrip = new TripIpcHandlers(dataBaseAPI);
   const ipcAPIPlanning = new PlanningIpcHandlers(dataBaseAPI);
   const ipcAPIActivity = new ArtifactIpcHandlers(dataBaseAPI);
@@ -42,7 +45,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  installExtension(REDUX_DEVTOOLS);
+  !app.isPackaged && installReduxDevTools();
   createWindow();
 
   app.on("activate", () => {
@@ -57,3 +60,15 @@ app.whenReady().then(() => {
     }
   });
 });
+
+function installReduxDevTools() {
+  try {
+    const {
+      default: installExtension,
+      REDUX_DEVTOOLS,
+    } = require("electron-devtools-installer");
+    installExtension(REDUX_DEVTOOLS);
+  } catch (error) {
+    console.error("Erreur lors de l'installation de Redux DevTools :", error);
+  }
+}
