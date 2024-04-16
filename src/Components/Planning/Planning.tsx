@@ -16,7 +16,7 @@ import {
   selectPlanningArtifacts,
 } from "../../features/Redux/planningSlice";
 import SideData from "./SideData/SideData";
-import IAccomodation from "../../Models/IAccommodation";
+import IAccommodation from "../../Models/IAccommodation";
 import ITransport from "../../Models/ITransport";
 import { EArtifact } from "../../Models/EArtifacts";
 import {
@@ -24,16 +24,16 @@ import {
   selectTransports,
 } from "../../features/Redux/transportsSlice";
 import {
-  getAllAccomodations,
-  selectAccomodations,
+  getAllAccommodations,
+  selectAccommodations,
 } from "../../features/Redux/accommodationsSlice";
 import AddArtifacts from "../AddArtifacts/AddArtifacts";
 
 type TDayActivity = { id: number; timeIndex: number; activity: IActivity };
-type TDayAccomodation = {
+type TDayAccommodation = {
   id: number;
   timeIndex: number;
-  accomodation: IAccomodation;
+  accommodation: IAccommodation;
 };
 type TDayTransport = { id: number; timeIndex: number; transport: ITransport };
 
@@ -42,18 +42,18 @@ export type TDayCol = {
   name: string;
   planningActivities: TDayActivity[];
   planningTransports: TDayTransport[];
-  planningAccomodations: TDayAccomodation[];
+  planningAccommodations: TDayAccommodation[];
 };
 export type TArtifactEditor = {
   type: EArtifact;
-  artifact?: IActivity | IAccomodation | ITransport;
+  artifact?: IActivity | IAccommodation | ITransport;
 };
 
 export default function Planning() {
   const tripId = useParams().tripId!;
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
-  const accomodations = useAppSelector(selectAccomodations);
+  const accommodations = useAppSelector(selectAccommodations);
   const selectedTrip = useAppSelector(selectCurrentTrip);
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const dispatch = useAppDispatch();
@@ -100,22 +100,23 @@ export default function Planning() {
               )!,
             };
           });
-        const dayAccomodations: TDayAccomodation[] = currentDayPlanningActivity
-          .filter((PA) => PA.artifactType === EArtifact.Accomodation)
-          .map((PA) => {
-            return {
-              id: PA.id,
-              timeIndex: PA.timeIndex,
-              accomodation: accomodations.find(
-                (activity) => activity.id === PA.artifactId
-              )!,
-            };
-          });
+        const dayAccommodations: TDayAccommodation[] =
+          currentDayPlanningActivity
+            .filter((PA) => PA.artifactType === EArtifact.Accommodation)
+            .map((PA) => {
+              return {
+                id: PA.id,
+                timeIndex: PA.timeIndex,
+                accommodation: accommodations.find(
+                  (activity) => activity.id === PA.artifactId
+                )!,
+              };
+            });
         columns.push({
           dateId: dateId,
           name: dateId,
           planningActivities: dayActivities,
-          planningAccomodations: dayAccomodations,
+          planningAccommodations: dayAccommodations,
           planningTransports: dayTransports,
         });
         currentDay = currentDay.add(1, "day");
@@ -124,7 +125,7 @@ export default function Planning() {
       return columns;
     }
     return [];
-  }, [selectedTrip, planningArtifacts, activities, accomodations, transports]);
+  }, [selectedTrip, planningArtifacts, activities, accommodations, transports]);
 
   useEffect(() => {
     dispatch(getAllPlannings(parseInt(tripId)))
@@ -134,7 +135,7 @@ export default function Planning() {
       });
     dispatch(getAllActivities(parseInt(tripId)));
     dispatch(getAllTransports(parseInt(tripId)));
-    dispatch(getAllAccomodations(parseInt(tripId)));
+    dispatch(getAllAccommodations(parseInt(tripId)));
   }, [dispatch, tripId]);
 
   return (

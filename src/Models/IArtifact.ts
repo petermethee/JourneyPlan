@@ -1,5 +1,5 @@
-import IAccomodation from "./IAccommodation";
+import IAccommodation from "./IAccommodation";
 import IActivity from "./IActivity";
 import ITransport from "./ITransport";
 
-export type IArtifact = ITransport | IAccomodation | IActivity;
+export type IArtifact = ITransport | IAccommodation | IActivity;

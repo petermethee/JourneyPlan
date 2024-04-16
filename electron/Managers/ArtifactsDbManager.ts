@@ -1,7 +1,7 @@
 import { Database } from "better-sqlite3";
 import IActivity from "../../src/Models/IActivity";
 import ITransport from "../../src/Models/ITransport";
-import IAccomodation from "../../src/Models/IAccommodation";
+import IAccommodation from "../../src/Models/IAccommodation";
 import {
   AttachmentsTable,
   PlanningArtifactTable,
@@ -26,7 +26,7 @@ export default class ArtifactsDbManager {
       getArtifactTableEnum(tableName).id_trip
     } = ${tripId}`;
     const stmt = this.db.prepare(sql);
-    const res = stmt.all() as IActivity[] | ITransport[] | IAccomodation[];
+    const res = stmt.all() as IActivity[] | ITransport[] | IAccommodation[];
     const artifactColumn = this.getAttachmentCorrectColumn(tableName);
     res.forEach((artifact) => {
       const sql = `SELECT ${AttachmentsTable.name},${AttachmentsTable.path} FROM ${TablesName.attachments} WHERE ${artifactColumn} = ${artifact.id}`;
@@ -47,7 +47,7 @@ export default class ArtifactsDbManager {
 
   insertInTable = (
     tableName: EArtifactTableName,
-    item: Partial<IActivity> | Partial<ITransport> | Partial<IAccomodation>
+    item: Partial<IActivity> | Partial<ITransport> | Partial<IAccommodation>
   ) => {
     delete item.id; //item is partial to allow id deletion
     delete item.used;
@@ -71,7 +71,7 @@ export default class ArtifactsDbManager {
 
   updateTable = (
     tableName: EArtifactTableName,
-    item: Partial<IActivity> | Partial<ITransport> | Partial<IAccomodation>
+    item: Partial<IActivity> | Partial<ITransport> | Partial<IAccommodation>
   ) => {
     const attachments = item.attachment;
     delete item.attachment;
@@ -200,7 +200,7 @@ export default class ArtifactsDbManager {
       ? AttachmentsTable.id_activity
       : artifactType === EArtifactTableName.Transport
       ? AttachmentsTable.id_transport
-      : AttachmentsTable.id_accomodation;
+      : AttachmentsTable.id_accommodation;
   };
 
   private getPlanningArtifactCorrectColumn = (
@@ -210,6 +210,6 @@ export default class ArtifactsDbManager {
       ? PlanningArtifactTable.id_activity
       : artifactType === EArtifactTableName.Transport
       ? PlanningArtifactTable.id_transport
-      : PlanningArtifactTable.id_accomodation;
+      : PlanningArtifactTable.id_accommodation;
   };
 }

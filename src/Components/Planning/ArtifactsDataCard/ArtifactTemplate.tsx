@@ -8,8 +8,8 @@ import cstmCloseIconStyle from "../../Shared/CustomCloseIcon.module.css";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import { IArtifact } from "../../../Models/IArtifact";
 import GenericTooltips from "./GenericTooltips";
-import IAccomodation from "../../../Models/IAccommodation";
-import AccomodationTooltips from "./AccommodationTooltips";
+import IAccommodation from "../../../Models/IAccommodation";
+import AccommodationTooltips from "./AccommodationTooltips";
 import CardsFlag from "./CardsFlag";
 import { useAppSelector } from "../../../app/hooks";
 import { selectCurrency } from "../../../features/Redux/tripSlice";
@@ -28,7 +28,7 @@ function ArtifactTemplate({
   isHovered,
   timeIndex,
   isInFirstCol,
-  isAccomodation,
+  isAccommodation,
 }: {
   artifact: IArtifact;
   duration?: number;
@@ -43,7 +43,7 @@ function ArtifactTemplate({
   isHovered: boolean;
   timeIndex?: number;
   isInFirstCol?: boolean;
-  isAccomodation?: boolean;
+  isAccommodation?: boolean;
 }) {
   const currency = useAppSelector(selectCurrency);
   const minimalView = useMemo(
@@ -77,15 +77,15 @@ function ArtifactTemplate({
 
   const InfoTooltips = useMemo(() => {
     if (insideCalendar) {
-      if (isAccomodation) {
+      if (isAccommodation) {
         return (
-          <AccomodationTooltips
+          <AccommodationTooltips
             description={artifact.description}
             pj={artifact.attachment.map((pj) => pj.name)}
             visible={isHovered && !isDragged}
             isInFirstCol={isInFirstCol ?? false}
-            checkin={(artifact as IAccomodation).checkin}
-            checkout={(artifact as IAccomodation).checkout}
+            checkin={(artifact as IAccommodation).checkin}
+            checkout={(artifact as IAccommodation).checkout}
           />
         );
       } else {
@@ -105,7 +105,7 @@ function ArtifactTemplate({
   }, [
     artifact,
     endTime,
-    isAccomodation,
+    isAccommodation,
     isHovered,
     isInFirstCol,
     startTime,
@@ -179,12 +179,12 @@ function ArtifactTemplate({
               </span>
             </div>
 
-            {isAccomodation && (
+            {isAccommodation && (
               <CardsFlag
                 mealStatus={{
-                  breakfast: (artifact as IAccomodation).breakfast,
-                  dinner: (artifact as IAccomodation).dinner,
-                  lunch: (artifact as IAccomodation).lunch,
+                  breakfast: (artifact as IAccommodation).breakfast,
+                  dinner: (artifact as IAccommodation).dinner,
+                  lunch: (artifact as IAccommodation).lunch,
                 }}
               />
             )}

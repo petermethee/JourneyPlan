@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import styles from "./SheetItem.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { EArtifact } from "../../../../Models/EArtifacts";
-import { initUsedAccomodations } from "../../../../features/Redux/accommodationsSlice";
+import { initUsedAccommodations } from "../../../../features/Redux/accommodationsSlice";
 import { initUsedActivities } from "../../../../features/Redux/activitiesSlice";
 import { initUsedTransports } from "../../../../features/Redux/transportsSlice";
 
@@ -46,8 +46,8 @@ export default function SheetItem({
           )
         );
         dispatch(
-          initUsedAccomodations(
-            PA.filter((item) => item.artifactType === EArtifact.Accomodation)
+          initUsedAccommodations(
+            PA.filter((item) => item.artifactType === EArtifact.Accommodation)
           )
         );
         dispatch(

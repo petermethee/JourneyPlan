@@ -16,7 +16,7 @@ import { useAppSelector } from "../../app/hooks";
 import { selectPlanningArtifacts } from "../../features/Redux/planningSlice";
 import { EArtifact } from "../../Models/EArtifacts";
 import { IArtifact } from "../../Models/IArtifact";
-import { selectAccomodations } from "../../features/Redux/accommodationsSlice";
+import { selectAccommodations } from "../../features/Redux/accommodationsSlice";
 import { selectActivities } from "../../features/Redux/activitiesSlice";
 import { selectTransports } from "../../features/Redux/transportsSlice";
 import { transportColor } from "../../style/cssGlobalStyle";
@@ -46,7 +46,7 @@ export default function MapSummary() {
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
-  const accomodations = useAppSelector(selectAccomodations);
+  const accommodations = useAppSelector(selectAccommodations);
 
   const [mapTypeIndex, setMapTypeIndex] = useState(0);
   const [mapDetailIndex, setMapDetailIndex] = useState(0);
@@ -155,8 +155,8 @@ export default function MapSummary() {
           break;
 
         default:
-          artifact = accomodations.find(
-            (accomodation) => accomodation.id === PA.artifactId
+          artifact = accommodations.find(
+            (accommodation) => accommodation.id === PA.artifactId
           )!;
           if (artifact.lat && artifact.lng) {
             position = [artifact.lat, artifact.lng];
@@ -179,7 +179,7 @@ export default function MapSummary() {
     });
     setTimeLineArtifacts(tempTimeLineArtifacts);
     setMarkers(tempMarkers);
-  }, [activities, transports, accomodations, sortedPlanningArtifacts]);
+  }, [activities, transports, accommodations, sortedPlanningArtifacts]);
 
   useEffect(() => {
     setDrawMap(false);

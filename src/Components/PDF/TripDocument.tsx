@@ -8,8 +8,8 @@ import { EArtifact } from "../../Models/EArtifacts";
 import IActivity from "../../Models/IActivity";
 import TransportPdf from "./ArtifactsView/TransportPdf";
 import ITransport from "../../Models/ITransport";
-import AccomodationPdf from "./ArtifactsView/AccommodationPdf";
-import IAccomodation from "../../Models/IAccommodation";
+import AccommodationPdf from "./ArtifactsView/AccommodationPdf";
+import IAccommodation from "../../Models/IAccommodation";
 import { Style } from "@react-pdf/types";
 import FirstPage from "./FirstPage";
 
@@ -81,9 +81,9 @@ export default function TripDocument({
               } else {
                 return (
                   <View key={index} style={cardStyle}>
-                    <AccomodationPdf
-                      accomodation={
-                        dataPdf.pdfArtifact as TPdfArtifact<IAccomodation>
+                    <AccommodationPdf
+                      accommodation={
+                        dataPdf.pdfArtifact as TPdfArtifact<IAccommodation>
                       }
                       currency={trip?.currency}
                     />

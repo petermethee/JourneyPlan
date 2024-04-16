@@ -2,9 +2,9 @@ import { IconButton, Tab, Tabs, Slider } from "@mui/material";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ActivityIcon from "../Shared/ActivityIcon";
 import TransportIcon from "../Shared/TransportIcon";
-import AccomodationIcon from "../Shared/AccommodationIcon";
+import AccommodationIcon from "../Shared/AccommodationIcon";
 import {
-  accomodationSecColor,
+  accommodationSecColor,
   activitySecColor,
   defaultWhite,
   transportSecColor,
@@ -46,9 +46,9 @@ export const tabs = [
   {
     index: 2,
 
-    value: EArtifact.Accomodation,
+    value: EArtifact.Accommodation,
     label: "Logement",
-    icon: <AccomodationIcon color="white" />,
+    icon: <AccommodationIcon color="white" />,
   },
 ];
 
@@ -70,7 +70,7 @@ export default function AddArtifacts({
 }) {
   const addActivityRef = useRef<TRefElem>();
   const addTransportRef = useRef<TRefElem>();
-  const addAccomodationRef = useRef<TRefElem>();
+  const addAccommodationRef = useRef<TRefElem>();
 
   const id_trip = useAppSelector(selectCurrentTrip)?.id;
 
@@ -82,8 +82,8 @@ export default function AddArtifacts({
     () =>
       tab === EArtifact.Activity
         ? activitySecColor
-        : tab === EArtifact.Accomodation
-        ? accomodationSecColor
+        : tab === EArtifact.Accommodation
+        ? accommodationSecColor
         : transportSecColor,
     [tab]
   );
@@ -114,11 +114,11 @@ export default function AddArtifacts({
       if (edit) {
         addActivityRef.current?.edit(tab);
         addTransportRef.current?.edit(tab);
-        addAccomodationRef.current?.edit(tab);
+        addAccommodationRef.current?.edit(tab);
       } else {
         addActivityRef.current?.save(tab);
         addTransportRef.current?.save(tab);
-        addAccomodationRef.current?.save(tab);
+        addAccommodationRef.current?.save(tab);
       }
     },
     [tab]
@@ -225,7 +225,7 @@ export default function AddArtifacts({
               </Tabs>
 
               <SwipeableViews
-                addAccomodationRef={addAccomodationRef}
+                addAccommodationRef={addAccommodationRef}
                 addActivityRef={addActivityRef}
                 addTransportRef={addTransportRef}
                 artifactToEdit={artifactToEdit}

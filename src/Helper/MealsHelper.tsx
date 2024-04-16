@@ -1,10 +1,10 @@
-import { AccomodationsTable } from "../Models/DataBaseModel";
+import { AccommodationsTable } from "../Models/DataBaseModel";
 import SoupKitchenRoundedIcon from "@mui/icons-material/SoupKitchenRounded";
 import FreeBreakfastRoundedIcon from "@mui/icons-material/FreeBreakfastRounded";
 import RestaurantRoundedIcon from "@mui/icons-material/RestaurantRounded";
 
 export const meals = {
-  [AccomodationsTable.breakfast]: {
+  [AccommodationsTable.breakfast]: {
     text: "Petit Déj",
     icon: (color?: string) => (
       <FreeBreakfastRoundedIcon
@@ -12,7 +12,7 @@ export const meals = {
       />
     ),
   },
-  [AccomodationsTable.lunch]: {
+  [AccommodationsTable.lunch]: {
     text: "Déjeuner",
     icon: (color?: string) => (
       <RestaurantRoundedIcon
@@ -20,7 +20,7 @@ export const meals = {
       />
     ),
   },
-  [AccomodationsTable.dinner]: {
+  [AccommodationsTable.dinner]: {
     text: "Dinner",
     icon: (color?: string) => (
       <SoupKitchenRoundedIcon

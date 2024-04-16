@@ -6,8 +6,10 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import IAccomodation, { TFormAccomodation } from "../../Models/IAccommodation";
-import { AccomodationsTable } from "../../Models/DataBaseModel";
+import IAccommodation, {
+  TFormAccommodation,
+} from "../../Models/IAccommodation";
+import { AccommodationsTable } from "../../Models/DataBaseModel";
 import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddArtifacts.module.css";
 import AttachmentCard from "./Attachment/AttachmentCard";
@@ -16,8 +18,8 @@ import { ESavingStatus } from "./AddArtifacts";
 import { EArtifact } from "../../Models/EArtifacts";
 import { useAppDispatch } from "../../app/hooks";
 import {
-  insertAccomodation,
-  updateAccomodation,
+  insertAccommodation,
+  updateAccommodation,
 } from "../../features/Redux/accommodationsSlice";
 import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import { MobileTimePicker } from "@mui/x-date-pickers";
@@ -35,18 +37,18 @@ import PriceInput from "./Inputs/PriceInput";
 import StatusSelector from "./Inputs/StatusSelector";
 import NameInput from "./Inputs/NameInput";
 
-export const AddAccomodation = forwardRef(
+export const AddAccommodation = forwardRef(
   (
     {
       setSaving,
       id_trip,
-      accomodation,
+      accommodation,
       setArtifactToEdit,
       isFocused,
     }: {
       setSaving: (savingStatus: ESavingStatus) => void;
       id_trip: number;
-      accomodation?: IAccomodation;
+      accommodation?: IAccommodation;
       setArtifactToEdit: (artifactEditor: TArtifactEditor) => void;
       isFocused: boolean;
     },
@@ -54,47 +56,47 @@ export const AddAccomodation = forwardRef(
   ) => {
     const dispatch = useAppDispatch();
 
-    const initialFormValues: TFormAccomodation = useMemo(() => {
-      if (accomodation) {
+    const initialFormValues: TFormAccommodation = useMemo(() => {
+      if (accommodation) {
         return {
-          [AccomodationsTable.name]: accomodation.name,
-          [AccomodationsTable.description]: accomodation.description,
-          [AccomodationsTable.price]: accomodation.price.toString(),
-          [AccomodationsTable.location]: accomodation.location,
-          [AccomodationsTable.checkin]: accomodation.checkin,
-          [AccomodationsTable.checkout]: accomodation.checkout,
-          [AccomodationsTable.lat]: accomodation.lat,
-          [AccomodationsTable.lng]: accomodation.lng,
-          [AccomodationsTable.city]: accomodation.city,
-          [AccomodationsTable.status]: accomodation.status,
-          [AccomodationsTable.breakfast]: accomodation.breakfast,
-          [AccomodationsTable.lunch]: accomodation.lunch,
-          [AccomodationsTable.dinner]: accomodation.dinner,
+          [AccommodationsTable.name]: accommodation.name,
+          [AccommodationsTable.description]: accommodation.description,
+          [AccommodationsTable.price]: accommodation.price.toString(),
+          [AccommodationsTable.location]: accommodation.location,
+          [AccommodationsTable.checkin]: accommodation.checkin,
+          [AccommodationsTable.checkout]: accommodation.checkout,
+          [AccommodationsTable.lat]: accommodation.lat,
+          [AccommodationsTable.lng]: accommodation.lng,
+          [AccommodationsTable.city]: accommodation.city,
+          [AccommodationsTable.status]: accommodation.status,
+          [AccommodationsTable.breakfast]: accommodation.breakfast,
+          [AccommodationsTable.lunch]: accommodation.lunch,
+          [AccommodationsTable.dinner]: accommodation.dinner,
         };
       }
       return {
-        [AccomodationsTable.name]: "",
-        [AccomodationsTable.description]: "",
-        [AccomodationsTable.price]: "0",
-        [AccomodationsTable.location]: "",
-        [AccomodationsTable.checkin]: "18:00",
-        [AccomodationsTable.checkout]: "10:00",
-        [AccomodationsTable.lat]: null,
-        [AccomodationsTable.lng]: null,
-        [AccomodationsTable.city]: null,
-        [AccomodationsTable.status]: EEventStatus.none,
-        [AccomodationsTable.breakfast]: 0,
-        [AccomodationsTable.lunch]: 0,
-        [AccomodationsTable.dinner]: 0,
+        [AccommodationsTable.name]: "",
+        [AccommodationsTable.description]: "",
+        [AccommodationsTable.price]: "0",
+        [AccommodationsTable.location]: "",
+        [AccommodationsTable.checkin]: "18:00",
+        [AccommodationsTable.checkout]: "10:00",
+        [AccommodationsTable.lat]: null,
+        [AccommodationsTable.lng]: null,
+        [AccommodationsTable.city]: null,
+        [AccommodationsTable.status]: EEventStatus.none,
+        [AccommodationsTable.breakfast]: 0,
+        [AccommodationsTable.lunch]: 0,
+        [AccommodationsTable.dinner]: 0,
       };
-    }, [accomodation]);
+    }, [accommodation]);
 
     const [formValues, setFormValues] =
-      useState<TFormAccomodation>(initialFormValues);
+      useState<TFormAccommodation>(initialFormValues);
 
     const initialAttachment = useMemo(
-      () => (accomodation ? accomodation.attachment : []),
-      [accomodation]
+      () => (accommodation ? accommodation.attachment : []),
+      [accommodation]
     );
     const [attachment, setAttachment] =
       useState<IAttachment[]>(initialAttachment);
@@ -108,8 +110,8 @@ export const AddAccomodation = forwardRef(
 
     useImperativeHandle(ref, () => ({
       save(artifactType: EArtifact) {
-        if (artifactType === EArtifact.Accomodation) {
-          const newAccomodation: IAccomodation = {
+        if (artifactType === EArtifact.Accommodation) {
+          const newAccommodation: IAccommodation = {
             id: 0,
             id_trip,
             ...formValues,
@@ -117,7 +119,7 @@ export const AddAccomodation = forwardRef(
             attachment,
             used: false,
           };
-          dispatch(insertAccomodation(newAccomodation)).then((result) => {
+          dispatch(insertAccommodation(newAccommodation)).then((result) => {
             if (result.meta.requestStatus === "fulfilled") {
               dispatch(
                 setSnackbarStatus({
@@ -135,16 +137,16 @@ export const AddAccomodation = forwardRef(
         }
       },
       edit(artifactType: EArtifact) {
-        if (artifactType === EArtifact.Accomodation) {
-          const updatedAccomodation: IAccomodation = {
-            id: accomodation!.id,
+        if (artifactType === EArtifact.Accommodation) {
+          const updatedAccommodation: IAccommodation = {
+            id: accommodation!.id,
             id_trip,
             ...formValues,
             price: parseFloat(formValues.price),
             attachment,
-            used: accomodation!.used,
+            used: accommodation!.used,
           };
-          dispatch(updateAccomodation(updatedAccomodation)).then((result) => {
+          dispatch(updateAccommodation(updatedAccommodation)).then((result) => {
             if (result.meta.requestStatus === "fulfilled") {
               dispatch(
                 setSnackbarStatus({
@@ -153,7 +155,7 @@ export const AddAccomodation = forwardRef(
                 })
               );
               setSaving(ESavingStatus.disabled);
-              setArtifactToEdit({ type: EArtifact.Accomodation });
+              setArtifactToEdit({ type: EArtifact.Accommodation });
             } else if (result.meta.requestStatus === "rejected") {
               //no need to set snackbar in case of rejection, handled in globalSlice
               setSaving(ESavingStatus.enabled);
@@ -246,13 +248,13 @@ export const AddAccomodation = forwardRef(
               <NameInput
                 name={formValues.name}
                 updateForm={updateForm}
-                inputName={AccomodationsTable.name}
+                inputName={AccommodationsTable.name}
               />
             </Grid>
 
             <Grid item xs={3}>
               <PriceInput
-                inputName={AccomodationsTable.price}
+                inputName={AccommodationsTable.price}
                 price={formValues.price}
                 updateForm={updateForm}
               />
@@ -261,7 +263,7 @@ export const AddAccomodation = forwardRef(
             <Grid item xs={6}>
               <LocationSearchInput
                 required
-                name={AccomodationsTable.location}
+                name={AccommodationsTable.location}
                 fullWidth
                 variant="standard"
                 label="Localisation"
@@ -343,7 +345,7 @@ export const AddAccomodation = forwardRef(
                         ...prevState,
                         [key]:
                           ((prevState[
-                            key as keyof TFormAccomodation
+                            key as keyof TFormAccommodation
                           ] as number) +
                             1) %
                           2,
@@ -355,7 +357,7 @@ export const AddAccomodation = forwardRef(
                   label={val.text}
                   color="primary"
                   variant={
-                    formValues[key as keyof TFormAccomodation]
+                    formValues[key as keyof TFormAccommodation]
                       ? "filled"
                       : "outlined"
                   }
@@ -367,12 +369,12 @@ export const AddAccomodation = forwardRef(
               <DescriptionInput
                 description={formValues.description}
                 updateForm={updateForm}
-                inputName={AccomodationsTable.description}
+                inputName={AccommodationsTable.description}
               />
             </Grid>
             <Grid item xs={4}>
               <StatusSelector
-                inputName={AccomodationsTable.status}
+                inputName={AccommodationsTable.status}
                 status={formValues.status}
                 updateForm={updateForm}
               />

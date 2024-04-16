@@ -3,7 +3,7 @@ import React from "react";
 import HotelRoundedIcon from "@mui/icons-material/HotelRounded";
 import { Tooltip } from "@mui/material";
 
-export default function AccomodationIcon({
+export default function AccommodationIcon({
   color,
   size,
 }: {

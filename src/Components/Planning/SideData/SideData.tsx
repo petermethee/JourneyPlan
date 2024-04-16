@@ -4,10 +4,10 @@ import draggableStyle from "../DraggableCardView.module.css";
 import draggableStyles from "../../Planning/DraggableCardView.module.css";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  getDraggableAccomodationSideDataStyle,
+  getDraggableAccommodationSideDataStyle,
   getDraggableSideDataStyle,
   getFinalDestination,
-  getFinalDestinationInAccomodationDZ,
+  getFinalDestinationInAccommodationDZ,
   sideDataTop,
 } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import { sideDataDragContainerStyle } from "../../../DnDCustomLib/DraggableCSS";
@@ -23,8 +23,8 @@ import {
   selectTransports,
 } from "../../../features/Redux/transportsSlice";
 import {
-  insertAccomodation,
-  selectAccomodations,
+  insertAccommodation,
+  selectAccommodations,
 } from "../../../features/Redux/accommodationsSlice";
 
 import { Fab } from "@mui/material";
@@ -32,11 +32,11 @@ import AddIcon from "@mui/icons-material/Add";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
 import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
-import AccomodationDataCard from "../ArtifactsDataCard/AccommodationDataCard";
+import AccommodationDataCard from "../ArtifactsDataCard/AccommodationDataCard";
 import ArtifactTemplate from "../ArtifactsDataCard/ArtifactTemplate";
 import {
-  accomodationColor,
-  accomodationSecColor,
+  accommodationColor,
+  accommodationSecColor,
   activityColor,
   activitySecColor,
   defaultWhite,
@@ -45,7 +45,7 @@ import {
 } from "../../../style/cssGlobalStyle";
 import ActivityIcon from "../../Shared/ActivityIcon";
 import TransportIcon from "../../Shared/TransportIcon";
-import AccomodationIcon from "../../Shared/AccommodationIcon";
+import AccommodationIcon from "../../Shared/AccommodationIcon";
 import { TArtifactEditor } from "../Planning";
 import { selectArtifactIsDragged } from "../../../features/Redux/planningSlice";
 
@@ -60,7 +60,7 @@ export default function SideData({
   const sideDataRef = useRef<HTMLDivElement>(null);
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
-  const accomodations = useAppSelector(selectAccomodations);
+  const accommodations = useAppSelector(selectAccommodations);
   const isDragged = useAppSelector(selectArtifactIsDragged);
 
   const [usedFilter, setUsedFilter] = useState<boolean | "all">(false);
@@ -85,15 +85,15 @@ export default function SideData({
     }
   }, [transports, usedFilter]);
 
-  const filteredAccomodations = useMemo(() => {
+  const filteredAccommodations = useMemo(() => {
     if (usedFilter === "all") {
-      return accomodations;
+      return accommodations;
     } else {
-      return accomodations.filter(
-        (accomodation) => accomodation.used === usedFilter
+      return accommodations.filter(
+        (accommodation) => accommodation.used === usedFilter
       );
     }
-  }, [accomodations, usedFilter]);
+  }, [accommodations, usedFilter]);
 
   const currentArtifacts = useMemo(() => {
     switch (currentArtifactType) {
@@ -183,43 +183,45 @@ export default function SideData({
         ));
 
       default:
-        return filteredAccomodations.map((accomodation) => (
+        return filteredAccommodations.map((accommodation) => (
           <DraggableCardView
-            key={"accomodation-" + accomodation.id}
-            artifactId={accomodation.id}
+            key={"accommodation-" + accommodation.id}
+            artifactId={accommodation.id}
             containerStyle={sideDataDragContainerStyle()}
             duration={1}
             shwoCaseClass={draggableStyle.showcaseSideData}
             source={{ colId: SIDE_DATA_COL_ID, timeIndex: -1 }}
-            getDraggableStyle={getDraggableAccomodationSideDataStyle}
+            getDraggableStyle={getDraggableAccommodationSideDataStyle}
             disappearAnim={
-              accomodation.used ? "" : draggableStyles.sideDataDisappearAnim
+              accommodation.used ? "" : draggableStyles.sideDataDisappearAnim
             }
-            artifactType={EArtifact.Accomodation}
-            getFinalDestination={getFinalDestinationInAccomodationDZ}
+            artifactType={EArtifact.Accommodation}
+            getFinalDestination={getFinalDestinationInAccommodationDZ}
             editArtifact={() =>
               openArtifactEditor({
-                type: EArtifact.Accomodation,
-                artifact: accomodation,
+                type: EArtifact.Accommodation,
+                artifact: accommodation,
               })
             }
-            duplicateArtifact={() => dispatch(insertAccomodation(accomodation))}
+            duplicateArtifact={() =>
+              dispatch(insertAccommodation(accommodation))
+            }
           >
             {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
               <ArtifactTemplate
-                artifact={accomodation}
+                artifact={accommodation}
                 isDragged={isDragged}
                 onDeleteFromPlanning={onDeleteFromPlanning}
                 onDelete={onDelete}
-                artifactColor={accomodationColor}
-                artifactSecColor={accomodationSecColor}
+                artifactColor={accommodationColor}
+                artifactSecColor={accommodationSecColor}
                 artifactIcon={
-                  <AccomodationIcon size="small" color={defaultWhite} />
+                  <AccommodationIcon size="small" color={defaultWhite} />
                 }
                 isHovered={isHovered}
-                isAccomodation
+                isAccommodation
               >
-                <AccomodationDataCard accomodation={accomodation} />
+                <AccommodationDataCard accommodation={accommodation} />
               </ArtifactTemplate>
             )}
           </DraggableCardView>
@@ -228,7 +230,7 @@ export default function SideData({
   }, [
     currentArtifactType,
     filteredActivities,
-    filteredAccomodations,
+    filteredAccommodations,
     filteredTransports,
     openArtifactEditor,
     dispatch,
@@ -245,9 +247,9 @@ export default function SideData({
         usedCount = activities.filter((activity) => activity.used).length;
         remainingArtifacts = activities.length - usedCount;
         break;
-      case EArtifact.Accomodation:
-        usedCount = accomodations.filter((activity) => activity.used).length;
-        remainingArtifacts = accomodations.length - usedCount;
+      case EArtifact.Accommodation:
+        usedCount = accommodations.filter((activity) => activity.used).length;
+        remainingArtifacts = accommodations.length - usedCount;
         break;
       default:
         usedCount = transports.filter((transport) => transport.used).length;
@@ -256,7 +258,7 @@ export default function SideData({
     }
     setUsedNumber(usedCount);
     setUnusedNumber(remainingArtifacts);
-  }, [activities, transports, accomodations, currentArtifactType]);
+  }, [activities, transports, accommodations, currentArtifactType]);
 
   const onWheel = (event: React.WheelEvent<HTMLDivElement>) => {
     setMarginTop((prevState) => {

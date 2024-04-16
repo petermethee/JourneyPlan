@@ -13,7 +13,7 @@
     display: flex;
     flex: 1;
     overflow: auto;
-    padding-bottom: var(--accomodationDropZoneHeight);
+    padding-bottom: var(--accommodationDropZoneHeight);
 }
 
 .gridContainer::-webkit-scrollbar {
@@ -32,7 +32,7 @@
     height: var(--totalHeight);
 }
 
-.dayAccomodationDZ, .dayContainer {
+.dayAccommodationDZ, .dayContainer {
     border-right: 1px solid #dadce0;
 }
 

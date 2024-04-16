@@ -4,10 +4,10 @@ import draggableStyle from "../DraggableCardView.module.css";
 import { TArtifactEditor, TDayCol } from "../Planning";
 import {
   cellHeight,
-  getDraggableAccomodationCalendarStyle,
+  getDraggableAccommodationCalendarStyle,
   getDraggableCalendarStyle,
   getFinalDestination,
-  getFinalDestinationInAccomodationDZ,
+  getFinalDestinationInAccommodationDZ,
   initPlanningDimensions,
   minColWidth,
   setCalendarBoundary,
@@ -17,34 +17,34 @@ import {
 } from "../../../DnDCustomLib/CalendarDimensionsHelper";
 import DraggableCardView from "../DraggableCardView";
 import {
-  accomodationDropZoneDragContainerStyle,
+  accommodationDropZoneDragContainerStyle,
   calendarDragContainerStyle,
 } from "../../../DnDCustomLib/DraggableCSS";
 import HoursLabel from "./HoursLabel";
-import AccomodationDropZone from "../Accommodation/AccommodationDropZone";
+import AccommodationDropZone from "../Accommodation/AccommodationDropZone";
 import CalendarHeader from "./CalendarHeader";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
 import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
-import AccomodationDataCard from "../ArtifactsDataCard/AccommodationDataCard";
+import AccommodationDataCard from "../ArtifactsDataCard/AccommodationDataCard";
 import ArtifactTemplate from "../ArtifactsDataCard/ArtifactTemplate";
 import {
-  accomodationColor,
-  accomodationSecColor,
+  accommodationColor,
+  accommodationSecColor,
   activityColor,
   activitySecColor,
   defaultWhite,
   transportColor,
   transportSecColor,
 } from "../../../style/cssGlobalStyle";
-import AccomodationIcon from "../../Shared/AccommodationIcon";
+import AccommodationIcon from "../../Shared/AccommodationIcon";
 import ActivityIcon from "../../Shared/ActivityIcon";
 import TransportIcon from "../../Shared/TransportIcon";
 import PlanningSheets from "./PlanningSheets/PlanningSheets";
 import { useAppDispatch } from "../../../app/hooks";
 import { insertActivity } from "../../../features/Redux/activitiesSlice";
 import { insertTransport } from "../../../features/Redux/transportsSlice";
-import { insertAccomodation } from "../../../features/Redux/accommodationsSlice";
+import { insertAccommodation } from "../../../features/Redux/accommodationsSlice";
 
 export const getHours = (): string[] => {
   const hours: string[] = [];
@@ -268,7 +268,7 @@ function CalendarView({
             ))}
         </div>
       </div>
-      <AccomodationDropZone dropZoneRef={dropZoneRef}>
+      <AccommodationDropZone dropZoneRef={dropZoneRef}>
         {dayCols
           .filter(
             (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
@@ -276,61 +276,61 @@ function CalendarView({
           .map((dayCol, index) => (
             <div
               key={dayCol.dateId}
-              className={styles.dayAccomodationDZ}
+              className={styles.dayAccommodationDZ}
               style={{ width: colWidth }}
             >
-              {dayCol.planningAccomodations.map((PA) => (
+              {dayCol.planningAccommodations.map((PA) => (
                 <DraggableCardView
-                  key={`${PA.accomodation.id}_${dayCol.dateId}_${PA.timeIndex}`}
+                  key={`${PA.accommodation.id}_${dayCol.dateId}_${PA.timeIndex}`}
                   PAId={PA.id}
-                  artifactId={PA.accomodation.id}
+                  artifactId={PA.accommodation.id}
                   duration={1}
-                  containerStyle={accomodationDropZoneDragContainerStyle(
+                  containerStyle={accommodationDropZoneDragContainerStyle(
                     colWidth - 1
                   )}
                   source={{ colId: dayCol.dateId, timeIndex: PA.timeIndex }}
-                  getDraggableStyle={getDraggableAccomodationCalendarStyle}
+                  getDraggableStyle={getDraggableAccommodationCalendarStyle}
                   disappearAnim={draggableStyle.calendarDisappear}
                   shwoCaseClass={draggableStyle.calendarShowcase}
-                  artifactType={EArtifact.Accomodation}
-                  getFinalDestination={getFinalDestinationInAccomodationDZ}
+                  artifactType={EArtifact.Accommodation}
+                  getFinalDestination={getFinalDestinationInAccommodationDZ}
                   editArtifact={() =>
                     openArtifactEditor({
-                      type: EArtifact.Accomodation,
-                      artifact: PA.accomodation,
+                      type: EArtifact.Accommodation,
+                      artifact: PA.accommodation,
                     })
                   }
                   duplicateArtifact={() =>
                     dispatch(
-                      insertAccomodation({ ...PA.accomodation, used: false })
+                      insertAccommodation({ ...PA.accommodation, used: false })
                     )
                   }
                 >
                   {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
                     <ArtifactTemplate
-                      artifact={PA.accomodation}
+                      artifact={PA.accommodation}
                       isDragged={isDragged}
                       onDeleteFromPlanning={onDeleteFromPlanning}
                       onDelete={onDelete}
-                      artifactColor={accomodationColor}
-                      artifactSecColor={accomodationSecColor}
+                      artifactColor={accommodationColor}
+                      artifactSecColor={accommodationSecColor}
                       artifactIcon={
-                        <AccomodationIcon size="small" color={defaultWhite} />
+                        <AccommodationIcon size="small" color={defaultWhite} />
                       }
                       isHovered={isHovered}
                       insideCalendar
                       timeIndex={PA.timeIndex}
                       isInFirstCol={index === 0}
-                      isAccomodation={true}
+                      isAccommodation={true}
                     >
-                      <AccomodationDataCard accomodation={PA.accomodation} />
+                      <AccommodationDataCard accommodation={PA.accommodation} />
                     </ArtifactTemplate>
                   )}
                 </DraggableCardView>
               ))}
             </div>
           ))}
-      </AccomodationDropZone>
+      </AccommodationDropZone>
     </div>
   );
 }

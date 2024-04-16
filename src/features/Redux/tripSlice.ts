@@ -28,10 +28,10 @@ import {
   updateTransport,
 } from "./transportsSlice";
 import {
-  deleteAccomodation,
-  getAllAccomodations,
-  insertAccomodation,
-  updateAccomodation,
+  deleteAccommodation,
+  getAllAccommodations,
+  insertAccommodation,
+  updateAccommodation,
 } from "./accommodationsSlice";
 
 interface TripState {
@@ -206,8 +206,8 @@ export const tripSlice = createSlice({
           snackBarSeverity: "error",
         };
       })
-      //Accomodations
-      .addCase(getAllAccomodations.rejected, (state, action) => {
+      //Accommodations
+      .addCase(getAllAccommodations.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
             "Erreur lors de la lecture des hébergements: " +
@@ -215,7 +215,7 @@ export const tripSlice = createSlice({
           snackBarSeverity: "error",
         };
       })
-      .addCase(insertAccomodation.rejected, (state, action) => {
+      .addCase(insertAccommodation.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
             "Erreur lors de la création de l'hébergement: " +
@@ -223,14 +223,14 @@ export const tripSlice = createSlice({
           snackBarSeverity: "error",
         };
       })
-      .addCase(updateAccomodation.rejected, (state, action) => {
+      .addCase(updateAccommodation.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
             "Erreur lors de la MAJ de l'hébergement: " + action.error.message!,
           snackBarSeverity: "error",
         };
       })
-      .addCase(deleteAccomodation.rejected, (state, action) => {
+      .addCase(deleteAccommodation.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
             "Erreur lors de la supression de l'hébergement: " +

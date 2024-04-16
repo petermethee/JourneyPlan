@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./SwipeableViews.module.css";
 import { EArtifact } from "../../Models/EArtifacts";
-import IAccomodation from "../../Models/IAccommodation";
+import IAccommodation from "../../Models/IAccommodation";
 import IActivity from "../../Models/IActivity";
 import ITransport from "../../Models/ITransport";
 import { TArtifactEditor } from "../Planning/Planning";
-import { AddAccomodation } from "./AddAccommodation";
+import { AddAccommodation } from "./AddAccommodation";
 import { AddActivity } from "./AddActivity";
 import { ESavingStatus, tabs, TRefElem } from "./AddArtifacts";
 import { AddTransport } from "./AddTransport";
@@ -14,7 +14,7 @@ export default function SwipeableViews({
   addActivityRef,
   artifactToEdit,
   addTransportRef,
-  addAccomodationRef,
+  addAccommodationRef,
   setArtifactToEdit,
   setSaving,
   tab,
@@ -26,7 +26,7 @@ export default function SwipeableViews({
   setSaving: (status: ESavingStatus) => void;
   addActivityRef: React.MutableRefObject<TRefElem | undefined>;
   addTransportRef: React.MutableRefObject<TRefElem | undefined>;
-  addAccomodationRef: React.MutableRefObject<TRefElem | undefined>;
+  addAccommodationRef: React.MutableRefObject<TRefElem | undefined>;
   id_trip?: number;
 }) {
   return (
@@ -67,19 +67,19 @@ export default function SwipeableViews({
         />
       </div>
       <div>
-        <AddAccomodation
-          key="accomodation"
+        <AddAccommodation
+          key="accommodation"
           id_trip={id_trip!}
           setSaving={setSaving}
-          ref={addAccomodationRef}
-          accomodation={
-            artifactToEdit.type === EArtifact.Accomodation &&
+          ref={addAccommodationRef}
+          accommodation={
+            artifactToEdit.type === EArtifact.Accommodation &&
             artifactToEdit.artifact
-              ? (artifactToEdit.artifact as IAccomodation)
+              ? (artifactToEdit.artifact as IAccommodation)
               : undefined
           }
           setArtifactToEdit={setArtifactToEdit}
-          isFocused={tab === EArtifact.Accomodation}
+          isFocused={tab === EArtifact.Accommodation}
         />
       </div>
     </div>

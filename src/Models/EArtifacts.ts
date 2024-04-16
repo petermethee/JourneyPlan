@@ -1,5 +1,5 @@
 import {
-  AccomodationsTable,
+  AccommodationsTable,
   ActivitiesTable,
   TablesName,
   TransportsTable,
@@ -8,13 +8,13 @@ import {
 export enum EArtifact {
   Activity = "Activity",
   Transport = "Transport",
-  Accomodation = "Accomodation",
+  Accommodation = "Accommodation",
 }
 
 export enum EArtifactTableName {
   Activity = TablesName.activities,
   Transport = TablesName.transports,
-  Accomodation = TablesName.accomodations,
+  Accommodation = TablesName.accommodations,
 }
 
 export const getArtifactTableEnum = (table: EArtifactTableName) => {
@@ -24,6 +24,6 @@ export const getArtifactTableEnum = (table: EArtifactTableName) => {
     case EArtifactTableName.Transport:
       return TransportsTable;
     default:
-      return AccomodationsTable;
+      return AccommodationsTable;
   }
 };

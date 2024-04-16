@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import IAccomodation from "../../Models/IAccommodation";
+import IAccommodation from "../../Models/IAccommodation";
 import {
   deleteItemAPI,
   getAllItemsAPI,
@@ -10,136 +10,138 @@ import { RootState } from "../../app/store";
 import { EArtifactTableName } from "../../Models/EArtifacts";
 import IPlanningArtifact from "../../Models/IPlanningArtifact";
 
-interface AccomodationsState {
-  accomodations: IAccomodation[];
-  accomodationIsDragged: boolean;
+interface AccommodationsState {
+  accommodations: IAccommodation[];
+  accommodationIsDragged: boolean;
 }
 
-const initialState: AccomodationsState = {
-  accomodations: [],
-  accomodationIsDragged: false,
+const initialState: AccommodationsState = {
+  accommodations: [],
+  accommodationIsDragged: false,
 };
 
-export const getAllAccomodations = createAsyncThunk(
-  "getAllAccomodations",
+export const getAllAccommodations = createAsyncThunk(
+  "getAllAccommodations",
   async (tripId: number) => {
     return (await getAllItemsAPI(
-      EArtifactTableName.Accomodation,
+      EArtifactTableName.Accommodation,
       tripId
-    )) as IAccomodation[];
+    )) as IAccommodation[];
   }
 );
 
-export const insertAccomodation = createAsyncThunk(
-  "insertAccomodation",
-  async (accomodation: IAccomodation) => {
+export const insertAccommodation = createAsyncThunk(
+  "insertAccommodation",
+  async (accommodation: IAccommodation) => {
     const result = await insertItemAPI(
-      EArtifactTableName.Accomodation,
-      accomodation
+      EArtifactTableName.Accommodation,
+      accommodation
     );
     return {
-      ...accomodation,
+      ...accommodation,
       id: result.id,
       attachment: result.newAttachments,
     };
   }
 );
 
-export const updateAccomodation = createAsyncThunk(
-  "updateAccomodation",
-  async (accomodation: IAccomodation) => {
-    await updateItemAPI(EArtifactTableName.Accomodation, accomodation);
-    return accomodation;
+export const updateAccommodation = createAsyncThunk(
+  "updateAccommodation",
+  async (accommodation: IAccommodation) => {
+    await updateItemAPI(EArtifactTableName.Accommodation, accommodation);
+    return accommodation;
   }
 );
 
-export const deleteAccomodation = createAsyncThunk(
-  "deleteAccomodation",
-  async (accomodationId: number) => {
-    await deleteItemAPI(EArtifactTableName.Accomodation, accomodationId);
-    return accomodationId;
+export const deleteAccommodation = createAsyncThunk(
+  "deleteAccommodation",
+  async (accommodationId: number) => {
+    await deleteItemAPI(EArtifactTableName.Accommodation, accommodationId);
+    return accommodationId;
   }
 );
 
-export const accomodationsSlice = createSlice({
-  name: "accomodationsSlice",
+export const accommodationsSlice = createSlice({
+  name: "accommodationsSlice",
   initialState: initialState,
   reducers: {
-    setAllAccomodations: (
-      state: AccomodationsState,
-      action: PayloadAction<IAccomodation[]>
+    setAllAccommodations: (
+      state: AccommodationsState,
+      action: PayloadAction<IAccommodation[]>
     ) => {
-      state.accomodations = action.payload;
+      state.accommodations = action.payload;
     },
-    insertAccomodation: (
-      state: AccomodationsState,
-      action: PayloadAction<IAccomodation>
+    insertAccommodation: (
+      state: AccommodationsState,
+      action: PayloadAction<IAccommodation>
     ) => {
-      state.accomodations.push(action.payload);
+      state.accommodations.push(action.payload);
     },
-    updateAccomodation: (
-      state: AccomodationsState,
-      action: PayloadAction<IAccomodation>
+    updateAccommodation: (
+      state: AccommodationsState,
+      action: PayloadAction<IAccommodation>
     ) => {
-      const updatedAccomodation = action.payload;
-      state.accomodations = state.accomodations.map((activity) =>
-        activity.id === updatedAccomodation.id ? updatedAccomodation : activity
+      const updatedAccommodation = action.payload;
+      state.accommodations = state.accommodations.map((activity) =>
+        activity.id === updatedAccommodation.id
+          ? updatedAccommodation
+          : activity
       );
     },
-    deleteAccomodation: (
-      state: AccomodationsState,
+    deleteAccommodation: (
+      state: AccommodationsState,
       action: PayloadAction<number>
     ) => {
-      state.accomodations = state.accomodations.filter(
-        (accomodation) => accomodation.id !== action.payload
+      state.accommodations = state.accommodations.filter(
+        (accommodation) => accommodation.id !== action.payload
       );
     },
-    setUsedAccomodations: (
-      state: AccomodationsState,
+    setUsedAccommodations: (
+      state: AccommodationsState,
       action: PayloadAction<number>
     ) => {
-      state.accomodations = state.accomodations.map((accomodation) =>
-        accomodation.id === action.payload
-          ? { ...accomodation, used: !accomodation.used }
-          : accomodation
+      state.accommodations = state.accommodations.map((accommodation) =>
+        accommodation.id === action.payload
+          ? { ...accommodation, used: !accommodation.used }
+          : accommodation
       );
     },
-    initUsedAccomodations: (
-      state: AccomodationsState,
+    initUsedAccommodations: (
+      state: AccommodationsState,
       action: PayloadAction<IPlanningArtifact[]>
     ) => {
-      state.accomodations.forEach((accomodation) => {
-        accomodation.used = action.payload.some(
-          (PA) => PA.artifactId === accomodation.id
+      state.accommodations.forEach((accommodation) => {
+        accommodation.used = action.payload.some(
+          (PA) => PA.artifactId === accommodation.id
         );
       });
     },
-    resetAccomodationsSlice: () => initialState,
+    resetAccommodationsSlice: () => initialState,
   },
   extraReducers(builder) {
     builder
-      .addCase(getAllAccomodations.fulfilled, (state, action) => {
-        accomodationsSlice.caseReducers.setAllAccomodations(state, action);
+      .addCase(getAllAccommodations.fulfilled, (state, action) => {
+        accommodationsSlice.caseReducers.setAllAccommodations(state, action);
       })
-      .addCase(deleteAccomodation.fulfilled, (state, action) => {
-        accomodationsSlice.caseReducers.deleteAccomodation(state, action);
+      .addCase(deleteAccommodation.fulfilled, (state, action) => {
+        accommodationsSlice.caseReducers.deleteAccommodation(state, action);
       })
-      .addCase(insertAccomodation.fulfilled, (state, action) => {
-        accomodationsSlice.caseReducers.insertAccomodation(state, action);
+      .addCase(insertAccommodation.fulfilled, (state, action) => {
+        accommodationsSlice.caseReducers.insertAccommodation(state, action);
       })
-      .addCase(updateAccomodation.fulfilled, (state, action) => {
-        accomodationsSlice.caseReducers.updateAccomodation(state, action);
+      .addCase(updateAccommodation.fulfilled, (state, action) => {
+        accommodationsSlice.caseReducers.updateAccommodation(state, action);
       });
   },
 });
 
 export const {
-  setUsedAccomodations,
-  initUsedAccomodations,
-  resetAccomodationsSlice,
-} = accomodationsSlice.actions;
+  setUsedAccommodations,
+  initUsedAccommodations,
+  resetAccommodationsSlice,
+} = accommodationsSlice.actions;
 
-export const selectAccomodations = (state: RootState) =>
-  state.accomodationsReducer.accomodations;
+export const selectAccommodations = (state: RootState) =>
+  state.accommodationsReducer.accommodations;
 
-export default accomodationsSlice.reducer;
+export default accommodationsSlice.reducer;

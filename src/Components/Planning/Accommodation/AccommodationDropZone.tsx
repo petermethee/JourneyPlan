@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import styles from "./AccomodationDropZone.module.css";
+import styles from "./AccommodationDropZone.module.css";
 import { useAppSelector } from "../../../app/hooks";
 import { selectArtifactIsDragged } from "../../../features/Redux/planningSlice";
 import { EArtifact } from "../../../Models/EArtifacts";
-import AccomodationIcon from "../../Shared/AccommodationIcon";
+import AccommodationIcon from "../../Shared/AccommodationIcon";
 
 const animations = {
   expand: styles.expand,
@@ -11,7 +11,7 @@ const animations = {
   retract: `${styles.retract} 300ms ease 300ms both`,
   show: `${styles.show} 300ms ease 300ms both`,
 };
-export default function AccomodationDropZone({
+export default function AccommodationDropZone({
   children,
   dropZoneRef,
 }: {
@@ -21,7 +21,7 @@ export default function AccomodationDropZone({
   const artifactDragged = useAppSelector(selectArtifactIsDragged);
 
   const currentStyle = useMemo(() => {
-    if (artifactDragged === EArtifact.Accomodation) {
+    if (artifactDragged === EArtifact.Accommodation) {
       return animations.expand;
     } else if (artifactDragged !== null) {
       return animations.hide;
@@ -40,11 +40,11 @@ export default function AccomodationDropZone({
       <div
         className={styles.textContainer}
         style={{
-          opacity: artifactDragged === EArtifact.Accomodation ? 1 : 0,
+          opacity: artifactDragged === EArtifact.Accommodation ? 1 : 0,
         }}
       >
         <div className={styles.textInfo}>
-          <AccomodationIcon />
+          <AccommodationIcon />
           Hébergement
         </div>
       </div>

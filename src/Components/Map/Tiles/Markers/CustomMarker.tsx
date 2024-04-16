@@ -3,7 +3,7 @@ import { EArtifact } from "../../../../Models/EArtifacts";
 import { useMemo } from "react";
 import { DivIcon } from "leaflet";
 import ReactDOMServer from "react-dom/server";
-import accomodationMark from "../../../../assets/AccomodationMarkNoIcon.png";
+import accommodationMark from "../../../../assets/AccommodationMarkNoIcon.png";
 import activityMark from "../../../../assets/ActivityMarkNoIcon.png";
 import transportTarget from "../../../../assets/transportTarget.png";
 
@@ -41,7 +41,7 @@ export default function CustomMarker({
 
         break;
       default:
-        mark = accomodationMark;
+        mark = accommodationMark;
         break;
     }
     const { h, w } =

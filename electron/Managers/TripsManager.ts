@@ -1,6 +1,6 @@
 import { Database } from "better-sqlite3";
 import {
-  AccomodationsTable,
+  AccommodationsTable,
   ActivitiesTable,
   AttachmentsTable,
   PlanningArtifactTable,
@@ -113,15 +113,15 @@ export default class TripsManager {
     const transportsPaths = this.db.prepare(attachmentQuery).all() as {
       path: string;
     }[];
-    attachmentQuery = `SELECT att.${AttachmentsTable.path} FROM ${TablesName.accomodations} act JOIN ${TablesName.attachments} att ON act.${AccomodationsTable.id} = att.${AttachmentsTable.id_accomodation} WHERE act.${AccomodationsTable.id_trip} = ${tripId}`;
-    const accomodationsPaths = this.db.prepare(attachmentQuery).all() as {
+    attachmentQuery = `SELECT att.${AttachmentsTable.path} FROM ${TablesName.accommodations} act JOIN ${TablesName.attachments} att ON act.${AccommodationsTable.id} = att.${AttachmentsTable.id_accommodation} WHERE act.${AccommodationsTable.id_trip} = ${tripId}`;
+    const accommodationsPaths = this.db.prepare(attachmentQuery).all() as {
       path: string;
     }[];
 
     const paths = [
       ...activitesPaths,
       ...transportsPaths,
-      ...accomodationsPaths,
+      ...accommodationsPaths,
     ];
 
     const imagePathQuery = `SELECT ${TripsTable.imagePath} from ${TablesName.trips} WHERE ${TripsTable.id} = ${tripId}`;

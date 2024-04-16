@@ -1,7 +1,7 @@
 import { memo, useMemo, useState } from "react";
 import { EArtifact } from "../../../../Models/EArtifacts";
 import { useAppSelector } from "../../../../app/hooks";
-import { selectAccomodations } from "../../../../features/Redux/accommodationsSlice";
+import { selectAccommodations } from "../../../../features/Redux/accommodationsSlice";
 import { selectActivities } from "../../../../features/Redux/activitiesSlice";
 import { selectPlanningArtifacts } from "../../../../features/Redux/planningSlice";
 import { selectTransports } from "../../../../features/Redux/transportsSlice";
@@ -18,7 +18,7 @@ function TotalPrice() {
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
-  const accomodations = useAppSelector(selectAccomodations);
+  const accommodations = useAppSelector(selectAccommodations);
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -50,42 +50,42 @@ function TotalPrice() {
     return finalPrice;
   }, [planningArtifacts, transports]);
 
-  const accomodationsAndFoodPrice = useMemo(() => {
-    let accomodationPrice = 0;
+  const accommodationsAndFoodPrice = useMemo(() => {
+    let accommodationPrice = 0;
     const nbDays = dayjs(trip?.end_date).diff(dayjs(trip?.start_date), "day");
     let foodPrice =
       nbDays *
       ((trip?.breakfast ?? 0) + (trip?.lunch ?? 0) + (trip?.dinner ?? 0));
     planningArtifacts.forEach((PA) => {
       let price: number;
-      if (PA.artifactType === EArtifact.Accomodation) {
-        const accomodation = accomodations.find(
-          (accomodation) => accomodation.id === PA.artifactId
+      if (PA.artifactType === EArtifact.Accommodation) {
+        const accommodation = accommodations.find(
+          (accommodation) => accommodation.id === PA.artifactId
         );
-        price = accomodation?.price ?? 0;
-        if (accomodation?.breakfast === 1) {
+        price = accommodation?.price ?? 0;
+        if (accommodation?.breakfast === 1) {
           foodPrice -= trip?.breakfast ?? 0;
         }
-        if (accomodation?.lunch === 1) {
+        if (accommodation?.lunch === 1) {
           foodPrice -= trip?.lunch ?? 0;
         }
-        if (accomodation?.dinner === 1) {
+        if (accommodation?.dinner === 1) {
           foodPrice -= trip?.dinner ?? 0;
         }
-        accomodationPrice += price;
+        accommodationPrice += price;
       }
     });
-    return { accomodationPrice, foodPrice };
-  }, [planningArtifacts, accomodations, trip]);
+    return { accommodationPrice, foodPrice };
+  }, [planningArtifacts, accommodations, trip]);
 
   const totalPrice = useMemo(() => {
     return (
       activitiesPrice +
       transportsPrice +
-      accomodationsAndFoodPrice.accomodationPrice +
-      accomodationsAndFoodPrice.foodPrice
+      accommodationsAndFoodPrice.accommodationPrice +
+      accommodationsAndFoodPrice.foodPrice
     );
-  }, [activitiesPrice, transportsPrice, accomodationsAndFoodPrice]);
+  }, [activitiesPrice, transportsPrice, accommodationsAndFoodPrice]);
 
   const tooltip = useMemo(() => {
     return (
@@ -105,13 +105,13 @@ function TotalPrice() {
         <div>
           <span>Hébergement :</span>
           <span>
-            {accomodationsAndFoodPrice.accomodationPrice} {trip?.currency}
+            {accommodationsAndFoodPrice.accommodationPrice} {trip?.currency}
           </span>
         </div>
         <div>
           <span>Alimentation :</span>
           <span>
-            {accomodationsAndFoodPrice.foodPrice} {trip?.currency}
+            {accommodationsAndFoodPrice.foodPrice} {trip?.currency}
           </span>
         </div>
       </div>
@@ -119,7 +119,7 @@ function TotalPrice() {
   }, [
     activitiesPrice,
     transportsPrice,
-    accomodationsAndFoodPrice,
+    accommodationsAndFoodPrice,
     trip?.currency,
   ]);
 

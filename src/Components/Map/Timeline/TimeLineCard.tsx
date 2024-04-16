@@ -33,7 +33,7 @@ export default function TimeLineCard({
           className={
             type === EArtifact.Transport
               ? styles.idTriangle
-              : type === EArtifact.Accomodation
+              : type === EArtifact.Accommodation
               ? styles.idSquare
               : styles.idBubble
           }

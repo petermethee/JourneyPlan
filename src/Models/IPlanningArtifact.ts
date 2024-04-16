@@ -14,7 +14,7 @@ export interface IDBPlanningArtifact {
   [PlanningArtifactTable.id]: number;
   [PlanningArtifactTable.date]: string;
   [PlanningArtifactTable.timeIndex]: number;
-  [PlanningArtifactTable.id_accomodation]: number | null;
+  [PlanningArtifactTable.id_accommodation]: number | null;
   [PlanningArtifactTable.id_activity]: number | null;
   [PlanningArtifactTable.id_transport]: number | null;
   [PlanningArtifactTable.id_planning]: number;

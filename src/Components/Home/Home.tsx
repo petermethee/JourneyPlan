@@ -14,7 +14,7 @@ import TripTile from "./TripTile";
 import { resetPlanningSlice } from "../../features/Redux/planningSlice";
 import { resetActivitiesSlice } from "../../features/Redux/activitiesSlice";
 import { resetTransportsSlice } from "../../features/Redux/transportsSlice";
-import { resetAccomodationsSlice } from "../../features/Redux/accommodationsSlice";
+import { resetAccommodationsSlice } from "../../features/Redux/accommodationsSlice";
 
 export default function Home() {
   const trips = useAppSelector(selectTrips);
@@ -26,7 +26,7 @@ export default function Home() {
     dispatch(resetPlanningSlice());
     dispatch(resetActivitiesSlice());
     dispatch(resetTransportsSlice());
-    dispatch(resetAccomodationsSlice());
+    dispatch(resetAccommodationsSlice());
     dispatch(getAllTrips());
   }, [dispatch]);
 

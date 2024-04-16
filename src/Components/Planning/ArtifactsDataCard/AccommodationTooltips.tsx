@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./GenericTooltips.module.css";
 
-export default function AccomodationTooltips({
+export default function AccommodationTooltips({
   description,
   pj,
   visible,

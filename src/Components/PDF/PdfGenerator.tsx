@@ -6,7 +6,7 @@ import { selectPlanningArtifacts } from "../../features/Redux/planningSlice";
 import { useEffect, useMemo, useState } from "react";
 import { EArtifact } from "../../Models/EArtifacts";
 import { IArtifact } from "../../Models/IArtifact";
-import { selectAccomodations } from "../../features/Redux/accommodationsSlice";
+import { selectAccommodations } from "../../features/Redux/accommodationsSlice";
 import { selectActivities } from "../../features/Redux/activitiesSlice";
 import { selectTransports } from "../../features/Redux/transportsSlice";
 import dayjs from "dayjs";
@@ -32,7 +32,7 @@ export default function PdfGenerator() {
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
-  const accomodations = useAppSelector(selectAccomodations);
+  const accommodations = useAppSelector(selectAccommodations);
 
   const [daysArtifacts, setDaysArtifacts] = useState<TDaysArtifacts[]>([]);
 
@@ -93,11 +93,11 @@ export default function PdfGenerator() {
             break;
 
           default:
-            artifact = accomodations.find(
-              (accomodation) => accomodation.id === PA.artifactId
+            artifact = accommodations.find(
+              (accommodation) => accommodation.id === PA.artifactId
             )!;
 
-            type = EArtifact.Accomodation;
+            type = EArtifact.Accommodation;
 
             break;
         }
@@ -114,7 +114,7 @@ export default function PdfGenerator() {
     }
 
     setDaysArtifacts(tempDaysArtifacts);
-  }, [activities, transports, accomodations, sortedPlanningArtifacts, trip]);
+  }, [activities, transports, accommodations, sortedPlanningArtifacts, trip]);
 
   return (
     <div style={{ height: "100%", position: "relative", overflow: "hidden" }}>

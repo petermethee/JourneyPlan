@@ -7,7 +7,7 @@ import ArtifactsDbManager from "../Managers/ArtifactsDbManager";
 import { TablesName } from "../../src/Models/DataBaseModel";
 import { EArtifactTableName } from "../../src/Models/EArtifacts";
 import ITransport from "../../src/Models/ITransport";
-import IAccomodation from "../../src/Models/IAccommodation";
+import IAccommodation from "../../src/Models/IAccommodation";
 
 export default class ArtifactIpcHandlers {
   db: Database;
@@ -36,7 +36,7 @@ export default class ArtifactIpcHandlers {
         artifact:
           | Partial<IActivity>
           | Partial<ITransport>
-          | Partial<IAccomodation>
+          | Partial<IAccommodation>
       ) => {
         //trip is partial to allow id deletion
         return this.dataBaseManager.insertInTable(tableName, artifact);

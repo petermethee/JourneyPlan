@@ -1,53 +1,53 @@
 import { View } from "@react-pdf/renderer";
 import TripInfo from "../Views/TripInfo";
-import IAccomodation from "../../../Models/IAccommodation";
+import IAccommodation from "../../../Models/IAccommodation";
 import { TPdfArtifact } from "../PdfGenerator";
-import { accomodationColor } from "../../../style/cssGlobalStyle";
+import { accommodationColor } from "../../../style/cssGlobalStyle";
 import LeftLine from "../Views/LeftLine";
 import ArtifactTitle from "../Views/ArtifactTitle";
 import { useMemo } from "react";
 import { meals } from "../../../Helper/MealsHelper";
 
-export default function AccomodationPdf({
-  accomodation,
+export default function AccommodationPdf({
+  accommodation,
   currency,
 }: {
-  accomodation: TPdfArtifact<IAccomodation>;
+  accommodation: TPdfArtifact<IAccommodation>;
   currency?: string;
 }) {
   const mealsInfo = useMemo(() => {
     const finalInfo: { title: string; info: string }[] = [];
     Object.entries(meals).forEach(([meal, data]) => {
       const text =
-        accomodation[meal as keyof IAccomodation] === 1 ? "OUI" : "NON";
+        accommodation[meal as keyof IAccommodation] === 1 ? "OUI" : "NON";
 
       finalInfo.push({ title: data.text, info: text });
     });
     return finalInfo;
-  }, [accomodation]);
+  }, [accommodation]);
 
   return (
     <>
       <LeftLine
-        startTime={accomodation.checkin}
-        endTime={accomodation.checkout}
-        color={accomodationColor}
+        startTime={accommodation.checkin}
+        endTime={accommodation.checkout}
+        color={accommodationColor}
       />
       <View style={{ width: "100%" }}>
         <ArtifactTitle
-          title={accomodation.name}
-          price={accomodation.price}
-          eventStatus={accomodation.status}
+          title={accommodation.name}
+          price={accommodation.price}
+          eventStatus={accommodation.status}
           currency={currency}
-          color={accomodationColor}
+          color={accommodationColor}
         />
 
         <TripInfo
           title="Adresse"
-          info={accomodation.location}
+          info={accommodation.location}
           address={
-            accomodation.lat && accomodation.lng
-              ? { lat: accomodation.lat, lng: accomodation.lng }
+            accommodation.lat && accommodation.lng
+              ? { lat: accommodation.lat, lng: accommodation.lng }
               : undefined
           }
         />
@@ -58,13 +58,13 @@ export default function AccomodationPdf({
             info={mealInfo.info}
           />
         ))}
-        {accomodation.description !== undefined && (
-          <TripInfo title="Description" info={accomodation.description} />
+        {accommodation.description !== undefined && (
+          <TripInfo title="Description" info={accommodation.description} />
         )}
-        {accomodation.attachment.length > 0 && (
+        {accommodation.attachment.length > 0 && (
           <TripInfo
             title={"Pièces jointes"}
-            info={accomodation.attachment.join(", ")}
+            info={accommodation.attachment.join(", ")}
           />
         )}
       </View>

@@ -1,12 +1,12 @@
-import IAccomodation from "../../../Models/IAccommodation";
+import IAccommodation from "../../../Models/IAccommodation";
 import styles from "./CommonArtifactStyle.module.css";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";
 import { Grid } from "@mui/material";
-export default function AccomodationDataCard({
-  accomodation,
+export default function AccommodationDataCard({
+  accommodation,
 }: {
-  accomodation: IAccomodation;
+  accommodation: IAccommodation;
 }) {
   return (
     <>
@@ -20,7 +20,7 @@ export default function AccomodationDataCard({
         <PlaceIcon fontSize="small" />
         <div className={styles.titleContainer}>
           <span className={styles.textContainer}>
-            {accomodation.city ?? accomodation.location}
+            {accommodation.city ?? accommodation.location}
           </span>
         </div>
       </Grid>
@@ -34,7 +34,7 @@ export default function AccomodationDataCard({
       >
         <AttachFileIcon fontSize="small" />
         <span className={styles.textContainer}>
-          {accomodation.attachment.length}
+          {accommodation.attachment.length}
         </span>
       </Grid>
     </>

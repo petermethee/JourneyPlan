@@ -32,8 +32,8 @@ import {
   setUsedTransports,
 } from "../../features/Redux/transportsSlice";
 import {
-  deleteAccomodation,
-  setUsedAccomodations,
+  deleteAccommodation,
+  setUsedAccommodations,
 } from "../../features/Redux/accommodationsSlice";
 import { defaultWhite, primaryColor } from "../../style/cssGlobalStyle";
 import { GRID_CONTAINER } from "./Calendar/CalendarView";
@@ -142,7 +142,7 @@ function DraggableCardView({
       const gridContainer = document.getElementById(GRID_CONTAINER)!;
       const { top, bottom } = gridContainer.getBoundingClientRect();
       if (
-        artifactType !== EArtifact.Accomodation &&
+        artifactType !== EArtifact.Accommodation &&
         disappearAnim === styles.calendarDisappear &&
         !scrollInterval
       ) {
@@ -207,13 +207,13 @@ function DraggableCardView({
 
   const checkCollision = useCallback(
     (colId: string, timeIndex: number) => {
-      if (artifactType === EArtifact.Accomodation) {
+      if (artifactType === EArtifact.Accommodation) {
         return planningArtifacts
-          .filter((PA) => PA.artifactType === EArtifact.Accomodation)
+          .filter((PA) => PA.artifactType === EArtifact.Accommodation)
           .some((PA) => PA.id !== PAId && PA.date === colId);
       } else {
         return planningArtifacts
-          .filter((PA) => PA.artifactType !== EArtifact.Accomodation)
+          .filter((PA) => PA.artifactType !== EArtifact.Accommodation)
           .some((PA) => {
             if (PA.id === PAId) {
               return false;
@@ -370,7 +370,7 @@ function DraggableCardView({
             dispatch(setUsedTransports(artifactId));
             break;
           default:
-            dispatch(setUsedAccomodations(artifactId));
+            dispatch(setUsedAccommodations(artifactId));
             break;
         }
       }
@@ -399,7 +399,7 @@ function DraggableCardView({
               break;
 
             default:
-              dispatch(setUsedAccomodations(artifactId));
+              dispatch(setUsedAccommodations(artifactId));
               break;
           }
         }
@@ -412,7 +412,7 @@ function DraggableCardView({
             dispatch(deleteTransport(artifactId));
             break;
           default:
-            dispatch(deleteAccomodation(artifactId));
+            dispatch(deleteAccommodation(artifactId));
             break;
         }
       }

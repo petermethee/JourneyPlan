@@ -1,15 +1,15 @@
 import { CSSProperties } from "react";
 import { SIDE_DATA_COL_ID } from "../Components/Planning/SideData/SideData";
 import {
-  onDragOverAccomodationDZStyle,
+  onDragOverAccommodationDZStyle,
   onDragOverCalendarStyle,
   onDragOverSideDataStyle,
 } from "./DraggableCSS";
 
 export const minColWidth = 170;
 export const cellHeight = 70;
-export const accomodationDropZoneHeight = 100;
-export const expandedAccomodationDropZoneHeight = 200;
+export const accommodationDropZoneHeight = 100;
+export const expandedAccommodationDropZoneHeight = 200;
 
 export let sideDataTop: number;
 
@@ -29,12 +29,12 @@ document.documentElement.style.setProperty(
 );
 document.documentElement.style.setProperty("--cellHeight", cellHeight + "px");
 document.documentElement.style.setProperty(
-  "--accomodationDropZoneHeight",
-  accomodationDropZoneHeight + "px"
+  "--accommodationDropZoneHeight",
+  accommodationDropZoneHeight + "px"
 );
 document.documentElement.style.setProperty(
-  "--expandedAccomodationDropZoneHeight",
-  expandedAccomodationDropZoneHeight + "px"
+  "--expandedAccommodationDropZoneHeight",
+  expandedAccommodationDropZoneHeight + "px"
 );
 let columnWidth: number;
 let colIds: string[];
@@ -175,7 +175,7 @@ export const getDraggableSideDataStyle = (
   return style;
 };
 
-export const getDraggableAccomodationSideDataStyle = (
+export const getDraggableAccommodationSideDataStyle = (
   x: number,
   y: number,
   deltaMousePosition: { x: number; y: number },
@@ -184,7 +184,7 @@ export const getDraggableAccomodationSideDataStyle = (
 ) => {
   let style: CSSProperties;
 
-  if (!isInsidePlanning(x, y) && !isInsideAccomodationDZ(x, y)) {
+  if (!isInsidePlanning(x, y) && !isInsideAccommodationDZ(x, y)) {
     const newX = x - deltaMousePosition.x - dragContainerCoord.x;
     const newY = y - deltaMousePosition.y - dragContainerCoord.y;
     style = onDragOverSideDataStyle(newX, newY);
@@ -195,19 +195,19 @@ export const getDraggableAccomodationSideDataStyle = (
       dropZoneRect.left;
 
     const clampedY =
-      dropZoneRect.top - dragContainerCoord.y - accomodationDropZoneHeight;
+      dropZoneRect.top - dragContainerCoord.y - accommodationDropZoneHeight;
 
-    style = onDragOverAccomodationDZStyle(
+    style = onDragOverAccommodationDZStyle(
       clampedX,
       clampedY + 2,
       columnWidth,
-      expandedAccomodationDropZoneHeight
+      expandedAccommodationDropZoneHeight
     );
   }
   return style;
 };
 
-export const getDraggableAccomodationCalendarStyle = (
+export const getDraggableAccommodationCalendarStyle = (
   x: number,
   y: number,
   deltaMousePosition: { x: number; y: number },
@@ -220,7 +220,12 @@ export const getDraggableAccomodationCalendarStyle = (
   const steppedX =
     Math.floor((clampedX - dragContainerCoord.x) / columnWidth) * columnWidth; //Relative to draggable container position
 
-  const style = onDragOverAccomodationDZStyle(steppedX, 0, columnWidth, "100%");
+  const style = onDragOverAccommodationDZStyle(
+    steppedX,
+    0,
+    columnWidth,
+    "100%"
+  );
 
   return style;
 };
@@ -246,11 +251,11 @@ export const getFinalDestination = (
   return [colIds[colIndex + colIndexOffset], lastTimeIndex];
 };
 
-export const getFinalDestinationInAccomodationDZ = (
+export const getFinalDestinationInAccommodationDZ = (
   x: number,
   y: number
 ): [string, number] => {
-  if (isInsideAccomodationDZ(x, y) || isInsidePlanning(x, y)) {
+  if (isInsideAccommodationDZ(x, y) || isInsidePlanning(x, y)) {
     const colIndex = Math.floor((x - dropZoneRect.x) / columnWidth);
     return [colIds[colIndex + colIndexOffset], -1];
   }
@@ -272,7 +277,7 @@ const isInsidePlanning = (x: number, y: number) => {
   return false;
 };
 
-const isInsideAccomodationDZ = (x: number, y: number) => {
+const isInsideAccommodationDZ = (x: number, y: number) => {
   if (
     x > dropZoneRect.left &&
     x < dropZoneRect.left + dropZoneRect.width &&

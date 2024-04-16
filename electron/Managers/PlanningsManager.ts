@@ -1,6 +1,6 @@
 import { Database } from "better-sqlite3";
 import {
-  AccomodationsTable,
+  AccommodationsTable,
   ActivitiesTable,
   AttachmentsTable,
   PlanningArtifactTable,
@@ -155,10 +155,10 @@ export default class PlanningsManager {
           TransportsTable.id,
           planningId
         );
-        const accomodationsAttachments = this.selectAttachmentsInTable(
-          TablesName.accomodations,
-          AccomodationsTable.name,
-          AccomodationsTable.id,
+        const accommodationsAttachments = this.selectAttachmentsInTable(
+          TablesName.accommodations,
+          AccommodationsTable.name,
+          AccommodationsTable.id,
           planningId
         );
 
@@ -168,13 +168,13 @@ export default class PlanningsManager {
         const transportsFilePath = path.join(filePath.filePath!, "Transports");
         saveArtifactsAttachments(transportsAttachments, transportsFilePath);
 
-        const accomodationsFilePath = path.join(
+        const accommodationsFilePath = path.join(
           filePath.filePath!,
           "Logements"
         );
         saveArtifactsAttachments(
-          accomodationsAttachments,
-          accomodationsFilePath
+          accommodationsAttachments,
+          accommodationsFilePath
         );
       }
     }
@@ -211,7 +211,7 @@ const dbPAToPA = (dbPA: IDBPlanningArtifact) => {
     ? EArtifact.Activity
     : dbPA.id_transport
     ? EArtifact.Transport
-    : EArtifact.Accomodation;
+    : EArtifact.Accommodation;
   const artifactId = dbPA[getPlanningArtifactCorrectColumn(artifactType)]!;
 
   const result: IPlanningArtifact = {
@@ -230,7 +230,7 @@ const getPlanningArtifactCorrectColumn = (artifactType: EArtifact) => {
     ? PlanningArtifactTable.id_activity
     : artifactType === EArtifact.Transport
     ? PlanningArtifactTable.id_transport
-    : PlanningArtifactTable.id_accomodation;
+    : PlanningArtifactTable.id_accommodation;
 };
 
 const saveArtifactsAttachments = (

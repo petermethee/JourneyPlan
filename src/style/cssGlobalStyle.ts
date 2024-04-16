@@ -15,8 +15,8 @@ export const activityColor = "#5ca4a5";
 export const activitySecColor = "#014344";
 export const transportColor = "#7f6698";
 export const transportSecColor = "#342f3c";
-export const accomodationColor = "#475c66";
-export const accomodationSecColor = "#475c66";
+export const accommodationColor = "#475c66";
+export const accommodationSecColor = "#475c66";
 
 export const darkColor1 = "#1a1a1a";
 export const darkColor2 = "#2a2a2a";
@@ -28,8 +28,8 @@ export const darkColor9 = "#9a9a9a";
 export const darkColorc = "#cacaca";
 
 export const colorArray = {
-  accomodationColor,
-  accomodationSecColor,
+  accommodationColor,
+  accommodationSecColor,
   activityColor,
   activitySecColor,
   darkColor1,

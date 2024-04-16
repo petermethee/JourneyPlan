@@ -31,7 +31,7 @@ export const onDragOverCalendarStyle = (
   };
 };
 
-export const onDragOverAccomodationDZStyle = (
+export const onDragOverAccommodationDZStyle = (
   x: number,
   y: number,
   width: number,
@@ -69,7 +69,7 @@ export const calendarDragContainerStyle = (
   };
 };
 
-export const accomodationDropZoneDragContainerStyle = (
+export const accommodationDropZoneDragContainerStyle = (
   width: number
 ): CSSProperties => {
   return {
