@@ -1,6 +1,6 @@
 import { View } from "@react-pdf/renderer";
 import TripInfo from "../Views/TripInfo";
-import IAccomodation from "../../../Models/IAccomodation";
+import IAccomodation from "../../../Models/IAccommodation";
 import { TPdfArtifact } from "../PdfGenerator";
 import { accomodationColor } from "../../../style/cssGlobalStyle";
 import LeftLine from "../Views/LeftLine";

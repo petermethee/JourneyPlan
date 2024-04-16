@@ -8,8 +8,8 @@ import { EArtifact } from "../../Models/EArtifacts";
 import IActivity from "../../Models/IActivity";
 import TransportPdf from "./ArtifactsView/TransportPdf";
 import ITransport from "../../Models/ITransport";
-import AccomodationPdf from "./ArtifactsView/AccomodationPdf";
-import IAccomodation from "../../Models/IAccomodation";
+import AccomodationPdf from "./ArtifactsView/AccommodationPdf";
+import IAccomodation from "../../Models/IAccommodation";
 import { Style } from "@react-pdf/types";
 import FirstPage from "./FirstPage";
 

@@ -21,12 +21,12 @@ import {
   calendarDragContainerStyle,
 } from "../../../DnDCustomLib/DraggableCSS";
 import HoursLabel from "./HoursLabel";
-import AccomodationDropZone from "../Accomodation/AccomodationDropZone";
+import AccomodationDropZone from "../Accommodation/AccommodationDropZone";
 import CalendarHeader from "./CalendarHeader";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
 import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
-import AccomodationDataCard from "../ArtifactsDataCard/AccomodationDataCard";
+import AccomodationDataCard from "../ArtifactsDataCard/AccommodationDataCard";
 import ArtifactTemplate from "../ArtifactsDataCard/ArtifactTemplate";
 import {
   accomodationColor,
@@ -37,14 +37,14 @@ import {
   transportColor,
   transportSecColor,
 } from "../../../style/cssGlobalStyle";
-import AccomodationIcon from "../../Shared/AccomodationIcon";
+import AccomodationIcon from "../../Shared/AccommodationIcon";
 import ActivityIcon from "../../Shared/ActivityIcon";
 import TransportIcon from "../../Shared/TransportIcon";
 import PlanningSheets from "./PlanningSheets/PlanningSheets";
 import { useAppDispatch } from "../../../app/hooks";
 import { insertActivity } from "../../../features/Redux/activitiesSlice";
 import { insertTransport } from "../../../features/Redux/transportsSlice";
-import { insertAccomodation } from "../../../features/Redux/accomodationsSlice";
+import { insertAccomodation } from "../../../features/Redux/accommodationsSlice";
 
 export const getHours = (): string[] => {
   const hours: string[] = [];

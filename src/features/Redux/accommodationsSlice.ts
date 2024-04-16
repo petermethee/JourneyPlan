@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import IAccomodation from "../../Models/IAccomodation";
+import IAccomodation from "../../Models/IAccommodation";
 import {
   deleteItemAPI,
   getAllItemsAPI,

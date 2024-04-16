@@ -14,7 +14,7 @@ import TripTile from "./TripTile";
 import { resetPlanningSlice } from "../../features/Redux/planningSlice";
 import { resetActivitiesSlice } from "../../features/Redux/activitiesSlice";
 import { resetTransportsSlice } from "../../features/Redux/transportsSlice";
-import { resetAccomodationsSlice } from "../../features/Redux/accomodationsSlice";
+import { resetAccomodationsSlice } from "../../features/Redux/accommodationsSlice";
 
 export default function Home() {
   const trips = useAppSelector(selectTrips);

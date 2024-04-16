@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./SwipeableViews.module.css";
 import { EArtifact } from "../../Models/EArtifacts";
-import IAccomodation from "../../Models/IAccomodation";
+import IAccomodation from "../../Models/IAccommodation";
 import IActivity from "../../Models/IActivity";
 import ITransport from "../../Models/ITransport";
 import { TArtifactEditor } from "../Planning/Planning";
-import { AddAccomodation } from "./AddAccomodation";
+import { AddAccomodation } from "./AddAccommodation";
 import { AddActivity } from "./AddActivity";
 import { ESavingStatus, tabs, TRefElem } from "./AddArtifacts";
 import { AddTransport } from "./AddTransport";

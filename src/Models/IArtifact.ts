@@ -1,4 +1,4 @@
-import IAccomodation from "./IAccomodation";
+import IAccomodation from "./IAccommodation";
 import IActivity from "./IActivity";
 import ITransport from "./ITransport";
 

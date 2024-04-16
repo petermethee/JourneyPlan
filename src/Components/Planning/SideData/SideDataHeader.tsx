@@ -8,7 +8,7 @@ import { EArtifact } from "../../../Models/EArtifacts";
 import ActivityIcon from "../../Shared/ActivityIcon";
 import { primaryColor } from "../../../style/cssGlobalStyle";
 import TransportIcon from "../../Shared/TransportIcon";
-import AccomodationIcon from "../../Shared/AccomodationIcon";
+import AccomodationIcon from "../../Shared/AccommodationIcon";
 import NotificationBadge from "../../Shared/NotificationBadge";
 import MenuBar from "../../Shared/MenuBar";
 

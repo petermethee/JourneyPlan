@@ -1,4 +1,4 @@
-import IAccomodation from "../../../Models/IAccomodation";
+import IAccomodation from "../../../Models/IAccommodation";
 import styles from "./CommonArtifactStyle.module.css";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import PlaceIcon from "@mui/icons-material/Place";

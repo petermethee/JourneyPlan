@@ -32,7 +32,7 @@ import {
   getAllAccomodations,
   insertAccomodation,
   updateAccomodation,
-} from "./accomodationsSlice";
+} from "./accommodationsSlice";
 
 interface TripState {
   trips: ITrip[];

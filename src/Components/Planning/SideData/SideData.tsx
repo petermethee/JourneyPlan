@@ -25,14 +25,14 @@ import {
 import {
   insertAccomodation,
   selectAccomodations,
-} from "../../../features/Redux/accomodationsSlice";
+} from "../../../features/Redux/accommodationsSlice";
 
 import { Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ActivityDataCard from "../ArtifactsDataCard/ActivityDataCard";
 import { EArtifact } from "../../../Models/EArtifacts";
 import TransportDataCard from "../ArtifactsDataCard/TransportDataCard";
-import AccomodationDataCard from "../ArtifactsDataCard/AccomodationDataCard";
+import AccomodationDataCard from "../ArtifactsDataCard/AccommodationDataCard";
 import ArtifactTemplate from "../ArtifactsDataCard/ArtifactTemplate";
 import {
   accomodationColor,
@@ -45,7 +45,7 @@ import {
 } from "../../../style/cssGlobalStyle";
 import ActivityIcon from "../../Shared/ActivityIcon";
 import TransportIcon from "../../Shared/TransportIcon";
-import AccomodationIcon from "../../Shared/AccomodationIcon";
+import AccomodationIcon from "../../Shared/AccommodationIcon";
 import { TArtifactEditor } from "../Planning";
 import { selectArtifactIsDragged } from "../../../features/Redux/planningSlice";
 

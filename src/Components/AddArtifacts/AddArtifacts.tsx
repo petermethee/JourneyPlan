@@ -2,7 +2,7 @@ import { IconButton, Tab, Tabs, Slider } from "@mui/material";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ActivityIcon from "../Shared/ActivityIcon";
 import TransportIcon from "../Shared/TransportIcon";
-import AccomodationIcon from "../Shared/AccomodationIcon";
+import AccomodationIcon from "../Shared/AccommodationIcon";
 import {
   accomodationSecColor,
   activitySecColor,

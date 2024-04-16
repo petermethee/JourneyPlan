@@ -3,7 +3,7 @@ import styles from "./AccomodationDropZone.module.css";
 import { useAppSelector } from "../../../app/hooks";
 import { selectArtifactIsDragged } from "../../../features/Redux/planningSlice";
 import { EArtifact } from "../../../Models/EArtifacts";
-import AccomodationIcon from "../../Shared/AccomodationIcon";
+import AccomodationIcon from "../../Shared/AccommodationIcon";
 
 const animations = {
   expand: styles.expand,

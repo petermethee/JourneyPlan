@@ -16,7 +16,7 @@ import { useAppSelector } from "../../app/hooks";
 import { selectPlanningArtifacts } from "../../features/Redux/planningSlice";
 import { EArtifact } from "../../Models/EArtifacts";
 import { IArtifact } from "../../Models/IArtifact";
-import { selectAccomodations } from "../../features/Redux/accomodationsSlice";
+import { selectAccomodations } from "../../features/Redux/accommodationsSlice";
 import { selectActivities } from "../../features/Redux/activitiesSlice";
 import { selectTransports } from "../../features/Redux/transportsSlice";
 import { transportColor } from "../../style/cssGlobalStyle";

@@ -16,7 +16,7 @@ import {
   selectPlanningArtifacts,
 } from "../../features/Redux/planningSlice";
 import SideData from "./SideData/SideData";
-import IAccomodation from "../../Models/IAccomodation";
+import IAccomodation from "../../Models/IAccommodation";
 import ITransport from "../../Models/ITransport";
 import { EArtifact } from "../../Models/EArtifacts";
 import {
@@ -26,7 +26,7 @@ import {
 import {
   getAllAccomodations,
   selectAccomodations,
-} from "../../features/Redux/accomodationsSlice";
+} from "../../features/Redux/accommodationsSlice";
 import AddArtifacts from "../AddArtifacts/AddArtifacts";
 
 type TDayActivity = { id: number; timeIndex: number; activity: IActivity };

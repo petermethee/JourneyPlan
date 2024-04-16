@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import tripReducer from "../features/Redux/tripSlice";
 import activitiesReducer from "../features/Redux/activitiesSlice";
 import transportsReducer from "../features/Redux/transportsSlice";
-import accomodationsReducer from "../features/Redux/accomodationsSlice";
+import accomodationsReducer from "../features/Redux/accommodationsSlice";
 import planningReducer from "../features/Redux/planningSlice";
 
 export const store = configureStore({

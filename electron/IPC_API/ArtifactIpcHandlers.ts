@@ -7,7 +7,7 @@ import ArtifactsDbManager from "../Managers/ArtifactsDbManager";
 import { TablesName } from "../../src/Models/DataBaseModel";
 import { EArtifactTableName } from "../../src/Models/EArtifacts";
 import ITransport from "../../src/Models/ITransport";
-import IAccomodation from "../../src/Models/IAccomodation";
+import IAccomodation from "../../src/Models/IAccommodation";
 
 export default class ArtifactIpcHandlers {
   db: Database;

@@ -1,7 +1,7 @@
 import { Database } from "better-sqlite3";
 import IActivity from "../../src/Models/IActivity";
 import ITransport from "../../src/Models/ITransport";
-import IAccomodation from "../../src/Models/IAccomodation";
+import IAccomodation from "../../src/Models/IAccommodation";
 import {
   AttachmentsTable,
   PlanningArtifactTable,

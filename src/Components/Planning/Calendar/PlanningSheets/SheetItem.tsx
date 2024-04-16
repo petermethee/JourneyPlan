@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import styles from "./SheetItem.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { EArtifact } from "../../../../Models/EArtifacts";
-import { initUsedAccomodations } from "../../../../features/Redux/accomodationsSlice";
+import { initUsedAccomodations } from "../../../../features/Redux/accommodationsSlice";
 import { initUsedActivities } from "../../../../features/Redux/activitiesSlice";
 import { initUsedTransports } from "../../../../features/Redux/transportsSlice";
 

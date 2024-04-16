@@ -6,7 +6,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import IAccomodation, { TFormAccomodation } from "../../Models/IAccomodation";
+import IAccomodation, { TFormAccomodation } from "../../Models/IAccommodation";
 import { AccomodationsTable } from "../../Models/DataBaseModel";
 import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddArtifacts.module.css";
@@ -18,7 +18,7 @@ import { useAppDispatch } from "../../app/hooks";
 import {
   insertAccomodation,
   updateAccomodation,
-} from "../../features/Redux/accomodationsSlice";
+} from "../../features/Redux/accommodationsSlice";
 import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import { MobileTimePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";

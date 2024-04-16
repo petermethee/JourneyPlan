@@ -34,7 +34,7 @@ import {
 import {
   deleteAccomodation,
   setUsedAccomodations,
-} from "../../features/Redux/accomodationsSlice";
+} from "../../features/Redux/accommodationsSlice";
 import { defaultWhite, primaryColor } from "../../style/cssGlobalStyle";
 import { GRID_CONTAINER } from "./Calendar/CalendarView";
 import { Button, ButtonBase, Popover } from "@mui/material";

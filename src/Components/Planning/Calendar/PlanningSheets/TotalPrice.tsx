@@ -1,7 +1,7 @@
 import { memo, useMemo, useState } from "react";
 import { EArtifact } from "../../../../Models/EArtifacts";
 import { useAppSelector } from "../../../../app/hooks";
-import { selectAccomodations } from "../../../../features/Redux/accomodationsSlice";
+import { selectAccomodations } from "../../../../features/Redux/accommodationsSlice";
 import { selectActivities } from "../../../../features/Redux/activitiesSlice";
 import { selectPlanningArtifacts } from "../../../../features/Redux/planningSlice";
 import { selectTransports } from "../../../../features/Redux/transportsSlice";
