@@ -62,9 +62,9 @@
 
 .cardBg {
     position: absolute;
-    background-size: cover;
-    background-position: center;
+    object-fit: cover;
     transition: 300ms;
+    aspect-ratio: 1;
 }
 
 .rippleEffect, .cardBg {

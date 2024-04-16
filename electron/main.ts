@@ -33,7 +33,7 @@ function createWindow() {
 
   const dbPath = app.isPackaged
     ? path.join(process.resourcesPath, "journey_plan.db")
-    : "./journey_plan.db:";
+    : "./journey_plan.db";
 
   const dataBaseAPI = new DatabaseAPI(dbPath);
   const ipcAPITrip = new TripIpcHandlers(dataBaseAPI);
