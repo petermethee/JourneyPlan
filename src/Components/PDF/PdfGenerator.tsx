@@ -12,7 +12,7 @@ import { selectTransports } from "../../features/Redux/transportsSlice";
 import dayjs from "dayjs";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ERouterPathes } from "../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../Helper/ERouterPathes";
 import { goldenColor } from "../../style/cssGlobalStyle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -132,7 +132,7 @@ export default function PdfGenerator() {
           },
         }}
         variant="contained"
-        onClick={() => navigate(ERouterPathes.planning + "/" + trip?.id)}
+        onClick={() => navigate(ERouterPaths.planning + "/" + trip?.id)}
         startIcon={<ArrowBackIcon />}
       >
         Retour

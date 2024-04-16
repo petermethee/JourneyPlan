@@ -1,5 +1,5 @@
 import { Route, Routes, HashRouter as Router } from "react-router-dom";
-import { ERouterPathes } from "./Helper/ERouterPathes";
+import { ERouterPaths } from "./Helper/ERouterPathes";
 import Home from "./Components/Home/Home";
 import Alert from "./Components/Shared/Alert";
 import { useAppSelector } from "./app/hooks";
@@ -51,15 +51,15 @@ export default function App() {
       />
       <Router>
         <Routes>
-          <Route path={ERouterPathes.home} element={<Home />} />
+          <Route path={ERouterPaths.home} element={<Home />} />
           <Route
-            path={ERouterPathes.planning + "/:tripId"}
+            path={ERouterPaths.planning + "/:tripId"}
             element={<Planning />}
           />
-          <Route path={ERouterPathes.addTrip} element={<AddTrip />} />
-          <Route path={ERouterPathes.addTrip} element={<AddTrip />} />
-          <Route path={ERouterPathes.map} element={<MapSummary />} />
-          <Route path={ERouterPathes.pdf} element={<PdfGenerator />} />
+          <Route path={ERouterPaths.addTrip} element={<AddTrip />} />
+          <Route path={ERouterPaths.addTrip} element={<AddTrip />} />
+          <Route path={ERouterPaths.map} element={<MapSummary />} />
+          <Route path={ERouterPaths.pdf} element={<PdfGenerator />} />
         </Routes>
       </Router>
     </>

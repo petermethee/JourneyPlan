@@ -7,7 +7,7 @@ import {
   setCurrentTrip,
 } from "../../features/Redux/tripSlice";
 import { useNavigate } from "react-router-dom";
-import { ERouterPathes } from "../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../Helper/ERouterPathes";
 import { useEffect } from "react";
 import AddTripTile from "./AddTripTile";
 import TripTile from "./TripTile";
@@ -49,7 +49,7 @@ export default function Home() {
         <Grid item>
           <AddTripTile
             onClick={() => {
-              navigate(ERouterPathes.addTrip);
+              navigate(ERouterPaths.addTrip);
             }}
           />
         </Grid>

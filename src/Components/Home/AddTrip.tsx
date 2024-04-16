@@ -8,7 +8,7 @@ import "primeicons/primeicons.css";
 import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { useNavigate } from "react-router-dom";
-import { ERouterPathes } from "../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../Helper/ERouterPathes";
 import { TripsTable } from "../../Models/DataBaseModel";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -113,11 +113,11 @@ export default function AddTrip() {
     if (trip) {
       dispatch(updateTrip(newTrip))
         .unwrap()
-        .then(() => navigate(ERouterPathes.home));
+        .then(() => navigate(ERouterPaths.home));
     } else {
       dispatch(insertTrip(newTrip))
         .unwrap()
-        .then(() => navigate(ERouterPathes.home));
+        .then(() => navigate(ERouterPaths.home));
     }
   };
 
@@ -263,7 +263,7 @@ export default function AddTrip() {
         <Grid item container marginTop="25px" justifyContent="space-evenly">
           <Button
             variant="outlined"
-            onClick={() => navigate(ERouterPathes.home)}
+            onClick={() => navigate(ERouterPaths.home)}
           >
             Annuler
           </Button>

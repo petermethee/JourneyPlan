@@ -8,7 +8,7 @@ import { ButtonBase, CircularProgress, IconButton } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useNavigate } from "react-router-dom";
-import { ERouterPathes } from "../../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../../Helper/ERouterPathes";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
   exportAttachments,
@@ -37,7 +37,7 @@ export default function CalendarHeader({
   return (
     <div style={{ display: "flex" }}>
       <div className={styles.settingsIcon}>
-        <IconButton onClick={() => navigate(ERouterPathes.pdf)} size="small">
+        <IconButton onClick={() => navigate(ERouterPaths.pdf)} size="small">
           <PictureAsPdfIcon />
         </IconButton>
         {loading ? (

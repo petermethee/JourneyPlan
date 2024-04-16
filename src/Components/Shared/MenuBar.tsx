@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, IconButton } from "@mui/material";
-import { ERouterPathes } from "../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../Helper/ERouterPathes";
 import styles from "./MenuBar.module.css";
 import MapIcon from "@mui/icons-material/Map";
 import { useNavigate } from "react-router-dom";
@@ -14,13 +14,13 @@ export default function MenuBar({ mapMode }: { mapMode?: boolean }) {
   const trip = useAppSelector(selectCurrentTrip);
   return (
     <div className={styles.topToolContainer}>
-      <IconButton size="small" onClick={() => navigate(ERouterPathes.home)}>
+      <IconButton size="small" onClick={() => navigate(ERouterPaths.home)}>
         <HomeRoundedIcon />
       </IconButton>
       <Button
         variant={mapMode ? "outlined" : "contained"}
         startIcon={<CalendarViewWeekRoundedIcon />}
-        onClick={() => navigate(ERouterPathes.planning + "/" + trip?.id)}
+        onClick={() => navigate(ERouterPaths.planning + "/" + trip?.id)}
         sx={{
           width: "40%",
           maxWidth: "40%",
@@ -31,7 +31,7 @@ export default function MenuBar({ mapMode }: { mapMode?: boolean }) {
       <Button
         variant={mapMode ? "contained" : "outlined"}
         startIcon={<MapIcon />}
-        onClick={() => navigate(ERouterPathes.map)}
+        onClick={() => navigate(ERouterPaths.map)}
         sx={{
           width: "40%",
           maxWidth: "40%",

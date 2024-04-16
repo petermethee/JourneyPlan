@@ -1,4 +1,4 @@
-export enum ERouterPathes {
+export enum ERouterPaths {
   home = "/",
   planning = "/planning",
   addTrip = "/addTrip",

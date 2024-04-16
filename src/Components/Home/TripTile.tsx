@@ -5,7 +5,7 @@ import { ButtonBase } from "@mui/material";
 import { primaryColor, secErrorColor } from "../../style/cssGlobalStyle";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { ERouterPathes } from "../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../Helper/ERouterPathes";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import ITrip from "../../Models/ITrip";
 import { useAppDispatch } from "../../app/hooks";
@@ -22,7 +22,7 @@ export default function TripTile({ trip }: { trip: ITrip }) {
       className={styles.cardContainer}
       onClick={() => {
         dispatch(setCurrentTrip(trip));
-        navigate(ERouterPathes.planning + "/" + trip.id);
+        navigate(ERouterPaths.planning + "/" + trip.id);
       }}
     >
       <ButtonBase
@@ -62,7 +62,7 @@ export default function TripTile({ trip }: { trip: ITrip }) {
             onClick={(event) => {
               event.stopPropagation();
               dispatch(setCurrentTrip(trip));
-              navigate(`${ERouterPathes.addTrip}`);
+              navigate(`${ERouterPaths.addTrip}`);
             }}
           >
             <EditRoundedIcon sx={{ color: primaryColor }} fontSize="small" />
