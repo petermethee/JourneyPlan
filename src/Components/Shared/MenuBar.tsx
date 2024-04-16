@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, IconButton } from "@mui/material";
-import { ERouterPaths } from "../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../Helper/ERouterPaths";
 import styles from "./MenuBar.module.css";
 import MapIcon from "@mui/icons-material/Map";
 import { useNavigate } from "react-router-dom";

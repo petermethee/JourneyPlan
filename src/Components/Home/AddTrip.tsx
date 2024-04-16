@@ -8,7 +8,7 @@ import "primeicons/primeicons.css";
 import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { useNavigate } from "react-router-dom";
-import { ERouterPaths } from "../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../Helper/ERouterPaths";
 import { TripsTable } from "../../Models/DataBaseModel";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {

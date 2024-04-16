@@ -1,5 +1,5 @@
 import { Route, Routes, HashRouter as Router } from "react-router-dom";
-import { ERouterPaths } from "./Helper/ERouterPathes";
+import { ERouterPaths } from "./Helper/ERouterPaths";
 import Home from "./Components/Home/Home";
 import Alert from "./Components/Shared/Alert";
 import { useAppSelector } from "./app/hooks";

@@ -7,7 +7,7 @@ import {
   setCurrentTrip,
 } from "../../features/Redux/tripSlice";
 import { useNavigate } from "react-router-dom";
-import { ERouterPaths } from "../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../Helper/ERouterPaths";
 import { useEffect } from "react";
 import AddTripTile from "./AddTripTile";
 import TripTile from "./TripTile";

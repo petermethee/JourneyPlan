@@ -5,7 +5,7 @@ import { ButtonBase } from "@mui/material";
 import { primaryColor, secErrorColor } from "../../style/cssGlobalStyle";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
-import { ERouterPaths } from "../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../Helper/ERouterPaths";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import ITrip from "../../Models/ITrip";
 import { useAppDispatch } from "../../app/hooks";

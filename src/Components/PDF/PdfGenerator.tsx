@@ -12,7 +12,7 @@ import { selectTransports } from "../../features/Redux/transportsSlice";
 import dayjs from "dayjs";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { ERouterPaths } from "../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../Helper/ERouterPaths";
 import { goldenColor } from "../../style/cssGlobalStyle";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 

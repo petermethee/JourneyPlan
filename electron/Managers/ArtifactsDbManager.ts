@@ -182,9 +182,9 @@ export default class ArtifactsDbManager {
     const artifactColumn = this.getAttachmentCorrectColumn(artifactType);
     const query = `SELECT ${AttachmentsTable.path} FROM ${TablesName.attachments} WHERE ${artifactColumn} = ${artifactId}`;
     const stmt = this.db.prepare(query);
-    const pathes = stmt.all() as { path: string }[];
+    const paths = stmt.all() as { path: string }[];
     try {
-      for (const pathObj of pathes) {
+      for (const pathObj of paths) {
         unlinkSync(pathObj.path);
       }
     } catch (error) {

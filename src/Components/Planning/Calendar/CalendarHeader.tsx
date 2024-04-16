@@ -8,7 +8,7 @@ import { ButtonBase, CircularProgress, IconButton } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import DownloadIcon from "@mui/icons-material/Download";
 import { useNavigate } from "react-router-dom";
-import { ERouterPaths } from "../../../Helper/ERouterPathes";
+import { ERouterPaths } from "../../../Helper/ERouterPaths";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import {
   exportAttachments,

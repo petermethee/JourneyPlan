@@ -106,22 +106,22 @@ export default class TripsManager {
 
   deleteTrip = async (tripId: number) => {
     let attachmentQuery = `SELECT att.${AttachmentsTable.path} FROM ${TablesName.activities} act JOIN ${TablesName.attachments} att ON act.${ActivitiesTable.id} = att.${AttachmentsTable.id_activity} WHERE act.${ActivitiesTable.id_trip} = ${tripId}`;
-    const activitesPathes = this.db.prepare(attachmentQuery).all() as {
+    const activitesPaths = this.db.prepare(attachmentQuery).all() as {
       path: string;
     }[];
     attachmentQuery = `SELECT att.${AttachmentsTable.path} FROM ${TablesName.transports} act JOIN ${TablesName.attachments} att ON act.${TransportsTable.id} = att.${AttachmentsTable.id_transport} WHERE act.${TransportsTable.id_trip} = ${tripId}`;
-    const transportsPathes = this.db.prepare(attachmentQuery).all() as {
+    const transportsPaths = this.db.prepare(attachmentQuery).all() as {
       path: string;
     }[];
     attachmentQuery = `SELECT att.${AttachmentsTable.path} FROM ${TablesName.accomodations} act JOIN ${TablesName.attachments} att ON act.${AccomodationsTable.id} = att.${AttachmentsTable.id_accomodation} WHERE act.${AccomodationsTable.id_trip} = ${tripId}`;
-    const accomodationsPathes = this.db.prepare(attachmentQuery).all() as {
+    const accomodationsPaths = this.db.prepare(attachmentQuery).all() as {
       path: string;
     }[];
 
-    const pathes = [
-      ...activitesPathes,
-      ...transportsPathes,
-      ...accomodationsPathes,
+    const paths = [
+      ...activitesPaths,
+      ...transportsPaths,
+      ...accomodationsPaths,
     ];
 
     const imagePathQuery = `SELECT ${TripsTable.imagePath} from ${TablesName.trips} WHERE ${TripsTable.id} = ${tripId}`;
@@ -129,7 +129,7 @@ export default class TripsManager {
       image_path: string;
     }[];
 
-    for (const pathObj of pathes) {
+    for (const pathObj of paths) {
       if (pathObj.path) {
         try {
           fs.unlinkSync(pathObj.path);
