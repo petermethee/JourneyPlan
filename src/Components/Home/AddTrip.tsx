@@ -1,10 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Button, Grid, TextField } from "@mui/material";
 import styles from "./AddTrip.module.css";
-import { Calendar } from "primereact/calendar";
-import "../../style/CalendarTheme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
 import CloudUploadRoundedIcon from "@mui/icons-material/CloudUploadRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +15,12 @@ import {
 import { TFormTrip, transformFormToTrip } from "../../Models/ITrip";
 import IAttachment from "../../Models/IAttachment";
 import dayjs from "dayjs";
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { DateRange } from "react-date-range";
+import { Range } from "react-date-range";
+import { fr } from "date-fns/locale";
+import { primaryColor } from "../../style/cssGlobalStyle";
 
 export default function AddTrip() {
   const trip = useAppSelector(selectCurrentTrip);
@@ -44,15 +46,13 @@ export default function AddTrip() {
     }
   }, [trip]);
 
-  const initDateRange = useMemo(() => {
-    if (trip) {
-      return [new Date(trip.start_date), new Date(trip.end_date)];
-    } else {
-      return undefined;
-    }
-  }, [trip]);
   const [formValues, setFormValues] = useState<TFormTrip>(initialValues);
-  const [dateRange, setDateRange] = useState<Date[] | undefined>(initDateRange);
+  const [dateRange, setDateRange] = useState<Range>({
+    startDate: trip ? new Date(trip.start_date) : new Date(),
+    endDate: trip ? new Date(trip.end_date) : new Date(),
+    color: primaryColor,
+    key: "selection",
+  });
   const [formValid, setFormValid] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -105,8 +105,8 @@ export default function AddTrip() {
     const newTrip = transformFormToTrip(
       formValues,
       [
-        dayjs(dateRange![0]).format("YYYY-MM-DD"),
-        dayjs(dateRange![1]).format("YYYY-MM-DD"),
+        dayjs(dateRange.startDate!).format("YYYY-MM-DD"),
+        dayjs(dateRange.endDate!).format("YYYY-MM-DD"),
       ],
       trip?.id
     );
@@ -127,7 +127,8 @@ export default function AddTrip() {
       formValues.nb_travelers > 0 &&
       formValues.currency !== "" &&
       dateRange &&
-      dateRange.every((date) => date !== null)
+      dateRange.startDate &&
+      dateRange.endDate
     ) {
       setFormValid(true);
     } else {
@@ -160,16 +161,15 @@ export default function AddTrip() {
         </Grid>
         <Grid item container justifyContent="space-between" alignItems="center">
           <Grid item display="flex" xs={6} justifyContent="center">
-            <Calendar
-              inline
-              dateFormat="dd/mm/yy"
-              inputClassName="input"
-              value={dateRange}
-              onChange={(newValue) => {
-                setDateRange(newValue.value as Date[] | undefined);
+            <DateRange
+              onChange={(item) => {
+                console.log("tag", item);
+
+                setDateRange(item.selection);
               }}
-              id="range"
-              selectionMode="range"
+              moveRangeOnFirstSelection={false}
+              ranges={[dateRange]}
+              locale={fr}
             />
           </Grid>
           <Grid

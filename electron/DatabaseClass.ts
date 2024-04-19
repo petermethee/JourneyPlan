@@ -3,8 +3,6 @@ export default class DatabaseAPI {
   db: betterSqlite.Database;
 
   constructor(dbPath: string) {
-    console.log("dbPath", dbPath);
-
     this.db = new betterSqlite(dbPath);
     this.db.pragma("busy_timeout = 3000");
   }
