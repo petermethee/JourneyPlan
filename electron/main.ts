@@ -32,7 +32,7 @@ function createWindow() {
   }
 
   const dbPath = app.isPackaged
-    ? path.join(process.resourcesPath, "journey_plan.db")
+    ? "./journey_plan_PROD.db"
     : "./journey_plan.db";
 
   const dataBaseAPI = new DatabaseAPI(dbPath);
@@ -45,7 +45,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  !app.isPackaged && installReduxDevTools();
+  // !app.isPackaged && installReduxDevTools();
   createWindow();
 
   app.on("activate", () => {

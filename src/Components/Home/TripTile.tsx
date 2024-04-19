@@ -31,7 +31,7 @@ export default function TripTile({ trip }: { trip: ITrip }) {
       />
       <img
         src={trip.image_path ?? "images/trip_picture/trip_bg.jpg"}
-        alt={`Trip image`}
+        alt={`Trip`}
         className={styles.cardBg}
       />
 
