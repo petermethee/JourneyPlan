@@ -15,7 +15,7 @@ import { resetPlanningSlice } from "../../features/Redux/planningSlice";
 import { resetActivitiesSlice } from "../../features/Redux/activitiesSlice";
 import { resetTransportsSlice } from "../../features/Redux/transportsSlice";
 import { resetAccommodationsSlice } from "../../features/Redux/accommodationsSlice";
-import logo from "../../assets/journey_plan_v2.png";
+import Logo from "./Logo";
 
 export default function Home() {
   const trips = useAppSelector(selectTrips);
@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <div className={styles.homeContainer}>
       <div className={styles.homeHeader}>
-        <img className={styles.logo} src={logo} alt="jp" />
+        <Logo />
         <div className={styles.title}>Journey Plan</div>
       </div>
 
