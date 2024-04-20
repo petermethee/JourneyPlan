@@ -4,50 +4,53 @@
     overflow: auto;
 }
 
-.homeTitle {
+.homeHeader {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    animation: text-pop-up-top 0.6s cubic-bezier(.25, .46, .45, .94) .4s both, focus-in-contract .6s cubic-bezier(.25, .46, .45, .94) both;
+    padding: 20px;
+}
+
+
+.title {
     font-size: 5rem;
-    color: var(--goldenColor);
-    font-weight: bold;
-    text-shadow: 0 5px 10px black;
-    display: flex;
-    justify-content: center;
-    padding: 35px;
-}
-
-.deleteZone {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 100%;
-    height: 4rem;
-    width: 4rem;
-    transition: 300ms;
-    bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    color: #d6b770;
+    font-family: Merienda;
 
 }
 
-.deleteUI {
-    position: absolute;
-    background-color: var(--secErrorColor);
-    height: 100%;
-    width: 100%;
-    transition: 300ms cubic-bezier(0.68, -0.6, 0.32, 1.6);
-    bottom: calc(-4rem - 20px);
-    border-radius: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    box-shadow: 0px 0px 6px 0px black;
+.logo {
+    width: 200px;
+    cursor: pointer;
+    transition: 200ms;
 }
 
-.showDelete {
-    bottom: 0px;
+@keyframes text-pop-up-top {
+    0% {
+        transform: translateY(20px);
+        transform-origin: 50% 50%;
+        text-shadow: none;
+    }
+
+    100% {
+        transform: translateY(0px);
+        transform-origin: 50% 50%;
+        text-shadow: 0 1px 0 #967935, 0 2px 0 #967935, 0 3px 0 #967935, 0 4px 0 #967935, 0 5px 0 #967935, 0 6px 0 #967935, 0 7px 0 #967935, 0 8px 0 #967935, 0 9px 0 #967935, 0 50px 30px rgb(0, 0, 0);
+    }
 }
 
-.isOver {
-    transform: scale(1.4)
+
+@keyframes focus-in-contract {
+    0% {
+        letter-spacing: 5rem;
+        filter: blur(12px);
+        opacity: 0
+    }
+
+    100% {
+        filter: blur(0);
+        opacity: 1
+    }
 }

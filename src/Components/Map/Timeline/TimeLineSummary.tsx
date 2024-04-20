@@ -9,6 +9,7 @@ import AnimateOnScroll from "../../Shared/AnimateOnScroll";
 import { TTimeLineArtifact } from "../MapSummary";
 import { EArtifact } from "../../../Models/EArtifacts";
 import MenuBar from "../../Shared/MenuBar";
+import { primaryColor, goldenColor } from "../../../style/cssGlobalStyle";
 
 export default function TimeLineSummary({
   sortedPlanningArtifacts,
@@ -34,6 +35,12 @@ export default function TimeLineSummary({
 
   const darkTheme = createTheme({
     palette: {
+      primary: {
+        main: primaryColor,
+      },
+      secondary: {
+        main: goldenColor,
+      },
       mode: "dark",
     },
   });
@@ -124,15 +131,19 @@ export default function TimeLineSummary({
       </div>
       <ThemeProvider theme={darkTheme}>
         <Pagination
-          count={dayCount}
+          count={dayCount + 1}
           size="small"
           onChange={(e, page) => setDayIndex(page - 1)}
           sx={{
             color: "white",
             display: "flex",
             justifyContent: "center",
+            "& .MuiPagination-ul": {
+              gap: "3px",
+            },
           }}
           page={dayIndex + 1}
+          variant="outlined"
         />
       </ThemeProvider>
     </div>
