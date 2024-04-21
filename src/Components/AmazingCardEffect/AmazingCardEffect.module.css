@@ -1,0 +1,26 @@
+.container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.childContainer {
+  transform-style: preserve-3d;
+}
+
+.container:hover .buttonsContainer {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.buttonsContainer {
+  position: fixed;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  align-items: center;
+  transition: 200ms;
+  transform: translateY(-100%);
+  z-index: -1;
+  padding: 10px 0;
+  opacity: 0;
+}
