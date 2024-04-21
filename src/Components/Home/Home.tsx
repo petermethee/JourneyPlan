@@ -43,7 +43,7 @@ export default function Home() {
         justifyContent="space-evenly"
         alignItems="center"
         padding="20px 50px"
-        rowGap={6}
+        rowGap={8}
         columnGap={6}
       >
         {trips.map((trip) => (

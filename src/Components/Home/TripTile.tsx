@@ -9,7 +9,7 @@ import ITrip from "../../Models/ITrip";
 import { useAppDispatch } from "../../app/hooks";
 import { deleteTrip, setCurrentTrip } from "../../features/Redux/tripSlice";
 import AmazingCardEffect from "../AmazingCardEffect/AmazingCardEffect";
-import { CSSProperties, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 require("dayjs/locale/fr");
 
@@ -78,8 +78,11 @@ export default function TripTile({ trip }: { trip: ITrip }) {
         }}
         onMouseMove={handleMouseMove}
         onMouseLeave={(e) => {
-          const { width, height } = e.currentTarget.getBoundingClientRect();
-          setPointerPosition({ x: width / 2, y: height / 2, fromCenter: 0.1 });
+          setPointerPosition((prevState) => ({
+            x: prevState.x,
+            y: prevState.y,
+            fromCenter: 0.1,
+          }));
         }}
       >
         <div className={styles.background}>
@@ -91,8 +94,17 @@ export default function TripTile({ trip }: { trip: ITrip }) {
           <div
             className={styles.glare}
             style={{
-              background: `radial-gradient(farthest-corner circle at ${pointerPosition.x}px ${pointerPosition.y}px, #d2d2d2, #96969640 40%, #434343 130%)`,
-              opacity: pointerPosition.fromCenter * 0.6,
+              background: `radial-gradient(farthest-corner circle at ${pointerPosition.x}px ${pointerPosition.y}px, #d2d2d2ba, #96969640 50%, #363636 110%)`,
+              opacity: pointerPosition.fromCenter * 0.7,
+            }}
+          />
+          <div
+            className={styles.shinning}
+            style={{
+              backgroundPositionX: `${
+                Math.sqrt(pointerPosition.x ** 2 + pointerPosition.y ** 2) * 1.5
+              }px`,
+              opacity: pointerPosition.fromCenter,
             }}
           />
 
