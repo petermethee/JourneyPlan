@@ -6,17 +6,16 @@
   "description": "Journey Plan",
   "license": "GG",
   "homepage": "./",
-  "main": "build/electron/main.js",
+  "main": "./out/main/index.js",
   "scripts": {
-    "start": "cross-env BROWSER=none react-scripts start",
-    "build": "react-scripts build && tsc -p electron",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev": "concurrently \"npm run start\" \"tsc -p electron -w\" \"wait-on http://localhost:3000 && wait-on build/electron/main.js && electronmon .\"",
-    "electron:start": "tsc -p electron && electronmon .",
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "build": "npm run typecheck && electron-vite build",
+    "build:unpack": "npm run build && electron-builder --dir",
+    "build:win": "npm run build && electron-builder --win",
+    "build:mac": "electron-vite build && electron-builder --mac",
+    "build:linux": "electron-vite build && electron-builder --linux",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "make": "electron-builder",
-    "make:all": "npm run build && tsc -p electron && electron-builder",
     "rebuild": "electron-rebuild -f -w better-sqlit3"
   },
   "eslintConfig": {
@@ -59,8 +58,10 @@
     "react-redux": "^9.1.1",
     "react-resize-detector": "^10.0.1",
     "react-router-dom": "^6.22.3",
-    "react-scripts": "5.0.1",
-    "react-transition-group": "^4.4.5"
+    "react-transition-group": "^4.4.5",
+    "@electron-toolkit/preload": "^3.0.0",
+    "@electron-toolkit/utils": "^3.0.0",
+    "electron-updater": "^6.1.7"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.9",
@@ -69,43 +70,30 @@
     "@types/react": "^18.2.79",
     "@types/react-date-range": "^1.4.9",
     "@types/react-dom": "^18.2.25",
+    "@typescript-eslint/eslint-plugin": "^7.2.0",
+    "@typescript-eslint/parser": "^7.2.0",
+    "@vitejs/plugin-react": "^4.2.1",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
     "electron": "^30.0.0",
     "electron-builder": "^24.13.3",
     "electron-devtools-installer": "^3.2.0",
     "electron-rebuild": "^3.2.9",
+    "electron-vite": "^2.1.0",
     "electronmon": "^2.0.2",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
     "source-map-explorer": "^2.5.3",
-    "wait-on": "^7.2.0"
-  },
-  "electronmon": {
-    "patterns": [
-      "!*.db"
-    ]
-  },
-  "build": {
-    "extends": null,
-    "files": [
-      "build/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    },
-    "productName": "Journey Plan",
-    "appId": "com.petermethee.journey_plan",
-    "win": {
-      "icon": "build/favicon.ico"
-    },
-    "nsis": {
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "menuCategory": true,
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true
-    },
-    "extraFiles": [
-      "journey_plan_PROD.db"
-    ]
+    "typescript": "^5.2.2",
+    "vite": "^5.2.10",
+    "wait-on": "^7.2.0",
+    "@electron-toolkit/eslint-config-prettier": "^2.0.0",
+    "@electron-toolkit/eslint-config-ts": "^1.0.1",
+    "@electron-toolkit/tsconfig": "^1.0.1",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "^3.2.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
