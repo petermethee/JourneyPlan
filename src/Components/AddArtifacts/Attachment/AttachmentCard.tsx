@@ -4,8 +4,14 @@ import cstmCloseIconStyle from "../../Shared/CustomCloseIcon.module.css";
 import styles from "./AttachmentCard.module.css";
 import { Document, Page, pdfjs } from "react-pdf";
 import { Fade, Modal } from "@mui/material";
+import { setSnackbarStatus } from "../../../features/Redux/tripSlice";
+import { useAppDispatch } from "../../../app/hooks";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import workerContent from "../../../assets/pdf.worker.min.json";
+
+const workerBlob = new Blob([workerContent], { type: "text/javascript" });
+const workerBlobURL = URL.createObjectURL(workerBlob);
+pdfjs.GlobalWorkerOptions.workerSrc = workerBlobURL;
 
 export default function AttachmentCard({
   imagePath,
@@ -16,6 +22,7 @@ export default function AttachmentCard({
   imageName: string;
   onDelete: () => void;
 }) {
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const [pdfPageNumber, setPdfPageNumber] = useState(0);
 
@@ -77,6 +84,15 @@ export default function AttachmentCard({
             onLoadSuccess={({ numPages }) => {
               setPdfPageNumber(numPages);
             }}
+            onLoadError={(err) =>
+              dispatch(
+                setSnackbarStatus({
+                  message:
+                    "Impossible de charger le pdf: " + imagePath + " : " + err,
+                  snackBarSeverity: "error",
+                })
+              )
+            }
           >
             <Page pageNumber={1} height={170} />;
           </Document>

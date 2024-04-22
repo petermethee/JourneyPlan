@@ -2,7 +2,7 @@
   "name": "journey_plan",
   "version": "0.1.0",
   "private": true,
-  "author": "Peter Meteus",
+  "author": "JP Corp",
   "description": "Journey Plan",
   "license": "GG",
   "homepage": "./",
@@ -74,6 +74,7 @@
     "electron": "^30.0.0",
     "electron-builder": "^24.13.3",
     "electron-devtools-installer": "^3.2.0",
+    "electron-rebuild": "^3.2.9",
     "electronmon": "^2.0.2",
     "source-map-explorer": "^2.5.3",
     "wait-on": "^7.2.0"
@@ -91,11 +92,17 @@
     "directories": {
       "buildResources": "assets"
     },
-    "productName": "JourneyPlan",
-    "appId": "com.petermethee",
+    "productName": "Journey Plan",
+    "appId": "com.petermethee.journey_plan",
     "win": {
-      "target": "nsis",
-      "icon": "public/favicon.ico"
+      "icon": "build/favicon.ico"
+    },
+    "nsis": {
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "menuCategory": true,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
     },
     "extraFiles": [
       "journey_plan_PROD.db"
