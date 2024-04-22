@@ -2,7 +2,7 @@ import { ipcMain } from "electron";
 import ITrip from "../../../src/renderer/src/Models/ITrip";
 import DatabaseAPI from "../DatabaseClass";
 import TripsManager from "../Managers/TripsManager";
-import { EIpcChanels } from "./EIpcChannels";
+import { EIpcChannels } from "./EIpcChannels";
 
 export default class TripIpcHandlers {
   tripsManager: TripsManager;
@@ -14,26 +14,26 @@ export default class TripIpcHandlers {
   initIPCHandlers = () => {
     /////// TRIP /////////
     //SELECT TRIP
-    ipcMain.handle(EIpcChanels.getAllTrips, async () => {
+    ipcMain.handle(EIpcChannels.getAllTrips, async () => {
       return await this.tripsManager.getAllTrips();
     });
 
     //INSERT TRIP
     ipcMain.handle(
-      EIpcChanels.insertTrip,
+      EIpcChannels.insertTrip,
       async (_event, trip: Partial<ITrip>) => {
         //trip is partial to allow id deletion
         await this.tripsManager.insertTrip(trip);
-      }
+      },
     );
 
     //UPDATE TRIP
-    ipcMain.handle(EIpcChanels.updateTrip, async (_event, trip: ITrip) => {
+    ipcMain.handle(EIpcChannels.updateTrip, async (_event, trip: ITrip) => {
       await this.tripsManager.updateTrip(trip);
     });
 
     //DELETE TRIP
-    ipcMain.handle(EIpcChanels.deleteTrip, async (_event, tripId: number) => {
+    ipcMain.handle(EIpcChannels.deleteTrip, async (_event, tripId: number) => {
       await this.tripsManager.deleteTrip(tripId);
     });
   };

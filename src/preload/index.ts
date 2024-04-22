@@ -1,63 +1,71 @@
-import { contextBridge, ipcRenderer } from 'electron'
-import { electronAPI } from '@electron-toolkit/preload'
-import { EIpcChanels } from '../main/IPC_API/EIpcChannels'
-import { EArtifactTableName } from '../renderer/src/Models/EArtifacts'
-import IPlanningArtifact, { IPlanning } from '../renderer/src/Models/IPlanningArtifact'
-import ITrip from '../renderer/src/Models/ITrip'
-import { IArtifact } from '../renderer/src/Models/IArtifact'
-import { IElectronAPI } from '../renderer/src/features/ipc/IElectronAPI'
+import { contextBridge, ipcRenderer } from "electron";
+import { electronAPI } from "@electron-toolkit/preload";
+import { EIpcChannels } from "../main/IPC_API/EIpcChannels";
+import { EArtifactTableName } from "../renderer/src/Models/EArtifacts";
+import IPlanningArtifact, {
+  IPlanning,
+} from "../renderer/src/Models/IPlanningArtifact";
+import ITrip from "../renderer/src/Models/ITrip";
+import { IArtifact } from "../renderer/src/Models/IArtifact";
+import { IElectronAPI } from "../renderer/src/features/ipc/IElectronAPI";
 
 // Custom APIs for renderer
 const api: IElectronAPI = {
   //TRIPS
-  getAllTrips: () => ipcRenderer.invoke(EIpcChanels.getAllTrips),
-  insertTrip: (trip: ITrip) => ipcRenderer.invoke(EIpcChanels.insertTrip, trip),
-  updateTrip: (trip: ITrip) => ipcRenderer.invoke(EIpcChanels.updateTrip, trip),
-  deleteTrip: (tripId: number) => ipcRenderer.invoke(EIpcChanels.deleteTrip, tripId),
+  getAllTrips: () => ipcRenderer.invoke(EIpcChannels.getAllTrips),
+  insertTrip: (trip: ITrip) =>
+    ipcRenderer.invoke(EIpcChannels.insertTrip, trip),
+  updateTrip: (trip: ITrip) =>
+    ipcRenderer.invoke(EIpcChannels.updateTrip, trip),
+  deleteTrip: (tripId: number) =>
+    ipcRenderer.invoke(EIpcChannels.deleteTrip, tripId),
 
   //GENERIC
   getAllItems: (tableName: EArtifactTableName, tripId: number) =>
-    ipcRenderer.invoke(EIpcChanels.getAllItems, tableName, tripId),
+    ipcRenderer.invoke(EIpcChannels.getAllItems, tableName, tripId),
   insertItem: (tableName: EArtifactTableName, item: IArtifact) =>
-    ipcRenderer.invoke(EIpcChanels.insertItem, tableName, item),
+    ipcRenderer.invoke(EIpcChannels.insertItem, tableName, item),
   updateItem: (tableName: EArtifactTableName, item: IArtifact) =>
-    ipcRenderer.invoke(EIpcChanels.updateItem, tableName, item),
+    ipcRenderer.invoke(EIpcChannels.updateItem, tableName, item),
   deleteItem: (tableName: EArtifactTableName, itemId: number) =>
-    ipcRenderer.invoke(EIpcChanels.deleteItem, tableName, itemId),
+    ipcRenderer.invoke(EIpcChannels.deleteItem, tableName, itemId),
 
   //PLANNING
-  getAllPlannings: (tripId: number) => ipcRenderer.invoke(EIpcChanels.getAllPlannings, tripId),
+  getAllPlannings: (tripId: number) =>
+    ipcRenderer.invoke(EIpcChannels.getAllPlannings, tripId),
   deletePlanning: (planningId: number) =>
-    ipcRenderer.invoke(EIpcChanels.deletePlanning, planningId),
-  insertPlanning: (planning: IPlanning) => ipcRenderer.invoke(EIpcChanels.insertPlanning, planning),
-  updatePlanning: (planning: IPlanning) => ipcRenderer.invoke(EIpcChanels.updatePlanning, planning),
+    ipcRenderer.invoke(EIpcChannels.deletePlanning, planningId),
+  insertPlanning: (planning: IPlanning) =>
+    ipcRenderer.invoke(EIpcChannels.insertPlanning, planning),
+  updatePlanning: (planning: IPlanning) =>
+    ipcRenderer.invoke(EIpcChannels.updatePlanning, planning),
 
   //PLANNING ARTIFACTS
   getAllArtifactsPlanning: (planningId: number) =>
-    ipcRenderer.invoke(EIpcChanels.getAllArtifactsPlanning, planningId),
+    ipcRenderer.invoke(EIpcChannels.getAllArtifactsPlanning, planningId),
   deleteArtifactPlanning: (planningArtifactId: number) =>
-    ipcRenderer.invoke(EIpcChanels.deleteArtifactPlanning, planningArtifactId),
+    ipcRenderer.invoke(EIpcChannels.deleteArtifactPlanning, planningArtifactId),
   insertArtifactPlanning: (planningArtifact: IPlanningArtifact) =>
-    ipcRenderer.invoke(EIpcChanels.insertArtifactPlanning, planningArtifact),
+    ipcRenderer.invoke(EIpcChannels.insertArtifactPlanning, planningArtifact),
   updateArtifactPlanning: (planningArtifact: IPlanningArtifact) =>
-    ipcRenderer.invoke(EIpcChanels.updateArtifactPlanning, planningArtifact),
+    ipcRenderer.invoke(EIpcChannels.updateArtifactPlanning, planningArtifact),
   exportAttachments: (planningId: number) =>
-    ipcRenderer.invoke(EIpcChanels.exportAttachments, planningId)
-}
+    ipcRenderer.invoke(EIpcChannels.exportAttachments, planningId),
+};
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.
 if (process.contextIsolated) {
   try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('electronAPI', api)
+    contextBridge.exposeInMainWorld("electron", electronAPI);
+    contextBridge.exposeInMainWorld("electronAPI", api);
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 } else {
   // @ts-ignore (define in dts)
-  window.electron = electronAPI
+  window.electron = electronAPI;
   // @ts-ignore (define in dts)
-  window.api = api
+  window.api = api;
 }

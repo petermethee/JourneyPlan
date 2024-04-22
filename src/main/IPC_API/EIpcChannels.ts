@@ -1,4 +1,4 @@
-export enum EIpcChanels {
+export enum EIpcChannels {
   getAllTrips = "getAllTrips",
   insertTrip = "insertTrip",
   updateTrip = "updateTrip",
