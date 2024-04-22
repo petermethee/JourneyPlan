@@ -57,7 +57,7 @@ export const getAllArtifactsPlanningAPI = (idPlanning: number) => {
 };
 
 export const insertArtifactPlanningAPI = (
-  planningArtifact: IPlanningArtifact
+  planningArtifact: IPlanningArtifact,
 ) => {
   return new Promise<number>(async (resolve, reject) => {
     try {
@@ -71,7 +71,7 @@ export const insertArtifactPlanningAPI = (
 };
 
 export const updateArtifactPlanningAPI = (
-  planningArtifact: IPlanningArtifact
+  planningArtifact: IPlanningArtifact,
 ) => {
   return new Promise<void>(async (resolve, reject) => {
     try {
@@ -95,10 +95,10 @@ export const deleteArtifactPlanningAPI = (planningArtifactId: number) => {
 };
 
 export const exportAttachmentsAPI = (planningId: number) => {
-  return new Promise<void>(async (resolve, reject) => {
+  return new Promise<boolean>(async (resolve, reject) => {
     try {
-      await window.electronAPI.exportAttachments(planningId);
-      resolve();
+      const result = await window.electronAPI.exportAttachments(planningId);
+      resolve(result);
     } catch (error) {
       reject(error);
     }

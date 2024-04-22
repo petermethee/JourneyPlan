@@ -58,7 +58,7 @@ export const insertTrip = createAsyncThunk(
   "insertTrip",
   async (trip: ITrip) => {
     return await insertTripAPI(trip);
-  }
+  },
 );
 
 export const updateTrip = createAsyncThunk(
@@ -66,7 +66,7 @@ export const updateTrip = createAsyncThunk(
   async (trip: ITrip) => {
     await updateTripAPI(trip);
     return trip;
-  }
+  },
 );
 
 export const deleteTrip = createAsyncThunk(
@@ -74,7 +74,7 @@ export const deleteTrip = createAsyncThunk(
   async (tripId: number) => {
     await deleteTripAPI(tripId);
     return tripId;
-  }
+  },
 );
 
 export const tripSlice = createSlice({
@@ -89,7 +89,7 @@ export const tripSlice = createSlice({
     },
     setCurrentTrip: (
       state: TripState,
-      action: PayloadAction<ITrip | undefined>
+      action: PayloadAction<ITrip | undefined>,
     ) => {
       state.currentTrip = action.payload;
     },
@@ -98,7 +98,7 @@ export const tripSlice = createSlice({
       action: PayloadAction<{
         snackBarSeverity?: AlertColor | undefined;
         message: string;
-      }>
+      }>,
     ) => {
       state.snackbarStatus = action.payload;
     },
@@ -137,7 +137,7 @@ export const tripSlice = createSlice({
       .addCase(deleteTrip.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
-            "Erreur lors de la supression du voyage: " + action.error.message!,
+            "Erreur lors de la suppression du voyage: " + action.error.message!,
           snackBarSeverity: "error",
         };
       })
@@ -169,7 +169,7 @@ export const tripSlice = createSlice({
       .addCase(deleteActivity.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
-            "Erreur lors de la supression de l'activité: " +
+            "Erreur lors de la suppression de l'activité: " +
             action.error.message!,
           snackBarSeverity: "error",
         };
@@ -201,7 +201,7 @@ export const tripSlice = createSlice({
       .addCase(deleteTransport.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
-            "Erreur lors de la supression du transport: " +
+            "Erreur lors de la suppression du transport: " +
             action.error.message!,
           snackBarSeverity: "error",
         };
@@ -233,7 +233,7 @@ export const tripSlice = createSlice({
       .addCase(deleteAccommodation.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
-            "Erreur lors de la supression de l'hébergement: " +
+            "Erreur lors de la suppression de l'hébergement: " +
             action.error.message!,
           snackBarSeverity: "error",
         };
@@ -263,7 +263,7 @@ export const tripSlice = createSlice({
       .addCase(deletePlanning.rejected, (state, action) => {
         state.snackbarStatus = {
           message:
-            "Erreur lors de la supression du voyage: " + action.error.message!,
+            "Erreur lors de la suppression du voyage: " + action.error.message!,
           snackBarSeverity: "error",
         };
       })
@@ -272,11 +272,13 @@ export const tripSlice = createSlice({
       .addCase(exportAttachments.pending, (state, _action) => {
         state.loading = true;
       })
-      .addCase(exportAttachments.fulfilled, (state, _action) => {
-        state.snackbarStatus = {
-          message: "Export terminé",
-          snackBarSeverity: "success",
-        };
+      .addCase(exportAttachments.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.snackbarStatus = {
+            message: "Export terminé",
+            snackBarSeverity: "success",
+          };
+        }
         state.loading = false;
       })
       .addCase(exportAttachments.rejected, (state, _action) => {

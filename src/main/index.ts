@@ -4,34 +4,23 @@ import ArtifactIpcHandlers from './IPC_API/ArtifactIpcHandlers'
 import DatabaseAPI from './DatabaseClass'
 import PlanningIpcHandlers from './IPC_API/PlanningIpcHandlers'
 import { createProjectFolders } from './helpers'
-import icon from '../../resources/icon.png?asset'
+import icon from '../../resources/journey_plan_icon.png?asset'
 import { app, shell, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
 createProjectFolders()
 function createWindow() {
-  // const win = new BrowserWindow({
-  //   webPreferences: {
-  //     contextIsolation: true,
-  //     preload: path.join(__dirname, "preload.js"),
-  //     webSecurity: app.isPackaged,
-  //     sandbox: false, //important pour charger des modules dans preload
-  //   },
-  //   width: 1200,
-  //   height: 800,
-  //   icon: path.join(__dirname, "../favicon.ico"),
-  // });
-
   const mainWindow = new BrowserWindow({
-    width: 900,
-    height: 670,
+    width: 1200,
+    height: 800,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon,
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      webSecurity: app.isPackaged
     }
   })
 
@@ -51,15 +40,6 @@ function createWindow() {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
-
-  /*  mainWindow.removeMenu();
-
-  if (app.isPackaged) {
-    mainWindow.loadURL(`file://${path.join(__dirname, "../index.html")}`);
-  } else {
-    mainWindow.loadURL("http://localhost:5173");
-    mainWindow.webContents.openDevTools({ mode: "detach" });
-  } */
 
   const dbPath = app.isPackaged ? './journey_plan_PROD.db' : './journey_plan.db'
 

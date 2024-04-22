@@ -1,41 +1,30 @@
-import { Chip, Grid } from "@mui/material";
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useState,
-} from "react";
-import IAccommodation, {
-  TFormAccommodation,
-} from "../../Models/IAccommodation";
-import { AccommodationsTable } from "../../Models/DataBaseModel";
-import DownloadIcon from "@mui/icons-material/Download";
-import styles from "./AddArtifacts.module.css";
-import AttachmentCard from "./Attachment/AttachmentCard";
-import AttachmentDZ from "./Attachment/AttachmentDZ";
-import { ESavingStatus } from "./AddArtifacts";
-import { EArtifact } from "../../Models/EArtifacts";
-import { useAppDispatch } from "../../app/hooks";
-import {
-  insertAccommodation,
-  updateAccommodation,
-} from "../../features/Redux/accommodationsSlice";
-import { setSnackbarStatus } from "../../features/Redux/tripSlice";
-import { MobileTimePicker } from "@mui/x-date-pickers";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
-import IAttachment from "../../Models/IAttachment";
-import LocationSearchInput from "./Inputs/LocationSearchInput";
-import { TArtifactEditor } from "../Planning/Planning";
-import { EEventStatus } from "../../Models/EEventStatus";
-import { meals } from "../../Helper/MealsHelper";
-import DescriptionInput from "./Inputs/DescriptionInput";
-import PriceInput from "./Inputs/PriceInput";
-import StatusSelector from "./Inputs/StatusSelector";
-import NameInput from "./Inputs/NameInput";
+import { Chip, Grid } from '@mui/material'
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react'
+import IAccommodation, { TFormAccommodation } from '../../Models/IAccommodation'
+import { AccommodationsTable } from '../../Models/DataBaseModel'
+import DownloadIcon from '@mui/icons-material/Download'
+import styles from './AddArtifacts.module.css'
+import AttachmentCard from './Attachment/AttachmentCard'
+import AttachmentDZ from './Attachment/AttachmentDZ'
+import { ESavingStatus } from './AddArtifacts'
+import { EArtifact } from '../../Models/EArtifacts'
+import { useAppDispatch } from '../../app/hooks'
+import { insertAccommodation, updateAccommodation } from '../../features/Redux/accommodationsSlice'
+import { setSnackbarStatus } from '../../features/Redux/tripSlice'
+import { MobileTimePicker } from '@mui/x-date-pickers'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import dayjs from 'dayjs'
+import ImportAttachmentInput from './Attachment/ImportAttachmentInput'
+import IAttachment from '../../Models/IAttachment'
+import LocationSearchInput from './Inputs/LocationSearchInput'
+import { TArtifactEditor } from '../Planning/Planning'
+import { EEventStatus } from '../../Models/EEventStatus'
+import { meals } from '../../Helper/MealsHelper'
+import DescriptionInput from './Inputs/DescriptionInput'
+import PriceInput from './Inputs/PriceInput'
+import StatusSelector from './Inputs/StatusSelector'
+import NameInput from './Inputs/NameInput'
 
 export const AddAccommodation = forwardRef(
   (
@@ -44,17 +33,17 @@ export const AddAccommodation = forwardRef(
       id_trip,
       accommodation,
       setArtifactToEdit,
-      isFocused,
+      isFocused
     }: {
-      setSaving: (savingStatus: ESavingStatus) => void;
-      id_trip: number;
-      accommodation?: IAccommodation;
-      setArtifactToEdit: (artifactEditor: TArtifactEditor) => void;
-      isFocused: boolean;
+      setSaving: (savingStatus: ESavingStatus) => void
+      id_trip: number
+      accommodation?: IAccommodation
+      setArtifactToEdit: (artifactEditor: TArtifactEditor) => void
+      isFocused: boolean
     },
     ref
   ) => {
-    const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch()
 
     const initialFormValues: TFormAccommodation = useMemo(() => {
       if (accommodation) {
@@ -71,42 +60,40 @@ export const AddAccommodation = forwardRef(
           [AccommodationsTable.status]: accommodation.status,
           [AccommodationsTable.breakfast]: accommodation.breakfast,
           [AccommodationsTable.lunch]: accommodation.lunch,
-          [AccommodationsTable.dinner]: accommodation.dinner,
-        };
+          [AccommodationsTable.dinner]: accommodation.dinner
+        }
       }
       return {
-        [AccommodationsTable.name]: "",
-        [AccommodationsTable.description]: "",
-        [AccommodationsTable.price]: "0",
-        [AccommodationsTable.location]: "",
-        [AccommodationsTable.checkin]: "18:00",
-        [AccommodationsTable.checkout]: "10:00",
+        [AccommodationsTable.name]: '',
+        [AccommodationsTable.description]: '',
+        [AccommodationsTable.price]: '0',
+        [AccommodationsTable.location]: '',
+        [AccommodationsTable.checkin]: '18:00',
+        [AccommodationsTable.checkout]: '10:00',
         [AccommodationsTable.lat]: null,
         [AccommodationsTable.lng]: null,
         [AccommodationsTable.city]: null,
         [AccommodationsTable.status]: EEventStatus.none,
         [AccommodationsTable.breakfast]: 0,
         [AccommodationsTable.lunch]: 0,
-        [AccommodationsTable.dinner]: 0,
-      };
-    }, [accommodation]);
+        [AccommodationsTable.dinner]: 0
+      }
+    }, [accommodation])
 
-    const [formValues, setFormValues] =
-      useState<TFormAccommodation>(initialFormValues);
+    const [formValues, setFormValues] = useState<TFormAccommodation>(initialFormValues)
 
     const initialAttachment = useMemo(
       () => (accommodation ? accommodation.attachment : []),
       [accommodation]
-    );
-    const [attachment, setAttachment] =
-      useState<IAttachment[]>(initialAttachment);
+    )
+    const [attachment, setAttachment] = useState<IAttachment[]>(initialAttachment)
 
-    const [dragActive, setDragActive] = useState(false);
+    const [dragActive, setDragActive] = useState(false)
 
     const clearInputs = () => {
-      setFormValues(initialFormValues);
-      setAttachment([]);
-    };
+      setFormValues(initialFormValues)
+      setAttachment([])
+    }
 
     useImperativeHandle(ref, () => ({
       save(artifactType: EArtifact) {
@@ -117,23 +104,17 @@ export const AddAccommodation = forwardRef(
             ...formValues,
             price: parseFloat(formValues.price),
             attachment,
-            used: false,
-          };
+            used: false
+          }
           dispatch(insertAccommodation(newAccommodation)).then((result) => {
-            if (result.meta.requestStatus === "fulfilled") {
-              dispatch(
-                setSnackbarStatus({
-                  message: "Votre Hébergement a correctement été ajouté",
-                  snackBarSeverity: "success",
-                })
-              );
-              setSaving(ESavingStatus.disabled);
-              clearInputs();
-            } else if (result.meta.requestStatus === "rejected") {
+            if (result.meta.requestStatus === 'fulfilled') {
+              setSaving(ESavingStatus.disabled)
+              clearInputs()
+            } else if (result.meta.requestStatus === 'rejected') {
               //no need to set snackbar in case of rejection, handled in globalSlice
-              setSaving(ESavingStatus.enabled);
+              setSaving(ESavingStatus.enabled)
             }
-          });
+          })
         }
       },
       edit(artifactType: EArtifact) {
@@ -144,94 +125,80 @@ export const AddAccommodation = forwardRef(
             ...formValues,
             price: parseFloat(formValues.price),
             attachment,
-            used: accommodation!.used,
-          };
+            used: accommodation!.used
+          }
           dispatch(updateAccommodation(updatedAccommodation)).then((result) => {
-            if (result.meta.requestStatus === "fulfilled") {
+            if (result.meta.requestStatus === 'fulfilled') {
               dispatch(
                 setSnackbarStatus({
-                  message: "Le Hébergement a correctement été mis à jour",
-                  snackBarSeverity: "success",
+                  message: 'Le Hébergement a correctement été mis à jour',
+                  snackBarSeverity: 'success'
                 })
-              );
-              setSaving(ESavingStatus.disabled);
-              setArtifactToEdit({ type: EArtifact.Accommodation });
-            } else if (result.meta.requestStatus === "rejected") {
+              )
+              setSaving(ESavingStatus.disabled)
+              setArtifactToEdit({ type: EArtifact.Accommodation })
+            } else if (result.meta.requestStatus === 'rejected') {
               //no need to set snackbar in case of rejection, handled in globalSlice
-              setSaving(ESavingStatus.enabled);
+              setSaving(ESavingStatus.enabled)
             }
-          });
+          })
         }
-      },
-    }));
+      }
+    }))
 
     const dayJsCheckin = useMemo(() => {
-      const [h, m] = formValues.checkin.split(":");
-      const dateTime = dayjs()
-        .set("hours", parseInt(h))
-        .set("minutes", parseInt(m));
-      return dateTime;
-    }, [formValues.checkin]);
+      const [h, m] = formValues.checkin.split(':')
+      const dateTime = dayjs().set('hours', parseInt(h)).set('minutes', parseInt(m))
+      return dateTime
+    }, [formValues.checkin])
 
     const dayJsCheckout = useMemo(() => {
       if (formValues.checkout) {
-        const [h, m] = formValues.checkout.split(":");
-        const dateTime = dayjs()
-          .set("hours", parseInt(h))
-          .set("minutes", parseInt(m));
-        return dateTime;
+        const [h, m] = formValues.checkout.split(':')
+        const dateTime = dayjs().set('hours', parseInt(h)).set('minutes', parseInt(m))
+        return dateTime
       }
-      return null;
-    }, [formValues.checkout]);
+      return null
+    }, [formValues.checkout])
 
     const updateForm = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const name = event.target.name;
-      const value = event.target.value;
+      const name = event.target.name
+      const value = event.target.value
       setFormValues((prevState) => {
         return {
           ...prevState,
-          [name]: value,
-        };
-      });
-    };
+          [name]: value
+        }
+      })
+    }
 
     useEffect(() => {
       if (isFocused) {
         if (
-          (formValues.price !== "" &&
-            formValues.name !== "" &&
+          (formValues.price !== '' &&
+            formValues.name !== '' &&
             formValues.location &&
             JSON.stringify(formValues) !== JSON.stringify(initialFormValues)) ||
           initialAttachment.join() !== attachment.join()
         ) {
-          setSaving(ESavingStatus.enabled);
+          setSaving(ESavingStatus.enabled)
         } else {
-          setSaving(ESavingStatus.disabled);
+          setSaving(ESavingStatus.disabled)
         }
       }
-    }, [
-      formValues,
-      initialFormValues,
-      attachment,
-      initialAttachment,
-      setSaving,
-      isFocused,
-    ]);
+    }, [formValues, initialFormValues, attachment, initialAttachment, setSaving, isFocused])
 
     useEffect(() => {
-      setFormValues(initialFormValues);
-    }, [initialFormValues]);
+      setFormValues(initialFormValues)
+    }, [initialFormValues])
 
     useEffect(() => {
-      setAttachment(initialAttachment);
-    }, [initialAttachment]);
+      setAttachment(initialAttachment)
+    }, [initialAttachment])
 
     return (
       <>
-        <div
-          className={styles.dropLabel}
-          style={{ opacity: dragActive ? 1 : 0 }}
-        >
+        <div className={styles.dropLabel} style={{ opacity: dragActive ? 1 : 0 }}>
           <DownloadIcon />
           Lâcher le document ici
         </div>
@@ -275,19 +242,17 @@ export const AddAccommodation = forwardRef(
                       location: address,
                       lng,
                       lat,
-                      city: city ?? null,
-                    };
+                      city: city ?? null
+                    }
                   })
                 }
-                isLocationOk={
-                  formValues.lat !== null && formValues.lng !== null
-                }
+                isLocationOk={formValues.lat !== null && formValues.lng !== null}
               />
             </Grid>
             <Grid item xs={3} display="flex" justifyContent="center">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <MobileTimePicker
-                  sx={{ ".MuiInputBase-input": { height: "auto" } }}
+                  sx={{ '.MuiInputBase-input': { height: 'auto' } }}
                   ampm={false}
                   label="Checkin"
                   value={dayJsCheckin}
@@ -297,10 +262,10 @@ export const AddAccommodation = forwardRef(
                         ...prevState,
                         checkin: newValue
                           ? `${newValue.hour()}:${
-                              newValue.minute() < 10 ? "0" : ""
+                              newValue.minute() < 10 ? '0' : ''
                             }${newValue.minute()}`
-                          : "18:00",
-                      };
+                          : '18:00'
+                      }
                     })
                   }
                 />
@@ -309,7 +274,7 @@ export const AddAccommodation = forwardRef(
             <Grid item xs={3} display="flex" justifyContent="center">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <MobileTimePicker
-                  sx={{ ".MuiInputBase-input": { height: "auto" } }}
+                  sx={{ '.MuiInputBase-input': { height: 'auto' } }}
                   ampm={false}
                   label="Checkout"
                   value={dayJsCheckout ?? null}
@@ -319,22 +284,16 @@ export const AddAccommodation = forwardRef(
                         ...prevState,
                         checkout: newValue
                           ? `${newValue.hour()}:${
-                              newValue.minute() < 10 ? "0" : ""
+                              newValue.minute() < 10 ? '0' : ''
                             }${newValue.minute()}`
-                          : "10:00",
-                      };
+                          : '10:00'
+                      }
                     })
                   }
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-            >
+            <Grid item xs={12} display="flex" justifyContent="space-between" alignItems="center">
               <span>Repas inclus:</span>
               {Object.entries(meals).map(([key, val]) => (
                 <Chip
@@ -343,25 +302,16 @@ export const AddAccommodation = forwardRef(
                     setFormValues((prevState) => {
                       return {
                         ...prevState,
-                        [key]:
-                          ((prevState[
-                            key as keyof TFormAccommodation
-                          ] as number) +
-                            1) %
-                          2,
-                      };
-                    });
+                        [key]: ((prevState[key as keyof TFormAccommodation] as number) + 1) % 2
+                      }
+                    })
                   }}
                   size="small"
                   icon={val.icon()}
                   label={val.text}
                   color="primary"
-                  variant={
-                    formValues[key as keyof TFormAccommodation]
-                      ? "filled"
-                      : "outlined"
-                  }
-                  sx={{ width: "100px" }}
+                  variant={formValues[key as keyof TFormAccommodation] ? 'filled' : 'outlined'}
+                  sx={{ width: '100px' }}
                 />
               ))}
             </Grid>
@@ -400,6 +350,6 @@ export const AddAccommodation = forwardRef(
           </Grid>
         </div>
       </>
-    );
+    )
   }
-);
+)
