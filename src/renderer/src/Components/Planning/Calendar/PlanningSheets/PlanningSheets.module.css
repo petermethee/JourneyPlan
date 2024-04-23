@@ -1,9 +1,9 @@
 .container {
     display: flex;
     justify-content: space-between;
-    background-color: var(--darkSecondaryBlue);
+    background-color: var(--darkColor3);
     height: 35px;
-    z-index: 2;
+    z-index: 499;
     box-shadow: 0 0 16px 0 #00000070;
 }
 

@@ -2,20 +2,23 @@
     overflow: hidden;
     cursor: pointer;
     padding: 0px 10px;
+    margin: 3px;
     transition: 300ms;
-    color: #141a1d;
+    color: #fff;
     display: flex;
     align-items: center;
-    border-right: solid 1px #37484f;
     gap: 5px;
+    background-color: var(--darkColor5);
+    border-radius: 5px;
+
 }
 
 .sheet:hover {
-    background-color: #5c7885;
+    background-color: var(--darkColor6);
 }
 
 .selectedSheet {
-    background-color: var(--defaultWhite) !important;
+    background-color: var(--secWhite) !important;
     color: var(--goldenColor);
 }
 

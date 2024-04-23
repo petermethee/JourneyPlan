@@ -1,11 +1,7 @@
 .timeLineContainer {
     display: flex;
     flex-direction: column;
-    min-width: 255px;
-    width: 20%;
-    max-width: 350px;
-    background-color: var(--darkColor1);
-    box-shadow: 1px 0px 8px 0px #000000b8;
+    background-color: var(--darkColor3);
     z-index: 500;
     padding: 0px 0px 10px 0px;
     color: white;
@@ -32,7 +28,7 @@
 .dayLabel {
     text-transform: uppercase;
     font-weight: bold;
-    background-color: var(--darkColorc);
+    background-color: var(--primary300);
     border-radius: 5px;
     padding: 10px;
     width: 80%;
@@ -40,8 +36,8 @@
     margin-top: 10px;
     display: flex;
     justify-content: center;
-    color: var(--darkColor2);
-    border: 2px solid var(--darkColor2);
+    color: var(--primaryColor);
+    box-shadow: 0 0 16px 0 #000000a3;
 }
 
 .linkContainer {

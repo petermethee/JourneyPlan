@@ -66,7 +66,7 @@ export default function SideData({
   const [usedFilter, setUsedFilter] = useState<boolean | "all">(false);
   const [marginTop, setMarginTop] = useState(0);
   const [currentArtifactType, setCurrentArtifactType] = useState(
-    EArtifact.Activity
+    EArtifact.Activity,
   );
 
   const filteredActivities = useMemo(() => {
@@ -90,7 +90,7 @@ export default function SideData({
       return accommodations;
     } else {
       return accommodations.filter(
-        (accommodation) => accommodation.used === usedFilter
+        (accommodation) => accommodation.used === usedFilter,
       );
     }
   }, [accommodations, usedFilter]);
@@ -266,7 +266,7 @@ export default function SideData({
         0,
         sideDataRef.current!.clientHeight -
           sideDataRef.current!.parentElement!.parentElement!.clientHeight +
-          sideDataTop
+          sideDataTop,
       );
       const tempValue = prevState - 150 * Math.sign(event.deltaY); //150 is the arbitrary choosen step
       const newMarginTop = Math.max(-marginMax, Math.min(0, tempValue));
@@ -277,7 +277,7 @@ export default function SideData({
 
   return (
     <div
-      className={styles.sideDataContainer}
+      className={`sidebar ${styles.sideDataContainer}`}
       style={{ pointerEvents: isDragged ? "none" : "auto" }}
       onWheel={onWheel}
     >
@@ -297,8 +297,8 @@ export default function SideData({
               return prevState === "all"
                 ? !used
                 : prevState === used
-                ? !used
-                : "all";
+                  ? !used
+                  : "all";
             }
           });
         }}

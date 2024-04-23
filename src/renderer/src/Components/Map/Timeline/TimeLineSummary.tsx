@@ -52,9 +52,9 @@ export default function TimeLineSummary({
   const filteredArray = useMemo(
     () =>
       sortedPlanningArtifacts.filter((PA) =>
-        dayjs(PA.date).isSame(dayjs(trip?.start_date).add(dayIndex, "day"))
+        dayjs(PA.date).isSame(dayjs(trip?.start_date).add(dayIndex, "day")),
       ),
-    [trip?.start_date, sortedPlanningArtifacts, dayIndex]
+    [trip?.start_date, sortedPlanningArtifacts, dayIndex],
   );
 
   const timeLineCards = useMemo(() => {
@@ -112,17 +112,18 @@ export default function TimeLineSummary({
   useEffect(() => {
     if (selectedArtifactId) {
       const selectedArtifactDate = dayjs(
-        sortedPlanningArtifacts.find((pa) => pa.id === selectedArtifactId)!.date
+        sortedPlanningArtifacts.find((pa) => pa.id === selectedArtifactId)!
+          .date,
       );
       const newDayIndex = Math.abs(
-        dayjs(trip?.start_date).diff(selectedArtifactDate, "day")
+        dayjs(trip?.start_date).diff(selectedArtifactDate, "day"),
       );
       setDayIndex(newDayIndex);
     }
   }, [selectedArtifactId, sortedPlanningArtifacts, trip?.start_date]);
 
   return (
-    <div className={styles.timeLineContainer}>
+    <div className={`${styles.timeLineContainer} sidebar`}>
       <MenuBar mapMode />
       <div className={styles.dayLabel}>{currentDateLabel}</div>
 

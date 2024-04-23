@@ -31,3 +31,11 @@ body {
 body::-webkit-scrollbar {
   display: none;
 }
+
+.sidebar {
+  min-width: 280px;
+  width: 20%;
+  max-width: 350px;
+  box-shadow: 1px 0px 8px 0px #000000b8;
+
+}

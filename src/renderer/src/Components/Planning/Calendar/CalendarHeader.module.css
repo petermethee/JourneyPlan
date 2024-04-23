@@ -26,5 +26,5 @@
 }
 
 .arrowButtonR:hover, .arrowButtonL:hover {
-    background-color: #c8c8c860;
+    background-color: var(--primary800);
 }

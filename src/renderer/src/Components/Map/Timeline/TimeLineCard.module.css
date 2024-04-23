@@ -77,7 +77,7 @@
     width: var(--height);
     height: var(--height);
     border-radius: 100%;
-    color: var(--darkColor1);
+    color: var(--darkColor3);
     font-weight: bold;
     font-size: larger;
     overflow: hidden;
@@ -89,7 +89,7 @@
     position: absolute;
     width: calc(100% - 3px);
     height: calc(100% - 3px);
-    background-color: var(--darkColor1);
+    background-color: var(--darkColor3);
     border-radius: 100%;
     z-index: 1;
 }
@@ -158,19 +158,19 @@
 
 /* style of the lights if the card is the selected one */
 .selectedTimeLineCard .light {
-    background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, #fa426d);
+    background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, #e2cb92);
 }
 
 .selectedTimeLineCard .light2 {
-    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, #32ffff);
+    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, #c4d6fd);
 }
 
 .selectedTimeLineCard .lightBubble {
-    background-image: conic-gradient(from var(--rotate), transparent, transparent, #fa426d);
+    background-image: conic-gradient(from var(--rotate), transparent, transparent, #e2cb92);
 }
 
 .selectedTimeLineCard .lightBubble2 {
-    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, #32ffff);
+    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, #c4d6fd);
 }
 
 .initialStyle {
