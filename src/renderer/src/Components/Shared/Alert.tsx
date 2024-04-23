@@ -1,29 +1,34 @@
-import React from 'react'
+import React from "react";
 
-import Snackbar from '@mui/material/Snackbar'
-import MuiAlert, { AlertColor } from '@mui/material/Alert'
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertColor } from "@mui/material/Alert";
 
 export default function Alert({
   open,
   message,
   severity,
-  handleClose
+  handleClose,
 }: {
-  open: boolean
-  message: string
-  severity: AlertColor | undefined
-  handleClose: (event?: React.SyntheticEvent | Event, reason?: string) => void
+  open: boolean;
+  message: string;
+  severity: AlertColor | undefined;
+  handleClose: (event?: React.SyntheticEvent | Event, reason?: string) => void;
 }) {
   return (
-    <Snackbar open={open} autoHideDuration={500000} onClose={handleClose} sx={{ zIndex: 2001 }}>
+    <Snackbar
+      open={open}
+      autoHideDuration={5000}
+      onClose={handleClose}
+      sx={{ zIndex: 2001 }}
+    >
       <MuiAlert
         variant="standard"
         onClose={handleClose}
         severity={severity}
-        sx={{ width: '100%', boxShadow: '0 0 6px 0 #0000004b' }}
+        sx={{ width: "100%", boxShadow: "0 0 6px 0 #0000004b" }}
       >
         {message}
       </MuiAlert>
     </Snackbar>
-  )
+  );
 }

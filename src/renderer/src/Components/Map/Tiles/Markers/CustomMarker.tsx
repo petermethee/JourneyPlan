@@ -1,17 +1,17 @@
-import { Marker, Popup } from 'react-leaflet'
-import { EArtifact } from '../../../../Models/EArtifacts'
-import { useMemo } from 'react'
-import { DivIcon } from 'leaflet'
-import ReactDOMServer from 'react-dom/server'
-import accommodationMark from '../../../../assets/MapMarkers/AccommodationMarkNoIcon.png'
-import activityMark from '../../../../assets/MapMarkers/ActivityMarkNoIcon.png'
-import transportTarget from '../../../../assets/MapMarkers/transportTarget.png'
+import { Marker, Popup } from "react-leaflet";
+import { EArtifact } from "../../../../Models/EArtifacts";
+import { useMemo } from "react";
+import { DivIcon } from "leaflet";
+import ReactDOMServer from "react-dom/server";
+import accommodationMark from "../../../../assets/MapMarkers/AccommodationMarkNoIcon.png";
+import activityMark from "../../../../assets/MapMarkers/ActivityMarkNoIcon.png";
+import transportTarget from "../../../../assets/MapMarkers/transportTarget.png";
 
-import styles from './Marker.module.css'
-import './LeafletOverideStyle.css'
+import styles from "./Marker.module.css";
+import "./LeafletOverideStyle.css";
 
-const standardMarkSize = { w: 45, h: 45 }
-const transportMarkSize = { w: 30, h: 30 }
+const standardMarkSize = { w: 45, h: 45 };
+const transportMarkSize = { w: 30, h: 30 };
 
 export default function CustomMarker({
   position,
@@ -20,33 +20,36 @@ export default function CustomMarker({
   onClick,
   onHover,
   description,
-  selected
+  selected,
 }: {
-  position: [number, number]
-  value: number
-  artifactType: EArtifact
-  onClick: () => void
-  onHover: (isHovered: boolean) => void
-  description?: string
-  selected?: boolean
+  position: [number, number];
+  value: number;
+  artifactType: EArtifact;
+  onClick: () => void;
+  onHover: (isHovered: boolean) => void;
+  description?: string;
+  selected?: boolean;
 }) {
   const icon = useMemo(() => {
-    let mark
+    let mark;
     switch (artifactType) {
       case EArtifact.Activity:
-        mark = activityMark
-        break
+        mark = activityMark;
+        break;
       case EArtifact.Transport:
-        mark = transportTarget
+        mark = transportTarget;
 
-        break
+        break;
       default:
-        mark = accommodationMark
-        break
+        mark = accommodationMark;
+        break;
     }
-    const { h, w } = artifactType === EArtifact.Transport ? transportMarkSize : standardMarkSize
+    const { h, w } =
+      artifactType === EArtifact.Transport
+        ? transportMarkSize
+        : standardMarkSize;
     const stdrdAnchor: [number, number] =
-      artifactType === EArtifact.Transport ? [w / 2, h / 2] : [w / 2, h]
+      artifactType === EArtifact.Transport ? [w / 2, h / 2] : [w / 2, h];
     return new DivIcon({
       html: ReactDOMServer.renderToString(
         <div
@@ -54,24 +57,24 @@ export default function CustomMarker({
             selected ? styles.growAnimation : styles.reduceAnimation
           }`}
           style={{
-            width: w + 'px'
+            width: w + "px",
           }}
         >
-          <img src={mark} alt="marker" style={{ width: '100%' }} />
+          <img src={mark} alt="marker" style={{ width: "100%" }} />
           <span
             style={{
-              marginTop: artifactType === EArtifact.Transport ? 0 : '-6px'
+              marginTop: artifactType === EArtifact.Transport ? 0 : "-6px",
             }}
           >
             {value}
           </span>
-        </div>
+        </div>,
       ),
       iconSize: [0, 0],
       popupAnchor: [0, -stdrdAnchor[1]],
-      iconAnchor: stdrdAnchor
-    })
-  }, [value, selected, artifactType])
+      iconAnchor: stdrdAnchor,
+    });
+  }, [value, selected, artifactType]);
 
   return (
     <Marker
@@ -82,11 +85,11 @@ export default function CustomMarker({
       eventHandlers={{
         click: onClick,
         mouseover: () => onHover(true),
-        mouseout: () => onHover(false)
+        mouseout: () => onHover(false),
       }}
       zIndexOffset={selected ? 10000 : 0}
     >
       {description && <Popup>{description}</Popup>}
     </Marker>
-  )
+  );
 }

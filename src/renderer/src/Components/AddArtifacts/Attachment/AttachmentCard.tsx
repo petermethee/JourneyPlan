@@ -42,7 +42,7 @@ export default function AttachmentCard({
           renderTextLayer={false}
           pageNumber={i}
           key={i}
-        />
+        />,
       );
     }
 
@@ -90,7 +90,7 @@ export default function AttachmentCard({
                   message:
                     "Impossible de charger le pdf: " + imagePath + " : " + err,
                   snackBarSeverity: "error",
-                })
+                }),
               )
             }
           >

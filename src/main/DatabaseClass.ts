@@ -1,14 +1,15 @@
-import betterSqlite, { Database } from 'better-sqlite3'
+import betterSqlite, { Database } from "better-sqlite3";
+import { dbPath } from "./helpers";
 
 export default class DatabaseAPI {
-  db: Database
+  db: Database;
 
-  constructor(dbPath: string) {
-    this.db = new betterSqlite(dbPath)
-    this.db.pragma('busy_timeout = 3000')
+  constructor() {
+    this.db = new betterSqlite(dbPath);
+    this.db.pragma("busy_timeout = 3000");
   }
 
   getDataBase() {
-    return this.db as Database
+    return this.db as Database;
   }
 }
