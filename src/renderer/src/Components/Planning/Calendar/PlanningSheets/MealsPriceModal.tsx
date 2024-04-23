@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Modal, Typography, TextField, Button } from "@mui/material";
+import {
+  Modal,
+  Typography,
+  TextField,
+  Button,
+  InputAdornment,
+} from "@mui/material";
 import { TripsTable } from "../../../../Models/DataBaseModel";
 import styles from "./TotalPrice.module.css";
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
@@ -7,6 +13,7 @@ import {
   selectCurrentTrip,
   updateTrip,
 } from "../../../../features/Redux/tripSlice";
+import { darkColor4, goldenColor } from "@renderer/style/cssGlobalStyle";
 
 export default function MealsPriceModal({
   openModal,
@@ -36,7 +43,7 @@ export default function MealsPriceModal({
 
   const handleConfirm = useCallback(() => {
     dispatch(
-      updateTrip({ ...trip!, ...(formVal as { [key: string]: number }) })
+      updateTrip({ ...trip!, ...(formVal as { [key: string]: number }) }),
     );
     setOpenModal(false);
   }, [dispatch, formVal, trip, setOpenModal]);
@@ -48,13 +55,13 @@ export default function MealsPriceModal({
         handleConfirm();
       }
     },
-    [saveEnabled, handleConfirm]
+    [saveEnabled, handleConfirm],
   );
 
   useEffect(() => {
     setSaveEnabled(
       Object.values(formVal).every((val) => val !== "") &&
-        JSON.stringify(initialState) !== JSON.stringify(formVal)
+        JSON.stringify(initialState) !== JSON.stringify(formVal),
     );
   }, [formVal, initialState]);
 
@@ -78,6 +85,12 @@ export default function MealsPriceModal({
           value={formVal.breakfast}
           label="Petit Dej"
           variant="standard"
+          InputProps={{
+            inputProps: { min: 0 },
+            endAdornment: (
+              <div className={styles.endAdornment}>{trip?.currency}</div>
+            ),
+          }}
         />
         <TextField
           type="number"
@@ -86,6 +99,12 @@ export default function MealsPriceModal({
           value={formVal.lunch}
           label="Dejeuner"
           variant="standard"
+          InputProps={{
+            inputProps: { min: 0 },
+            endAdornment: (
+              <div className={styles.endAdornment}>{trip?.currency}</div>
+            ),
+          }}
         />
         <TextField
           type="number"
@@ -94,6 +113,12 @@ export default function MealsPriceModal({
           value={formVal.dinner}
           label="Dinner"
           variant="standard"
+          InputProps={{
+            inputProps: { min: 0 },
+            endAdornment: (
+              <div className={styles.endAdornment}>{trip?.currency}</div>
+            ),
+          }}
         />
         <div className={styles.btContainer}>
           <Button variant="outlined" onClick={() => setOpenModal(false)}>

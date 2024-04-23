@@ -4,7 +4,7 @@ import ArtifactIpcHandlers from "./IPC_API/ArtifactIpcHandlers";
 import DatabaseAPI from "./DatabaseClass";
 import PlanningIpcHandlers from "./IPC_API/PlanningIpcHandlers";
 import { createProjectFolders } from "./helpers";
-import icon from "../../resources/journey_plan_icon.png?asset";
+import icon from "../../resources/journey_plan_v2.png?asset";
 import { app, shell, BrowserWindow } from "electron";
 import { join } from "path";
 import { electronApp, optimizer, is } from "@electron-toolkit/utils";
