@@ -1,46 +1,45 @@
-import { useMemo } from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
+import { useMemo } from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
 import {
   primaryColor,
   goldenColor,
   primErrorColor,
   primValidColor,
-  colorArray
-} from './style/cssGlobalStyle'
-import { ThemeProvider, createTheme } from '@mui/material'
-import App from './App'
-import { Provider } from 'react-redux'
-import { store } from './app/store'
-import dayjs from 'dayjs'
-import React from 'react'
+  colorArray,
+} from "./style/cssGlobalStyle";
+import { ThemeProvider, createTheme } from "@mui/material";
+import App from "./App";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
+import dayjs from "dayjs";
 
-dayjs.locale('fr')
+dayjs.locale("fr");
 
 function Index() {
   const theme = useMemo(() => {
     Object.entries(colorArray).forEach(([colorName, hex]) =>
-      document.documentElement.style.setProperty('--' + colorName, hex)
-    )
+      document.documentElement.style.setProperty("--" + colorName, hex),
+    );
 
     return createTheme({
-      typography: { fontFamily: 'Garamond, serif' },
+      typography: { fontFamily: "Garamond, serif" },
       palette: {
         primary: {
-          main: primaryColor
+          main: primaryColor,
         },
         secondary: {
-          main: goldenColor
+          main: goldenColor,
         },
         success: {
-          main: primValidColor
+          main: primValidColor,
         },
         error: {
-          main: primErrorColor
-        }
-      }
-    })
-  }, [])
+          main: primErrorColor,
+        },
+      },
+    });
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -48,11 +47,9 @@ function Index() {
         <App />
       </Provider>
     </ThemeProvider>
-  )
+  );
 }
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-root.render(
-  <React.StrictMode>
-    <Index />
-  </React.StrictMode>
-)
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement,
+);
+root.render(<Index />);
