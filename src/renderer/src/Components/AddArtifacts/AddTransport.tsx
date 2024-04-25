@@ -1,28 +1,36 @@
-import { Grid } from '@mui/material'
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react'
-import ITransport, { TFormTransport } from '../../Models/ITransport'
-import DownloadIcon from '@mui/icons-material/Download'
-import styles from './AddArtifacts.module.css'
-import AttachmentCard from './Attachment/AttachmentCard'
-import AttachmentDZ from './Attachment/AttachmentDZ'
-import { ESavingStatus } from './AddArtifacts'
-import { EArtifact } from '../../Models/EArtifacts'
-import { useAppDispatch } from '../../app/hooks'
-import { setSnackbarStatus } from '../../features/Redux/tripSlice'
-import { insertTransport, updateTransport } from '../../features/Redux/transportsSlice'
-import { TransportsTable } from '../../Models/DataBaseModel'
-import EastRoundedIcon from '@mui/icons-material/EastRounded'
-import { transportSecColor } from '../../style/cssGlobalStyle'
-import ImportAttachmentInput from './Attachment/ImportAttachmentInput'
-import IAttachment from '../../Models/IAttachment'
-import LocationSearchInput from './Inputs/LocationSearchInput'
-import { TArtifactEditor } from '../Planning/Planning'
-import { EEventStatus } from '../../Models/EEventStatus'
-import DescriptionInput from './Inputs/DescriptionInput'
-import NameInput from './Inputs/NameInput'
-import PriceInput from './Inputs/PriceInput'
-import StatusSelector from './Inputs/StatusSelector'
-import TimeInput from './Inputs/TimeInput'
+import { Grid } from "@mui/material";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useState,
+} from "react";
+import ITransport, { TFormTransport } from "../../Models/ITransport";
+import DownloadIcon from "@mui/icons-material/Download";
+import styles from "./AddArtifacts.module.css";
+import AttachmentCard from "./Attachment/AttachmentCard";
+import AttachmentDZ from "./Attachment/AttachmentDZ";
+import { ESavingStatus } from "./AddArtifacts";
+import { EArtifact } from "../../Models/EArtifacts";
+import { useAppDispatch } from "../../app/hooks";
+import {
+  insertTransport,
+  updateTransport,
+} from "../../features/Redux/transportsSlice";
+import { TransportsTable } from "../../Models/DataBaseModel";
+import EastRoundedIcon from "@mui/icons-material/EastRounded";
+import { transportSecColor } from "../../style/cssGlobalStyle";
+import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
+import IAttachment from "../../Models/IAttachment";
+import LocationSearchInput from "./Inputs/LocationSearchInput";
+import { TArtifactEditor } from "../Planning/Planning";
+import { EEventStatus } from "../../Models/EEventStatus";
+import DescriptionInput from "./Inputs/DescriptionInput";
+import NameInput from "./Inputs/NameInput";
+import PriceInput from "./Inputs/PriceInput";
+import StatusSelector from "./Inputs/StatusSelector";
+import TimeInput from "./Inputs/TimeInput";
 
 export const AddTransport = forwardRef(
   (
@@ -31,17 +39,17 @@ export const AddTransport = forwardRef(
       id_trip,
       transport,
       setArtifactToEdit,
-      isFocused
+      isFocused,
     }: {
-      setSaving: (savingStatus: ESavingStatus) => void
-      id_trip: number
-      transport?: ITransport
-      setArtifactToEdit: (artifactEditor: TArtifactEditor) => void
-      isFocused: boolean
+      setSaving: (savingStatus: ESavingStatus) => void;
+      id_trip: number;
+      transport?: ITransport;
+      setArtifactToEdit: (artifactEditor: TArtifactEditor) => void;
+      isFocused: boolean;
     },
-    ref
+    ref,
   ) => {
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
 
     const initialFormValues: TFormTransport = useMemo(() => {
       if (transport) {
@@ -58,15 +66,15 @@ export const AddTransport = forwardRef(
           [TransportsTable.city_from]: transport.city_from,
           [TransportsTable.city_to]: transport.city_to,
           [TransportsTable.status]: transport.status,
-          [TransportsTable.duration]: transport.duration
-        }
+          [TransportsTable.duration]: transport.duration,
+        };
       }
       return {
-        [TransportsTable.name]: '',
-        [TransportsTable.description]: '',
-        [TransportsTable.price]: '0',
-        [TransportsTable.from]: '',
-        [TransportsTable.to]: '',
+        [TransportsTable.name]: "",
+        [TransportsTable.description]: "",
+        [TransportsTable.price]: "0",
+        [TransportsTable.from]: "",
+        [TransportsTable.to]: "",
         [TransportsTable.lat_from]: null,
         [TransportsTable.lat_to]: null,
         [TransportsTable.lng_from]: null,
@@ -74,20 +82,25 @@ export const AddTransport = forwardRef(
         [TransportsTable.city_from]: null,
         [TransportsTable.city_to]: null,
         [TransportsTable.status]: EEventStatus.none,
-        [TransportsTable.duration]: 1
-      }
-    }, [transport])
+        [TransportsTable.duration]: 1,
+      };
+    }, [transport]);
 
-    const [formValues, setFormValues] = useState<TFormTransport>(initialFormValues)
-    const initialAttachment = useMemo(() => (transport ? transport.attachment : []), [transport])
-    const [attachment, setAttachment] = useState<IAttachment[]>(initialAttachment)
+    const [formValues, setFormValues] =
+      useState<TFormTransport>(initialFormValues);
+    const initialAttachment = useMemo(
+      () => (transport ? transport.attachment : []),
+      [transport],
+    );
+    const [attachment, setAttachment] =
+      useState<IAttachment[]>(initialAttachment);
 
-    const [dragActive, setDragActive] = useState(false)
+    const [dragActive, setDragActive] = useState(false);
 
     const clearInputs = () => {
-      setFormValues(initialFormValues)
-      setAttachment([])
-    }
+      setFormValues(initialFormValues);
+      setAttachment([]);
+    };
 
     useImperativeHandle(ref, () => ({
       save(artifactType: EArtifact) {
@@ -98,17 +111,17 @@ export const AddTransport = forwardRef(
             ...formValues,
             price: parseFloat(formValues.price),
             attachment,
-            used: false
-          }
+            used: false,
+          };
           dispatch(insertTransport(newTransport)).then((result) => {
-            if (result.meta.requestStatus === 'fulfilled') {
-              setSaving(ESavingStatus.disabled)
-              clearInputs()
-            } else if (result.meta.requestStatus === 'rejected') {
+            if (result.meta.requestStatus === "fulfilled") {
+              setSaving(ESavingStatus.disabled);
+              clearInputs();
+            } else if (result.meta.requestStatus === "rejected") {
               //no need to set snackbar in case of rejection, handled in globalSlice
-              setSaving(ESavingStatus.enabled)
+              setSaving(ESavingStatus.enabled);
             }
-          })
+          });
         }
       },
       edit(artifactType: EArtifact) {
@@ -119,61 +132,71 @@ export const AddTransport = forwardRef(
             ...formValues,
             price: parseFloat(formValues.price),
             attachment,
-            used: transport!.used
-          }
+            used: transport!.used,
+          };
           dispatch(updateTransport(updatedTransport)).then((result) => {
-            if (result.meta.requestStatus === 'fulfilled') {
-              setArtifactToEdit({ type: EArtifact.Transport })
-              setSaving(ESavingStatus.disabled)
-            } else if (result.meta.requestStatus === 'rejected') {
+            if (result.meta.requestStatus === "fulfilled") {
+              setArtifactToEdit({ type: EArtifact.Transport });
+              setSaving(ESavingStatus.disabled);
+            } else if (result.meta.requestStatus === "rejected") {
               //no need to set snackbar in case of rejection, handled in globalSlice
-              setSaving(ESavingStatus.enabled)
+              setSaving(ESavingStatus.enabled);
             }
-          })
+          });
         }
-      }
-    }))
+      },
+    }));
 
     const updateForm = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const name = event.target.name
-      const value = event.target.value
+      const name = event.target.name;
+      const value = event.target.value;
       setFormValues((prevState) => {
         return {
           ...prevState,
-          [name]: value
-        }
-      })
-    }
+          [name]: value,
+        };
+      });
+    };
 
     useEffect(() => {
       if (isFocused) {
         if (
-          formValues.price !== '' &&
-          formValues.name !== '' &&
-          formValues.destination !== '' &&
-          formValues.departure !== '' &&
-          formValues.price !== '' &&
+          formValues.price !== "" &&
+          formValues.name !== "" &&
+          formValues.destination !== "" &&
+          formValues.departure !== "" &&
+          formValues.price !== "" &&
           (JSON.stringify(formValues) !== JSON.stringify(initialFormValues) ||
             initialAttachment.join() !== attachment.join())
         ) {
-          setSaving(ESavingStatus.enabled)
+          setSaving(ESavingStatus.enabled);
         } else {
-          setSaving(ESavingStatus.disabled)
+          setSaving(ESavingStatus.disabled);
         }
       }
-    }, [formValues, initialFormValues, attachment, initialAttachment, setSaving, isFocused])
+    }, [
+      formValues,
+      initialFormValues,
+      attachment,
+      initialAttachment,
+      setSaving,
+      isFocused,
+    ]);
 
     useEffect(() => {
-      setFormValues(initialFormValues)
-    }, [initialFormValues])
+      setFormValues(initialFormValues);
+    }, [initialFormValues]);
 
     useEffect(() => {
-      setAttachment(initialAttachment)
-    }, [initialAttachment])
+      setAttachment(initialAttachment);
+    }, [initialAttachment]);
 
     return (
       <>
-        <div className={styles.dropLabel} style={{ opacity: dragActive ? 1 : 0 }}>
+        <div
+          className={styles.dropLabel}
+          style={{ opacity: dragActive ? 1 : 0 }}
+        >
           <DownloadIcon />
           Lâcher le document ici
         </div>
@@ -205,7 +228,7 @@ export const AddTransport = forwardRef(
                 duration={formValues.duration}
                 setDuration={(value) =>
                   setFormValues((prevState) => {
-                    return { ...prevState, duration: value }
+                    return { ...prevState, duration: value };
                   })
                 }
               />
@@ -226,15 +249,26 @@ export const AddTransport = forwardRef(
                       departure: address,
                       lng_from: lng,
                       lat_from: lat,
-                      city_from: city ?? null
-                    }
+                      city_from: city ?? null,
+                    };
                   })
                 }
-                isLocationOk={formValues.lat_from !== null && formValues.lng_from !== null}
+                isLocationOk={
+                  formValues.lat_from !== null && formValues.lng_from !== null
+                }
               />
             </Grid>
-            <Grid item xs={2} display="flex" alignItems="center" justifyContent="center">
-              <EastRoundedIcon fontSize="large" sx={{ color: transportSecColor }} />
+            <Grid
+              item
+              xs={2}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <EastRoundedIcon
+                fontSize="large"
+                sx={{ color: transportSecColor }}
+              />
             </Grid>
             <Grid item xs={5}>
               <LocationSearchInput
@@ -251,11 +285,13 @@ export const AddTransport = forwardRef(
                       destination: address,
                       city_to: city ?? null,
                       lat_to: lat,
-                      lng_to: lng
-                    }
+                      lng_to: lng,
+                    };
                   })
                 }
-                isLocationOk={formValues.lat_to !== null && formValues.lng_to !== null}
+                isLocationOk={
+                  formValues.lat_to !== null && formValues.lng_to !== null
+                }
               />
             </Grid>
 
@@ -285,7 +321,7 @@ export const AddTransport = forwardRef(
                     imageName={PJ.name}
                     onDelete={() =>
                       setAttachment((prevState) =>
-                        prevState.filter((newPJ) => newPJ.path !== PJ.path)
+                        prevState.filter((newPJ) => newPJ.path !== PJ.path),
                       )
                     }
                   />
@@ -295,6 +331,6 @@ export const AddTransport = forwardRef(
           </Grid>
         </div>
       </>
-    )
-  }
-)
+    );
+  },
+);

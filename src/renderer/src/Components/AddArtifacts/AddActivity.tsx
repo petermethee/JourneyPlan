@@ -19,7 +19,6 @@ import {
   insertActivity,
   updateActivity,
 } from "../../features/Redux/activitiesSlice";
-import { setSnackbarStatus } from "../../features/Redux/tripSlice";
 import ImportAttachmentInput from "./Attachment/ImportAttachmentInput";
 import IAttachment from "../../Models/IAttachment";
 import LocationSearchInput from "./Inputs/LocationSearchInput";
@@ -131,12 +130,6 @@ export const AddActivity = forwardRef(
           };
           dispatch(updateActivity(updatedActivity)).then((result) => {
             if (result.meta.requestStatus === "fulfilled") {
-              dispatch(
-                setSnackbarStatus({
-                  message: "L'activité a correctement été mise à jour",
-                  snackBarSeverity: "success",
-                }),
-              );
               setArtifactToEdit({ type: EArtifact.Activity });
               setSaving(ESavingStatus.disabled);
             } else if (result.meta.requestStatus === "rejected") {

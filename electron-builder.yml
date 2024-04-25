@@ -13,7 +13,7 @@ asarUnpack:
   - resources/**
 win:
   executableName: Journey Plan
-  icon: resources/journey_plan_v2.png
+  icon: resources/favicon.ico
   extraFiles: ["journey_plan.db"]
   publisherName: JP Corp
 
