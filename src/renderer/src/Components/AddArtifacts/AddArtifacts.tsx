@@ -20,8 +20,6 @@ import Draggable from "react-draggable";
 import CloseIcon from "@mui/icons-material/Close";
 import DragIndicator from "@mui/icons-material/DragIndicator";
 import { useResizeDetector } from "react-resize-detector";
-import { CSSTransition } from "react-transition-group";
-import "./TransitionPopup.css";
 import SwipeableViews from "./SwipeableViews";
 
 export enum ESavingStatus {
@@ -83,9 +81,9 @@ export default function AddArtifacts({
       tab === EArtifact.Activity
         ? activitySecColor
         : tab === EArtifact.Accommodation
-        ? accommodationSecColor
-        : transportSecColor,
-    [tab]
+          ? accommodationSecColor
+          : transportSecColor,
+    [tab],
   );
   const {
     width: popupWidth,
@@ -121,7 +119,7 @@ export default function AddArtifacts({
         addAccommodationRef.current?.save(tab);
       }
     },
-    [tab]
+    [tab],
   );
 
   const handleKeyDown = useCallback(
@@ -134,7 +132,7 @@ export default function AddArtifacts({
         handleSave(artifactToEdit.type === tab && !!artifactToEdit.artifact);
       }
     },
-    [artifactToEdit, tab, handleSave, saving]
+    [artifactToEdit, tab, handleSave, saving],
   );
 
   useEffect(() => {
@@ -158,122 +156,117 @@ export default function AddArtifacts({
 
   return (
     <div className={styles.containerPopup} ref={popupRef}>
-      <CSSTransition
-        in={openModal}
-        timeout={200}
-        classNames={"popupTransitionContent"}
-        unmountOnExit
+      <div
+        className={`${styles.fade} ${openModal ? styles.fadeIn : styles.fadeOut}`}
       >
-        <div>
-          <Draggable bounds={bounds} handle={`.${styles.dragHandle}`}>
+        <Draggable bounds={bounds} handle={`.${styles.dragHandle}`}>
+          <div
+            className={styles.insidePopUp}
+            style={{ opacity: opacity / 100 }}
+          >
             <div
-              className={styles.insidePopUp}
-              style={{ opacity: opacity / 100 }}
+              className={styles.dragHandle}
+              style={{ backgroundColor: tabColor }}
             >
-              <div
-                className={styles.dragHandle}
-                style={{ backgroundColor: tabColor }}
-              >
-                <DragIndicator sx={{ color: defaultWhite }} />
-                <Slider
-                  size="small"
-                  value={opacity}
-                  max={100}
-                  min={20}
-                  onMouseDown={(e) => e.stopPropagation()}
-                  color="secondary"
-                  onChange={(e, value) => setOpacity(value as number)}
-                  sx={{ width: "35%" }}
-                />
-                <IconButton
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                  size="small"
-                  sx={{
-                    color: defaultWhite,
-                    margin: "2px",
-                    backgroundColor: " #1a1a1a35",
-                    "&:hover": { backgroundColor: "#00000048" },
-                  }}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </div>
-              <Tabs
-                value={tab}
-                onChange={(_event, newValue) => setTab(newValue)}
-                indicatorColor="secondary"
-                textColor="inherit"
-                variant="fullWidth"
+              <DragIndicator sx={{ color: defaultWhite }} />
+              <Slider
+                size="small"
+                value={opacity}
+                max={100}
+                min={20}
+                onMouseDown={(e) => e.stopPropagation()}
+                color="secondary"
+                onChange={(_e, value) => setOpacity(value as number)}
+                sx={{ width: "35%" }}
+              />
+              <IconButton
+                onClick={() => {
+                  setOpen(false);
+                }}
+                size="small"
                 sx={{
-                  backgroundColor: tabColor,
-                  color: "white",
-                  boxShadow: "0px 0px 10px 0px #000000ff",
-                  transition: "300ms",
+                  color: defaultWhite,
+                  margin: "2px",
+                  backgroundColor: " #1a1a1a35",
+                  "&:hover": { backgroundColor: "#00000048" },
                 }}
               >
-                {tabs.map((tab) => (
-                  <Tab
-                    key={tab.value}
-                    icon={tab.icon}
-                    value={tab.value}
-                    label={tab.label}
-                    sx={{ minHeight: "50px" }}
-                  />
-                ))}
-              </Tabs>
-
-              <SwipeableViews
-                addAccommodationRef={addAccommodationRef}
-                addActivityRef={addActivityRef}
-                addTransportRef={addTransportRef}
-                artifactToEdit={artifactToEdit}
-                id_trip={id_trip}
-                setArtifactToEdit={setArtifactToEdit}
-                setSaving={setSaving}
-                tab={tab}
-              />
-              <div className={styles.windowBottom}>
-                <LoadingButton
-                  disabled={saving !== ESavingStatus.enabled}
-                  onClick={() =>
-                    handleSave(
-                      artifactToEdit.type === tab && !!artifactToEdit.artifact
-                    )
-                  }
-                  loading={saving === ESavingStatus.loading}
-                  loadingPosition="start"
-                  startIcon={<SaveIcon />}
-                  variant="contained"
-                >
-                  {artifactToEdit.type === tab && artifactToEdit.artifact
-                    ? "Mettre à jour"
-                    : "Ajouter"}
-                </LoadingButton>
-                <LoadingButton
-                  disabled={saving !== ESavingStatus.enabled}
-                  onClick={() => {
-                    handleSave(
-                      artifactToEdit.type === tab && !!artifactToEdit.artifact
-                    );
-                    setOpen(false);
-                  }}
-                  loading={saving === ESavingStatus.loading}
-                  loadingPosition="start"
-                  startIcon={<SaveIcon />}
-                  variant="contained"
-                >
-                  {artifactToEdit.type === tab && artifactToEdit.artifact
-                    ? "Mettre à jour"
-                    : "Ajouter"}{" "}
-                  Et quitter
-                </LoadingButton>
-              </div>
+                <CloseIcon />
+              </IconButton>
             </div>
-          </Draggable>
-        </div>
-      </CSSTransition>
+            <Tabs
+              value={tab}
+              onChange={(_event, newValue) => setTab(newValue)}
+              indicatorColor="secondary"
+              textColor="inherit"
+              variant="fullWidth"
+              sx={{
+                backgroundColor: tabColor,
+                color: "white",
+                boxShadow: "0px 0px 10px 0px #000000ff",
+                transition: "300ms",
+              }}
+            >
+              {tabs.map((tab) => (
+                <Tab
+                  key={tab.value}
+                  icon={tab.icon}
+                  value={tab.value}
+                  label={tab.label}
+                  sx={{ minHeight: "50px" }}
+                />
+              ))}
+            </Tabs>
+
+            <SwipeableViews
+              addAccommodationRef={addAccommodationRef}
+              addActivityRef={addActivityRef}
+              addTransportRef={addTransportRef}
+              artifactToEdit={artifactToEdit}
+              id_trip={id_trip}
+              setArtifactToEdit={setArtifactToEdit}
+              setSaving={setSaving}
+              tab={tab}
+            />
+            <div className={styles.windowBottom}>
+              <LoadingButton
+                disabled={saving !== ESavingStatus.enabled}
+                onClick={() =>
+                  handleSave(
+                    artifactToEdit.type === tab && !!artifactToEdit.artifact,
+                  )
+                }
+                loading={saving === ESavingStatus.loading}
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+                variant="contained"
+              >
+                {artifactToEdit.type === tab && artifactToEdit.artifact
+                  ? "Mettre à jour"
+                  : "Ajouter"}
+              </LoadingButton>
+              <LoadingButton
+                disabled={saving !== ESavingStatus.enabled}
+                onClick={() => {
+                  handleSave(
+                    artifactToEdit.type === tab && !!artifactToEdit.artifact,
+                  );
+                  setOpen(false);
+                }}
+                loading={saving === ESavingStatus.loading}
+                loadingPosition="start"
+                startIcon={<SaveIcon />}
+                variant="contained"
+              >
+                {artifactToEdit.type === tab && artifactToEdit.artifact
+                  ? "Mettre à jour"
+                  : "Ajouter"}{" "}
+                Et quitter
+              </LoadingButton>
+            </div>
+          </div>
+        </Draggable>
+      </div>
     </div>
   );
 }

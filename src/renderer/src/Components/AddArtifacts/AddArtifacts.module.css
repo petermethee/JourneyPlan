@@ -3,8 +3,27 @@
     transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
-    z-index: 3;
+    z-index: 1000;
     pointer-events: none;
+}
+
+.fade {
+    opacity: 0;
+    transform: scale(0.7);
+    transition: 100ms ease-out;
+    visibility: collapse;
+}
+
+.fadeIn {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+
+.fadeOut {
+    transform: scale(0.7);
+    opacity: 0;
+    visibility: collapse;
 }
 
 .insidePopUp {
