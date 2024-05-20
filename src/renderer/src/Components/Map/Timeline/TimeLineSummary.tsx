@@ -10,6 +10,8 @@ import { TTimeLineArtifact } from "../MapSummary";
 import { EArtifact } from "../../../Models/EArtifacts";
 import MenuBar from "../../Shared/MenuBar";
 import { primaryColor, goldenColor } from "../../../style/cssGlobalStyle";
+import IAccommodation from "@renderer/Models/IAccommodation";
+import IActivity from "@renderer/Models/IActivity";
 
 export default function TimeLineSummary({
   sortedPlanningArtifacts,
@@ -61,6 +63,16 @@ export default function TimeLineSummary({
     const newTimeLineCards: JSX.Element[] = [];
     filteredArray.forEach((item, index) => {
       const previousType = filteredArray[index - 1]?.type;
+      let isLocated = false;
+      if (
+        item.type === EArtifact.Accommodation ||
+        item.type === EArtifact.Activity
+      ) {
+        isLocated = !!(
+          (item.artifact as IAccommodation | IActivity).lat &&
+          (item.artifact as IAccommodation | IActivity).lng
+        );
+      }
       const card = (
         <div
           onClick={() => onSelectArtifact(item.id)}
@@ -95,6 +107,7 @@ export default function TimeLineSummary({
             hovered={hoveredArtifact === item.id}
             selecetd={selectedArtifactId === item.id}
             type={item.type}
+            isLocated={isLocated}
           />
         </div>
       );

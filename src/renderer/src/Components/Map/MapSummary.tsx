@@ -57,7 +57,7 @@ export default function MapSummary() {
   >([]);
   const [markers, setMarkers] = useState<TMarker[]>([]);
   const [selectedArtifactId, setSelectedArtifactId] = useState<number | null>(
-    null
+    null,
   );
   const [hoveredArtifact, setHoveredArtifact] = useState<number | null>(null);
 
@@ -86,7 +86,7 @@ export default function MapSummary() {
   const transportLines = useMemo(() => {
     const newTransportLines: JSX.Element[] = [];
     const transportMarkers = markers.filter(
-      (marker) => marker.type === EArtifact.Transport
+      (marker) => marker.type === EArtifact.Transport,
     );
     for (let index = 1; index < transportMarkers.length; index++) {
       const departure = transportMarkers[index - 1].position;
@@ -116,7 +116,7 @@ export default function MapSummary() {
       switch (PA.artifactType) {
         case EArtifact.Activity:
           artifact = activities.find(
-            (activity) => activity.id === PA.artifactId
+            (activity) => activity.id === PA.artifactId,
           )!;
           if (artifact.lat && artifact.lng) {
             position = [artifact.lat, artifact.lng];
@@ -131,7 +131,7 @@ export default function MapSummary() {
           break;
         case EArtifact.Transport:
           artifact = transports.find(
-            (transport) => transport.id === PA.artifactId
+            (transport) => transport.id === PA.artifactId,
           )!;
           if (artifact.lat_from && artifact.lng_from) {
             position = [artifact.lat_from, artifact.lng_from];
@@ -156,7 +156,7 @@ export default function MapSummary() {
 
         default:
           artifact = accommodations.find(
-            (accommodation) => accommodation.id === PA.artifactId
+            (accommodation) => accommodation.id === PA.artifactId,
           )!;
           if (artifact.lat && artifact.lng) {
             position = [artifact.lat, artifact.lng];
@@ -190,10 +190,10 @@ export default function MapSummary() {
   }, [mapWidth, mapHeight]);
 
   useEffect(() => {
-    selectedArtifactId &&
-      map?.setView(
-        markers.find((marker) => marker.id === selectedArtifactId)!.position
-      );
+    const marker = markers.find((marker) => marker.id === selectedArtifactId);
+    if (marker) {
+      map?.setView(marker.position);
+    }
   }, [map, markers, selectedArtifactId]);
 
   useEffect(() => {
