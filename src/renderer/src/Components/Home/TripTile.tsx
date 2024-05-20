@@ -76,7 +76,7 @@ export default function TripTile({ trip }: { trip: ITrip }) {
           navigate(ERouterPaths.planning + "/" + trip.id);
         }}
         onMouseMove={handleMouseMove}
-        onMouseLeave={(e) => {
+        onMouseLeave={(_e) => {
           setPointerPosition((prevState) => ({
             x: prevState.x,
             y: prevState.y,

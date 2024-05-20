@@ -1,12 +1,5 @@
 import { IconButton, Tab, Tabs, Slider } from "@mui/material";
-import {
-  createRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import ActivityIcon from "../Shared/ActivityIcon";
 import TransportIcon from "../Shared/TransportIcon";
 import AccommodationIcon from "../Shared/AccommodationIcon";
