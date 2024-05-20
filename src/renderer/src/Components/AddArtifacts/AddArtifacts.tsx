@@ -1,5 +1,12 @@
 import { IconButton, Tab, Tabs, Slider } from "@mui/material";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  createRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import ActivityIcon from "../Shared/ActivityIcon";
 import TransportIcon from "../Shared/TransportIcon";
 import AccommodationIcon from "../Shared/AccommodationIcon";
@@ -66,6 +73,8 @@ export default function AddArtifacts({
   openModal: boolean;
   setArtifactToEdit: (artifactEditor: TArtifactEditor) => void;
 }) {
+  const nodeRef = useRef<HTMLDivElement>(null);
+
   const addActivityRef = useRef<TRefElem>();
   const addTransportRef = useRef<TRefElem>();
   const addAccommodationRef = useRef<TRefElem>();
@@ -159,10 +168,15 @@ export default function AddArtifacts({
       <div
         className={`${styles.fade} ${openModal ? styles.fadeIn : styles.fadeOut}`}
       >
-        <Draggable bounds={bounds} handle={`.${styles.dragHandle}`}>
+        <Draggable
+          nodeRef={nodeRef}
+          bounds={bounds}
+          handle={`.${styles.dragHandle}`}
+        >
           <div
             className={styles.insidePopUp}
             style={{ opacity: opacity / 100 }}
+            ref={nodeRef}
           >
             <div
               className={styles.dragHandle}

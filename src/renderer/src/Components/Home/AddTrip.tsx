@@ -138,140 +138,157 @@ export default function AddTrip() {
 
   return (
     <div className={styles.container}>
-      <span className={styles.title}>Créer un voyage</span>
-      <Grid
-        container
-        width="80%"
-        direction="column"
-        alignItems="center"
-        rowSpacing={5}
-        paddingTop="50px"
-      >
-        <Grid item display="flex" alignItems="end" width="100%">
-          <TextField
-            fullWidth
-            variant="standard"
-            label="Nom du voyage"
-            inputProps={{ style: { fontSize: "30px", textAlign: "center" } }}
-            InputLabelProps={{ style: { fontSize: "30px" } }}
-            onChange={handleFormUpdate}
-            name={TripsTable.name}
-            value={formValues.name}
-          />
-        </Grid>
-        <Grid item container justifyContent="space-between" alignItems="center">
-          <Grid item display="flex" xs={6} justifyContent="center">
-            <DateRange
-              onChange={(item) => {
-                setDateRange(item.selection);
-              }}
-              moveRangeOnFirstSelection={false}
-              ranges={[dateRange]}
-              locale={fr}
+      <div className={styles.content}>
+        <span className={styles.title}>Créer un voyage</span>
+        <Grid
+          container
+          width="80%"
+          direction="column"
+          alignItems="center"
+          gap={5}
+        >
+          <Grid item display="flex" width="100%">
+            <TextField
+              fullWidth
+              variant="standard"
+              label="Nom du voyage"
+              inputProps={{ style: { fontSize: "30px", textAlign: "center" } }}
+              InputLabelProps={{ style: { fontSize: "30px" } }}
+              onChange={handleFormUpdate}
+              name={TripsTable.name}
+              value={formValues.name}
             />
           </Grid>
           <Grid
-            container
             item
-            flexDirection="column"
-            xs={6}
-            height="100%"
+            container
             justifyContent="space-evenly"
-            paddingLeft="20px"
+            alignItems="center"
+            gap={5}
           >
-            <Grid item display="flex" justifyContent="space-between">
-              <TextField
-                InputProps={{
-                  style: { fontSize: "20px" },
-                  inputProps: {
-                    min: 1,
-                  },
+            <Grid
+              item
+              display="flex"
+              justifyContent="center"
+              minWidth="fit-content"
+            >
+              <DateRange
+                onChange={(item) => {
+                  setDateRange(item.selection);
                 }}
-                InputLabelProps={{ style: { fontSize: "15px" } }}
-                variant="standard"
-                type="number"
-                label="Nombre de voyageur"
-                name={TripsTable.nbTravelers}
-                value={formValues.nb_travelers}
-                sx={{
-                  height: "100%",
-                  "& .MuiInputBase-root": {
-                    height: "100%",
-                  },
-                }}
-                onChange={handleFormUpdate}
-              />
-              <TextField
-                InputProps={{
-                  style: { fontSize: "20px" },
-                }}
-                inputProps={{ maxLength: 3 }}
-                InputLabelProps={{ style: { fontSize: "15px" } }}
-                variant="standard"
-                label="Devise"
-                name={TripsTable.currency}
-                value={formValues.currency}
-                sx={{
-                  height: "100%",
-                  "& .MuiInputBase-root": {
-                    height: "100%",
-                  },
-                }}
-                onChange={handleFormUpdate}
+                moveRangeOnFirstSelection={false}
+                ranges={[dateRange]}
+                locale={fr}
+                className={styles.dateRange}
               />
             </Grid>
-            <Grid item>
-              <input
-                accept="image/png, image/jpeg"
-                ref={inputRef}
-                type="file"
-                id="input-file-upload"
-                multiple={false}
-                onChange={handleChange}
-                style={{ display: "none" }}
-              />
-              <label
-                htmlFor="input-file-upload"
-                className={`${styles.labelDropZone} ${dragActive && styles.dragActive}`}
+            <Grid
+              container
+              item
+              flexDirection="column"
+              justifyContent="space-evenly"
+              width="300px"
+              gap={3}
+            >
+              <Grid
+                item
+                display="flex"
+                justifyContent="space-between"
+                gap="20px"
               >
-                <div
-                  className={styles.dropHandler}
-                  onDragEnter={handleDrag}
-                  onDragLeave={handleDrag}
-                  onDragOver={handleDrag}
-                  onDrop={handleDrop}
+                <TextField
+                  InputProps={{
+                    style: { fontSize: "20px" },
+                    inputProps: {
+                      min: 1,
+                    },
+                  }}
+                  InputLabelProps={{ style: { fontSize: "15px" } }}
+                  variant="standard"
+                  type="number"
+                  label="Nombre de voyageur"
+                  name={TripsTable.nbTravelers}
+                  value={formValues.nb_travelers}
+                  sx={{
+                    height: "100%",
+                    "& .MuiInputBase-root": {
+                      height: "100%",
+                    },
+                  }}
+                  onChange={handleFormUpdate}
                 />
-                {formValues.image_path ? (
-                  <>
-                    <CheckRoundedIcon sx={{ fontSize: "70px" }} />
-                    {formValues.fileName}
-                  </>
-                ) : (
-                  <>
-                    <CloudUploadRoundedIcon sx={{ fontSize: "70px" }} />
-                    choisir une image de fond
-                  </>
-                )}
-              </label>
+                <TextField
+                  InputProps={{
+                    style: { fontSize: "20px" },
+                  }}
+                  inputProps={{ maxLength: 3 }}
+                  InputLabelProps={{ style: { fontSize: "15px" } }}
+                  variant="standard"
+                  label="Devise"
+                  name={TripsTable.currency}
+                  value={formValues.currency}
+                  sx={{
+                    height: "100%",
+                    "& .MuiInputBase-root": {
+                      height: "100%",
+                    },
+                  }}
+                  onChange={handleFormUpdate}
+                />
+              </Grid>
+              <Grid item>
+                <input
+                  accept="image/png, image/jpeg"
+                  ref={inputRef}
+                  type="file"
+                  id="input-file-upload"
+                  multiple={false}
+                  onChange={handleChange}
+                  style={{ display: "none" }}
+                />
+                <label
+                  htmlFor="input-file-upload"
+                  className={`${styles.labelDropZone} ${dragActive && styles.dragActive}`}
+                >
+                  <div
+                    className={styles.dropHandler}
+                    onDragEnter={handleDrag}
+                    onDragLeave={handleDrag}
+                    onDragOver={handleDrag}
+                    onDrop={handleDrop}
+                  />
+                  {formValues.image_path ? (
+                    <>
+                      <CheckRoundedIcon sx={{ fontSize: "70px" }} />
+                      {formValues.fileName}
+                    </>
+                  ) : (
+                    <>
+                      <CloudUploadRoundedIcon sx={{ fontSize: "70px" }} />
+                      choisir une image de fond
+                    </>
+                  )}
+                </label>
+              </Grid>
             </Grid>
           </Grid>
+          <Grid item container marginTop="25px" justifyContent="space-evenly">
+            <Button
+              variant="outlined"
+              onClick={() => navigate(ERouterPaths.home)}
+            >
+              Annuler
+            </Button>
+            <Button
+              variant="contained"
+              disabled={!formValid}
+              onClick={createTrip}
+            >
+              {trip ? "Modifier le voyage" : "Créer le voyage"}
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item container marginTop="25px" justifyContent="space-evenly">
-          <Button
-            variant="outlined"
-            onClick={() => navigate(ERouterPaths.home)}
-          >
-            Annuler
-          </Button>
-          <Button
-            variant="contained"
-            disabled={!formValid}
-            onClick={createTrip}
-          >
-            {trip ? "Modifier le voyage" : "Créer le voyage"}
-          </Button>
-        </Grid>
-      </Grid>
+      </div>
     </div>
   );
 }

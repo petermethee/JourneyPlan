@@ -1,14 +1,28 @@
 .container {
     height: 100%;
+    overflow: auto;
+}
+
+.content {
+    flex: 1;
+    max-width: 1000px;
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin: auto;
+    padding: 4rem 0;
 }
 
 .title {
-    font-size: 40px;
+    font-size: 3rem;
     text-transform: uppercase;
-    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.dateRange {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 8px 0 #00000037;
 }
 
 .labelDropZone {

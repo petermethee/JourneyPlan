@@ -13,6 +13,7 @@ import App from "./App";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import dayjs from "dayjs";
+import "dayjs/locale/fr";
 
 dayjs.locale("fr");
 
