@@ -1,5 +1,5 @@
 import { Chip, Grid } from "@mui/material";
-import React, {
+import {
   forwardRef,
   useEffect,
   useImperativeHandle,

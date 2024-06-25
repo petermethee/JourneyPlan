@@ -31,7 +31,7 @@ export default function LocationSearchInput({
   setLocation: (
     address: string,
     { lat, lng }: { lat: number | null; lng: number | null },
-    city?: string
+    city?: string,
   ) => void;
   address: string;
   isLocationOk: boolean;
@@ -46,7 +46,7 @@ export default function LocationSearchInput({
       setLocation(
         selectedAddress.formatted,
         { lat: selectedAddress.lat, lng: selectedAddress.lon },
-        selectedAddress.city
+        selectedAddress.city,
       );
     }
   };
@@ -60,7 +60,7 @@ export default function LocationSearchInput({
       setLoading(true);
       timeout = setTimeout(() => {
         fetch(
-          `https://api.geoapify.com/v1/geocode/autocomplete?text=${newAddress}&format=json&apiKey=79cc1e4bc4aa4f4cac0f521aa4657a7c`
+          `https://api.geoapify.com/v1/geocode/autocomplete?text=${newAddress}&format=json&apiKey=79cc1e4bc4aa4f4cac0f521aa4657a7c`,
         )
           .then((response) => response.json())
           .then((result) => {
@@ -81,14 +81,14 @@ export default function LocationSearchInput({
         freeSolo
         options={suggestions.map((suggestion) => suggestion)}
         renderInput={(params) => <TextField {...textFieldProps} {...params} />}
-        onInputChange={(e, newInputValue) => handleInputChange(newInputValue)}
-        onChange={(event, newValue) => {
+        onInputChange={(_e, newInputValue) => handleInputChange(newInputValue)}
+        onChange={(_event, newValue) => {
           handleSelect(newValue ?? "");
         }}
         value={address}
         filterOptions={(x) => x}
         getOptionLabel={(suggestion) =>
-          (suggestion as TLocation).formatted ?? suggestion
+          (suggestion as TLocation).formatted ?? (suggestion as string)
         }
         loading={loading}
       />

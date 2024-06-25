@@ -1,96 +1,100 @@
 .containerPopup {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
-    z-index: 1000;
-    pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 50%;
+  z-index: 1000;
+  pointer-events: none;
 }
 
 .fade {
-    opacity: 0;
-    transform: scale(0.7);
-    transition: 100ms ease-out;
-    visibility: collapse;
+  opacity: 0;
+  transform: scale(0.7);
+  transition: 100ms ease-out;
+  visibility: collapse;
 }
 
 .fadeIn {
-    transform: scale(1);
-    opacity: 1;
-    visibility: visible;
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
 }
 
 .fadeOut {
-    transform: scale(0.7);
-    opacity: 0;
-    visibility: collapse;
+  transform: scale(0.7);
+  opacity: 0;
+  visibility: collapse;
 }
 
 .insidePopUp {
-    display: flex;
-    flex-direction: column;
-    z-index: 1101;
-    height: 80vh;
-    width: 500px;
-    border-radius: 7px;
-    box-shadow: 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f, 0 11px 15px -7px #00000033;
-    background-color: #ffffff;
-    overflow: hidden;
-    padding-bottom: 50px;
-    min-width: 270px;
-    max-width: 90vw;
-    max-height: 90vh;
-    resize: both;
-    pointer-events: all;
+  display: flex;
+  flex-direction: column;
+  z-index: 1101;
+  height: 80vh;
+  width: 500px;
+  border-radius: 7px;
+  box-shadow:
+    0 24px 38px 3px #00000024,
+    0 9px 46px 8px #0000001f,
+    0 11px 15px -7px #00000033;
+  background-color: #ffffff;
+  overflow: hidden;
+  padding-bottom: 50px;
+  min-width: 270px;
+  max-width: 90vw;
+  max-height: 90vh;
+  resize: both;
+  pointer-events: all;
 }
 
-.insidePopUp input, .insidePopUp textarea {
-    font-size: 1.3rem;
+.insidePopUp input,
+.insidePopUp textarea {
+  font-size: 1.3rem;
 }
 
 .dragHandle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px 10px;
-    cursor: move;
-    z-index: 2;
-    transition: 300ms;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+  cursor: move;
+  z-index: 2;
+  transition: 300ms;
 }
 
 .formContainer {
-    position: relative;
-    width: 100%;
-    flex: 1;
-    overflow: auto;
+  position: relative;
+  width: 100%;
+  flex: 1;
+  overflow: auto;
 }
 
 /*Bas de page*/
 .windowBottom {
-    z-index: 1;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    height: 50px;
-    background-color: #d4d4d4;
-    box-shadow: 0px 0px 10px 0px #00000080;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+  z-index: 1;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 50px;
+  background-color: #d4d4d4;
+  box-shadow: 0px 0px 10px 0px #00000080;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 /* Drag drop attachment */
 .dropLabel {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    pointer-events: none;
-    transition: 300ms;
-    color: white;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none;
+  transition: 300ms;
+  color: white;
 }

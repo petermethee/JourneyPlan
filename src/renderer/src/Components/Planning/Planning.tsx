@@ -75,7 +75,7 @@ export default function Planning() {
       while (currentDay <= dateRange[1]) {
         const dateId = currentDay.format("YYYY-MM-DD");
         const currentDayPlanningActivity = planningArtifacts.filter(
-          (p) => p.date === dateId
+          (p) => p.date === dateId,
         );
 
         const dayActivities: TDayActivity[] = currentDayPlanningActivity
@@ -85,7 +85,7 @@ export default function Planning() {
               id: PA.id,
               timeIndex: PA.timeIndex,
               activity: activities.find(
-                (activity) => activity.id === PA.artifactId
+                (activity) => activity.id === PA.artifactId,
               )!,
             };
           });
@@ -96,7 +96,7 @@ export default function Planning() {
               id: PA.id,
               timeIndex: PA.timeIndex,
               transport: transports.find(
-                (activity) => activity.id === PA.artifactId
+                (activity) => activity.id === PA.artifactId,
               )!,
             };
           });
@@ -108,7 +108,7 @@ export default function Planning() {
                 id: PA.id,
                 timeIndex: PA.timeIndex,
                 accommodation: accommodations.find(
-                  (activity) => activity.id === PA.artifactId
+                  (activity) => activity.id === PA.artifactId,
                 )!,
               };
             });
@@ -154,12 +154,14 @@ export default function Planning() {
         }}
       />
 
-      <AddArtifacts
-        setOpen={setOpenModal}
-        artifactToEdit={artifactToEdit}
-        openModal={openModal}
-        setArtifactToEdit={setArtifactToEdit}
-      />
+      {openModal && (
+        <AddArtifacts
+          setOpen={setOpenModal}
+          artifactToEdit={artifactToEdit}
+          openModal={openModal}
+          setArtifactToEdit={setArtifactToEdit}
+        />
+      )}
     </div>
   );
 }
