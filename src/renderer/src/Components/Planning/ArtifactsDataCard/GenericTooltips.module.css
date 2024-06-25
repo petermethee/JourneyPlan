@@ -1,74 +1,84 @@
-.startTime, .endTime, .descriptionR, .descriptionL, .checkinOut {
-    position: absolute;
-    background-color: #464646d1;
-    border-radius: 10px;
-    color: white;
-    border: 1px solid #5b5b5b;
-    opacity: 0;
-    transition: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
-    padding: 2px 8px;
-    box-shadow: 0px 0px 6px #0000005e;
-    z-index: 1;
+.startTime,
+.endTime,
+.descriptionR,
+.descriptionL,
+.checkinOut {
+  position: absolute;
+  background-color: #464646d1;
+  border-radius: 10px;
+  color: white;
+  border: 1px solid #5b5b5b;
+  opacity: 0;
+  transition: 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 2px 8px;
+  box-shadow: 0px 0px 6px #0000005e;
+  z-index: 1;
+  max-width: 80%;
 }
 
-.startTime, .checkinOut {
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%) translateY(-100%) scale(0);
+.startTime,
+.checkinOut {
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%) scale(0);
 }
 
 .endTime {
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100%) scale(0);
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%) scale(0);
 }
 
-.descriptionL, .descriptionR {
-    opacity: 0;
-    white-space: break-spaces;
+.descriptionL,
+.descriptionR {
+  opacity: 0;
+  white-space: break-spaces;
 }
 
 .descriptionL {
-    left: -5px;
-    transform: translateX(-100%) scale(0);
+  left: -5px;
+  transform: translateX(-100%) scale(0);
 }
 
 .descriptionR {
-    right: -5px;
-    transform: translateX(100%) scale(0);
+  right: -5px;
+  transform: translateX(100%) scale(0);
 }
 
-.appearDescriptionL, .appearDescriptionR, .appearEndTime, .appearStartTime, .appearCheckinOut {
-    opacity: 1;
+.appearDescriptionL,
+.appearDescriptionR,
+.appearEndTime,
+.appearStartTime,
+.appearCheckinOut {
+  opacity: 1;
 }
 
 .appearDescriptionL {
-    transform: translateX(-100%) scale(1);
+  transform: translateX(-100%) scale(1);
 }
 
 .appearDescriptionR {
-    transform: translateX(100%) scale(1);
+  transform: translateX(100%) scale(1);
 }
 
-
 .appearStartTime {
-    transform: translateX(-50%) translateY(-100%) scale(1);
+  transform: translateX(-50%) translateY(-100%) scale(1);
 }
 
 .appearEndTime {
-    transform: translateX(-50%) translateY(100%) scale(1);
+  transform: translateX(-50%) translateY(100%) scale(1);
 }
 
 .appearCheckinOut {
-    transform: translateX(-50%) translateY(-100%) scale(1);
+  transform: translateX(-50%) translateY(-100%) scale(1);
 }
 
 .checkinOut {
-    display: flex;
-    gap: 15px;
+  display: flex;
+  gap: 15px;
 }
 
 .checkinOut span {
-    font-size: 0.85rem;
-    white-space: nowrap;
+  font-size: 0.85rem;
+  white-space: nowrap;
 }

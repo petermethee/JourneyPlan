@@ -41,6 +41,7 @@ export default function GenericTooltips({
           <div
             style={{
               fontSize: "0.85rem",
+              lineBreak: "anywhere",
             }}
           >
             {description}

@@ -12,12 +12,12 @@ export const secValidColor = "#298648";
 export const lightSecondaryBlue = "#9cc0d173";
 export const darkSecondaryBlue = "#547b8a";
 
-export const activityColor = "#5ca4a5";
-export const activitySecColor = "#014344";
-export const transportColor = "#7f6698";
+export const activityColor = "#88c2f8";
+export const activitySecColor = "#5273d3";
+export const transportColor = "#825ee6";
 export const transportSecColor = "#342f3c";
-export const accommodationColor = "#475c66";
-export const accommodationSecColor = "#475c66";
+export const accommodationColor = "#d45454";
+export const accommodationSecColor = "#813737";
 
 export const darkColor1 = "#1a1a1a";
 export const darkColor2 = "#2a2a2a";
