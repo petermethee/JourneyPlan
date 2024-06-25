@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, Link } from "@react-pdf/renderer";
 import { darkColor5 } from "../../../style/cssGlobalStyle";
 

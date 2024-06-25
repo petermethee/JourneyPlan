@@ -1,4 +1,3 @@
-import React from "react";
 import LandscapeRoundedIcon from "@mui/icons-material/LandscapeRounded";
 import { Tooltip } from "@mui/material";
 

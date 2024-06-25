@@ -16,7 +16,7 @@
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "rebuild": "electron-rebuild -f -w better-sqlit3"
+    "rebuild": "electron-rebuild -f -w better-sqlite3"
   },
   "eslintConfig": {
     "extends": [

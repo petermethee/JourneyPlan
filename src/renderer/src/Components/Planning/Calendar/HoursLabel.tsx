@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./HoursLabel.module.css";
 import { getHours } from "./CalendarView";
 import { cellHeight } from "../../../DnDCustomLib/CalendarDimensionsHelper";

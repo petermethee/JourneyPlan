@@ -1,5 +1,5 @@
 import { TextField, MenuItem } from "@mui/material";
-import React from "react";
+
 import { ArtifactStatusOptions } from "../../../Helper/ArtifactStatusOptions";
 import { EEventStatus } from "../../../Models/EEventStatus";
 import styles from "./StatusSelector.module.css";

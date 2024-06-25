@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./SwipeableViews.module.css";
 import { EArtifact } from "../../Models/EArtifacts";
 import IAccommodation from "../../Models/IAccommodation";

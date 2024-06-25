@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import React from "react";
+
 import { Link, Page, Text, View } from "@react-pdf/renderer";
 import {
   darkColor1,
@@ -36,14 +36,14 @@ export default function FirstPage({
         <TripInfo
           title="Dates"
           info={`${dayjs(trip?.start_date).format("DD/MM/YYYY")} au ${dayjs(
-            trip?.end_date
+            trip?.end_date,
           ).format("DD/MM/YYYY")}`}
         />
         <TripInfo
           title="Durée"
           info={`${dayjs(trip?.end_date).diff(
             dayjs(trip?.start_date),
-            "day"
+            "day",
           )} jours`}
         />
       </View>

@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./AttachmentDZ.module.css";
 import { useAppDispatch } from "../../../app/hooks";
 import { setSnackbarStatus } from "../../../features/Redux/tripSlice";
@@ -32,7 +31,7 @@ export default function AttachmentDZ({
     setDragActive(false);
     if (e.dataTransfer.files) {
       let images = Object.values(
-        e.dataTransfer.files
+        e.dataTransfer.files,
       ) as unknown as IAttachment[];
       setAttachment((prevState) => {
         const invalidFiles: string[] = [];
@@ -54,7 +53,7 @@ export default function AttachmentDZ({
               message:
                 "Certains fichiers ne sont pas valides : " + invalidFiles,
               snackBarSeverity: "warning",
-            })
+            }),
           );
         return [
           ...prevState,

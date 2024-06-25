@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./GenericTooltips.module.css";
 export default function GenericTooltips({
   startTime,
@@ -27,7 +26,7 @@ export default function GenericTooltips({
       <div className={`${styles.endTime} ${visible && styles.appearEndTime}`}>
         {endTime}
       </div>
-      {description !== "" && (
+      {(description !== "" || pj.length > 0) && (
         <div
           className={`${
             isInFirstCol ? styles.descriptionR : styles.descriptionL

@@ -48,7 +48,7 @@ function ArtifactTemplate({
   const currency = useAppSelector(selectCurrency);
   const minimalView = useMemo(
     () => (insideCalendar || isDragged) && duration && duration < 1,
-    [insideCalendar, isDragged, duration]
+    [insideCalendar, isDragged, duration],
   );
 
   const startTime = useMemo(() => {
@@ -102,6 +102,7 @@ function ArtifactTemplate({
         );
       }
     }
+    return <></>;
   }, [
     artifact,
     endTime,

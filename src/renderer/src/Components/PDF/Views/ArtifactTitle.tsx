@@ -1,4 +1,3 @@
-import React from "react";
 import { Text, View } from "@react-pdf/renderer";
 import { EEventStatus } from "../../../Models/EEventStatus";
 import { ArtifactStatusOptions } from "../../../Helper/ArtifactStatusOptions";

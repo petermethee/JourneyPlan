@@ -1,5 +1,3 @@
-import React from "react";
-
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
 

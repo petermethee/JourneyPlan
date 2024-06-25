@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./GenericTooltips.module.css";
 
 export default function AccommodationTooltips({
