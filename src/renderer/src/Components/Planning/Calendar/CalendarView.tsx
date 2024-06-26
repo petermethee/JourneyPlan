@@ -45,6 +45,10 @@ import { useAppDispatch } from "../../../app/hooks";
 import { insertActivity } from "../../../features/Redux/activitiesSlice";
 import { insertTransport } from "../../../features/Redux/transportsSlice";
 import { insertAccommodation } from "../../../features/Redux/accommodationsSlice";
+import { IArtifact } from "@renderer/Models/IArtifact";
+import IActivity from "@renderer/Models/IActivity";
+import ITransport from "@renderer/Models/ITransport";
+import IAccommodation from "@renderer/Models/IAccommodation";
 
 export const getHours = (): string[] => {
   const hours: string[] = [];
@@ -84,7 +88,7 @@ function CalendarView({
     const initColWidth = totalWidth / nCol;
     initPlanningDimensions(
       initColWidth,
-      calendarRef.current!.getBoundingClientRect()
+      calendarRef.current!.getBoundingClientRect(),
     );
     setDropZoneBoundary(dropZoneRef.current!.getBoundingClientRect());
 
@@ -95,6 +99,21 @@ function CalendarView({
     calculTimeOut && clearTimeout(calculTimeOut);
     setCalculTimeOut(setTimeout(calculColWidth, 500));
   }, [calculColWidth, calculTimeOut]);
+
+  const duplicateArtifact = (PA: IArtifact, type: EArtifact) => {
+    const newArtifact = {
+      ...PA,
+      used: false,
+      name: `${PA.name} copy`,
+    };
+    if (type === EArtifact.Activity) {
+      dispatch(insertActivity(newArtifact as IActivity));
+    } else if (type === EArtifact.Transport) {
+      dispatch(insertTransport(newArtifact as ITransport));
+    } else {
+      dispatch(insertAccommodation(newArtifact as IAccommodation));
+    }
+  };
 
   useEffect(() => {
     calculColWidth();
@@ -126,7 +145,7 @@ function CalendarView({
       <CalendarHeader
         dayCols={dayCols
           .filter(
-            (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
+            (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1],
           )
           .map((dayCol) => dayCol.dateId)}
         daysIndex={daysIndex}
@@ -156,7 +175,7 @@ function CalendarView({
           ))}
           {dayCols
             .filter(
-              (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
+              (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1],
             )
             .map((dayCol, index) => (
               <div
@@ -173,7 +192,7 @@ function CalendarView({
                     containerStyle={calendarDragContainerStyle(
                       colWidth,
                       PA.activity.duration * cellHeight,
-                      PA.timeIndex * cellHeight
+                      PA.timeIndex * cellHeight,
                     )}
                     source={{ colId: dayCol.dateId, timeIndex: PA.timeIndex }}
                     getDraggableStyle={getDraggableCalendarStyle}
@@ -188,7 +207,7 @@ function CalendarView({
                       })
                     }
                     duplicateArtifact={() =>
-                      dispatch(insertActivity({ ...PA.activity, used: false }))
+                      duplicateArtifact(PA.activity, EArtifact.Activity)
                     }
                   >
                     {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
@@ -222,7 +241,7 @@ function CalendarView({
                     containerStyle={calendarDragContainerStyle(
                       colWidth,
                       PT.transport.duration * cellHeight,
-                      PT.timeIndex * cellHeight
+                      PT.timeIndex * cellHeight,
                     )}
                     source={{ colId: dayCol.dateId, timeIndex: PT.timeIndex }}
                     getDraggableStyle={getDraggableCalendarStyle}
@@ -237,9 +256,7 @@ function CalendarView({
                       })
                     }
                     duplicateArtifact={() =>
-                      dispatch(
-                        insertTransport({ ...PT.transport, used: false })
-                      )
+                      duplicateArtifact(PT.transport, EArtifact.Transport)
                     }
                   >
                     {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
@@ -271,7 +288,7 @@ function CalendarView({
       <AccommodationDropZone dropZoneRef={dropZoneRef}>
         {dayCols
           .filter(
-            (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1]
+            (_dayCol, index) => index >= daysIndex[0] && index < daysIndex[1],
           )
           .map((dayCol, index) => (
             <div
@@ -286,7 +303,7 @@ function CalendarView({
                   artifactId={PA.accommodation.id}
                   duration={1}
                   containerStyle={accommodationDropZoneDragContainerStyle(
-                    colWidth - 1
+                    colWidth - 1,
                   )}
                   source={{ colId: dayCol.dateId, timeIndex: PA.timeIndex }}
                   getDraggableStyle={getDraggableAccommodationCalendarStyle}
@@ -301,9 +318,7 @@ function CalendarView({
                     })
                   }
                   duplicateArtifact={() =>
-                    dispatch(
-                      insertAccommodation({ ...PA.accommodation, used: false })
-                    )
+                    duplicateArtifact(PA.accommodation, EArtifact.Accommodation)
                   }
                 >
                   {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (

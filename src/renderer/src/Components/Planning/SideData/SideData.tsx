@@ -48,6 +48,10 @@ import TransportIcon from "../../Shared/TransportIcon";
 import AccommodationIcon from "../../Shared/AccommodationIcon";
 import { TArtifactEditor } from "../Planning";
 import { selectArtifactIsDragged } from "../../../features/Redux/planningSlice";
+import IAccommodation from "@renderer/Models/IAccommodation";
+import IActivity from "@renderer/Models/IActivity";
+import { IArtifact } from "@renderer/Models/IArtifact";
+import ITransport from "@renderer/Models/ITransport";
 
 export const SIDE_DATA_COL_ID = "SIDE_DATA_COL_ID";
 
@@ -118,7 +122,9 @@ export default function SideData({
                 artifact: activity,
               })
             }
-            duplicateArtifact={() => dispatch(insertActivity(activity))}
+            duplicateArtifact={() =>
+              duplicateArtifact(activity, EArtifact.Activity)
+            }
           >
             {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
               <ArtifactTemplate
@@ -160,7 +166,9 @@ export default function SideData({
                 artifact: transport,
               })
             }
-            duplicateArtifact={() => dispatch(insertTransport(transport))}
+            duplicateArtifact={() =>
+              duplicateArtifact(transport, EArtifact.Transport)
+            }
           >
             {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
               <ArtifactTemplate
@@ -204,7 +212,7 @@ export default function SideData({
               })
             }
             duplicateArtifact={() =>
-              dispatch(insertAccommodation(accommodation))
+              duplicateArtifact(accommodation, EArtifact.Accommodation)
             }
           >
             {(onDeleteFromPlanning, onDelete, isHovered, isDragged) => (
@@ -238,6 +246,21 @@ export default function SideData({
 
   const [usedNumber, setUsedNumber] = useState(0);
   const [unusedNumber, setUnusedNumber] = useState(0);
+
+  const duplicateArtifact = (PA: IArtifact, type: EArtifact) => {
+    const newArtifact = {
+      ...PA,
+      used: false,
+      name: `${PA.name} copy`,
+    };
+    if (type === EArtifact.Activity) {
+      dispatch(insertActivity(newArtifact as IActivity));
+    } else if (type === EArtifact.Transport) {
+      dispatch(insertTransport(newArtifact as ITransport));
+    } else {
+      dispatch(insertAccommodation(newArtifact as IAccommodation));
+    }
+  };
 
   useEffect(() => {
     let remainingArtifacts = 0;

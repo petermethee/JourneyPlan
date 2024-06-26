@@ -12,6 +12,7 @@ import MenuBar from "../../Shared/MenuBar";
 import { primaryColor, goldenColor } from "../../../style/cssGlobalStyle";
 import IAccommodation from "@renderer/Models/IAccommodation";
 import IActivity from "@renderer/Models/IActivity";
+import ITransport from "@renderer/Models/ITransport";
 
 export default function TimeLineSummary({
   sortedPlanningArtifacts,
@@ -71,6 +72,14 @@ export default function TimeLineSummary({
         isLocated = !!(
           (item.artifact as IAccommodation | IActivity).lat &&
           (item.artifact as IAccommodation | IActivity).lng
+        );
+      } else {
+        const transport = item.artifact as ITransport;
+        isLocated = !!(
+          transport.lat_from &&
+          transport.lng_from &&
+          transport.lat_to &&
+          transport.lng_to
         );
       }
       const card = (
@@ -147,7 +156,7 @@ export default function TimeLineSummary({
         <Pagination
           count={dayCount + 1}
           size="small"
-          onChange={(e, page) => setDayIndex(page - 1)}
+          onChange={(_e, page) => setDayIndex(page - 1)}
           sx={{
             color: "white",
             display: "flex",
