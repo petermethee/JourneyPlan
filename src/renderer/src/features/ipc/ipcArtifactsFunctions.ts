@@ -4,13 +4,13 @@ import { IArtifact } from "../../Models/IArtifact";
 
 export const getAllItemsAPI = (
   tableName: EArtifactTableName,
-  tripId: number
+  tripId: number,
 ) => {
   return new Promise<IArtifact[]>(async (resolve, reject) => {
     try {
       const activities = await window.electronAPI.getAllItems(
         tableName,
-        tripId
+        tripId,
       );
       resolve(activities);
     } catch (error) {
@@ -21,7 +21,7 @@ export const getAllItemsAPI = (
 
 export const insertItemAPI = (
   tableName: EArtifactTableName,
-  item: IArtifact
+  item: IArtifact,
 ) => {
   return new Promise<{
     id: number;
@@ -38,13 +38,13 @@ export const insertItemAPI = (
 
 export const updateItemAPI = (
   tableName: EArtifactTableName,
-  item: IArtifact
+  item: IArtifact,
 ) => {
   return new Promise<IAttachment[]>(async (resolve, reject) => {
     try {
       const newAttachments = await window.electronAPI.updateItem(
         tableName,
-        item
+        item,
       );
       resolve(newAttachments);
     } catch (error) {
@@ -55,7 +55,7 @@ export const updateItemAPI = (
 
 export const deleteItemAPI = (
   tableName: EArtifactTableName,
-  itemId: number
+  itemId: number,
 ) => {
   return new Promise<void>(async (resolve, reject) => {
     try {

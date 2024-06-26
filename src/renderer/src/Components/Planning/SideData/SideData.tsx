@@ -105,7 +105,7 @@ export default function SideData({
         return filteredActivities.map((activity) => (
           <DraggableCardView
             key={"activity-" + activity.id}
-            artifactId={activity.id}
+            artifact={activity}
             containerStyle={sideDataDragContainerStyle()}
             duration={activity.duration}
             shwoCaseClass={draggableStyle.showcaseSideData}
@@ -149,7 +149,7 @@ export default function SideData({
         return filteredTransports.map((transport) => (
           <DraggableCardView
             key={"transport-" + transport.id}
-            artifactId={transport.id}
+            artifact={transport}
             containerStyle={sideDataDragContainerStyle()}
             duration={transport.duration}
             shwoCaseClass={draggableStyle.showcaseSideData}
@@ -194,7 +194,7 @@ export default function SideData({
         return filteredAccommodations.map((accommodation) => (
           <DraggableCardView
             key={"accommodation-" + accommodation.id}
-            artifactId={accommodation.id}
+            artifact={accommodation}
             containerStyle={sideDataDragContainerStyle()}
             duration={1}
             shwoCaseClass={draggableStyle.showcaseSideData}

@@ -39,6 +39,11 @@ import { defaultWhite, primaryColor } from "../../style/cssGlobalStyle";
 import { GRID_CONTAINER } from "./Calendar/CalendarView";
 import { Button, ButtonBase, Popover } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import ResizeHandler from "./ResizeHandler";
+import { IArtifact } from "@renderer/Models/IArtifact";
+import ITransport from "@renderer/Models/ITransport";
+import IActivity from "@renderer/Models/IActivity";
+import { cellHeight } from "@renderer/DnDCustomLib/CalendarDimensionsHelper";
 
 export type TDroppableInfo = { colId: string; timeIndex: number };
 export type TDnDEvent = {
@@ -51,10 +56,10 @@ type TDraggableProps = {
     onDeleteFromPlanning: () => void,
     onDelete: () => void,
     isHovered: boolean,
-    isDragged?: boolean
+    isDragged?: boolean,
   ) => JSX.Element | JSX.Element[];
   PAId?: number;
-  artifactId: number;
+  artifact: IArtifact;
   duration: number;
   containerStyle: CSSProperties;
   source: TDroppableInfo;
@@ -63,7 +68,7 @@ type TDraggableProps = {
     y: number,
     deltaMousePosition: { x: number; y: number },
     dragContainerCoord: { x: number; y: number },
-    duration: number
+    duration: number,
   ) => CSSProperties;
   shwoCaseClass?: string;
   disappearAnim: string;
@@ -71,7 +76,7 @@ type TDraggableProps = {
   getFinalDestination(
     x: number,
     y: number,
-    allowSideData: boolean
+    allowSideData: boolean,
   ): [string, number];
   editArtifact: () => void;
   duplicateArtifact: () => void;
@@ -82,7 +87,7 @@ let scrollInterval: NodeJS.Timeout | null = null;
 function DraggableCardView({
   PAId, //Ce n'est pas écrit paid en anglais, c'est planning artifact id
   children,
-  artifactId,
+  artifact,
   duration,
   containerStyle,
   source,
@@ -116,6 +121,9 @@ function DraggableCardView({
   const [openPopover, setOpenPopover] = useState<
     undefined | { top: number; left: number }
   >(undefined);
+  const [resizedHeight, setResizedHeight] = useState<number | undefined>(
+    undefined,
+  );
 
   const containerAnimation = useMemo(() => {
     if (willDisappear || willBeDeleted) {
@@ -160,7 +168,7 @@ function DraggableCardView({
         scrollInterval = null;
       }
     },
-    [artifactType, disappearAnim]
+    [artifactType, disappearAnim],
   );
 
   const onDragEnd = useCallback(
@@ -176,7 +184,7 @@ function DraggableCardView({
           const updatedPA = {
             id: PAId,
             id_planning: planningId,
-            artifactId,
+            artifactId: artifact.id,
             date,
             timeIndex,
             artifactType,
@@ -190,7 +198,7 @@ function DraggableCardView({
           const newPA = {
             id: 0,
             id_planning: planningId,
-            artifactId,
+            artifactId: artifact.id,
             date,
             timeIndex,
             artifactType,
@@ -202,7 +210,7 @@ function DraggableCardView({
         setStyle({ top: 0, left: 0, transition: "0s" });
       }
     },
-    [artifactType, PAId, artifactId, planningId, dispatch]
+    [artifactType, PAId, artifact.id, planningId, dispatch],
   );
 
   const checkCollision = useCallback(
@@ -222,11 +230,11 @@ function DraggableCardView({
 
             if (PA.artifactType === EArtifact.Activity) {
               currentDuration = activities.find(
-                (activity) => activity.id === PA.artifactId
+                (activity) => activity.id === PA.artifactId,
               )!.duration;
             } else {
               currentDuration = transports.find(
-                (transport) => transport.id === PA.artifactId
+                (transport) => transport.id === PA.artifactId,
               )!.duration;
             }
             if (PA.date === colId) {
@@ -247,7 +255,7 @@ function DraggableCardView({
           });
       }
     },
-    [planningArtifacts, activities, transports, artifactType, duration, PAId]
+    [planningArtifacts, activities, transports, artifactType, duration, PAId],
   );
 
   const onMouseDown = (event: React.MouseEvent<HTMLElement>) => {
@@ -277,7 +285,7 @@ function DraggableCardView({
             x: draggableRef.current!.offsetLeft,
             y: draggableRef.current!.offsetTop,
           },
-          duration
+          duration,
         );
         setStyle(currentStyle);
         handleAutomaticScroll(event.clientY);
@@ -291,7 +299,7 @@ function DraggableCardView({
       artifactType,
       dispatch,
       handleAutomaticScroll,
-    ]
+    ],
   );
 
   const mouseUpListener = useCallback(
@@ -303,7 +311,7 @@ function DraggableCardView({
         const [colId, timeIndex] = getFinalDestination(
           event.clientX,
           event.clientY,
-          source.colId === SIDE_DATA_COL_ID
+          source.colId === SIDE_DATA_COL_ID,
         );
 
         if (
@@ -349,7 +357,7 @@ function DraggableCardView({
       dispatch,
       checkCollision,
       editArtifact,
-    ]
+    ],
   );
 
   const onAnimationEnd = (event: React.AnimationEvent) => {
@@ -364,13 +372,13 @@ function DraggableCardView({
       ) {
         switch (artifactType) {
           case EArtifact.Activity:
-            dispatch(setUsedActivities(artifactId));
+            dispatch(setUsedActivities(artifact.id));
             break;
           case EArtifact.Transport:
-            dispatch(setUsedTransports(artifactId));
+            dispatch(setUsedTransports(artifact.id));
             break;
           default:
-            dispatch(setUsedAccommodations(artifactId));
+            dispatch(setUsedAccommodations(artifact.id));
             break;
         }
       }
@@ -386,33 +394,33 @@ function DraggableCardView({
       if (PAId) {
         dispatch(deleteArtifactPlanning(PAId));
         if (
-          planningArtifacts.filter((PA) => PA.artifactId === artifactId)
+          planningArtifacts.filter((PA) => PA.artifactId === artifact.id)
             .length === 1
         ) {
           switch (artifactType) {
             case EArtifact.Activity:
-              dispatch(setUsedActivities(artifactId));
+              dispatch(setUsedActivities(artifact.id));
 
               break;
             case EArtifact.Transport:
-              dispatch(setUsedTransports(artifactId));
+              dispatch(setUsedTransports(artifact.id));
               break;
 
             default:
-              dispatch(setUsedAccommodations(artifactId));
+              dispatch(setUsedAccommodations(artifact.id));
               break;
           }
         }
       } else {
         switch (artifactType) {
           case EArtifact.Activity:
-            dispatch(deleteActivity(artifactId));
+            dispatch(deleteActivity(artifact.id));
             break;
           case EArtifact.Transport:
-            dispatch(deleteTransport(artifactId));
+            dispatch(deleteTransport(artifact.id));
             break;
           default:
-            dispatch(deleteAccommodation(artifactId));
+            dispatch(deleteAccommodation(artifact.id));
             break;
         }
       }
@@ -441,9 +449,24 @@ function DraggableCardView({
       style={{
         ...containerStyle,
         animation: containerAnimation,
+        height: resizedHeight ?? containerStyle.height,
       }}
       onAnimationEnd={onAnimationEnd} //is also triggered when child animation ends
     >
+      {source.colId !== SIDE_DATA_COL_ID &&
+        artifactType !== EArtifact.Accommodation && (
+          <ResizeHandler
+            onResize={(resizeDelta) =>
+              setResizedHeight(
+                ((artifact as IActivity | ITransport).duration + resizeDelta) *
+                  cellHeight,
+              )
+            }
+            artifactType={artifactType}
+            artifact={artifact as IActivity | ITransport}
+          />
+        )}
+
       <Popover
         open={openPopover !== undefined}
         anchorReference="anchorPosition"
@@ -474,7 +497,7 @@ function DraggableCardView({
         {children(
           () => {},
           () => {},
-          usedWillDisappear
+          usedWillDisappear,
         )}
       </div>
       <div
@@ -512,7 +535,7 @@ function DraggableCardView({
           () => setWillBeDeletedFromPlanning(true),
           () => setWillBeDeleted(true),
           isHovered,
-          isDragged || willDisappear || usedWillDisappear
+          isDragged || willDisappear || usedWillDisappear,
         )}
       </div>
     </div>

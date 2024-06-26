@@ -14,27 +14,27 @@ export const expandedAccommodationDropZoneHeight = 200;
 export let sideDataTop: number;
 
 const ratioTimeStepCellHeight = 4;
-const timeStep = cellHeight / ratioTimeStepCellHeight;
+export const timeStep = cellHeight / ratioTimeStepCellHeight;
 
 const hoursLabelWidth = 50;
 
 document.documentElement.style.setProperty(
   "--totalHeight",
-  cellHeight * 24 + "px"
+  cellHeight * 24 + "px",
 );
 
 document.documentElement.style.setProperty(
   "--hoursLabelWidth",
-  hoursLabelWidth + "px"
+  hoursLabelWidth + "px",
 );
 document.documentElement.style.setProperty("--cellHeight", cellHeight + "px");
 document.documentElement.style.setProperty(
   "--accommodationDropZoneHeight",
-  accommodationDropZoneHeight + "px"
+  accommodationDropZoneHeight + "px",
 );
 document.documentElement.style.setProperty(
   "--expandedAccommodationDropZoneHeight",
-  expandedAccommodationDropZoneHeight + "px"
+  expandedAccommodationDropZoneHeight + "px",
 );
 let columnWidth: number;
 let colIds: string[];
@@ -56,7 +56,7 @@ export const setColIds = (initColIds: string[]) => {
 export const setColOffsetIndex = (offset: number) => (colIndexOffset = offset);
 export const initPlanningDimensions = (
   initColWidth: number,
-  initCalendarRect: DOMRect
+  initCalendarRect: DOMRect,
 ) => {
   columnWidth = initColWidth;
   calendarRect = initCalendarRect;
@@ -77,7 +77,7 @@ export const getDraggableCalendarStyle = (
   y: number,
   deltaMousePosition: { x: number; y: number },
   dragContainerCoord: { x: number; y: number },
-  duration: number
+  duration: number,
 ) => {
   const relativeX = x - calendarRect.left; //Relative to calendar position
   const clampedX = Math.max(1, Math.min(calendarRect.width - 1, relativeX));
@@ -90,8 +90,8 @@ export const getDraggableCalendarStyle = (
     deltaMousePosition.y + 2,
     Math.min(
       calendarRect.height + deltaMousePosition.y - duration * cellHeight + 1,
-      relativeY
-    )
+      relativeY,
+    ),
   );
 
   lastTimeIndex =
@@ -99,7 +99,7 @@ export const getDraggableCalendarStyle = (
     ratioTimeStepCellHeight;
 
   const relativeTimeStepIndex = Math.floor(
-    (clampedY - dragContainerCoord.y - deltaMousePosition.y + 2) / timeStep
+    (clampedY - dragContainerCoord.y - deltaMousePosition.y + 2) / timeStep,
   ); //Relative to draggable container position
 
   const steppedY = relativeTimeStepIndex * timeStep;
@@ -108,7 +108,7 @@ export const getDraggableCalendarStyle = (
     steppedX,
     steppedY,
     columnWidth,
-    cellHeight * duration
+    cellHeight * duration,
   );
 
   return style;
@@ -119,7 +119,7 @@ export const getDraggableSideDataStyle = (
   y: number,
   deltaMousePosition: { x: number; y: number },
   dragContainerCoord: { x: number; y: number },
-  duration: number
+  duration: number,
 ) => {
   let style: CSSProperties;
 
@@ -138,7 +138,7 @@ export const getDraggableSideDataStyle = (
         (y -
           calendarRect.top -
           ((duration * ratioTimeStepCellHeight - 1) / 2) * timeStep) /
-          timeStep
+          timeStep,
       ) *
         timeStep -
       dragContainerCoord.y +
@@ -149,7 +149,7 @@ export const getDraggableSideDataStyle = (
       calendarRect.top +
         calendarRect.height -
         dragContainerCoord.y -
-        cellHeight * duration
+        cellHeight * duration,
     );
 
     lastTimeIndex = Math.min(
@@ -159,17 +159,17 @@ export const getDraggableSideDataStyle = (
           (y -
             calendarRect.top -
             ((duration * ratioTimeStepCellHeight - 1) / 2) * timeStep) /
-            timeStep
-        ) / ratioTimeStepCellHeight
+            timeStep,
+        ) / ratioTimeStepCellHeight,
       ),
-      24 - duration
+      24 - duration,
     );
 
     style = onDragOverCalendarStyle(
       clampedX,
       clampedY + 2,
       columnWidth,
-      cellHeight * duration
+      cellHeight * duration,
     );
   }
   return style;
@@ -180,7 +180,7 @@ export const getDraggableAccommodationSideDataStyle = (
   y: number,
   deltaMousePosition: { x: number; y: number },
   dragContainerCoord: { x: number; y: number },
-  _duration: number
+  _duration: number,
 ) => {
   let style: CSSProperties;
 
@@ -201,7 +201,7 @@ export const getDraggableAccommodationSideDataStyle = (
       clampedX,
       clampedY + 2,
       columnWidth,
-      expandedAccommodationDropZoneHeight
+      expandedAccommodationDropZoneHeight,
     );
   }
   return style;
@@ -209,10 +209,10 @@ export const getDraggableAccommodationSideDataStyle = (
 
 export const getDraggableAccommodationCalendarStyle = (
   x: number,
-  y: number,
-  deltaMousePosition: { x: number; y: number },
+  _y: number,
+  _deltaMousePosition: { x: number; y: number },
   dragContainerCoord: { x: number; y: number },
-  _duration: number
+  _duration: number,
 ) => {
   const relativeX = x - dropZoneRect.left; //Relative to calendar position
   const clampedX = Math.max(0, Math.min(dropZoneRect.width - 1, relativeX));
@@ -224,7 +224,7 @@ export const getDraggableAccommodationCalendarStyle = (
     steppedX,
     0,
     columnWidth,
-    "100%"
+    "100%",
   );
 
   return style;
@@ -234,7 +234,7 @@ export const getDraggableAccommodationCalendarStyle = (
 export const getFinalDestination = (
   x: number,
   y: number,
-  allowSideData: boolean
+  allowSideData: boolean,
 ): [string, number] => {
   if (!isInsidePlanning(x, y) && allowSideData) {
     return [SIDE_DATA_COL_ID, -1];
@@ -253,7 +253,7 @@ export const getFinalDestination = (
 
 export const getFinalDestinationInAccommodationDZ = (
   x: number,
-  y: number
+  y: number,
 ): [string, number] => {
   if (isInsideAccommodationDZ(x, y) || isInsidePlanning(x, y)) {
     const colIndex = Math.floor((x - dropZoneRect.x) / columnWidth);

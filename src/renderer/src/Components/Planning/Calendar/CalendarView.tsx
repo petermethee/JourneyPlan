@@ -187,7 +187,7 @@ function CalendarView({
                   <DraggableCardView
                     key={`${PA.activity.id}_${dayCol.dateId}_${PA.timeIndex}`}
                     PAId={PA.id}
-                    artifactId={PA.activity.id}
+                    artifact={PA.activity}
                     duration={PA.activity.duration}
                     containerStyle={calendarDragContainerStyle(
                       colWidth,
@@ -236,7 +236,7 @@ function CalendarView({
                   <DraggableCardView
                     key={`${PT.transport.id}_${dayCol.dateId}_${PT.timeIndex}`}
                     PAId={PT.id}
-                    artifactId={PT.transport.id}
+                    artifact={PT.transport}
                     duration={PT.transport.duration}
                     containerStyle={calendarDragContainerStyle(
                       colWidth,
@@ -300,7 +300,7 @@ function CalendarView({
                 <DraggableCardView
                   key={`${PA.accommodation.id}_${dayCol.dateId}_${PA.timeIndex}`}
                   PAId={PA.id}
-                  artifactId={PA.accommodation.id}
+                  artifact={PA.accommodation}
                   duration={1}
                   containerStyle={accommodationDropZoneDragContainerStyle(
                     colWidth - 1,
