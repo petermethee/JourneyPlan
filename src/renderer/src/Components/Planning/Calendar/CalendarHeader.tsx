@@ -16,7 +16,7 @@ import {
 } from "../../../features/Redux/planningSlice";
 import { selectLoading } from "../../../features/Redux/tripSlice";
 
-const dayShift = 3;
+const dayShift = 1;
 
 export default function CalendarHeader({
   dayCols,
