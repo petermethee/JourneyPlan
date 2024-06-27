@@ -54,7 +54,6 @@ export default function ResizeHandler({
         );
         setDuration((prevState) => {
           if (prevState !== newDuration) {
-            console.log("tag", newDuration);
             onResize(newDuration);
             return newDuration;
           }
