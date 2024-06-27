@@ -4,9 +4,14 @@ import DayHeader from "./DayHeader";
 import dayjs from "dayjs";
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import { ButtonBase, CircularProgress, IconButton } from "@mui/material";
+import {
+  ButtonBase,
+  CircularProgress,
+  IconButton,
+  Tooltip,
+} from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import DownloadIcon from "@mui/icons-material/Download";
+import DownloadIconRounded from "@mui/icons-material/Download";
 import { useNavigate } from "react-router-dom";
 import { ERouterPaths } from "../../../Helper/ERouterPaths";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
@@ -37,18 +42,27 @@ export default function CalendarHeader({
   return (
     <div style={{ display: "flex" }}>
       <div className={styles.settingsIcon}>
-        <IconButton onClick={() => navigate(ERouterPaths.pdf)} size="small">
-          <PictureAsPdfIcon />
-        </IconButton>
+        <Tooltip title="Visualiser le PDF">
+          <IconButton
+            onClick={() => navigate(ERouterPaths.pdf)}
+            size="small"
+            color="error"
+          >
+            <PictureAsPdfIcon />
+          </IconButton>
+        </Tooltip>
         {loading ? (
           <CircularProgress size={24} />
         ) : (
-          <IconButton
-            onClick={() => dispatch(exportAttachments(planningId!))}
-            size="small"
-          >
-            <DownloadIcon />
-          </IconButton>
+          <Tooltip title="Télécharger les pièces jointes">
+            <IconButton
+              onClick={() => dispatch(exportAttachments(planningId!))}
+              size="small"
+              color="secondary"
+            >
+              <DownloadIconRounded />
+            </IconButton>
+          </Tooltip>
         )}
       </div>
       <div className={styles.daysHeader}>
