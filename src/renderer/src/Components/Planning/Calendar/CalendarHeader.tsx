@@ -71,7 +71,7 @@ export default function CalendarHeader({
           sx={{
             position: "absolute",
             borderRadius: "0 50% 50% 0",
-            backgroundColor: "#ffffff1f",
+            backgroundColor: "#8f8f8f40",
             opacity: daysIndex[0] === 0 ? 0 : 1,
           }}
           onClick={() =>
@@ -89,7 +89,7 @@ export default function CalendarHeader({
           sx={{
             position: "absolute",
             borderRadius: "50% 0 0 50%",
-            backgroundColor: "#ffffff1f",
+            backgroundColor: "#8f8f8f40",
             opacity: nbDays === daysIndex[1] ? 0 : 1,
           }}
           onClick={() =>

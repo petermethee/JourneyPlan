@@ -1,31 +1,30 @@
 .cardFlagContainer {
-    --width: 18px;
-    position: relative;
-    width: var(--width);
-    z-index: 1;
+  --width: 18px;
+  position: relative;
+  width: var(--width);
+  z-index: 1;
 }
 
 .bookmark {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scaleY(1.2);
-    position: absolute;
-    margin-top: -3px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scaleY(1.2);
+  position: absolute;
+  margin-top: -3px;
 }
 
 .absoluteContainer {
-    position: absolute;
-    z-index: 1;
-    width: 18px;
-    height: 27px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: -5px;
+  position: absolute;
+  z-index: 1;
+  width: 18px;
+  height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -5px;
 }
 
-
 .mealIconContainer {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }

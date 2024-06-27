@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import styles from "./CardsFlag.module.css";
 import BookmarkRoundedIcon from "@mui/icons-material/BookmarkRounded";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";

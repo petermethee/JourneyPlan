@@ -1,30 +1,32 @@
 .daysHeader {
-    display: flex;
-    position: relative;
-    box-shadow: 0 0 16px 0 #00000070;
+  display: flex;
+  position: relative;
+  box-shadow: 0 0 16px 0 #00000070;
 }
 
 .settingsIcon {
-    min-width: var(--hoursLabelWidth);
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    z-index: 1;
-    background-color: #fff;
-    box-shadow: 0 0 16px 0 #00000070;
-    flex-direction: column;
+  min-width: var(--hoursLabelWidth);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  z-index: 1;
+  background-color: #fff;
+  box-shadow: 0 0 16px 0 #00000070;
+  flex-direction: column;
 }
 
-.arrowButtonR, .arrowButtonL {
-    height: 100%;
-    width: 30px;
-    transition: 300ms;
+.arrowButtonR,
+.arrowButtonL {
+  height: 100%;
+  width: 30px;
+  transition: 300ms;
 }
 
 .arrowButtonR {
-    right: 0;
+  right: 0;
 }
 
-.arrowButtonR:hover, .arrowButtonL:hover {
-    background-color: var(--primary800);
+.arrowButtonR:hover,
+.arrowButtonL:hover {
+  background-color: #c8c8c858;
 }

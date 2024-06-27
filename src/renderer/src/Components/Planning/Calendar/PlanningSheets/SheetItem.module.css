@@ -1,37 +1,36 @@
 .sheet {
-    overflow: hidden;
-    cursor: pointer;
-    padding: 0px 10px;
-    margin: 3px;
-    transition: 300ms;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background-color: var(--darkColor5);
-    border-radius: 5px;
-
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0px 10px;
+  margin: 3px;
+  transition: 300ms;
+  color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--darkColor2);
+  border-radius: 5px;
 }
 
 .sheet:hover {
-    background-color: var(--darkColor6);
+  background-color: var(--darkColor6);
 }
 
 .selectedSheet {
-    background-color: var(--secWhite) !important;
-    color: var(--goldenColor);
+  background-color: #e4e7eb !important;
+  color: var(--goldenColor);
 }
 
 .sheetName {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .hiddenInput {
-    position: absolute;
-    opacity: 0;
-    white-space: pre;
-    z-index: -1;
-    pointer-events: none;
+  position: absolute;
+  opacity: 0;
+  white-space: pre;
+  z-index: -1;
+  pointer-events: none;
 }

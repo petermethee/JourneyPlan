@@ -1,5 +1,5 @@
 import { IconButton, TextField } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   selectPlanning,
   deletePlanning,
@@ -14,6 +14,7 @@ import { EArtifact } from "../../../../Models/EArtifacts";
 import { initUsedAccommodations } from "../../../../features/Redux/accommodationsSlice";
 import { initUsedActivities } from "../../../../features/Redux/activitiesSlice";
 import { initUsedTransports } from "../../../../features/Redux/transportsSlice";
+import { defaultWhite, primary800 } from "@renderer/style/cssGlobalStyle";
 
 export default function SheetItem({
   planning,
@@ -42,18 +43,18 @@ export default function SheetItem({
       .then((PA) => {
         dispatch(
           initUsedActivities(
-            PA.filter((item) => item.artifactType === EArtifact.Activity)
-          )
+            PA.filter((item) => item.artifactType === EArtifact.Activity),
+          ),
         );
         dispatch(
           initUsedAccommodations(
-            PA.filter((item) => item.artifactType === EArtifact.Accommodation)
-          )
+            PA.filter((item) => item.artifactType === EArtifact.Accommodation),
+          ),
         );
         dispatch(
           initUsedTransports(
-            PA.filter((item) => item.artifactType === EArtifact.Transport)
-          )
+            PA.filter((item) => item.artifactType === EArtifact.Transport),
+          ),
         );
       });
   };
@@ -110,7 +111,11 @@ export default function SheetItem({
         <CloseIcon
           sx={{
             fontSize: "12px",
-            color: selectedPlanning === planning.id ? "black" : "white",
+            color: disableClose
+              ? "undefined"
+              : selectedPlanning === planning.id
+                ? primary800
+                : defaultWhite,
           }}
         />
       </IconButton>
