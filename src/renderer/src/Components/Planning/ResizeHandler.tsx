@@ -15,41 +15,51 @@ export default function ResizeHandler({
   artifactType,
 }: {
   artifact: IActivity | ITransport;
-  onResize: (resize: number) => void;
+  onResize: (duration: number) => void;
   artifactType: EArtifact;
 }) {
   const dispatch = useAppDispatch();
   const [mouseDown, setMouseDown] = useState<null | number>(null);
-  const [delta, setDelta] = useState(0);
+  const [duration, setDuration] = useState(artifact.duration);
+
   const mouseUpListener = useCallback(() => {
-    setMouseDown(null);
     if (mouseDown) {
+      setMouseDown(null);
+
       if (artifactType === EArtifact.Activity) {
         dispatch(
           updateActivity({
             ...(artifact as IActivity),
-            duration: artifact.duration + delta,
+            duration,
           }),
         );
       } else {
         dispatch(
           updateTransport({
             ...(artifact as ITransport),
-            duration: artifact.duration + delta,
+            duration,
           }),
         );
       }
     }
-  }, [mouseDown, delta]);
+  }, [mouseDown, duration]);
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       if (mouseDown) {
-        const newDelta = Math.round((event.clientY - mouseDown) / timeStep) / 4;
-        if (newDelta !== 0) {
-          setDelta(newDelta);
-          onResize(newDelta);
-        }
+        let delta = Math.round((event.clientY - mouseDown) / timeStep) / 4;
+        const newDuration = Math.max(
+          (artifact as IActivity | ITransport).duration + delta,
+          0.25,
+        );
+        setDuration((prevState) => {
+          if (prevState !== newDuration) {
+            console.log("tag", newDuration);
+            onResize(newDuration);
+            return newDuration;
+          }
+          return prevState;
+        });
       }
     };
     window.addEventListener("mousemove", handleMouseMove);
@@ -68,7 +78,13 @@ export default function ResizeHandler({
       className={styles.resizeHandler}
       onMouseDown={(e) => setMouseDown(e.clientY)}
     >
-      <DragHandleRoundedIcon />
+      <DragHandleRoundedIcon
+        fontSize="small"
+        sx={{
+          borderRadius: "50%",
+          backgroundColor: "#39393933",
+        }}
+      />
     </div>
   );
 }

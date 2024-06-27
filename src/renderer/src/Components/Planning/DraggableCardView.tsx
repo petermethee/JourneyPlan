@@ -442,6 +442,10 @@ function DraggableCardView({
     };
   }, [mouseUpListener]);
 
+  useEffect(() => {
+    setResizedHeight(undefined);
+  }, [containerStyle.height]);
+
   return (
     <div
       ref={draggableRef}
@@ -450,18 +454,14 @@ function DraggableCardView({
         ...containerStyle,
         animation: containerAnimation,
         height: resizedHeight ?? containerStyle.height,
+        transitionDuration: resizedHeight ? "50ms" : "300ms",
       }}
       onAnimationEnd={onAnimationEnd} //is also triggered when child animation ends
     >
       {source.colId !== SIDE_DATA_COL_ID &&
         artifactType !== EArtifact.Accommodation && (
           <ResizeHandler
-            onResize={(resizeDelta) =>
-              setResizedHeight(
-                ((artifact as IActivity | ITransport).duration + resizeDelta) *
-                  cellHeight,
-              )
-            }
+            onResize={(duration) => setResizedHeight(duration * cellHeight - 4)}
             artifactType={artifactType}
             artifact={artifact as IActivity | ITransport}
           />
