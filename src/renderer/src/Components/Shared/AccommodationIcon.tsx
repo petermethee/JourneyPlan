@@ -1,5 +1,6 @@
 import HotelRoundedIcon from "@mui/icons-material/HotelRounded";
 import { Tooltip } from "@mui/material";
+import { accommodationColor } from "@renderer/style/cssGlobalStyle";
 
 export default function AccommodationIcon({
   color,
@@ -10,7 +11,10 @@ export default function AccommodationIcon({
 }) {
   return (
     <Tooltip title="Hébergement">
-      <HotelRoundedIcon sx={{ color }} fontSize={size} />
+      <HotelRoundedIcon
+        sx={{ color: color ?? accommodationColor }}
+        fontSize={size}
+      />
     </Tooltip>
   );
 }

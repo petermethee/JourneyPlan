@@ -1,216 +1,236 @@
 @property --rotate {
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
 .timeLineCard {
-    --height: 35px;
-    height: var(--height);
-    width: 85%;
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
+  --height: 35px;
+  height: var(--height);
+  width: 85%;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
 .cardContainer {
-    --borderWidth: 1px;
-    position: relative;
-    width: 100%;
-    height: 100%;
-    font-weight: bold;
-    border-radius: 5px;
-    overflow: hidden;
-    background-color: var(--darkColor5);
-    transition: 200ms;
+  --borderWidth: 1px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-weight: bold;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: var(--darkColor5);
+  transition: 200ms;
 }
 
 .cardContainer::after {
-    content: "";
-    position: absolute;
-    top: var(--borderWidth);
-    left: var(--borderWidth);
-    right: var(--borderWidth);
-    height: calc(var(--height) - var(--borderWidth) * 2);
-    background-color: var(--darkColor2);
-    border-radius: 5px;
+  content: "";
+  position: absolute;
+  top: var(--borderWidth);
+  left: var(--borderWidth);
+  right: var(--borderWidth);
+  height: calc(var(--height) - var(--borderWidth) * 2);
+  background-color: var(--darkColor2);
+  border-radius: 5px;
 }
 
 .selectedTimeLineCard .cardContainer {
-    --borderWidth: 2px;
-    background-color: var(--darkColor6);
-    transform: scale(1.1);
+  --borderWidth: 2px;
+  background-color: var(--darkColor6);
+  transform: scale(1.1);
 }
 
 .cardContainer:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .cardContainer span {
-    text-indent: 10px;
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  left: 10px;
+  position: absolute;
+  right: 10px;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  div {
+    color: var(--darkColorc);
+    font-weight: normal;
+  }
 }
 
-.light, .light2, .lightBubble, .lightBubble2 {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+.light,
+.light2,
+.lightBubble,
+.lightBubble2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
-.light, .light2 {
-    animation: spin 4s linear infinite;
+.light,
+.light2 {
+  animation: spin 4s linear infinite;
 }
 
-.lightBubble, .lightBubble2 {
-    animation: spin 2s linear infinite;
+.lightBubble,
+.lightBubble2 {
+  animation: spin 2s linear infinite;
 }
 
-.idBubble, .idTriangle, .idSquare {
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    width: var(--height);
-    height: var(--height);
-    border-radius: 100%;
-    color: var(--darkColor3);
-    font-weight: bold;
-    font-size: larger;
-    overflow: hidden;
-    /* box-shadow: 0 0 16px 2px #000; */
-}
-
-.idBubble::before, .idTriangle::before, .idSquare::before {
-    content: '';
-    position: absolute;
-    width: calc(100% - 3px);
-    height: calc(100% - 3px);
-    background-color: var(--darkColor3);
-    border-radius: 100%;
-    z-index: 1;
+.idBubble {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: var(--height);
+  height: var(--height);
+  border-radius: 100%;
+  font-weight: bold;
+  font-size: larger;
+  overflow: hidden;
+  box-shadow: 0 0 16px 0 #00000070;
+  background-color: var(--darkColor6);
 }
 
 .idBubble::after {
-    --offset: 5px;
-    content: '';
-    position: absolute;
-    top: var(--offset);
-    left: var(--offset);
-    width: calc(var(--height) - 2 * var(--offset));
-    height: calc(var(--height) - 2 * var(--offset));
-    border-radius: 100%;
-    background-color: var(--darkColorc);
-    transition: 200ms;
-    z-index: 1;
+  --offset: 2px;
+  content: "";
+  position: absolute;
+  top: var(--offset);
+  left: var(--offset);
+  width: calc(var(--height) - 2 * var(--offset));
+  height: calc(var(--height) - 2 * var(--offset));
+  border-radius: 100%;
+  background-color: var(--darkColor2);
+  transition: 200ms;
+  z-index: 1;
 }
 
-.idTriangle::after {
-    content: '';
-    position: absolute;
-    left: 3px;
-    top: 6px;
-    z-index: 1;
-    width: 0;
-    height: 0;
-    border-left: 14px solid transparent;
-    border-right: 14px solid transparent;
-    border-top: 25px solid var(--darkColorc);
-    transform: translateX(2px);
-}
-
-.idSquare::after {
-    --offset: 6px;
-    content: '';
-    position: absolute;
-    top: var(--offset);
-    left: var(--offset);
-    width: calc(var(--height) - 2 * var(--offset));
-    height: calc(var(--height) - 2 * var(--offset));
-    background-color: var(--darkColorc);
-    transition: 200ms;
-    border-radius: 3px;
-    z-index: 1;
-}
-
-.idBubble span, .idTriangle span, .idSquare span {
-    z-index: 2;
+.idBubble span {
+  z-index: 2;
+  display: flex;
 }
 
 .hoveredTimeLineCard .light {
-    background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, transparent, transparent, var(--darkColorc));
+  background-image: conic-gradient(
+    from var(--rotate),
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    var(--darkColorc)
+  );
 }
 
 .hoveredTimeLineCard .light2 {
-    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, transparent, transparent, var(--darkColorc));
+  background-image: conic-gradient(
+    from calc(var(--rotate) + 180deg),
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    transparent,
+    var(--darkColorc)
+  );
 }
 
 .hoveredTimeLineCard .lightBubble {
-    background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, var(--darkColorc));
+  background-image: conic-gradient(
+    from var(--rotate),
+    transparent,
+    transparent,
+    transparent,
+    var(--darkColorc)
+  );
 }
 
 .hoveredTimeLineCard .lightBubble2 {
-    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, var(--darkColorc));
+  background-image: conic-gradient(
+    from calc(var(--rotate) + 180deg),
+    transparent,
+    transparent,
+    transparent,
+    var(--darkColorc)
+  );
 }
 
 /* style of the lights if the card is the selected one */
 .selectedTimeLineCard .light {
-    background-image: conic-gradient(from var(--rotate), transparent, transparent, transparent, #e2cb92);
+  background-image: conic-gradient(
+    from var(--rotate),
+    transparent,
+    transparent,
+    transparent,
+    #e2cb92
+  );
 }
 
 .selectedTimeLineCard .light2 {
-    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, transparent, #c4d6fd);
+  background-image: conic-gradient(
+    from calc(var(--rotate) + 180deg),
+    transparent,
+    transparent,
+    transparent,
+    #c4d6fd
+  );
 }
 
 .selectedTimeLineCard .lightBubble {
-    background-image: conic-gradient(from var(--rotate), transparent, transparent, #e2cb92);
+  background-image: conic-gradient(
+    from var(--rotate),
+    transparent,
+    transparent,
+    #e2cb92
+  );
 }
 
 .selectedTimeLineCard .lightBubble2 {
-    background-image: conic-gradient(from calc(var(--rotate) + 180deg), transparent, transparent, #c4d6fd);
+  background-image: conic-gradient(
+    from calc(var(--rotate) + 180deg),
+    transparent,
+    transparent,
+    #c4d6fd
+  );
 }
 
 .initialStyle {
-    filter: blur(10px);
-    opacity: 0.3;
-    transform: translateX(-20%);
-    width: calc(100% - 50px);
-
+  filter: blur(10px);
+  opacity: 0.3;
+  transform: translateX(-20%);
+  width: calc(100% - 50px);
 }
 
 .finalStyle {
-    filter: blur(0px);
-    opacity: 1;
-    transform: translateX(0%);
-    width: calc(100% - 50px);
-
+  filter: blur(0px);
+  opacity: 1;
+  transform: translateX(0%);
+  width: calc(100% - 50px);
 }
 
 .initialBubbleStyle {
-    filter: blur(5px);
-    opacity: 0.3;
-    transform: translateY(-50%);
+  filter: blur(5px);
+  opacity: 0.3;
+  transform: translateY(-50%);
 }
 
 .finalBubbleStyle {
-    filter: blur(0px);
-    opacity: 1;
-    transform: translateY(0%);
+  filter: blur(0px);
+  opacity: 1;
+  transform: translateY(0%);
 }
 
-
 @keyframes spin {
-    0% {
-        --rotate: 0deg;
-    }
+  0% {
+    --rotate: 0deg;
+  }
 
-    100% {
-        --rotate: 360deg;
-    }
+  100% {
+    --rotate: 360deg;
+  }
 }

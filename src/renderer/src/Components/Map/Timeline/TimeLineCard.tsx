@@ -3,20 +3,22 @@ import AnimateOnScroll from "../../Shared/AnimateOnScroll";
 import { EArtifact } from "../../../Models/EArtifacts";
 import LocationOffRoundedIcon from "@mui/icons-material/LocationOffRounded";
 import { Tooltip } from "@mui/material";
+import { artifactIcons } from "@renderer/Helper/ArtifactIcons";
+
 export default function TimeLineCard({
   text,
-  id,
   hovered,
   selecetd,
   type,
   isLocated,
+  index,
 }: {
   text: string;
-  id: number;
   hovered: boolean;
   selecetd: boolean;
   type: EArtifact;
   isLocated: boolean;
+  index: number;
 }) {
   return (
     <div
@@ -32,18 +34,10 @@ export default function TimeLineCard({
         duration="300ms"
         hiddenClass={styles.initialBubbleStyle}
       >
-        <div
-          className={
-            type === EArtifact.Transport
-              ? styles.idTriangle
-              : type === EArtifact.Accommodation
-                ? styles.idSquare
-                : styles.idBubble
-          }
-        >
+        <div className={styles.idBubble}>
           <div className={styles.lightBubble} />
           <div className={styles.lightBubble2} />
-          <span>{id}</span>
+          <span>{artifactIcons[type]({ size: "small" })}</span>
         </div>
       </AnimateOnScroll>
 
@@ -58,15 +52,18 @@ export default function TimeLineCard({
           <div className={styles.light2} />
           <span>
             {text}
-            {!isLocated && (
-              <Tooltip title="Localisation non renseignée">
-                <LocationOffRoundedIcon
-                  fontSize="small"
-                  style={{ marginRight: "10px" }}
-                  color="error"
-                />
-              </Tooltip>
-            )}
+            <div>
+              {index}
+              {!isLocated && (
+                <Tooltip title="Localisation non renseignée">
+                  <LocationOffRoundedIcon
+                    fontSize="small"
+                    style={{ marginRight: "10px" }}
+                    color="error"
+                  />
+                </Tooltip>
+              )}
+            </div>
           </span>
         </div>
       </AnimateOnScroll>

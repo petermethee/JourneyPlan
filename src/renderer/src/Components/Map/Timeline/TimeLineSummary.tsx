@@ -112,11 +112,11 @@ export default function TimeLineSummary({
           <TimeLineCard
             key={item.artifact.id}
             text={item.artifact.name}
-            id={item.id}
             hovered={hoveredArtifact === item.id}
             selecetd={selectedArtifactId === item.id}
             type={item.type}
             isLocated={isLocated}
+            index={item.id}
           />
         </div>
       );

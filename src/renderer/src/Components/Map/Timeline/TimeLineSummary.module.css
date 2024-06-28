@@ -1,84 +1,86 @@
 .timeLineContainer {
-    display: flex;
-    flex-direction: column;
-    background-color: var(--darkColor3);
-    z-index: 500;
-    padding: 0px 0px 10px 0px;
-    color: white;
-    overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--darkColor3);
+  z-index: 500;
+  padding: 0px 0px 10px 0px;
+  color: white;
+  overflow: hidden;
 }
 
 .scrollContainer {
-    flex: 1;
-    overflow-y: scroll;
+  flex: 1;
+  overflow-y: scroll;
 }
 
 .scrollContainer::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .timeLineCardsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 10px;
 }
 
 .dayLabel {
-    text-transform: uppercase;
-    font-weight: bold;
-    background-color: var(--primary300);
-    border-radius: 5px;
-    padding: 10px;
-    width: 80%;
-    align-self: center;
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    color: var(--primaryColor);
-    box-shadow: 0 0 16px 0 #000000a3;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: var(--primary300);
+  border-radius: 5px;
+  padding: 10px;
+  width: 80%;
+  align-self: center;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  color: var(--primaryColor);
+  box-shadow: 0 0 16px 0 #000000a3;
 }
 
 .linkContainer {
-    height: 35px;
-    width: 85%;
-    z-index: -1;
+  height: 35px;
+  width: 85%;
+  z-index: -1;
 }
 
 .link {
-    position: absolute;
-    left: 17px;
-    height: 100%;
-    width: 2px;
-    background: linear-gradient(#ffffff00, var(--darkColor6));
+  position: absolute;
+  left: 17px;
+  top: 4px;
+  height: calc(100% - 9px);
+  width: 2px;
+  background: var(--darkColor9);
+  border-radius: 100px;
 }
 
 .transportLink {
-    position: absolute;
-    left: 17px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+  position: absolute;
+  left: 17px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .dot {
-    width: 4px;
-    height: 4px;
-    background-color: var(--darkColor6);
-    border-radius: 100%;
-    transform: translateX(-1px);
+  width: 4px;
+  height: 4px;
+  background-color: var(--darkColor9);
+  border-radius: 100%;
+  transform: translateX(-1px);
 }
 
 .initialLine {
-    position: relative;
-    height: 0;
-    width: 100%;
+  position: relative;
+  height: 0;
+  width: 100%;
 }
 
 .finalLine {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
