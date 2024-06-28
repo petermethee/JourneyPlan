@@ -13,18 +13,26 @@ export default function ResizeHandler({
   artifact,
   onResize,
   artifactType,
+  show,
 }: {
   artifact: IActivity | ITransport;
   onResize: (duration: number) => void;
   artifactType: EArtifact;
+  show: boolean;
 }) {
   const dispatch = useAppDispatch();
   const [mouseDown, setMouseDown] = useState<null | number>(null);
   const [duration, setDuration] = useState(artifact.duration);
 
+  const mouseDownListener = useCallback((e: React.MouseEvent) => {
+    document.body.style.cursor = "ns-resize";
+    setMouseDown(e.clientY);
+  }, []);
+
   const mouseUpListener = useCallback(() => {
     if (mouseDown) {
       setMouseDown(null);
+      document.body.style.cursor = "default";
 
       if (artifactType === EArtifact.Activity) {
         dispatch(
@@ -75,7 +83,8 @@ export default function ResizeHandler({
   return (
     <div
       className={styles.resizeHandler}
-      onMouseDown={(e) => setMouseDown(e.clientY)}
+      onMouseDown={(e) => mouseDownListener(e)}
+      style={{ opacity: show ? 1 : 0 }}
     >
       <DragHandleRoundedIcon
         fontSize="small"

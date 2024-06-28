@@ -464,6 +464,7 @@ function DraggableCardView({
             onResize={(duration) => setResizedHeight(duration * cellHeight - 4)}
             artifactType={artifactType}
             artifact={artifact as IActivity | ITransport}
+            show={isHovered && !isDragged}
           />
         )}
 
