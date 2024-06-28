@@ -3,15 +3,15 @@ import { EArtifact } from "../../../../Models/EArtifacts";
 import { useMemo } from "react";
 import { DivIcon } from "leaflet";
 import ReactDOMServer from "react-dom/server";
-import accommodationMark from "../../../../assets/MapMarkers/AccommodationMarkNoIcon.png";
-import activityMark from "../../../../assets/MapMarkers/ActivityMarkNoIcon.png";
-import transportTarget from "../../../../assets/MapMarkers/transportTarget.png";
+import accommodationMark from "../../../../assets/MapMarkers/AccommodationMark.png";
+import activityMark from "../../../../assets/MapMarkers/ActivityMark.png";
+import transportMark from "../../../../assets/MapMarkers/TransportMark.png";
 
 import styles from "./Marker.module.css";
 import "./LeafletOverideStyle.css";
 
 const standardMarkSize = { w: 45, h: 45 };
-const transportMarkSize = { w: 30, h: 30 };
+const transportMarkSize = { w: 50, h: 50 };
 
 export default function CustomMarker({
   position,
@@ -31,13 +31,13 @@ export default function CustomMarker({
   selected?: boolean;
 }) {
   const icon = useMemo(() => {
-    let mark;
+    let mark: string;
     switch (artifactType) {
       case EArtifact.Activity:
         mark = activityMark;
         break;
       case EArtifact.Transport:
-        mark = transportTarget;
+        mark = transportMark;
 
         break;
       default:
@@ -49,7 +49,7 @@ export default function CustomMarker({
         ? transportMarkSize
         : standardMarkSize;
     const stdrdAnchor: [number, number] =
-      artifactType === EArtifact.Transport ? [w / 2, h / 2] : [w / 2, h];
+      artifactType === EArtifact.Transport ? [15, 36] : [w / 2, h];
     return new DivIcon({
       html: ReactDOMServer.renderToString(
         <div
@@ -63,7 +63,7 @@ export default function CustomMarker({
           <img src={mark} alt="marker" style={{ width: "100%" }} />
           <span
             style={{
-              marginTop: artifactType === EArtifact.Transport ? 0 : "-6px",
+              marginTop: artifactType === EArtifact.Transport ? "-6px" : "-6px",
             }}
           >
             {value}
