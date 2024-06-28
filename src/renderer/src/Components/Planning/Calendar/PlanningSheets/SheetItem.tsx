@@ -1,19 +1,13 @@
 import { IconButton, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import {
-  selectPlanning,
   deletePlanning,
-  selectPlanningId,
-  getAllArtifactsPlanning,
+  selectPlanning,
 } from "../../../../features/Redux/planningSlice";
 import { IPlanning } from "../../../../Models/IPlanningArtifact";
-import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { useAppDispatch } from "../../../../app/hooks";
 import styles from "./SheetItem.module.css";
 import CloseIcon from "@mui/icons-material/Close";
-import { EArtifact } from "../../../../Models/EArtifacts";
-import { initUsedAccommodations } from "../../../../features/Redux/accommodationsSlice";
-import { initUsedActivities } from "../../../../features/Redux/activitiesSlice";
-import { initUsedTransports } from "../../../../features/Redux/transportsSlice";
 import { defaultWhite, primary800 } from "@renderer/style/cssGlobalStyle";
 
 export default function SheetItem({
@@ -22,42 +16,20 @@ export default function SheetItem({
   setEditPlanning,
   disableClose,
   handleBlur,
+  selected,
 }: {
   planning: IPlanning;
   editPlanning: number | null;
   setEditPlanning: (id: number) => void;
   disableClose: boolean;
   handleBlur: (newName: string, planning: IPlanning) => void;
+  selected: boolean;
 }) {
   const dispatch = useAppDispatch();
-  const selectedPlanning = useAppSelector(selectPlanningId);
   const nameRef = useRef<HTMLDivElement>(null);
   const [inputWidth, setInputWidth] = useState(0);
 
   const [currentName, setCurrentName] = useState(planning.name);
-
-  const handleClick = () => {
-    dispatch(selectPlanning(planning.id));
-    dispatch(getAllArtifactsPlanning(planning.id))
-      .unwrap()
-      .then((PA) => {
-        dispatch(
-          initUsedActivities(
-            PA.filter((item) => item.artifactType === EArtifact.Activity),
-          ),
-        );
-        dispatch(
-          initUsedAccommodations(
-            PA.filter((item) => item.artifactType === EArtifact.Accommodation),
-          ),
-        );
-        dispatch(
-          initUsedTransports(
-            PA.filter((item) => item.artifactType === EArtifact.Transport),
-          ),
-        );
-      });
-  };
 
   useEffect(() => {
     nameRef.current && setInputWidth(nameRef.current.clientWidth);
@@ -66,10 +38,10 @@ export default function SheetItem({
   return (
     <div
       key={planning.id}
-      className={`${styles.sheet} ${
-        selectedPlanning === planning.id && styles.selectedSheet
-      }`}
-      onClick={handleClick}
+      className={`${styles.sheet} ${selected && styles.selectedSheet}`}
+      onClick={
+        !selected ? () => dispatch(selectPlanning(planning.id)) : undefined
+      }
       onDoubleClick={() => setEditPlanning(planning.id)}
     >
       {editPlanning === planning.id ? (
@@ -92,11 +64,7 @@ export default function SheetItem({
           />
         </>
       ) : (
-        <div
-          onMouseDown={(e) => e.preventDefault()}
-          className={styles.sheetName}
-          ref={nameRef}
-        >
+        <div className={styles.sheetName} ref={nameRef}>
           {planning.name}
         </div>
       )}
@@ -113,7 +81,7 @@ export default function SheetItem({
             fontSize: "12px",
             color: disableClose
               ? "undefined"
-              : selectedPlanning === planning.id
+              : selected
                 ? primary800
                 : defaultWhite,
           }}

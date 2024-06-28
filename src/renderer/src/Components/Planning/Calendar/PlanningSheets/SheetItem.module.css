@@ -10,6 +10,7 @@
   gap: 5px;
   background-color: var(--darkColor2);
   border-radius: 5px;
+  user-select: none;
 }
 
 .sheet:hover {
