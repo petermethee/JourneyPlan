@@ -2,9 +2,9 @@ import styles from "./TimeLineCard.module.css";
 import AnimateOnScroll from "../../Shared/AnimateOnScroll";
 import { EArtifact } from "../../../Models/EArtifacts";
 import LocationOffRoundedIcon from "@mui/icons-material/LocationOffRounded";
-import { Tooltip } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { artifactIcons } from "@renderer/Helper/ArtifactIcons";
-
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 export default function TimeLineCard({
   text,
   hovered,
@@ -12,6 +12,7 @@ export default function TimeLineCard({
   type,
   isLocated,
   index,
+  onEdit,
 }: {
   text: string;
   hovered: boolean;
@@ -19,6 +20,7 @@ export default function TimeLineCard({
   type: EArtifact;
   isLocated: boolean;
   index: number;
+  onEdit: () => void;
 }) {
   return (
     <div
@@ -37,7 +39,15 @@ export default function TimeLineCard({
         <div className={styles.idBubble}>
           <div className={styles.lightBubble} />
           <div className={styles.lightBubble2} />
-          <span>{artifactIcons[type]({ size: "small" })}</span>
+          <span>
+            {hovered ? (
+              <IconButton onClick={onEdit}>
+                <EditRoundedIcon sx={{ color: "white" }} fontSize="small" />
+              </IconButton>
+            ) : (
+              artifactIcons[type]({ size: "small" })
+            )}
+          </span>
         </div>
       </AnimateOnScroll>
 
@@ -53,16 +63,12 @@ export default function TimeLineCard({
           <span>
             {text}
             <div>
-              {index}
               {!isLocated && (
                 <Tooltip title="Localisation non renseignée">
-                  <LocationOffRoundedIcon
-                    fontSize="small"
-                    style={{ marginRight: "10px" }}
-                    color="error"
-                  />
+                  <LocationOffRoundedIcon fontSize="small" color="error" />
                 </Tooltip>
               )}
+              {index}
             </div>
           </span>
         </div>

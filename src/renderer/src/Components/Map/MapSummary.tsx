@@ -20,6 +20,8 @@ import { selectAccommodations } from "../../features/Redux/accommodationsSlice";
 import { selectActivities } from "../../features/Redux/activitiesSlice";
 import { selectTransports } from "../../features/Redux/transportsSlice";
 import { transportColor } from "../../style/cssGlobalStyle";
+import AddArtifacts from "../AddArtifacts/AddArtifacts";
+import { TArtifactEditor } from "../Planning/Planning";
 export const ParisCoord: [number, number] = [48.8566, 2.3522];
 
 let timeout: NodeJS.Timeout;
@@ -48,6 +50,10 @@ export default function MapSummary() {
   const transports = useAppSelector(selectTransports);
   const accommodations = useAppSelector(selectAccommodations);
 
+  const [openModal, setOpenModal] = useState(false);
+  const [artifactToEdit, setArtifactToEdit] = useState<TArtifactEditor>({
+    type: EArtifact.Activity,
+  });
   const [mapTypeIndex, setMapTypeIndex] = useState(0);
   const [mapDetailIndex, setMapDetailIndex] = useState(0);
   const [drawMap, setDrawMap] = useState(false);
@@ -202,12 +208,24 @@ export default function MapSummary() {
 
   return (
     <div className={styles.container}>
+      {openModal && (
+        <AddArtifacts
+          setOpen={setOpenModal}
+          artifactToEdit={artifactToEdit}
+          openModal={openModal}
+          setArtifactToEdit={setArtifactToEdit}
+        />
+      )}
       <TimeLineSummary
         sortedPlanningArtifacts={timeLineArtifacts}
         onSelectArtifact={setSelectedArtifactId}
         onHoverArtifact={setHoveredArtifact}
         hoveredArtifact={hoveredArtifact}
         selectedArtifactId={selectedArtifactId}
+        openArtifactEditor={(artifactEditor: TArtifactEditor) => {
+          setArtifactToEdit(artifactEditor);
+          setOpenModal(true);
+        }}
       />
       <div className={styles.rightPart}>
         <PlanningSheets />

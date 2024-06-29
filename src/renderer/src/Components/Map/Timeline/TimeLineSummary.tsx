@@ -13,6 +13,7 @@ import { primaryColor, goldenColor } from "../../../style/cssGlobalStyle";
 import IAccommodation from "@renderer/Models/IAccommodation";
 import IActivity from "@renderer/Models/IActivity";
 import ITransport from "@renderer/Models/ITransport";
+import { TArtifactEditor } from "@renderer/Components/Planning/Planning";
 
 export default function TimeLineSummary({
   sortedPlanningArtifacts,
@@ -20,12 +21,14 @@ export default function TimeLineSummary({
   onHoverArtifact,
   selectedArtifactId,
   hoveredArtifact,
+  openArtifactEditor,
 }: {
   sortedPlanningArtifacts: TTimeLineArtifact[];
   selectedArtifactId: number | null;
   hoveredArtifact: number | null;
   onSelectArtifact: (id: number) => void;
   onHoverArtifact: (id: number | null) => void;
+  openArtifactEditor: (artifact: TArtifactEditor) => void;
 }) {
   const trip = useAppSelector(selectCurrentTrip);
   const dayCount = useMemo(() => {
@@ -117,6 +120,12 @@ export default function TimeLineSummary({
             type={item.type}
             isLocated={isLocated}
             index={item.id}
+            onEdit={() =>
+              openArtifactEditor({
+                artifact: item.artifact,
+                type: item.type,
+              })
+            }
           />
         </div>
       );

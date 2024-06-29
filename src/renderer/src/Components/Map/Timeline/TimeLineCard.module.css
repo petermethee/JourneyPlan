@@ -60,6 +60,9 @@
   div {
     color: var(--darkColorc);
     font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 }
 
