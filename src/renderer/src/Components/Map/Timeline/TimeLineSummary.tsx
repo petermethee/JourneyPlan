@@ -134,8 +134,8 @@ export default function TimeLineSummary({
   useEffect(() => {
     if (selectedArtifactId) {
       const selectedArtifactDate = dayjs(
-        sortedPlanningArtifacts.find((pa) => pa.id === selectedArtifactId)!
-          .date,
+        sortedPlanningArtifacts.find((pa) => pa.id === selectedArtifactId)
+          ?.date,
       );
       const newDayIndex = Math.abs(
         dayjs(trip?.start_date).diff(selectedArtifactDate, "day"),
