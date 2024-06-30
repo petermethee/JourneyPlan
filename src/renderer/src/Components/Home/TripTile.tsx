@@ -7,12 +7,18 @@ import { ERouterPaths } from "../../Helper/ERouterPaths";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import ITrip from "../../Models/ITrip";
 import { useAppDispatch } from "../../app/hooks";
-import { deleteTrip, setCurrentTrip } from "../../features/Redux/tripSlice";
+import { setCurrentTrip } from "../../features/Redux/tripSlice";
 import AmazingCardEffect from "../AmazingCardEffect/AmazingCardEffect";
 import { useMemo, useState } from "react";
 import DefaultTripBg from "../../assets/trip_bg.jpg";
 
-export default function TripTile({ trip }: { trip: ITrip }) {
+export default function TripTile({
+  trip,
+  onDelete,
+}: {
+  trip: ITrip;
+  onDelete: () => void;
+}) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [pointerPosition, setPointerPosition] = useState<{
@@ -20,6 +26,7 @@ export default function TripTile({ trip }: { trip: ITrip }) {
     y: number;
     fromCenter: number;
   }>({ x: 0, y: 0, fromCenter: 0 });
+
   const buttons = useMemo(() => {
     return (
       <>
@@ -28,7 +35,7 @@ export default function TripTile({ trip }: { trip: ITrip }) {
           color="error"
           onClick={(event) => {
             event.stopPropagation();
-            dispatch(deleteTrip(trip.id));
+            onDelete();
           }}
         >
           <DeleteRoundedIcon color="error" />
