@@ -1,7 +1,8 @@
 export enum ERouterPaths {
   home = "/",
-  planning = "/planning",
   addTrip = "/addTrip",
-  map = "/map",
-  pdf = "/pdf",
+  trip = "/trip/*",
+  planning = "/trip/planning",
+  map = "/trip/map",
+  pdf = "/trip/pdf",
 }

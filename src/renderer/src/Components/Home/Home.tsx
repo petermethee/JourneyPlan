@@ -53,7 +53,7 @@ export default function Home() {
           onClose={() => setOpenDeleteDialog(false)}
         >
           <DialogTitle color={primErrorColor}>
-            Supression de votre voyage
+            Suppression de votre voyage
           </DialogTitle>
           <DialogContent>
             <DialogContentText>

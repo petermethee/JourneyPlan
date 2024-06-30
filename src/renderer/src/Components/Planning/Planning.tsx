@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import styles from "./Planning.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
@@ -27,7 +27,6 @@ import {
   getAllAccommodations,
   selectAccommodations,
 } from "../../features/Redux/accommodationsSlice";
-import AddArtifacts from "../AddArtifacts/AddArtifacts";
 
 type TDayActivity = { id: number; timeIndex: number; activity: IActivity };
 type TDayAccommodation = {
@@ -49,7 +48,11 @@ export type TArtifactEditor = {
   artifact?: IActivity | IAccommodation | ITransport;
 };
 
-export default function Planning() {
+export default function Planning({
+  setArtifactToEdit,
+}: {
+  setArtifactToEdit: (artifact: TArtifactEditor) => void;
+}) {
   const tripId = useParams().tripId!;
   const activities = useAppSelector(selectActivities);
   const transports = useAppSelector(selectTransports);
@@ -57,10 +60,6 @@ export default function Planning() {
   const selectedTrip = useAppSelector(selectCurrentTrip);
   const planningArtifacts = useAppSelector(selectPlanningArtifacts);
   const dispatch = useAppDispatch();
-  const [openModal, setOpenModal] = useState(false);
-  const [artifactToEdit, setArtifactToEdit] = useState<TArtifactEditor>({
-    type: EArtifact.Activity,
-  });
 
   const dayCols: TDayCol[] = useMemo(() => {
     if (selectedTrip) {
@@ -140,28 +139,8 @@ export default function Planning() {
 
   return (
     <div className={styles.mainContainer}>
-      <SideData
-        openArtifactEditor={(artifactEditor: TArtifactEditor) => {
-          setArtifactToEdit(artifactEditor);
-          setOpenModal(true);
-        }}
-      />
-      <CalendarView
-        dayCols={dayCols}
-        openArtifactEditor={(artifactEditor: TArtifactEditor) => {
-          setArtifactToEdit(artifactEditor);
-          setOpenModal(true);
-        }}
-      />
-
-      {openModal && (
-        <AddArtifacts
-          setOpen={setOpenModal}
-          artifactToEdit={artifactToEdit}
-          openModal={openModal}
-          setArtifactToEdit={setArtifactToEdit}
-        />
-      )}
+      <SideData openArtifactEditor={setArtifactToEdit} />
+      <CalendarView dayCols={dayCols} openArtifactEditor={setArtifactToEdit} />
     </div>
   );
 }

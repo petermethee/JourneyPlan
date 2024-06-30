@@ -6,12 +6,10 @@ import { useAppSelector } from "./app/hooks";
 import { selectSnackbarStatus } from "./features/Redux/tripSlice";
 import { useEffect, useState } from "react";
 import { AlertColor } from "@mui/material";
-import Planning from "./Components/Planning/Planning";
 import AddTrip from "./Components/Home/AddTrip";
-import MapSummary from "./Components/Map/MapSummary";
-import PdfGenerator from "./Components/PDF/PdfGenerator";
 import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
+import Trip from "./Components/Trip/Trip";
 
 const initialSnackState: {
   open: boolean;
@@ -56,14 +54,8 @@ export default function App() {
       <Router>
         <Routes>
           <Route path={ERouterPaths.home} element={<Home />} />
-          <Route
-            path={ERouterPaths.planning + "/:tripId"}
-            element={<Planning />}
-          />
           <Route path={ERouterPaths.addTrip} element={<AddTrip />} />
-          <Route path={ERouterPaths.addTrip} element={<AddTrip />} />
-          <Route path={ERouterPaths.map} element={<MapSummary />} />
-          <Route path={ERouterPaths.pdf} element={<PdfGenerator />} />
+          <Route path={ERouterPaths.trip} element={<Trip />} />
         </Routes>
       </Router>
     </>
