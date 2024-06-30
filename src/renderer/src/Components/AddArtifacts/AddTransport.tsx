@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import ITransport, { TFormTransport } from "../../Models/ITransport";
-import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddArtifacts.module.css";
 import AttachmentCard from "./Attachment/AttachmentCard";
 import AttachmentDZ from "./Attachment/AttachmentDZ";
@@ -31,6 +30,7 @@ import NameInput from "./Inputs/NameInput";
 import PriceInput from "./Inputs/PriceInput";
 import StatusSelector from "./Inputs/StatusSelector";
 import TimeInput from "./Inputs/TimeInput";
+import DropBackdrop from "./DropBackdrop";
 
 export const AddTransport = forwardRef(
   (
@@ -193,13 +193,7 @@ export const AddTransport = forwardRef(
 
     return (
       <>
-        <div
-          className={styles.dropLabel}
-          style={{ opacity: dragActive ? 1 : 0 }}
-        >
-          <DownloadIcon />
-          Lâcher le document ici
-        </div>
+        <DropBackdrop dragActive={dragActive} />
 
         <div className={styles.formContainer}>
           <AttachmentDZ

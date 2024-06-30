@@ -3,6 +3,7 @@ import { useAppDispatch } from "../../../app/hooks";
 import { setSnackbarStatus } from "../../../features/Redux/tripSlice";
 import IAttachment from "../../../Models/IAttachment";
 
+const acceptedFileTypes = ["png", "jpeg", "pdf", "jpg"];
 export default function AttachmentDZ({
   dragActive,
   setDragActive,
@@ -38,10 +39,7 @@ export default function AttachmentDZ({
         images = images.filter((image) => {
           const extension = image.path.split(".")[1].toLowerCase();
           const isValid =
-            (extension === "jpg" ||
-              extension === "jpeg" ||
-              extension === "png" ||
-              extension === "pdf") &&
+            acceptedFileTypes.includes(extension) &&
             !prevState.some((attachment) => attachment.path === image.path);
           !isValid && invalidFiles.push(image.name);
           return isValid;
@@ -50,8 +48,7 @@ export default function AttachmentDZ({
         invalidFiles.length &&
           dispatch(
             setSnackbarStatus({
-              message:
-                "Certains fichiers ne sont pas valides : " + invalidFiles,
+              message: "Fichiers non valides : " + invalidFiles,
               snackBarSeverity: "warning",
             }),
           );

@@ -10,7 +10,6 @@ import IAccommodation, {
   TFormAccommodation,
 } from "../../Models/IAccommodation";
 import { AccommodationsTable } from "../../Models/DataBaseModel";
-import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddArtifacts.module.css";
 import AttachmentCard from "./Attachment/AttachmentCard";
 import AttachmentDZ from "./Attachment/AttachmentDZ";
@@ -35,6 +34,7 @@ import DescriptionInput from "./Inputs/DescriptionInput";
 import PriceInput from "./Inputs/PriceInput";
 import StatusSelector from "./Inputs/StatusSelector";
 import NameInput from "./Inputs/NameInput";
+import DropBackdrop from "./DropBackdrop";
 
 export const AddAccommodation = forwardRef(
   (
@@ -215,13 +215,7 @@ export const AddAccommodation = forwardRef(
 
     return (
       <>
-        <div
-          className={styles.dropLabel}
-          style={{ opacity: dragActive ? 1 : 0 }}
-        >
-          <DownloadIcon />
-          Lâcher le document ici
-        </div>
+        <DropBackdrop dragActive={dragActive} />
 
         <div className={styles.formContainer}>
           <AttachmentDZ

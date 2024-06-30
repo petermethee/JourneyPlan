@@ -1,7 +1,6 @@
 import { Grid } from "@mui/material";
 import IActivity, { TFormActivity } from "../../Models/IActivity";
 import { ActivitiesTable } from "../../Models/DataBaseModel";
-import DownloadIcon from "@mui/icons-material/Download";
 import styles from "./AddArtifacts.module.css";
 import AttachmentCard from "./Attachment/AttachmentCard";
 import AttachmentDZ from "./Attachment/AttachmentDZ";
@@ -30,6 +29,7 @@ import {
   useImperativeHandle,
   useEffect,
 } from "react";
+import DropBackdrop from "./DropBackdrop";
 
 export const AddActivity = forwardRef(
   (
@@ -188,13 +188,7 @@ export const AddActivity = forwardRef(
 
     return (
       <>
-        <div
-          className={styles.dropLabel}
-          style={{ opacity: dragActive ? 1 : 0 }}
-        >
-          <DownloadIcon />
-          Lâcher le document ici
-        </div>
+        <DropBackdrop dragActive={dragActive} />
 
         <div className={styles.formContainer}>
           <AttachmentDZ
